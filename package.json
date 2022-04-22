@@ -1,0 +1,54 @@
+{
+  "name": "decky-frontend-lib",
+  "version": "0.0.1",
+  "description": "A library for building decky plugins",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "dev": "tsc -b -w",
+    "prepack": "npm run build"
+  },
+  "files": [
+    "/lib",
+    "/src",
+    "/dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SteamDeckHomebrew/decky-frontend-lib.git"
+  },
+  "keywords": [
+    "decky",
+    "steam-deck",
+    "steam",
+    "components"
+  ],
+  "author": "Jonas Dellinger <jonas@dellinger.dev>",
+  "license": "GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues"
+  },
+  "homepage": "https://github.com/SteamDeckHomebrew/decky-frontend-lib#readme",
+  "devDependencies": {
+    "@types/react": "16.14.0",
+    "import-sort-style-module": "^6.0.0",
+    "prettier-plugin-import-sort": "^0.0.7",
+    "react": "16.14.0",
+    "shx": "^0.3.4",
+    "typescript": "^4.6.3"
+  },
+  "peerDependencies": {
+    "react": "16.14.0"
+  },
+  "dependencies": {
+    "moduleraid": "^6.0.0"
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module",
+      "parser": "typescript"
+    }
+  }
+}
