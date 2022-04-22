@@ -2,7 +2,7 @@ import ModuleRaid from 'moduleraid';
 
 const moduleraid = new ModuleRaid();
 
-export const ControlsModule = moduleraid.modules['qu8K'].exports;
+export const ControlsModule = moduleraid.modules['Mgs7'].exports;
 export const NavigationModule = moduleraid.modules['sUK7'].exports;
 export const DialogModule = moduleraid.modules['Mgs7'].exports;
 export const BackdropModule = moduleraid.modules['TtDX'].exports;

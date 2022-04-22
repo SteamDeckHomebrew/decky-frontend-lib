@@ -11,9 +11,9 @@ interface ButtonProps {
   bottomSeparator?: boolean;
 }
 
-export const Button: FC<ButtonProps> = ControlsModule.a;
+export const Button: FC<ButtonProps> = ControlsModule.d;
 
-interface SwitchProps {
+interface ToggleProps {
   label?: string;
   description?: string;
   checked: boolean;
@@ -22,7 +22,7 @@ interface SwitchProps {
   onChange?(checked: boolean): void;
 }
 
-export const Switch: VFC<SwitchProps> = ControlsModule.j;
+export const Toggle: VFC<ToggleProps> = ControlsModule.jb;
 
 interface NotchLabel {
   notchIndex: number;
@@ -43,4 +43,4 @@ interface SliderProps {
   onChange?(value: number): void;
 }
 
-export const Slider: VFC<SliderProps> = ControlsModule.l;
+export const Slider: VFC<SliderProps> = ControlsModule.eb;
