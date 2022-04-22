@@ -1,7 +1,7 @@
 export interface Plugin {
   title: JSX.Element;
-  tab: JSX.Element;
-  panel: JSX.Element;
+  icon: JSX.Element;
+  content: JSX.Element;
   onDismount?(): void;
 }
 
