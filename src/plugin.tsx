@@ -28,6 +28,9 @@ export interface ServerAPI {
 type DefinePluginFn = (serverAPI: ServerAPI) => Plugin;
 
 // TypeScript helper function
-export const definePlugin = (fn: DefinePluginFn) => {
-  return fn;
+export const definePlugin = (fn: DefinePluginFn): DefinePluginFn => {
+  return (...args) => {
+    // TODO: Maybe wrap this
+    return fn(...args);
+  };
 };
