@@ -46,9 +46,6 @@
   "peerDependencies": {
     "react": "16.14.0"
   },
-  "dependencies": {
-    "moduleraid": "^6.0.0"
-  },
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
       "style": "module",
