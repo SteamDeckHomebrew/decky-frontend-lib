@@ -18,7 +18,7 @@ interface ButtonProps {
   onSubmit?(e: SubmitEvent): void;
 }
 
-const DialogButton = Object.values(CommonUIModule).find(
+export const DialogButton = Object.values(CommonUIModule).find(
   (mod: any) =>
     mod?.render?.toString()?.includes('Object.assign({type:"button"') &&
     mod?.render?.toString()?.includes('DialogButton'),

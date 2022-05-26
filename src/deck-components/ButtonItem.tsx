@@ -6,6 +6,7 @@ interface ButtonItemProps {
   label?: string;
   description?: string;
   layout?: 'below';
+  icon?: JSX.Element;
   onClick?(e: MouseEvent): void;
   disabled?: boolean;
   bottomSeparator?: boolean;
