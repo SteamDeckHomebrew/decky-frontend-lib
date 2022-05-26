@@ -58,7 +58,25 @@ export const CommonUIModule = allModules.find((m: Module) => {
   return false;
 });
 
+export const IconsModule = allModules.find((m: Module) => {
+  if (typeof m !== "object") return undefined;
+  for (let prop in m) {
+    if (m[prop]?.toString()?.includes("Spinner)}),a.createElement(\"path\",{d:\"M18 ")) return true;
+  }
+  return false;
+})
+
 export const Router = findModuleChild((m: Module) => {
   if (typeof m !== "object") return undefined;
-  for (let prop in m) { if (m[prop]?.Navigate && m[prop]?.NavigationManager) return m[prop]}
+  for (let prop in m) {
+    if (m[prop]?.Navigate && m[prop]?.NavigationManager) return m[prop]
+  }
+})
+
+export const ReactRouter = allModules.find((m: Module) => {
+  if (typeof m !== "object") return undefined;
+  for (let prop in m) {
+    if (m[prop]?.computeRootMatch) return true
+  }
+  return false;
 })
