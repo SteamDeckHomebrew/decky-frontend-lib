@@ -2,6 +2,7 @@ export * from './Button';
 export * from './ButtonItem';
 export * from './Menu';
 export * from './Modal';
+export * from './Panel';
 export * from './Slider';
 export * from './Spinner';
 export * from './static-classes';
