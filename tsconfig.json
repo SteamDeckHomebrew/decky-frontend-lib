@@ -3,7 +3,8 @@
     "outDir": "dist",
     "module": "ESNext",
     "target": "ES2020",
-    "jsx": "react-jsx",
+    "jsx": "react",
+    "jsxFactory": "SP_REACT.createElement",
     "declaration": true,
     "moduleResolution": "node",
     "noUnusedLocals": true,
@@ -17,6 +18,6 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["src"],
+  "include": ["src", "globals.d.ts"],
   "exclude": ["node_modules"]
 }

@@ -58,14 +58,13 @@ export const CommonUIModule = allModules.find((m: Module) => {
   return false;
 });
 
-export const IconsModule = allModules.find((m: Module) => {
-  if (typeof m !== "object") return undefined;
+export const IconsModule = findModule((m: Module) => {
+  if (typeof m !== "object") return false;
   for (let prop in m) {
-    if (m[prop]?.toString()?.includes("Spinner)}),a.createElement(\"path\",{d:\"M18 ")) return true;
+    if (m[prop]?.toString && /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(m[prop].toString())) return true;
   }
   return false;
 })
-
 export const Router = findModuleChild((m: Module) => {
   if (typeof m !== "object") return undefined;
   for (let prop in m) {

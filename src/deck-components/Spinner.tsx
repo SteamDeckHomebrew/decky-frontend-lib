@@ -12,5 +12,5 @@ import { IconsModule } from '../webpack';
 // }
 
 export const Spinner = Object.values(IconsModule).find((mod: any) =>
-    mod?.toString()?.includes("Spinner)}),a.createElement(\"path\",{d:\"M18 "),
+    mod?.toString && /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(mod.toString())
 ) as FC<{}>;
