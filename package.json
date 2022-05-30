@@ -35,6 +35,7 @@
   "devDependencies": {
     "@types/jest": "^27.4.1",
     "@types/react": "16.14.0",
+    "@types/react-router": "5.1.18",
     "import-sort-style-module": "^6.0.0",
     "jest": "^27.5.1",
     "prettier-plugin-import-sort": "^0.0.7",

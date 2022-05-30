@@ -1,3 +1,6 @@
+import type { ComponentType } from 'react';
+import { RouteProps } from 'react-router';
+
 export interface Plugin {
   title: JSX.Element;
   icon: JSX.Element;
@@ -17,7 +20,13 @@ interface ServerResponseError {
 
 type ServerResponse<TRes> = ServerResponseSuccess<TRes> | ServerResponseError;
 
+interface RouterHook {
+  addRoute(path: string, component: ComponentType, props?: Omit<RouteProps, 'path' | 'children'>): void;
+  removeRoute(path: string): void;
+}
+
 export interface ServerAPI {
+  routerHook: RouterHook;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   fetchNoCors<TRes = {}>(url: string, request: RequestInfo): Promise<ServerResponse<TRes>>;
