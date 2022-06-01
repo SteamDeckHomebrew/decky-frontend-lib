@@ -4,6 +4,7 @@ export * from './Menu';
 export * from './Modal';
 export * from './Panel';
 export * from './Slider';
+export * from './SteamSpinner';
 export * from './Spinner';
 export * from './static-classes';
 export * from './Toggle';
