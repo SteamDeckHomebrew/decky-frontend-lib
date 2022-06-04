@@ -40,6 +40,7 @@
     }
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
     "@commitlint/cz-commitlint": "^17.0.0",
     "@semantic-release/changelog": "^6.0.1",
