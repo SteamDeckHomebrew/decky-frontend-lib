@@ -9,7 +9,9 @@
     "build": "shx rm -rf dist && tsc -b",
     "dev": "tsc -b -w",
     "prepack": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "husky install",
+    "commit": "git-cz"
   },
   "files": [
     "/lib",
@@ -32,13 +34,25 @@
     "url": "https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues"
   },
   "homepage": "https://github.com/SteamDeckHomebrew/decky-frontend-lib#readme",
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
   "devDependencies": {
+    "@commitlint/config-conventional": "^17.0.2",
+    "@commitlint/cz-commitlint": "^17.0.0",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
     "@types/jest": "^27.4.1",
     "@types/react": "16.14.0",
     "@types/react-router": "5.1.18",
+    "commitizen": "^4.2.4",
+    "husky": "^8.0.1",
     "import-sort-style-module": "^6.0.0",
     "jest": "^27.5.1",
     "prettier-plugin-import-sort": "^0.0.7",
+    "semantic-release": "^19.0.2",
     "shx": "^0.3.4",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
