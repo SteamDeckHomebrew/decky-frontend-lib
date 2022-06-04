@@ -6,7 +6,7 @@ export enum SideMenu {
   QuickAccess,
 }
 
-export enum QuickAccessTabs {
+export enum QuickAccessTab {
   Notifications,
   RemotePlayTogetherControls,
   VoiceChat,
@@ -19,7 +19,8 @@ export enum QuickAccessTabs {
 
 interface Router {
   CloseSideMenus(): void;
-  OpenQuickAccessMenu(quickAccessTab: QuickAccessTabs): void;
+  OpenQuickAccessMenu(quickAccessTab: QuickAccessTab): void;
+  GetQuickAccessTab(): QuickAccessTab;
   NavigateToExternalWeb(url: string): void;
   ToggleSideMenu(sideMenu: SideMenu): void;
   CloseSideMenus(): void;
