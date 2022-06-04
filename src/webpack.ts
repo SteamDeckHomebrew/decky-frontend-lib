@@ -5,7 +5,7 @@ declare global {
 }
 
 // TODO
-type Module = any;
+export type Module = any;
 type FilterFn = (module: any) => boolean;
 type FindFn = (module: any) => any;
 
@@ -59,23 +59,17 @@ export const CommonUIModule = allModules.find((m: Module) => {
 });
 
 export const IconsModule = findModule((m: Module) => {
-  if (typeof m !== "object") return false;
+  if (typeof m !== 'object') return false;
   for (let prop in m) {
     if (m[prop]?.toString && /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(m[prop].toString())) return true;
   }
   return false;
-})
-export const Router = findModuleChild((m: Module) => {
-  if (typeof m !== "object") return undefined;
-  for (let prop in m) {
-    if (m[prop]?.Navigate && m[prop]?.NavigationManager) return m[prop]
-  }
-})
+});
 
 export const ReactRouter = allModules.find((m: Module) => {
-  if (typeof m !== "object") return undefined;
+  if (typeof m !== 'object') return undefined;
   for (let prop in m) {
-    if (m[prop]?.computeRootMatch) return true
+    if (m[prop]?.computeRootMatch) return true;
   }
   return false;
-})
+});
