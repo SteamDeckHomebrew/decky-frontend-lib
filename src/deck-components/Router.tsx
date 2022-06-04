@@ -21,6 +21,7 @@ interface Router {
   CloseSideMenus(): void;
   OpenQuickAccessMenu(quickAccessTab: QuickAccessTab): void;
   GetQuickAccessTab(): QuickAccessTab;
+  Navigate(path: string): void;
   NavigateToExternalWeb(url: string): void;
   ToggleSideMenu(sideMenu: SideMenu): void;
   CloseSideMenus(): void;
