@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.2.0...v0.3.0) (2022-06-04)
+
+
+### Features
+
+* **typings:** add Navigate to router typings ([f124480](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/f124480af8082d24730ed03fdf88742f76abc026))
+
 # [0.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.1.0...v0.2.0) (2022-06-04)
 
 
