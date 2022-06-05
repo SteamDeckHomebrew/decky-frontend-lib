@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { findModuleChild } from '../webpack';
 
-interface PanelSectionProps {
+export interface PanelSectionProps {
   title?: string;
   spinner?: boolean;
 }

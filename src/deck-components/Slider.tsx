@@ -2,13 +2,13 @@ import { FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
 
-interface NotchLabel {
+export interface NotchLabel {
   notchIndex: number;
   label: string;
   value: number;
 }
 
-interface SliderProps {
+export interface SliderProps {
   label?: string;
   value: number;
   layout?: 'below';

@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
 
-interface ButtonItemProps {
+export interface ButtonItemProps {
   label?: string;
   description?: string;
   layout?: 'below';

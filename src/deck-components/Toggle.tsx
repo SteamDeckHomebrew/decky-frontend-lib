@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
 
-interface ToggleProps {
+export interface ToggleProps {
   label?: string;
   description?: string;
   checked: boolean;

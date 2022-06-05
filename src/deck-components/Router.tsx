@@ -17,7 +17,7 @@ export enum QuickAccessTab {
   Decky,
 }
 
-interface Router {
+export interface Router {
   CloseSideMenus(): void;
   OpenQuickAccessMenu(quickAccessTab: QuickAccessTab): void;
   GetQuickAccessTab(): QuickAccessTab;

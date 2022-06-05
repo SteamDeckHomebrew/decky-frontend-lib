@@ -11,7 +11,7 @@ export const showContextMenu: (children: ReactNode, parent?: EventTarget) => voi
   }
 });
 
-interface MenuProps {
+export interface MenuProps {
   label: string;
   onCancel?(): void;
   cancelText?: string;
@@ -27,7 +27,7 @@ export const Menu: FC<MenuProps> = findModuleChild((m) => {
   }
 });
 
-interface MenuItemProps {
+export interface MenuItemProps {
   onSelected?(): void;
 }
 
