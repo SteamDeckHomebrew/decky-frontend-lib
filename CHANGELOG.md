@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.4.0...v0.4.1) (2022-06-05)
+
+
+### Bug Fixes
+
+* **textfield:** correct type for onChange callback ([32c355f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/32c355f2a7e0b6ca6592b956e8174d217766bc5c))
+
 # [0.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.3.0...v0.4.0) (2022-06-05)
 
 
