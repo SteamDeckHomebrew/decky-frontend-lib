@@ -8,4 +8,5 @@ export * from './Slider';
 export * from './Spinner';
 export * from './static-classes';
 export * from './SteamSpinner';
+export * from './TextField';
 export * from './Toggle';
