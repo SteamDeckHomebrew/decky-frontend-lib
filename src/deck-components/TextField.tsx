@@ -18,7 +18,7 @@ export interface TextFieldProps {
   focusOnMount?: boolean;
   tooltip?: string;
   inlineControls?: ReactNode;
-  onChange?(event: ChangeEventHandler<HTMLInputElement>): void;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: string;
 }
 
