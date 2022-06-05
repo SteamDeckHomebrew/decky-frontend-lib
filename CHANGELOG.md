@@ -1,3 +1,15 @@
+# [0.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.3.0...v0.4.0) (2022-06-05)
+
+
+### Bug Fixes
+
+* **typings:** export all prop types ([7f9dfc5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7f9dfc5910dfc172ba161d9b63763e85eb289a43))
+
+
+### Features
+
+* **textfield:** extract TextField component ([a3c1a7c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a3c1a7c7b73eae475574a13b6ff9c75ff78cbcb6))
+
 # [0.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.2.0...v0.3.0) (2022-06-04)
 
 
