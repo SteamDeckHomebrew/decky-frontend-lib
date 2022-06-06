@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.4.2...v0.5.0) (2022-06-06)
+
+
+### Features
+
+* **utils:** add joinClassNames util ([f34b9de](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/f34b9de97f61eb5b075d6adedfcacfa5e097943b))
+
 ## [0.4.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.4.1...v0.4.2) (2022-06-06)
 
 
