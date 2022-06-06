@@ -4,6 +4,7 @@ export * from './Menu';
 export * from './Modal';
 export * from './Panel';
 export * from './Router';
+export * from './SidebarNavigation';
 export * from './Slider';
 export * from './Spinner';
 export * from './static-classes';
