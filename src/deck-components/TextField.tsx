@@ -25,5 +25,3 @@ export interface TextFieldProps {
 export const TextField = Object.values(CommonUIModule).find(
   (mod: Module) => mod?.validateUrl && mod?.validateEmail,
 ) as VFC<TextFieldProps>;
-
-console.log(TextField);
