@@ -1,4 +1,4 @@
-import { findModuleChild } from '../webpack';
+import { findModule } from '../webpack';
 
 type StaticClasses = Record<
   | 'ActiveTab'
@@ -157,26 +157,32 @@ type QuickAccessControlsClasses = Record<
   string
 >;
 
-export const staticClasses: StaticClasses = findModuleChild((mod) => {
+export const staticClasses: StaticClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
 
   if (mod.TransitionMenuDelay) {
-    return mod;
+    return true;
   }
+
+  return false;
 });
 
-export const gamepadDialogClasses: GamepadDialogClasses = findModuleChild((mod) => {
+export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
 
   if (mod.WithFirstRow) {
-    return mod;
+    return true;
   }
+
+  return false;
 });
 
-export const quickAccessControlsClasses: QuickAccessControlsClasses = findModuleChild((mod) => {
+export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
 
   if (mod.PanelSectionRow) {
-    return mod;
+    return true;
   }
+
+  return false;
 });
