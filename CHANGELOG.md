@@ -1,3 +1,10 @@
+## [0.4.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.4.1...v0.4.2) (2022-06-06)
+
+
+### Bug Fixes
+
+* **classes:** add gamepadDialogClasses and quickAccessControlsClasses ([2e7b4b6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2e7b4b664a673b46b402b995fb58f0ce8ffbafac))
+
 ## [0.4.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.4.0...v0.4.1) (2022-06-05)
 
 
