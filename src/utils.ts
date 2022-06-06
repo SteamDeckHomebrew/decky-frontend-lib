@@ -85,3 +85,7 @@ export function unpatch(obj: any, name: any): void {
 export function getReactInstance(o: HTMLElement | Element | Node) {
     return o[Object.keys(o).find(k => k.startsWith('__reactInternalInstance')) as string]
 }
+
+export function joinClassNames(...classes: string[]): string {
+    return classes.join(" ");
+}
