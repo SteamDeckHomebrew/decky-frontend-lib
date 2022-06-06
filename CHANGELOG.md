@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.5.0...v0.5.1) (2022-06-06)
+
+
+### Bug Fixes
+
+* **classes:** switch static-classes to findModule ([244ae12](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/244ae128da03e0687f1ba0b0e5b5b548b581277a))
+
 # [0.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.4.2...v0.5.0) (2022-06-06)
 
 
