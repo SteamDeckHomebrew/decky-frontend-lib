@@ -1,3 +1,11 @@
+## [0.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.7.0...v0.7.1) (2022-06-08)
+
+
+### Bug Fixes
+
+* **Router:** add NavigateToStore to interface ([dd5c42c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/dd5c42c57d9ce6266f56237607bf37d8b5bd3b4c))
+* **spinners:** add SVG props ([24244f6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/24244f6e91e39a11bb964ee2779662084dcd0fd0))
+
 # [0.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.6.0...v0.7.0) (2022-06-08)
 
 
