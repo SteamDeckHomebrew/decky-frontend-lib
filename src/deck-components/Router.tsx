@@ -23,6 +23,7 @@ export interface Router {
   GetQuickAccessTab(): QuickAccessTab;
   Navigate(path: string): void;
   NavigateToExternalWeb(url: string): void;
+  NavigateToStore(): void;
   ToggleSideMenu(sideMenu: SideMenu): void;
   CloseSideMenus(): void;
   OpenSideMenu(sideMenu: SideMenu): void;
