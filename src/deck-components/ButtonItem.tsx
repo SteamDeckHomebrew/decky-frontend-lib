@@ -1,15 +1,11 @@
 import { FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
+import { ItemProps } from './Item';
 
-export interface ButtonItemProps {
-  label?: string;
-  description?: string;
-  layout?: 'below';
-  icon?: JSX.Element;
+export interface ButtonItemProps extends ItemProps {
   onClick?(e: MouseEvent): void;
   disabled?: boolean;
-  bottomSeparator?: boolean;
 }
 
 export const ButtonItem = Object.values(CommonUIModule).find((mod: any) =>

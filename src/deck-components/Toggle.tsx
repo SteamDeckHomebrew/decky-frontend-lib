@@ -1,12 +1,10 @@
 import { FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
+import { ItemProps } from './Item';
 
-export interface ToggleProps {
-  label?: string;
-  description?: string;
+export interface ToggleProps extends ItemProps {
   checked: boolean;
-  icon?: JSX.Element;
   disabled?: boolean;
   onChange?(checked: boolean): void;
 }

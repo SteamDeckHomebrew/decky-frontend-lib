@@ -1,6 +1,7 @@
 import { ReactNode, VFC } from 'react';
 
 import { CommonUIModule } from '../webpack';
+import { ItemProps } from './Item';
 
 export interface SingleDropdownOption {
   data: number;
@@ -36,14 +37,7 @@ export const Dropdown = Object.values(CommonUIModule).find(
   (mod: any) => mod?.prototype?.SetSelectedOption && mod?.prototype?.BuildMenu,
 ) as VFC<DropdownProps>;
 
-export interface DropdownItemProps extends DropdownProps {
-  label?: string;
-  tooltip?: string;
-  description?: string;
-  layout?: 'below';
-  bottomSeparator?: boolean;
-  indentLevel?: number;
-}
+export interface DropdownItemProps extends DropdownProps, ItemProps {}
 
 export const DropdownItem = Object.values(CommonUIModule).find((mod: any) =>
   mod?.toString()?.includes('"dropDownControlRef","description"'),
