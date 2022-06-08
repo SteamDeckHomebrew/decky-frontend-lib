@@ -1,5 +1,6 @@
 export * from './Button';
 export * from './ButtonItem';
+export * from './Dropdown';
 export * from './Menu';
 export * from './Modal';
 export * from './Panel';
