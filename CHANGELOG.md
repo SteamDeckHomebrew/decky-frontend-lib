@@ -1,3 +1,10 @@
+## [0.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.7.1...v0.7.2) (2022-06-08)
+
+
+### Bug Fixes
+
+* **package:** fix pnpm peer dependencies errors ([e5e561e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e5e561edd67994b8c55f99c1228e47d77b1c2ee2))
+
 ## [0.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.7.0...v0.7.1) (2022-06-08)
 
 
