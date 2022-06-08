@@ -1,3 +1,16 @@
+# [0.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.5.1...v0.6.0) (2022-06-08)
+
+
+### Bug Fixes
+
+* **husky:** wrong script for husky caused problems when installing ([bc2bec4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bc2bec4b839d691e20beb090327a359c9e93f1cc))
+
+
+### Features
+
+* **dropdown:** add dropdown ([a99fb4a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a99fb4a22dcea3b6cd2a52f0dbd274d9a10f2e35))
+* **sidebar-navigation:** add sidebar navigation component ([d8794ef](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d8794ef4d36b25e600123d41696b0d5cc10dc2af))
+
 ## [0.5.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.5.0...v0.5.1) (2022-06-06)
 
 
