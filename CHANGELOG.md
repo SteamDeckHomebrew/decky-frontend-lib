@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.6.0...v0.7.0) (2022-06-08)
+
+
+### Features
+
+* **components:** added shared item-props, progressbar, and more types for slider ([4328385](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/43283853916f3993d92f6841b12f7ee47667e75b))
+
 # [0.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.5.1...v0.6.0) (2022-06-08)
 
 
