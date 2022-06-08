@@ -10,7 +10,7 @@
     "dev": "tsc -b -w",
     "prepack": "npm run build",
     "test": "echo 'No tests for now!'",
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "commit": "git-cz"
   },
   "files": [
