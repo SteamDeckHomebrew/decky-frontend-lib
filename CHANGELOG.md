@@ -1,3 +1,10 @@
+## [0.9.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.9.0...v0.9.1) (2022-06-09)
+
+
+### Bug Fixes
+
+* **SuspensefulImage:** fix export ([dddb703](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/dddb703a2e712bf2e9d7e172a414c63ffd6a1cc9))
+
 # [0.9.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.8.0...v0.9.0) (2022-06-09)
 
 
