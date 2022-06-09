@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.8.0...v0.9.0) (2022-06-09)
+
+
+### Features
+
+* **custom-components:** add SuspensefulImage ([6324282](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/6324282b480f358a3d5936ab6d08ab239d640997))
+
 # [0.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.7.2...v0.8.0) (2022-06-09)
 
 
