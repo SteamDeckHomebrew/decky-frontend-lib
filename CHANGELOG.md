@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.7.2...v0.8.0) (2022-06-09)
+
+
+### Features
+
+* **components:** add HorizontalFocus ([4d30efc](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4d30efc33b5398b91e756695fefa91cc37f83ff1))
+
 ## [0.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.7.1...v0.7.2) (2022-06-08)
 
 
