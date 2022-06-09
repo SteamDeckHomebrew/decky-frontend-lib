@@ -7,7 +7,7 @@ interface SuspensefulImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   suspenseHeight?: string | number;
 }
 
-const SuspensefulImage: FC<SuspensefulImageProps> = (props) => {
+export const SuspensefulImage: FC<SuspensefulImageProps> = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -39,5 +39,3 @@ const SuspensefulImage: FC<SuspensefulImageProps> = (props) => {
     <img {...props} />
   );
 };
-
-export default SuspensefulImage;
