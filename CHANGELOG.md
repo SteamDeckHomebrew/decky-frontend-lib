@@ -1,3 +1,10 @@
+## [0.10.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.0...v0.10.1) (2022-06-16)
+
+
+### Bug Fixes
+
+* **Focusable:** add ref prop, fix event types ([f1e20cd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/f1e20cd0b54622d634202c85cca920323e4df336))
+
 # [0.10.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.9.1...v0.10.0) (2022-06-10)
 
 
