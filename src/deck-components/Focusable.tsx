@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, VFC } from "react";
+import { HTMLAttributes, ReactNode, RefAttributes, VFC } from "react";
 import { findModuleChild } from "../webpack";
 
 export interface FocusableProps extends HTMLAttributes<HTMLDivElement> {
@@ -6,8 +6,8 @@ export interface FocusableProps extends HTMLAttributes<HTMLDivElement> {
   "flow-children"?: string;
   focusClassName?: string;
   focusWithinClassName?: string;
-  onActivate?: () => void;
-  onCancel?: () => void;
+  onActivate?: (e: CustomEvent) => void;
+  onCancel?: (e: CustomEvent) => void;
 }
 
 export const Focusable = findModuleChild((m) => {
@@ -16,4 +16,4 @@ export const Focusable = findModuleChild((m) => {
     if (m[prop]?.render?.toString()?.includes('["flow-children","onActivate","onCancel","focusClassName",'))
       return m[prop];
   }
-}) as VFC<FocusableProps>;
+}) as VFC<FocusableProps & RefAttributes<HTMLDivElement>>;
