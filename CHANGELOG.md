@@ -1,3 +1,10 @@
+## [0.10.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.1...v0.10.2) (2022-06-16)
+
+
+### Bug Fixes
+
+* **Router:** add NavigateBackOrOpenMenu() ([077334e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/077334e376fb42283e094f0b57c818c580c6f7ba))
+
 ## [0.10.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.0...v0.10.1) (2022-06-16)
 
 
