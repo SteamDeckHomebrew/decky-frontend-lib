@@ -1,3 +1,10 @@
+## [0.10.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.2...v0.10.3) (2022-06-18)
+
+
+### Bug Fixes
+
+* **ServerAPI:** add injectCssIntoTab to serverAPI typings ([823a274](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/823a2745f9717ed2d2a5d95e2ef25739bffc18c9))
+
 ## [0.10.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.1...v0.10.2) (2022-06-16)
 
 
