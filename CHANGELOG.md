@@ -1,3 +1,10 @@
+## [0.10.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.3...v0.10.4) (2022-06-19)
+
+
+### Bug Fixes
+
+* **plugin:** correct return type on injectCssIntoTab ([1ce15d2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/1ce15d261f4726a2f8bdaff7c8a98497f2622969))
+
 ## [0.10.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.2...v0.10.3) (2022-06-18)
 
 
