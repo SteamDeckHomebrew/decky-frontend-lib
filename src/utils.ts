@@ -42,7 +42,7 @@ export function fakeRenderComponent(fun: Function): any {
     return res;
 }
 
-export function beforePatch(obj: any, name: string, fnc: Function): void {
+export function beforePatch(obj: any, name: string, fnc: (args: any[]) => any): void {
     const orig = obj[name];
     obj[name] = function (...args: any[]) {
         fnc.call(this, args);
@@ -53,7 +53,7 @@ export function beforePatch(obj: any, name: string, fnc: Function): void {
     obj[name].__deckyOrig = orig;
 }
 
-export function afterPatch(obj: any, name: string, fnc: Function): void {
+export function afterPatch(obj: any, name: string, fnc: (args: any[], ret: any) => any): void {
     const orig = obj[name];
     obj[name] = function (...args: any[]) {
         let ret = orig.call(this, ...args);
@@ -65,7 +65,7 @@ export function afterPatch(obj: any, name: string, fnc: Function): void {
     obj[name].__deckyOrig = orig;
 }
 
-export function replacePatch(obj: any, name: string, fnc: Function): void {
+export function replacePatch(obj: any, name: string, fnc: (args: any[]) => any): void {
     const orig = obj[name];
     obj[name] = function (...args: any[]) {
       const ret = fnc.call(this, args);
