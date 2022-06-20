@@ -1,3 +1,10 @@
+## [0.10.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.4...v0.10.5) (2022-06-20)
+
+
+### Bug Fixes
+
+* **patcher:** why the hell did i do it that way ([2afb7f1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2afb7f16bb219013d338bc4e002605d32235385c))
+
 ## [0.10.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.3...v0.10.4) (2022-06-19)
 
 
