@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.5...v0.11.0) (2022-06-20)
+
+
+### Features
+
+* **utils:** add sleep util ([db64f34](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/db64f3472542b080b1d470c6b8d7aa441db0bfe6))
+
 ## [0.10.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.4...v0.10.5) (2022-06-20)
 
 
