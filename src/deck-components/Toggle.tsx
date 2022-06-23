@@ -1,14 +1,14 @@
 import { FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
-import { ItemProps } from './Item';
 
-export interface ToggleProps extends ItemProps {
-  checked: boolean;
+export interface ToggleProps {
+  value: boolean;
   disabled?: boolean;
   onChange?(checked: boolean): void;
+  navRef?: any; // TODO figure out what this is
 }
 
 export const Toggle = Object.values(CommonUIModule).find((mod: any) =>
-  mod?.render?.toString()?.includes('ToggleField,fallback'),
+  mod?.render?.toString()?.includes('.ToggleOff)'),
 ) as FC<ToggleProps>;

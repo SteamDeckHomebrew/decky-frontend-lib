@@ -9,7 +9,7 @@ export interface NotchLabel {
   value?: number;
 }
 
-export interface SliderProps extends ItemProps {
+export interface SliderFieldProps extends ItemProps {
   value: number;
   min?: number;
   max?: number;
@@ -27,6 +27,6 @@ export interface SliderProps extends ItemProps {
   onChange?(value: number): void;
 }
 
-export const Slider = Object.values(CommonUIModule).find((mod: any) =>
+export const SliderField = Object.values(CommonUIModule).find((mod: any) =>
   mod?.toString()?.includes('SliderField,fallback'),
-) as FC<SliderProps>;
+) as FC<SliderFieldProps>;
