@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.11.1...v0.12.0) (2022-06-23)
+
+
+### Features
+
+* **components:** add Field ([7d82a82](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7d82a82e9c4db59832593cb6f0f78775b252dc69))
+
 ## [0.11.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.11.0...v0.11.1) (2022-06-23)
 
 
