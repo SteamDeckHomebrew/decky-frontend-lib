@@ -2,7 +2,7 @@ import { FC, HTMLAttributes, ReactNode, RefAttributes } from 'react';
 import { findModuleChild } from '../webpack';
 
 export interface FieldProps extends HTMLAttributes<HTMLDivElement> {
-  title?: string;
+  label?: string;
   description?: boolean;
   disabled?: boolean;
   icon?: ReactNode;
