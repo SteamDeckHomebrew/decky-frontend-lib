@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.3...v1.0.0) (2022-06-23)
+
+
+### Code Refactoring
+
+* **components:** rename Field components ([9bd9622](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/9bd96227a0bb295dcc29abca71e37983307f0505))
+
+
+### BREAKING CHANGES
+
+* **components:** Toggle -> ToggleField Slider -> SliderField & add Toggle component
+
 ## [0.12.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.2...v0.12.3) (2022-06-23)
 
 
