@@ -1,3 +1,10 @@
+## [0.11.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.11.0...v0.11.1) (2022-06-23)
+
+
+### Bug Fixes
+
+* **Router:** make specifying quick access tab not required ([7efc034](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7efc0347f7aa22773feccb0763280c4fd1c4a231))
+
 # [0.11.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.10.5...v0.11.0) (2022-06-20)
 
 
