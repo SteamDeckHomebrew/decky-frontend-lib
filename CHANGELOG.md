@@ -1,3 +1,10 @@
+## [0.12.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.2...v0.12.3) (2022-06-23)
+
+
+### Bug Fixes
+
+* **Field:** description is a string you idiot ([4697749](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/46977496fd4cbe266c370fcffe59a9d9b7543a92))
+
 ## [0.12.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.1...v0.12.2) (2022-06-23)
 
 
