@@ -1,6 +1,7 @@
 export * from './Button';
 export * from './ButtonItem';
 export * from './Dropdown';
+export * from './Field';
 export * from './Focusable';
 export * from './Menu';
 export * from './Modal';
