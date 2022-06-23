@@ -19,7 +19,7 @@ export enum QuickAccessTab {
 
 export interface Router {
   CloseSideMenus(): void;
-  OpenQuickAccessMenu(quickAccessTab: QuickAccessTab): void;
+  OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
   GetQuickAccessTab(): QuickAccessTab;
   Navigate(path: string): void;
   NavigateBackOrOpenMenu(): void;
