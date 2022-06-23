@@ -1,3 +1,10 @@
+## [0.12.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.1...v0.12.2) (2022-06-23)
+
+
+### Bug Fixes
+
+* **Field:** title -> label ([da4c79b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/da4c79b5aeb3c589527e17ad29610a8e3f929b79))
+
 ## [0.12.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.0...v0.12.1) (2022-06-23)
 
 
