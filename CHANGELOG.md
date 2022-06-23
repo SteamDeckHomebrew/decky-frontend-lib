@@ -1,3 +1,10 @@
+## [0.12.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.0...v0.12.1) (2022-06-23)
+
+
+### Bug Fixes
+
+* **components:** export FIeld ([a87e1bb](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a87e1bb46f749e10ea2b94a011df48f162834c25))
+
 # [0.12.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.11.1...v0.12.0) (2022-06-23)
 
 
