@@ -29,7 +29,7 @@ export interface ServerAPI {
   routerHook: RouterHook;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
-  fetchNoCors<TRes = {}>(url: string, request: RequestInfo): Promise<ServerResponse<TRes>>;
+  fetchNoCors<TRes = {}>(url: RequestInfo, request: RequestInit): Promise<ServerResponse<TRes>>;
   executeInTab(tab: string, runAsync: boolean, code: string): Promise<unknown>;
   injectCssIntoTab<TRes = string>(tab: string, style: string): Promise<ServerResponse<TRes>>;
   removeCssFromTab(tab: string, cssId: string): Promise<unknown>;
