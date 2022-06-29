@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.0.0...v1.0.1) (2022-06-29)
+
+
+### Bug Fixes
+
+* **package:** enable tree shaking ([58933f8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/58933f827ce2e2ae9b162da4e0061a7591c5759d))
+
 # [1.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v0.12.3...v1.0.0) (2022-06-23)
 
 
