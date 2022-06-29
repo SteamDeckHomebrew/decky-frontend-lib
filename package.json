@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
+  "sideEffects": false,
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "dev": "tsc -b -w",
