@@ -4,7 +4,7 @@ import { RouteProps } from 'react-router';
 export interface Plugin {
   title: JSX.Element;
   icon: JSX.Element;
-  content: JSX.Element;
+  content?: JSX.Element;
   onDismount?(): void;
 }
 
