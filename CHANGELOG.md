@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.0.1...v1.0.2) (2022-07-07)
+
+
+### Bug Fixes
+
+* **Plugin:** support non-ui plugins ([51c418d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/51c418d560247c917125cd5534a978256724e5f3))
+
 ## [1.0.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.0.0...v1.0.1) (2022-06-29)
 
 
