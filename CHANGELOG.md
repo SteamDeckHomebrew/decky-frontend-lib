@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.0.2...v1.1.0) (2022-07-09)
+
+
+### Features
+
+* **Router.tsx:** adds more methods to router ([#9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/9)) ([602f93a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/602f93ae6a5ceca5383b888cd4803638799558c5))
+
 ## [1.0.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.0.1...v1.0.2) (2022-07-07)
 
 
