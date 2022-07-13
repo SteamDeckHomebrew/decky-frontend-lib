@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.1.0...v1.2.0) (2022-07-13)
+
+
+### Features
+
+* **ProgressBar:** add new progress bars ([d9e4ff3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d9e4ff3ebd22a31306f564e7f8ad82879c8fb699))
+
 # [1.1.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.0.2...v1.1.0) (2022-07-09)
 
 
