@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.0...v1.2.1) (2022-07-13)
+
+
+### Bug Fixes
+
+* **ProgressBar:** extend correct prop type ([944a902](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/944a9024ff20f0b596869564d014d7dd73e74254))
+
 # [1.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.1.0...v1.2.0) (2022-07-13)
 
 
