@@ -10,7 +10,6 @@ export interface ProgressBarItemProps extends ItemProps {
   focusable?: boolean;
 }
 
-
 export interface ProgressBarProps {
   indeterminate?: boolean;
   nTransitionSec?: number;
@@ -36,7 +35,6 @@ export const ProgressBarWithInfo = findModuleChild((m) => {
     if (m[prop]?.toString()?.includes('.ProgressBarFieldStatus},')) return m[prop];
   }
 }) as VFC<ProgressBarWithInfoProps>;
-
 
 export const ProgressBarItem = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
