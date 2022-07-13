@@ -17,7 +17,7 @@ export interface ProgressBarProps {
   focusable?: boolean;
 }
 
-export interface ProgressBarWithInfoProps extends ProgressBarProps {
+export interface ProgressBarWithInfoProps extends ProgressBarItemProps {
   sTimeRemaining?: ReactNode;
   sOperationText?: ReactNode;
 }
