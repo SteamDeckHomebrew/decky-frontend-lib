@@ -16,7 +16,13 @@ export interface ModalRootProps {
   onMiddleButton?(): void;
   onCancel?(): void;
   onOK?(): void;
+  onEscKeypress?(): void;
+  className?: string;
+  modalClassName?: string;
   bAllowFullSize?: boolean;
+  bDestructiveWarning?: boolean;
+  bDisableBackgroundDismiss?: boolean;
+  bHideCloseIcon?: boolean;
 }
 
 export const ModalRoot = findModuleChild((m) => {
