@@ -23,6 +23,7 @@ export interface ModalRootProps {
   bDestructiveWarning?: boolean;
   bDisableBackgroundDismiss?: boolean;
   bHideCloseIcon?: boolean;
+  bOKDisabled?: boolean;
 }
 
 export const ModalRoot = findModuleChild((m) => {
