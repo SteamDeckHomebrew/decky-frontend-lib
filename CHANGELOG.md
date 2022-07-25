@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.1...v1.2.2) (2022-07-25)
+
+
+### Bug Fixes
+
+* **Modal:** add more props to typings ([97997ad](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/97997adfaf1a68ef436279e6e48f34f5eaa9531c))
+
 ## [1.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.0...v1.2.1) (2022-07-13)
 
 
