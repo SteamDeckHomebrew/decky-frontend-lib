@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.2...v1.2.3) (2022-07-25)
+
+
+### Bug Fixes
+
+* **Modal:** add another prop ([2fdfcdd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2fdfcdd4788ea0d6483e92729c3102212f3ec0fb))
+
 ## [1.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.1...v1.2.2) (2022-07-25)
 
 
