@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.3...v1.2.4) (2022-07-25)
+
+
+### Bug Fixes
+
+* **Modal:** add closeModal ([994b9e2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/994b9e2cc6f41da3d813e6f339bd2fd30e4fa3ad))
+
 ## [1.2.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.2...v1.2.3) (2022-07-25)
 
 
