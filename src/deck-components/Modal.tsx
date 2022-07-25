@@ -17,6 +17,7 @@ export interface ModalRootProps {
   onCancel?(): void;
   onOK?(): void;
   onEscKeypress?(): void;
+  closeModal?(): void;
   className?: string;
   modalClassName?: string;
   bAllowFullSize?: boolean;
