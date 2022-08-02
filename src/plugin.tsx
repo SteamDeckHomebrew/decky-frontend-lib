@@ -20,8 +20,12 @@ interface ServerResponseError {
 
 type ServerResponse<TRes> = ServerResponseSuccess<TRes> | ServerResponseError;
 
+type RoutePatch = (route: RouteProps) => RouteProps;
+
 interface RouterHook {
   addRoute(path: string, component: ComponentType, props?: Omit<RouteProps, 'path' | 'children'>): void;
+  addPatch(path: string, patch: RoutePatch): RoutePatch;
+  removePatch(path: string, patch: RoutePatch): void;
   removeRoute(path: string): void;
 }
 
