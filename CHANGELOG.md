@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.4...v1.3.0) (2022-08-02)
+
+
+### Features
+
+* **plugin:** api for patching existing routes ([5b29447](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5b29447cfa597773a81aa233da9362346683505d))
+
 ## [1.2.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.3...v1.2.4) (2022-07-25)
 
 
