@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.3.0...v1.4.0) (2022-08-08)
+
+
+### Features
+
+* **utils:** add findInTree and findInReactTree ([b21dfcd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b21dfcdb661fd7ad43213756dadb6cfdf0ac1e94))
+
 # [1.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.2.4...v1.3.0) (2022-08-02)
 
 
