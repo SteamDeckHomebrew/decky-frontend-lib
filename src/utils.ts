@@ -93,3 +93,32 @@ export function joinClassNames(...classes: string[]): string {
 export function sleep(ms: number) {
     return new Promise(res => setTimeout(res, ms));
 }
+
+// Based on https://github.com/GooseMod/GooseMod/blob/9ef146515a9e59ed4e25665ed365fd72fc0dcf23/src/util/react.js#L20
+export interface findInTreeOpts {
+    walkable?: string[],
+    ignore?: string[]
+}
+
+export declare type findInTreeFilter = (element: any) => boolean
+
+export const findInTree = (parent: any, filter: findInTreeFilter, opts: findInTreeOpts): any => {
+    const { walkable = null, ignore = [] } = opts ?? {};
+  
+    if (!parent || typeof parent !== 'object') { // Parent is invalid to search through
+        return null;
+    }
+  
+    if (filter(parent)) return parent; // Parent matches, just return
+  
+    if (Array.isArray(parent)) { // Parent is an array, go through values
+        return parent.map((x) => findInTree(x, filter, opts)).find((x) => x);
+    }
+  
+    // Parent is an object, go through values (or option to only use certain keys)
+    return (walkable || Object.keys(parent)).map((x) => !ignore.includes(x) && findInTree(parent[x], filter, opts)).find((x: any) => x);
+};
+  
+export const findInReactTree = (node: any, filter: findInTreeFilter) => findInTree(node, filter, { // Specialised findInTree for React nodes
+    walkable: [ 'props', 'children', 'child', 'sibling' ]
+});
