@@ -54,7 +54,7 @@
     "import-sort-style-module": "^6.0.0",
     "jest": "^27.5.1",
     "prettier-plugin-import-sort": "^0.0.7",
-    "semantic-release": "^19.0.2",
+    "semantic-release": "^19.0.3",
     "shx": "^0.3.4",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
@@ -72,5 +72,8 @@
       "style": "module",
       "parser": "typescript"
     }
+  },
+  "dependencies": {
+    "minimist": "^1.2.6"
   }
 }
