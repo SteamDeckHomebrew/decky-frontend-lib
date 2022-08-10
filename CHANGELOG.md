@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.4.0...v1.5.0) (2022-08-10)
+
+
+### Features
+
+* **ServerAPI:** add Toaster to serverAPI ([e2126af](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e2126afd06f339a22dbbaea89b834157a5975b96))
+
 # [1.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.3.0...v1.4.0) (2022-08-08)
 
 
