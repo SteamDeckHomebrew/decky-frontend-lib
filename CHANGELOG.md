@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.5.0...v1.5.1) (2022-08-10)
+
+
+### Bug Fixes
+
+* **security:** update for minimist pollution exploit ([1de979f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/1de979f7135c8d5eea1faca3d480d662c5e41d3d))
+
 # [1.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.4.0...v1.5.0) (2022-08-10)
 
 
