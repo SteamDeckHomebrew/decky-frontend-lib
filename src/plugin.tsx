@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import { RouteProps } from 'react-router';
 
 export interface Plugin {
@@ -22,15 +22,32 @@ type ServerResponse<TRes> = ServerResponseSuccess<TRes> | ServerResponseError;
 
 type RoutePatch = (route: RouteProps) => RouteProps;
 
-interface RouterHook {
+export interface RouterHook {
   addRoute(path: string, component: ComponentType, props?: Omit<RouteProps, 'path' | 'children'>): void;
   addPatch(path: string, patch: RoutePatch): RoutePatch;
   removePatch(path: string, patch: RoutePatch): void;
   removeRoute(path: string): void;
 }
 
+export interface ToastData {
+  title: ReactNode;
+  body: ReactNode;
+  onClick?: () => void;
+  logo?: ReactNode;
+  icon?: ReactNode;
+  className?: string;
+  contentClassName?: string;
+  duration?: number
+  critical?: boolean
+}
+
+export interface Toaster {
+  toast(toast: ToastData): void;
+}
+
 export interface ServerAPI {
   routerHook: RouterHook;
+  toaster: Toaster;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   fetchNoCors<TRes = {}>(url: RequestInfo, request?: RequestInit): Promise<ServerResponse<TRes>>;
