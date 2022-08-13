@@ -83,8 +83,7 @@ export function unpatch(obj: any, name: any): void {
 }
 
 export function wrapReactType(node: any) {
-    const oldComponent = node.type;
-    return node.type = (...args: any[]) => React.createElement(oldComponent, ...args)
+    return node.type = {...node.type}
 }
 
 export function getReactInstance(o: HTMLElement | Element | Node) {
