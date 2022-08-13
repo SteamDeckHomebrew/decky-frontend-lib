@@ -82,6 +82,11 @@ export function unpatch(obj: any, name: any): void {
     obj[name] = obj[name].__deckyOrig;
 }
 
+export function wrapReactType(node: any) {
+    const oldComponent = node.type;
+    return node.type = (...args: any[]) => React.createElement(oldComponent, ...args)
+}
+
 export function getReactInstance(o: HTMLElement | Element | Node) {
     return o[Object.keys(o).find(k => k.startsWith('__reactInternalInstance')) as string]
 }
