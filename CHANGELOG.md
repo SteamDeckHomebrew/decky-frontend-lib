@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.6.0...v1.6.1) (2022-08-13)
+
+
+### Bug Fixes
+
+* **wrapReactType:** try another method ([b7dc1d6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b7dc1d6275ed28b1e37b6cb512b2c5d1600a8f63))
+
 # [1.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.5.1...v1.6.0) (2022-08-13)
 
 
