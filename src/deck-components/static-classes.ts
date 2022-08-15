@@ -63,6 +63,14 @@ type StaticClasses = Record<
   string
 >;
 
+type ScrollClasses = Record<
+  | 'ScrollBoth'
+  | 'ScrollPanel'
+  | 'ScrollX'
+  | 'ScrollY',
+  string
+>;
+
 type GamepadDialogClasses = Record<
   | 'duration-app-launch'
   | 'GamepadDialogContent'
@@ -161,6 +169,16 @@ export const staticClasses: StaticClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
 
   if (mod.TransitionMenuDelay) {
+    return true;
+  }
+
+  return false;
+});
+
+export const scrollClasses: ScrollClasses = findModule((mod) => {
+  if (typeof mod !== 'object') return false;
+
+  if (mod.ScrollPanel && mod.ScrollY) {
     return true;
   }
 
