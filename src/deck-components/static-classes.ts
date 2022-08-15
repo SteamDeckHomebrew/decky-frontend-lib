@@ -157,6 +157,14 @@ type QuickAccessControlsClasses = Record<
   string
 >;
 
+type ScrollClasses = Record<
+  | 'ScrollBoth'
+  | 'ScrollPanel'
+  | 'ScrollX'
+  | 'ScrollY',
+  string
+>;
+
 export const staticClasses: StaticClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
 
@@ -181,6 +189,16 @@ export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule
   if (typeof mod !== 'object') return false;
 
   if (mod.PanelSectionRow) {
+    return true;
+  }
+
+  return false;
+});
+
+export const scrollClasses: ScrollClasses = findModule((mod) => {
+  if (typeof mod !== 'object') return false;
+
+  if (mod.ScrollPanel) {
     return true;
   }
 
