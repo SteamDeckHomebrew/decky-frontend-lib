@@ -90,10 +90,14 @@ export function wrapReactClass(node: any, prop?: any) {
     const cls = node[prop || "type"];
     const wrappedCls = class extends cls {};
     Object.getOwnPropertyNames(cls.prototype).forEach((prop: any) => {
-        wrappedCls.prototype[prop] = cls.prototype[prop]
+        try {
+            wrappedCls.prototype[prop] = cls.prototype[prop]
+        } catch (e) {}
     });
     Object.getOwnPropertyNames(cls).forEach((prop: any) => {
-        if (prop != "prototype") wrappedCls[prop] = cls[prop]
+        try {
+            if (prop != "prototype") wrappedCls[prop] = cls[prop]
+        } catch (e) {}
     });
     wrappedCls.prototype.__proto__ = cls.prototype.__proto__;
     return node[prop || "type"] = wrappedCls;
