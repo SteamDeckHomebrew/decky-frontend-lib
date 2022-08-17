@@ -69,14 +69,24 @@ export interface Router {
   GetQuickAccessTab(): QuickAccessTab;
   Navigate(path: string): void;
   NavigateBackOrOpenMenu(): void;
+  NavigateToAppProperties(): void
+  NavigateToBugForum(): void
   NavigateToExternalWeb(url: string): void;
+  NavigateToHelp(): void
+  NavigateToInvites(): void
   NavigateToRunningApp(replace?: boolean): void;
-  NavigateToStore(): void;
+  NavigateToStorage(): void
+  NavigateToStore(): void
+  NavigateToStoreApp(appId: number | string): void
+  NavigateToStoreFreeToPlay(): void
+  NavigateToStoreManual(): void
+  NavigateToStoreNewReleases(): void
+  NavigateToStoreOnSale(): void
   ToggleSideMenu(sideMenu: SideMenu): void;
   CloseSideMenus(): void;
   OpenSideMenu(sideMenu: SideMenu): void;
   OpenPowerMenu(unknown?: any): void;
-  get RunningApps(): any;
+  get RunningApps(): AppOverview[];
   get MainRunningApp(): AppOverview | undefined;
 }
 
