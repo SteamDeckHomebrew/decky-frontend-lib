@@ -1,3 +1,10 @@
+## [1.7.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.2...v1.7.3) (2022-08-17)
+
+
+### Bug Fixes
+
+* **Router:** Add more members to Router interface ([#12](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/12)) ([7d3b5e8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7d3b5e8123f6eeead1e2e227985069e54fe52572))
+
 ## [1.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.1...v1.7.2) (2022-08-17)
 
 
