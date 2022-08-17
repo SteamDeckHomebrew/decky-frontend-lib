@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.1...v1.7.2) (2022-08-17)
+
+
+### Bug Fixes
+
+* **utils:** allow prop reassigns to fail ([a592883](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a592883a2eba52ba18876989acf939d12fa61fd3))
+
 ## [1.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.0...v1.7.1) (2022-08-17)
 
 
