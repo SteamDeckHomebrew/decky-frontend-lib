@@ -82,8 +82,14 @@ export function unpatch(obj: any, name: any): void {
     obj[name] = obj[name].__deckyOrig;
 }
 
-export function wrapReactType(node: any) {
-    return node.type = {...node.type}
+export function wrapReactType(node: any, prop?: any) {
+    return node[prop || "type"] = {...node[prop || "type"]};
+}
+
+export function wrapReactClass(node: any, prop?: any) {
+    const cls = node[prop || "type"];
+    const wrappedCls = class extends cls {};
+    return node[prop || "type"] = wrappedCls;
 }
 
 export function getReactInstance(o: HTMLElement | Element | Node) {
