@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.0...v1.7.1) (2022-08-17)
+
+
+### Bug Fixes
+
+* **utils:** better method to wrap react classes ([e644de3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e644de35d70680d17d70e89cc9b929a5aae08b48))
+
 # [1.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.6.2...v1.7.0) (2022-08-17)
 
 
