@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.6.2...v1.7.0) (2022-08-17)
+
+
+### Features
+
+* **utils:** add wrapReactClass ([d237bd4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d237bd48e4b9e6436d7daefdf70327875e9e940d))
+
 ## [1.6.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.6.1...v1.6.2) (2022-08-15)
 
 ## [1.6.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.6.0...v1.6.1) (2022-08-13)
