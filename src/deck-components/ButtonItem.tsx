@@ -9,5 +9,5 @@ export interface ButtonItemProps extends ItemProps {
 }
 
 export const ButtonItem = Object.values(CommonUIModule).find((mod: any) =>
-  mod?.render?.toString()?.includes('childrenContainerWidth:"min"'),
+  mod?.render?.toString()?.includes('"highlightOnFocus","childrenContainerWidth"'),
 ) as FC<ButtonItemProps>;
