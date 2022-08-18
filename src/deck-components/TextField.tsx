@@ -6,6 +6,7 @@ export interface TextFieldProps {
   label?: ReactNode;
   requiredLabel?: ReactNode;
   description?: ReactNode;
+  disabled?: boolean;
   bShowCopyAction?: boolean;
   bShowClearAction?: boolean;
   bAlwaysShowClearAction?: boolean;
