@@ -1,3 +1,10 @@
+## [1.7.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.5...v1.7.6) (2022-08-18)
+
+
+### Bug Fixes
+
+* **TextFieldProps:** Add "disabled" option to TextFieldProps ([#14](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/14)) ([af98a76](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/af98a76b86fb05942b9554adb369adbeaf27e70f))
+
 ## [1.7.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.4...v1.7.5) (2022-08-18)
 
 
