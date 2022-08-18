@@ -1,3 +1,10 @@
+## [1.7.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.4...v1.7.5) (2022-08-18)
+
+
+### Bug Fixes
+
+* **ButtonItem:** update to account for both prop settings ([6be0644](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/6be06446f2a7e0357b830be116fd25810c427dd5))
+
 ## [1.7.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.3...v1.7.4) (2022-08-18)
 
 
