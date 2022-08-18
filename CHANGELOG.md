@@ -1,3 +1,10 @@
+## [1.7.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.3...v1.7.4) (2022-08-18)
+
+
+### Bug Fixes
+
+* updates for webpack v5 ([a672230](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a672230b0051dd942988554ec663ea7bfcd61cfe))
+
 ## [1.7.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.2...v1.7.3) (2022-08-17)
 
 
