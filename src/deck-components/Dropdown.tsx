@@ -4,7 +4,7 @@ import { CommonUIModule } from '../webpack';
 import { ItemProps } from './Item';
 
 export interface SingleDropdownOption {
-  data: number;
+  data: any;
   label: string;
 
   options?: never;
@@ -21,7 +21,7 @@ export type DropdownOption = SingleDropdownOption | MultiDropdownOption;
 
 export interface DropdownProps {
   rgOptions: DropdownOption[];
-  selectedOption: number | null;
+  selectedOption: any;
   disabled?: boolean;
   onMenuWillOpen?(showMenu: () => void): void;
   onMenuOpened?(): void;
