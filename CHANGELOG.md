@@ -1,3 +1,10 @@
+## [1.7.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.6...v1.7.7) (2022-08-20)
+
+
+### Bug Fixes
+
+* **FieldProps:** Add "bottomSeparator" option ([#16](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/16)) ([490a1f7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/490a1f77fa98a988f0cae61d74370bf3fa96336c))
+
 ## [1.7.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.5...v1.7.6) (2022-08-18)
 
 
