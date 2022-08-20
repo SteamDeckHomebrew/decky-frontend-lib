@@ -5,13 +5,13 @@ import { ItemProps } from './Item';
 
 export interface SingleDropdownOption {
   data: any;
-  label: string;
+  label: ReactNode;
 
   options?: never;
 }
 
 export interface MultiDropdownOption {
-  label: string;
+  label: ReactNode;
   options: DropdownOption[];
 
   data?: never;
