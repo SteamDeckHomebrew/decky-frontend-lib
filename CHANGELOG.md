@@ -1,3 +1,10 @@
+## [1.7.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.7...v1.7.8) (2022-08-20)
+
+
+### Bug Fixes
+
+* **Dropdown:** correct Dropdown types ([#15](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/15)) ([a09af35](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a09af357c7e750377feefad86ab417b19484cb60))
+
 ## [1.7.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.6...v1.7.7) (2022-08-20)
 
 
