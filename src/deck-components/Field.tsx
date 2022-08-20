@@ -3,6 +3,7 @@ import { findModuleChild } from '../webpack';
 
 export interface FieldProps extends HTMLAttributes<HTMLDivElement> {
   label?: string | ReactNode;
+  bottomSeparator?: boolean;
   description?: string | ReactNode;
   disabled?: boolean;
   icon?: ReactNode;
