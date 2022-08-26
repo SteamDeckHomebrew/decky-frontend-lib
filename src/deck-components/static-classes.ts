@@ -165,6 +165,50 @@ type QuickAccessControlsClasses = Record<
   string
 >;
 
+type UpdaterFieldClasses = Record<
+  | "duration-app-launch"
+  | "OOBEUpdateStatusContainer"
+  | "UpdateScreen"
+  | "UpdatePanel"
+  | "CurrentStatus"
+  | "TotalUpdateSize"
+  | "ProgressInfoContainer"
+  | "TimeRemaining"
+  | "BatteryLowWarning"
+  | "fadeInAnimation"
+  | "ProgressStatus"
+  | "UpdateStatusContainer"
+  | "UpdaterFieldStatusSuccess"
+  | "UpdaterFieldStatusApplying"
+  | "TextContainer"
+  | "ApplyingText"
+  | "UpdateBytesRemaining"
+  | "Label"
+  | "Numerator"
+  | "Separator"
+  | "Denominator"
+  | "PatchNotes"
+  | "PostedTime"
+  | "EventDetailTitle"
+  | "EventDetailsSubTitle"
+  | "EventDetailsBody"
+  | "InsufficientBatteryText"
+  | "UnsupportedHardwareWarning"
+  | "Title"
+  | "Text"
+  | "Body"
+  | "ItemFocusAnim-darkerGrey-nocolor"
+  | "ItemFocusAnim-darkerGrey"
+  | "ItemFocusAnim-darkGrey"
+  | "ItemFocusAnim-grey"
+  | "ItemFocusAnimBorder-darkGrey"
+  | "ItemFocusAnim-green"
+  | "focusAnimation"
+  | "hoverAnimation",
+  string
+>;
+
+
 export const staticClasses: StaticClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
 
@@ -199,6 +243,16 @@ export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule
   if (typeof mod !== 'object') return false;
 
   if (mod.PanelSectionRow) {
+    return true;
+  }
+
+  return false;
+});
+
+export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => {
+  if (typeof mod !== 'object') return false;
+
+  if (mod.PatchNotes && mod.PostedTime) {
     return true;
   }
 
