@@ -1,5 +1,6 @@
 export * from './Button';
 export * from './ButtonItem';
+export * from './Carousel';
 export * from './Dropdown';
 export * from './Field';
 export * from './Focusable';
