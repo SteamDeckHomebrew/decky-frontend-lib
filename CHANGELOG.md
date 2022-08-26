@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.0...v1.8.1) (2022-08-26)
+
+
+### Bug Fixes
+
+* **utils:** update wrapReactClass impl. and defaults for prop argument ([#17](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/17)) ([55bd06a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/55bd06a5ee9468f572aed8f78be4d0acaaffe45a))
+
 # [1.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.8...v1.8.0) (2022-08-26)
 
 
