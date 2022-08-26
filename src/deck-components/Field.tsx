@@ -1,7 +1,8 @@
 import { FC, HTMLAttributes, ReactNode, RefAttributes } from 'react';
 import { findModuleChild } from '../webpack';
+import { FooterLegendProps } from './FooterLegend';
 
-export interface FieldProps extends HTMLAttributes<HTMLDivElement> {
+export interface FieldProps extends HTMLAttributes<HTMLDivElement>, FooterLegendProps {
   label?: string | ReactNode;
   bottomSeparator?: boolean;
   description?: string | ReactNode;
