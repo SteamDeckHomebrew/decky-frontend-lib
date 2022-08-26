@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.8...v1.8.0) (2022-08-26)
+
+
+### Features
+
+* **components:** add Carousel component ([cf137c4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/cf137c43b4962977650e6ce0fad554b6ae966e43))
+* **Focusable:** add FooterLegend props to Focusable and Field ([c25fe58](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c25fe58f082d70a34443ac3c8b32b4528a4b01fb))
+
 ## [1.7.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.7.7...v1.7.8) (2022-08-20)
 
 
