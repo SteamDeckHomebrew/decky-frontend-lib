@@ -208,6 +208,53 @@ type UpdaterFieldClasses = Record<
   string
 >;
 
+type GamepadSliderClasses = Record<
+  | "error-shake-duration"
+  | "SliderControlPanelGroup"
+  | "SliderControlAndNotches"
+  | "WithDefaultValue"
+  | "SliderControl"
+  | "Disabled"
+  | "SliderTrack"
+  | "SliderHasNotches"
+  | "SliderTrackDark"
+  | "SliderHandleContainer"
+  | "VerticalLineSliderHandleContainer"
+  | "ParenSliderHandleContainer"
+  | "SliderHandle"
+  | "SliderHandleFocusPop"
+  | "VerticalLineSliderHandle"
+  | "ParenSliderHandle"
+  | "Left"
+  | "SliderControlWithIcon"
+  | "Icon"
+  | "SliderNotchContainer"
+  | "SliderNotch"
+  | "AlignToEnds"
+  | "SliderNotchLabel"
+  | "AlignToLeft"
+  | "AlignToRight"
+  | "SliderNotchTick"
+  | "TickActive"
+  | "LabelText"
+  | "DescriptionValue"
+  | "EditableValue"
+  | "FakeEditableValue"
+  | "RedBorder"
+  | "EditableValueSuffix"
+  | "ErrorShake"
+  | "error-shake"
+  | "CompoundSlider"
+  | "CompoundSliderSubSlider"
+  | "Right"
+  | "CompoundSliderSubSliderLabelContainer"
+  | "CompoundSliderSubSliderLabelPositioner"
+  | "CompoundSliderSubSliderLabel"
+  | "CompoundSliderSubSliderLabelInternal"
+  | "DefaultValueTickContainer"
+  | "DefaultValueTick",
+  string
+>;
 
 export const staticClasses: StaticClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
@@ -253,6 +300,16 @@ export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => {
   if (typeof mod !== 'object') return false;
 
   if (mod.PatchNotes && mod.PostedTime) {
+    return true;
+  }
+
+  return false;
+});
+
+export const gamepadSliderClasses: GamepadSliderClasses = findModule((mod) => {
+  if (typeof mod !== 'object') return false;
+
+  if (mod.SliderTrack) {
     return true;
   }
 
