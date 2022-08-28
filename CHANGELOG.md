@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.1...v1.8.2) (2022-08-28)
+
+
+### Bug Fixes
+
+* **utils:** Mutable variable must be non-const ([#19](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/19)) ([1dd48cd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/1dd48cd4c42989c75ee6859ebf8b857c027ff0f5))
+
 ## [1.8.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.0...v1.8.1) (2022-08-26)
 
 
