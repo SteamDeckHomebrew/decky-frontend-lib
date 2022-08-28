@@ -79,7 +79,7 @@ export function afterPatch(obj: any, name: string, fnc: (args: any[], ret: any) 
 export function replacePatch(obj: any, name: string, fnc: (args: any[]) => any, options: PatchOptions = {}): void {
     const orig = obj[name];
     obj[name] = function (...args: any[]) {
-      const ret = fnc.call(this, args);
+      let ret = fnc.call(this, args);
       if (ret == 'CALL_ORIGINAL') ret = orig.call(this, ...args);
       if (options.singleShot) {
           unpatch(obj, name);
