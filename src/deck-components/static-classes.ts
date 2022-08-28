@@ -307,63 +307,9 @@ type PlaySectionClasses = Record<
   string
 >;
 
-
-export const staticClasses: StaticClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.TransitionMenuDelay) {
-    return true;
-  }
-
-  return false;
-});
-
-export const scrollClasses: ScrollClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.ScrollPanel && mod.ScrollY) {
-    return true;
-  }
-
-  return false;
-});
-
-export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.WithFirstRow) {
-    return true;
-  }
-
-  return false;
-});
-
-export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.PanelSectionRow) {
-    return true;
-  }
-
-  return false;
-});
-
-export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.PatchNotes && mod.PostedTime) {
-    return true;
-  }
-
-  return false;
-});
-
-export const playSectionClasses: PlaySectionClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.MenuButton && mod.MenuActive) {
-    return true;
-  }
-
-  return false;
-});
+export const staticClasses: StaticClasses = findModule((mod) => typeof mod === 'object' && mod.TransitionMenuDelay);
+export const scrollClasses: ScrollClasses = findModule((mod) => typeof mod === 'object' && mod.ScrollPanel && mod.ScrollY);
+export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => typeof mod === 'object' && mod.WithFirstRow);
+export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => typeof mod === 'object' && mod.PanelSectionRow);
+export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod.PatchNotes && mod.PostedTime);
+export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod.MenuButton && mod.MenuActive);
