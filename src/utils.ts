@@ -42,22 +42,18 @@ export function fakeRenderComponent(fun: Function): any {
     return res;
 }
 
-export function beforePatch(obj: any, name: string, fnc: (args: any[]) => any): void {
+export interface PatchOptions {
+  singleShot?: boolean
+}
+
+export function beforePatch(obj: any, name: string, fnc: (args: any[]) => any, options: PatchOptions = {}): void {
     const orig = obj[name];
     obj[name] = function (...args: any[]) {
         fnc.call(this, args);
-        return orig.call(this, ...args);
-    }
-    Object.assign(obj[name], orig);
-    obj[name].toString = () => orig.toString();
-    obj[name].__deckyOrig = orig;
-}
-
-export function afterPatch(obj: any, name: string, fnc: (args: any[], ret: any) => any): void {
-    const orig = obj[name];
-    obj[name] = function (...args: any[]) {
-        let ret = orig.call(this, ...args);
-        ret = fnc.call(this, args, ret);
+        const ret = orig.call(this, ...args);
+        if (options.singleShot) {
+            unpatch(obj, name);
+        }
         return ret;
     }
     Object.assign(obj[name], orig);
@@ -65,11 +61,29 @@ export function afterPatch(obj: any, name: string, fnc: (args: any[], ret: any) 
     obj[name].__deckyOrig = orig;
 }
 
-export function replacePatch(obj: any, name: string, fnc: (args: any[]) => any): void {
+export function afterPatch(obj: any, name: string, fnc: (args: any[], ret: any) => any, options: PatchOptions = {}): void {
+    const orig = obj[name];
+    obj[name] = function (...args: any[]) {
+        let ret = orig.call(this, ...args);
+        ret = fnc.call(this, args, ret);
+        if (options.singleShot) {
+            unpatch(obj, name);
+        }
+        return ret;
+    }
+    Object.assign(obj[name], orig);
+    obj[name].toString = () => orig.toString();
+    obj[name].__deckyOrig = orig;
+}
+
+export function replacePatch(obj: any, name: string, fnc: (args: any[]) => any, options: PatchOptions = {}): void {
     const orig = obj[name];
     obj[name] = function (...args: any[]) {
       const ret = fnc.call(this, args);
-      if (ret == 'CALL_ORIGINAL') return orig.call(this, ...args);
+      if (ret == 'CALL_ORIGINAL') ret = orig.call(this, ...args);
+      if (options.singleShot) {
+          unpatch(obj, name);
+      }
       return ret;
     };
     Object.assign(obj[name], orig);
@@ -79,7 +93,9 @@ export function replacePatch(obj: any, name: string, fnc: (args: any[]) => any):
 
 // TODO allow one method to be patched and unpatched multiple times independently using IDs in a Map or something
 export function unpatch(obj: any, name: any): void {
-    obj[name] = obj[name].__deckyOrig;
+    if (obj[name].__deckyOrig !== undefined) {
+        obj[name] = obj[name].__deckyOrig;
+    }
 }
 
 export function wrapReactType(node: any, prop: any = 'type') {

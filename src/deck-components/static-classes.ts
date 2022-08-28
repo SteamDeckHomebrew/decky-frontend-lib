@@ -208,53 +208,108 @@ type UpdaterFieldClasses = Record<
   string
 >;
 
+type PlaySectionClasses = Record<
+  | "AchievementCountLabel"
+  | "AchievementProgressRow"
+  | "ActionSection"
+  | "AppButtonsContainer"
+  | "Arrow"
+  | "AvatarAndPersona"
+  | "BreakNarrow"
+  | "BreakShort"
+  | "BreakTall"
+  | "BreakUltraWide"
+  | "BreakWide"
+  | "ClickablePlayBarItem"
+  | "CloudStatusIcon"
+  | "CloudStatusLabel"
+  | "CloudStatusRow"
+  | "CloudSyncProblem"
+  | "CloudSynching"
+  | "ComingSoon"
+  | "Container"
+  | "DetailsProgressBar"
+  | "DetailsProgressContainer"
+  | "DetailsSection"
+  | "DetailsSectionExtra"
+  | "DetailsSectionStatus"
+  | "DotDotDot"
+  | "DownloadPaused"
+  | "DownloadProgressBar"
+  | "Downloading"
+  | "FavoriteButton"
+  | "Favorited"
+  | "GameInfoButton"
+  | "GameStat"
+  | "GameStatIcon"
+  | "GameStatIconForced"
+  | "GameStatRight"
+  | "GameStatsSection"
+  | "GamepadUIBreakNarrow"
+  | "GamepadUIBreakShort"
+  | "GamepadUIBreakWide"
+  | "Glassy"
+  | "HideWhenNarrow"
+  | "Icon"
+  | "Icons"
+  | "InPage"
+  | "InnerContainer"
+  | "InvalidPlatform"
+  | "ItemFocusAnim-darkGrey"
+  | "ItemFocusAnim-darkerGrey"
+  | "ItemFocusAnim-darkerGrey-nocolor"
+  | "ItemFocusAnim-green"
+  | "ItemFocusAnim-grey"
+  | "ItemFocusAnimBorder-darkGrey"
+  | "Label"
+  | "LastPlayed"
+  | "LastPlayedInfo"
+  | "MenuActive"
+  | "MenuButton"
+  | "MiniAchievements"
+  | "OfflineMode"
+  | "OnlyDownloadBar"
+  | "PermanentlyUnavailable"
+  | "PlayBar"
+  | "PlayBarCloudStatusContainer"
+  | "PlayBarDetailLabel"
+  | "PlayBarGameIcon"
+  | "PlayBarGameName"
+  | "PlayBarIconAndGame"
+  | "PlayBarLabel"
+  | "Playtime"
+  | "PlaytimeIcon"
+  | "PlaytimeIconForced"
+  | "PortraitBar"
+  | "Presale"
+  | "RecentlyUpdated"
+  | "RecentlyUpdatedIcon"
+  | "RecentlyUpdatedLink"
+  | "RecentlyUpdatedText"
+  | "RightBreakNarrow"
+  | "RightBreakUltraNarrow"
+  | "RightBreakUltraWide"
+  | "RightBreakWide"
+  | "RightControls"
+  | "Row"
+  | "SharedLibrary"
+  | "StatusAndStats"
+  | "StatusNameContainer"
+  | "StickyHeader"
+  | "StickyHeaderShadow"
+  | "SuperimposedGridItems"
+  | "SyncAnim"
+  | "Visible"
+  | "duration-app-launch"
+  | "favorited"
+  | "focusAnimation"
+  | "hoverAnimation",
+  string
+>;
 
-export const staticClasses: StaticClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.TransitionMenuDelay) {
-    return true;
-  }
-
-  return false;
-});
-
-export const scrollClasses: ScrollClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.ScrollPanel && mod.ScrollY) {
-    return true;
-  }
-
-  return false;
-});
-
-export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.WithFirstRow) {
-    return true;
-  }
-
-  return false;
-});
-
-export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.PanelSectionRow) {
-    return true;
-  }
-
-  return false;
-});
-
-export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => {
-  if (typeof mod !== 'object') return false;
-
-  if (mod.PatchNotes && mod.PostedTime) {
-    return true;
-  }
-
-  return false;
-});
+export const staticClasses: StaticClasses = findModule((mod) => typeof mod === 'object' && mod.TransitionMenuDelay);
+export const scrollClasses: ScrollClasses = findModule((mod) => typeof mod === 'object' && mod.ScrollPanel && mod.ScrollY);
+export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => typeof mod === 'object' && mod.WithFirstRow);
+export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => typeof mod === 'object' && mod.PanelSectionRow);
+export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod.PatchNotes && mod.PostedTime);
+export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod.MenuButton && mod.MenuActive);
