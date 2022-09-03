@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.2...v1.8.3) (2022-09-03)
+
+
+### Bug Fixes
+
+* **plugin:** Export ServerResponse for use in plugin-loader.tsx ([#20](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/20)) ([d01c7b3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d01c7b3904c12142a58f78cbb93a4c1ecb438280))
+
 ## [1.8.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.1...v1.8.2) (2022-08-28)
 
 
