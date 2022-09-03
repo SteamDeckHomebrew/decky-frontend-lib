@@ -18,7 +18,7 @@ interface ServerResponseError {
   result: string;
 }
 
-type ServerResponse<TRes> = ServerResponseSuccess<TRes> | ServerResponseError;
+export type ServerResponse<TRes> = ServerResponseSuccess<TRes> | ServerResponseError;
 
 type RoutePatch = (route: RouteProps) => RouteProps;
 
