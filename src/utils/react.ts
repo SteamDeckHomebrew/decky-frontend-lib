@@ -42,62 +42,6 @@ export function fakeRenderComponent(fun: Function): any {
     return res;
 }
 
-export interface PatchOptions {
-  singleShot?: boolean
-}
-
-export function beforePatch(obj: any, name: string, fnc: (args: any[]) => any, options: PatchOptions = {}): void {
-    const orig = obj[name];
-    obj[name] = function (...args: any[]) {
-        fnc.call(this, args);
-        const ret = orig.call(this, ...args);
-        if (options.singleShot) {
-            unpatch(obj, name);
-        }
-        return ret;
-    }
-    Object.assign(obj[name], orig);
-    obj[name].toString = () => orig.toString();
-    obj[name].__deckyOrig = orig;
-}
-
-export function afterPatch(obj: any, name: string, fnc: (args: any[], ret: any) => any, options: PatchOptions = {}): void {
-    const orig = obj[name];
-    obj[name] = function (...args: any[]) {
-        let ret = orig.call(this, ...args);
-        ret = fnc.call(this, args, ret);
-        if (options.singleShot) {
-            unpatch(obj, name);
-        }
-        return ret;
-    }
-    Object.assign(obj[name], orig);
-    obj[name].toString = () => orig.toString();
-    obj[name].__deckyOrig = orig;
-}
-
-export function replacePatch(obj: any, name: string, fnc: (args: any[]) => any, options: PatchOptions = {}): void {
-    const orig = obj[name];
-    obj[name] = function (...args: any[]) {
-      let ret = fnc.call(this, args);
-      if (ret == 'CALL_ORIGINAL') ret = orig.call(this, ...args);
-      if (options.singleShot) {
-          unpatch(obj, name);
-      }
-      return ret;
-    };
-    Object.assign(obj[name], orig);
-    obj[name].toString = () => orig.toString();
-    obj[name].__deckyOrig = orig;
-}
-
-// TODO allow one method to be patched and unpatched multiple times independently using IDs in a Map or something
-export function unpatch(obj: any, name: any): void {
-    if (obj[name].__deckyOrig !== undefined) {
-        obj[name] = obj[name].__deckyOrig;
-    }
-}
-
 export function wrapReactType(node: any, prop: any = 'type') {
     return node[prop] = {...node[prop]};
 }
@@ -110,14 +54,6 @@ export function wrapReactClass(node: any, prop: any = 'type') {
 
 export function getReactInstance(o: HTMLElement | Element | Node) {
     return o[Object.keys(o).find(k => k.startsWith('__reactInternalInstance')) as string]
-}
-
-export function joinClassNames(...classes: string[]): string {
-    return classes.join(" ");
-}
-
-export function sleep(ms: number) {
-    return new Promise(res => setTimeout(res, ms));
 }
 
 // Based on https://github.com/GooseMod/GooseMod/blob/9ef146515a9e59ed4e25665ed365fd72fc0dcf23/src/util/react.js#L20
