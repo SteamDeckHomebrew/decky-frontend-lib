@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.3...v2.0.0) (2022-09-04)
+
+
+### Features
+
+* **patcher:** rewrite to support multiple patches ([076d9eb](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/076d9eb5e8f22bfa49afc242608698da2ded50e4))
+
+
+### BREAKING CHANGES
+
+* **patcher:** All usage of *Patch functions must now store the result and call .unpatch()
+unpatch() has been removed.
+
 ## [1.8.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.2...v1.8.3) (2022-09-03)
 
 
