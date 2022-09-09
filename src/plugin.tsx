@@ -45,9 +45,15 @@ export interface Toaster {
   toast(toast: ToastData): void;
 }
 
+export interface FilePickerRes {
+  path: string;
+  realpath: string;
+}
+
 export interface ServerAPI {
   routerHook: RouterHook;
   toaster: Toaster;
+  openFilePicker(startPath: string, includeFiles?: boolean, regex?: RegExp): Promise<FilePickerRes>
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   fetchNoCors<TRes = {}>(url: RequestInfo, request?: RequestInit): Promise<ServerResponse<TRes>>;
