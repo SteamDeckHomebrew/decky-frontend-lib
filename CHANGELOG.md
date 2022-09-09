@@ -1,3 +1,23 @@
+# [3.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v2.0.0...v3.0.0) (2022-09-09)
+
+
+### Bug Fixes
+
+* **button:** add style prop ([d6a08fe](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d6a08feca0f7c42e88b4d227b2953a28ac6c424d))
+* **textfield:** extend HTMLAttributes ([71c7afa](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/71c7afa1a641b6651e6e73ff5575b665e5e3c48e))
+
+
+### Features
+
+* **modal:** add more props, refactor ([26017e7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/26017e7de4600cc677a8a1e0881f2e58b3d5fe65))
+* **serverAPI:** add FilePicker ([8eb921e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/8eb921e8b787a8e5045badff58cd9a1a54038692))
+
+
+### BREAKING CHANGES
+
+* **modal:** ModalRoot ->ConfirmModal
+add the actual ModalRoot which does not contain buttons
+
 # [2.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v1.8.3...v2.0.0) (2022-09-04)
 
 
