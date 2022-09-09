@@ -1,8 +1,8 @@
-import { ChangeEventHandler, ReactNode, VFC } from 'react';
+import { ChangeEventHandler, HTMLAttributes, ReactNode, VFC } from 'react';
 
 import { CommonUIModule, Module } from '../webpack';
 
-export interface TextFieldProps {
+export interface TextFieldProps extends HTMLAttributes<HTMLInputElement> {
   label?: ReactNode;
   requiredLabel?: ReactNode;
   description?: ReactNode;
