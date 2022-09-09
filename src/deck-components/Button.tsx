@@ -1,8 +1,9 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
 
 export interface ButtonProps {
+  style: CSSProperties;
   className?: string;
   noFocusRing?: boolean;
   disabled?: boolean;
