@@ -13,11 +13,10 @@ export const showModal: (children: ReactNode, parent?: EventTarget) => void = fi
 });
 
 export interface ModalRootProps {
-  onMiddleButton?(): void;
   onCancel?(): void;
+  closeModal?(): void;
   onOK?(): void;
   onEscKeypress?(): void;
-  closeModal?(): void;
   className?: string;
   modalClassName?: string;
   bAllowFullSize?: boolean;
@@ -27,10 +26,23 @@ export interface ModalRootProps {
   bOKDisabled?: boolean;
 }
 
-export const ModalRoot = findModuleChild((m) => {
+export interface ConfirmModalProps extends ModalRootProps {
+  onMiddleButton?(): void;
+}
+
+export const ConfirmModal = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
   for (let prop in m) {
     if (!m[prop]?.prototype?.OK && m[prop]?.prototype?.Cancel && m[prop]?.prototype?.render) {
+      return m[prop];
+    }
+  }
+}) as FC<ConfirmModalProps>;
+
+export const ModalRoot = findModuleChild((m) => {
+  if (typeof m !== 'object') return undefined;
+  for (let prop in m) {
+    if (m[prop]?.prototype?.OK && m[prop]?.prototype?.Cancel && m[prop]?.prototype?.render) {
       return m[prop];
     }
   }
