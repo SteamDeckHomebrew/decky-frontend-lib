@@ -307,9 +307,60 @@ type PlaySectionClasses = Record<
   string
 >;
 
+type GamepadSliderClasses = Record<
+  | "error-shake-duration"
+  | "SliderControlPanelGroup"
+  | "SliderControlAndNotches"
+  | "WithDefaultValue"
+  | "SliderControl"
+  | "Disabled"
+  | "SliderTrack"
+  | "SliderHasNotches"
+  | "SliderTrackDark"
+  | "SliderHandleContainer"
+  | "VerticalLineSliderHandleContainer"
+  | "ParenSliderHandleContainer"
+  | "SliderHandle"
+  | "SliderHandleFocusPop"
+  | "VerticalLineSliderHandle"
+  | "ParenSliderHandle"
+  | "Left"
+  | "SliderControlWithIcon"
+  | "Icon"
+  | "SliderNotchContainer"
+  | "SliderNotch"
+  | "AlignToEnds"
+  | "SliderNotchLabel"
+  | "AlignToLeft"
+  | "AlignToRight"
+  | "SliderNotchTick"
+  | "TickActive"
+  | "LabelText"
+  | "DescriptionValue"
+  | "EditableValue"
+  | "FakeEditableValue"
+  | "RedBorder"
+  | "EditableValueSuffix"
+  | "ErrorShake"
+  | "error-shake"
+  | "CompoundSlider"
+  | "CompoundSliderSubSlider"
+  | "Right"
+  | "CompoundSliderSubSliderLabelContainer"
+  | "CompoundSliderSubSliderLabelPositioner"
+  | "CompoundSliderSubSliderLabel"
+  | "CompoundSliderSubSliderLabelInternal"
+  | "DefaultValueTickContainer"
+  | "DefaultValueTick",
+  string
+>;
+
 export const staticClasses: StaticClasses = findModule((mod) => typeof mod === 'object' && mod.TransitionMenuDelay);
 export const scrollClasses: ScrollClasses = findModule((mod) => typeof mod === 'object' && mod.ScrollPanel && mod.ScrollY);
 export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => typeof mod === 'object' && mod.WithFirstRow);
 export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => typeof mod === 'object' && mod.PanelSectionRow);
 export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod.PatchNotes && mod.PostedTime);
 export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod.MenuButton && mod.MenuActive);
+export const gamepadSliderClasses: GamepadSliderClasses = findModule((mod) => typeof mod === 'object' && mod.SliderTrack && mod.SliderHasNotches);
+
+
