@@ -1,4 +1,4 @@
-import { gamepadSliderClasses, ModalRoot, SliderField } from "../deck-components";
+import { gamepadSliderClasses, ConfirmModal, SliderField } from "../deck-components";
 import { useState, VFC, CSSProperties } from "react";
 
 interface ColorPickerModalProps {
@@ -33,7 +33,7 @@ export const ColorPickerModal: VFC<ColorPickerModalProps> = ({
   } as CSSProperties;
 
   return (
-      <ModalRoot
+      <ConfirmModal
         bAllowFullSize
         onCancel={closeModal}
         onOK={() => {
@@ -158,6 +158,6 @@ export const ColorPickerModal: VFC<ColorPickerModalProps> = ({
             />
           </div>
         </div>
-      </ModalRoot>
+      </ConfirmModal>
   );
 };
