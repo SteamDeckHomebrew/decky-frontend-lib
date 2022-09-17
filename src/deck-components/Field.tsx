@@ -8,7 +8,7 @@ export interface FieldProps extends HTMLAttributes<HTMLDivElement>, FooterLegend
   description?: ReactNode;
   disabled?: boolean;
   icon?: ReactNode;
-  inlineWrap?: 'keep-inline' | 'shift-children-below';
+  inlineWrap?: 'keep-inline' | 'shift-children-below'; // If label is too long it will move shildren below before starting to wrap label
   childrenLayout?: 'below' | 'inline';
   childrenContainerWidth?: 'min' | 'max' | 'fixed'; // Does not work with childrenLayout==='below'
   spacingBetweenLabelAndChild?: 'none'; // This applies only when childrenLayout==='below' 
