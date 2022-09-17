@@ -11,7 +11,7 @@ export interface FieldProps extends HTMLAttributes<HTMLDivElement>, FooterLegend
   inlineWrap?: 'keep-inline' | 'shift-children-below';
   childrenLayout?: 'below' | 'inline';
   childrenContainerWidth?: 'min' | 'max' | 'fixed'; // Does not work with childrenLayout==='below'
-  spacingBetweenLabelAndChild?: 'none'; // This applies only to paddingBottom only when childrenLayout==='below' 
+  spacingBetweenLabelAndChild?: 'none'; // This applies only when childrenLayout==='below' 
   padding?: 'none' | 'standard' | 'compact';
   className?: string;
   highlightOnFocus?: boolean;
