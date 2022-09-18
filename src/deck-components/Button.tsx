@@ -1,10 +1,10 @@
-import { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, RefAttributes } from 'react';
 
 import { CommonUIModule } from '../webpack';
 
-export interface DialogButtonProps {
+export interface DialogButtonProps extends RefAttributes<HTMLButtonElement> {
   label?: string;
-  style: CSSProperties;
+  style?: CSSProperties;
   className?: string;
   noFocusRing?: boolean;
   description?: string;
