@@ -1,3 +1,31 @@
+## [3.1.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.2...v3.1.3) (2022-09-18)
+
+
+### Bug Fixes
+
+* **DialogButton:** fix ref type ([74aefc7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/74aefc7b3c19a98fb607e78c4063c098a2e12546))
+
+## [3.1.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.1...v3.1.2) (2022-09-18)
+
+
+### Bug Fixes
+
+* **DialogButton:** fix types, add ref types ([db41e74](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/db41e74cf9f584301e59556e64a5c2371df18ed0))
+
+## [3.1.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.0...v3.1.1) (2022-09-18)
+
+
+### Bug Fixes
+
+* **Button:** add types to DialogButton ([29201fa](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/29201fadafff6bdaa0f8fe7d7806cfa88ec545ab))
+
+# [3.1.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.0.0...v3.1.0) (2022-09-18)
+
+
+### Features
+
+* **components:** add FocusRing ([b05f846](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b05f84658a1b91bd260f0acd7d0984c2ed714e06))
+
 # [3.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v2.0.0...v3.0.0) (2022-09-09)
 
 

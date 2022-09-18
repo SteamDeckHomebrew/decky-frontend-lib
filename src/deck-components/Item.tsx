@@ -5,7 +5,7 @@ export interface ItemProps {
   description?: string;
   layout?: 'below' | 'inline';
   icon?: ReactNode;
-  bottomSeparator?: boolean;
+  bottomSeparator?: 'standard' | 'thick' | 'none';
   indentLevel?: number;
   tooltip?: string;
 }

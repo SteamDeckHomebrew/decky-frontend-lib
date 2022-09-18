@@ -3,17 +3,20 @@ import { findModuleChild } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 export interface FieldProps extends HTMLAttributes<HTMLDivElement>, FooterLegendProps {
-  label?: string | ReactNode;
-  bottomSeparator?: boolean;
-  description?: string | ReactNode;
+  label?: ReactNode;
+  bottomSeparator?: 'standard' | 'thick' | 'none';
+  description?: ReactNode;
   disabled?: boolean;
   icon?: ReactNode;
-  childrenLayout?: string;
-  childrenContainerWidth?: string;
-  padding?: string;
+  inlineWrap?: 'keep-inline' | 'shift-children-below'; // If label is too long it will move shildren below before starting to wrap label
+  childrenLayout?: 'below' | 'inline';
+  childrenContainerWidth?: 'min' | 'max' | 'fixed'; // Does not work with childrenLayout==='below'
+  spacingBetweenLabelAndChild?: 'none'; // This applies only when childrenLayout==='below' 
+  padding?: 'none' | 'standard' | 'compact';
+  className?: string;
   highlightOnFocus?: boolean;
   indentLevel?: number;
-  verticalAlignment?: string;
+  verticalAlignment?: 'center' | 'none'; // Alligns inline label with children
 }
 
 export const Field = findModuleChild((m) => {
