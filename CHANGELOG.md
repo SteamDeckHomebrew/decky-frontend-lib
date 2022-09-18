@@ -1,3 +1,10 @@
+## [3.1.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.2...v3.1.3) (2022-09-18)
+
+
+### Bug Fixes
+
+* **DialogButton:** fix ref type ([74aefc7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/74aefc7b3c19a98fb607e78c4063c098a2e12546))
+
 ## [3.1.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.1...v3.1.2) (2022-09-18)
 
 
