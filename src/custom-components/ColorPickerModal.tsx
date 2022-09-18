@@ -1,5 +1,5 @@
 import { gamepadSliderClasses, ConfirmModal, SliderField } from "../deck-components";
-import { useState, VFC, CSSProperties } from "react";
+import { useState, FC, CSSProperties } from "react";
 
 interface ColorPickerModalProps {
   closeModal: () => void;
@@ -11,7 +11,7 @@ interface ColorPickerModalProps {
   defaultA?: number;
 }
 
-export const ColorPickerModal: VFC<ColorPickerModalProps> = ({
+export const ColorPickerModal: FC<ColorPickerModalProps> = ({
   closeModal,
   onConfirm = () => {},
   title = "Color Picker",

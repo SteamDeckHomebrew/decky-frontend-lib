@@ -362,5 +362,3 @@ export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule
 export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod.PatchNotes && mod.PostedTime);
 export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod.MenuButton && mod.MenuActive);
 export const gamepadSliderClasses: GamepadSliderClasses = findModule((mod) => typeof mod === 'object' && mod.SliderTrack && mod.SliderHasNotches);
-
-
