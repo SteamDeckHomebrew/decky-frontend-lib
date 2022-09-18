@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.0.0...v3.1.0) (2022-09-18)
+
+
+### Features
+
+* **components:** add FocusRing ([b05f846](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b05f84658a1b91bd260f0acd7d0984c2ed714e06))
+
 # [3.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v2.0.0...v3.0.0) (2022-09-09)
 
 
