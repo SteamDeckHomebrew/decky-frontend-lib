@@ -4,6 +4,7 @@ export * from './Carousel';
 export * from './Dropdown';
 export * from './Field';
 export * from './Focusable';
+export * from './FocusRing';
 export * from './FooterLegend';
 export * from './Menu';
 export * from './Modal';
