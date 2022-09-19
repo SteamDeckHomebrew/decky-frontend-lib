@@ -30,7 +30,7 @@
     "components"
   ],
   "author": "Jonas Dellinger <jonas@dellinger.dev>",
-  "license": "LGPL-2.1-decky-exceptions",
+  "license": "LGPL-2.1-with-decky-exceptions",
   "bugs": {
     "url": "https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues"
   },
