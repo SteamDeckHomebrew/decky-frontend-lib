@@ -7,13 +7,18 @@ export interface DialogCommonProps extends RefAttributes<HTMLDivElement> {
 }
 
 export interface DialogButtonProps extends DialogCommonProps {
-  label?: string;
   noFocusRing?: boolean;
-  description?: string;
-  layout?: 'below';
-  onClick?(e: MouseEvent): void;
   disabled?: boolean;
-  bottomSeparator?: boolean;
+  onClick?(e: MouseEvent): void;
+  onPointerDown?(e: PointerEvent): void;
+  onPointerUp?(e: PointerEvent): void;
+  onPointerCancel?(e: PointerEvent): void;
+  onMouseDown?(e: MouseEvent): void;
+  onMouseUp?(e: MouseEvent): void;
+  onTouchStart?(e: TouchEvent): void;
+  onTouchEnd?(e: TouchEvent): void;
+  onTouchCancel?(e: TouchEvent): void;
+  onSubmit?(e: SubmitEvent): void;
 }
 
 const CommonDialogDivs = Object.values(CommonUIModule).filter((m: any) => typeof m === "object" && m?.render?.toString().includes('"div",Object.assign({},'));
