@@ -1,21 +1,8 @@
-import { CSSProperties, FC, RefAttributes } from 'react';
+import { FC } from 'react';
+import { DialogButton, DialogButtonProps } from "./Dialog";
 
-import { CommonUIModule } from '../webpack';
-
-export interface DialogButtonProps extends RefAttributes<HTMLDivElement> {
-  label?: string;
-  style?: CSSProperties;
-  className?: string;
-  noFocusRing?: boolean;
-  description?: string;
-  layout?: 'below';
-  onClick?(e: MouseEvent): void;
-  disabled?: boolean;
-  bottomSeparator?: boolean;
+export interface ButtonProps extends DialogButtonProps {
 }
 
-export const DialogButton = Object.values(CommonUIModule).find(
-  (mod: any) =>
-    mod?.render?.toString()?.includes('Object.assign({type:"button"') &&
-    mod?.render?.toString()?.includes('DialogButton'),
-) as FC<DialogButtonProps>;
+// Button isn't exported, so call DialogButton to grab it
+export const Button = (DialogButton as any)?.render({}).type as FC<ButtonProps>;
