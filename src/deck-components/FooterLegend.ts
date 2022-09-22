@@ -30,6 +30,14 @@ export enum GamepadButton {
     STEAM_QUICK_MENU
 }
 
+export enum NavEntryPositionPreferences {
+    FIRST,
+    LAST,
+    MAINTAIN_X,
+    MAINTAIN_Y,
+    PREFERRED_CHILD
+}
+
 export interface GamepadEventDetail {
     button: number;
     is_repeat?: boolean;
