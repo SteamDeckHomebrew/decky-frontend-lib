@@ -1,12 +1,13 @@
 import { CommonUIModule } from "../webpack";
 import { CSSProperties, FC, RefAttributes } from "react";
+import { FooterLegendProps } from './FooterLegend';
 
 export interface DialogCommonProps extends RefAttributes<HTMLDivElement> {
   style?: CSSProperties;
   className?: string;
 }
 
-export interface DialogButtonProps extends DialogCommonProps {
+export interface DialogButtonProps extends DialogCommonProps, FooterLegendProps {
   noFocusRing?: boolean;
   disabled?: boolean;
   onClick?(e: MouseEvent): void;
