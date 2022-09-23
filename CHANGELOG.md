@@ -1,3 +1,17 @@
+# [3.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.4...v3.2.0) (2022-09-20)
+
+
+### Features
+
+* **FooterLegend:** add GamepadEvent ([130dfa2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/130dfa24c51c3a670cca9ebc38e4891618532bef))
+
+## [3.1.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.3...v3.1.4) (2022-09-19)
+
+
+### Bug Fixes
+
+* **License:** update license in package.json ([064c161](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/064c161b6736bb5574f28cb986c5899620fd69fe))
+
 ## [3.1.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.2...v3.1.3) (2022-09-18)
 
 
