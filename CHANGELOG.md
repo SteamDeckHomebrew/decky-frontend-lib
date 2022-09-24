@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.0...v3.2.1) (2022-09-24)
+
+
+### Bug Fixes
+
+* **modal:** update showModal types ([#27](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/27)) ([6996e54](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/6996e5424f33467ef5bb93f47614058c127cb3ee))
+
 # [3.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.4...v3.2.0) (2022-09-20)
 
 
