@@ -356,9 +356,10 @@ type GamepadSliderClasses = Record<
 >;
 
 export const staticClasses: StaticClasses = findModule((mod) => typeof mod === 'object' && mod.TransitionMenuDelay);
-export const scrollClasses: ScrollClasses = findModule((mod) => typeof mod === 'object' && mod.ScrollPanel && mod.ScrollY);
-export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => typeof mod === 'object' && mod.WithFirstRow);
-export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => typeof mod === 'object' && mod.PanelSectionRow);
-export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod.PatchNotes && mod.PostedTime);
-export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod.MenuButton && mod.MenuActive);
-export const gamepadSliderClasses: GamepadSliderClasses = findModule((mod) => typeof mod === 'object' && mod.SliderTrack && mod.SliderHasNotches);
+export const scrollClasses: ScrollClasses = findModule((mod) => typeof mod === 'object' && mod?.ScrollPanel?.contains('scrollpanel'));
+export const scrollPanelClasses = scrollClasses;
+export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => typeof mod === 'object' && mod?.GamepadDialogContent?.contains('gamepaddialog'));
+export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => typeof mod === 'object' && mod?.PanelSection?.contains('quickaccesscontrols'));
+export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer?.contains('updaterfield'));
+export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod?.Container?.contains('appdetailsplaysection'));
+export const gamepadSliderClasses: GamepadSliderClasses = findModule((mod) => typeof mod === 'object' && mod?.SliderControlPanelGroup?.contains('gamepadslider'));
