@@ -63,7 +63,7 @@ type StaticClasses = Record<
   string
 >;
 
-type ScrollClasses = Record<
+type ScrollPanelClasses = Record<
   | 'ScrollBoth'
   | 'ScrollPanel'
   | 'ScrollX'
@@ -356,8 +356,11 @@ type GamepadSliderClasses = Record<
 >;
 
 export const staticClasses: StaticClasses = findModule((mod) => typeof mod === 'object' && mod.TransitionMenuDelay);
-export const scrollClasses: ScrollClasses = findModule((mod) => typeof mod === 'object' && mod?.ScrollPanel?.includes('scrollpanel'));
-export const scrollPanelClasses = scrollClasses;
+export const scrollPanelClasses: ScrollPanelClasses = findModule((mod) => typeof mod === 'object' && mod?.ScrollPanel?.includes('scrollpanel'));
+/**
+ * @depreciated please use scrollPanelClasses instead
+ */
+export const scrollClasses = scrollPanelClasses;
 export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => typeof mod === 'object' && mod?.GamepadDialogContent?.includes('gamepaddialog'));
 export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => typeof mod === 'object' && mod?.PanelSection?.includes('quickaccesscontrols'));
 export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer?.includes('updaterfield'));
