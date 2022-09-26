@@ -41,7 +41,7 @@ declare global {
  *   );
  * };
  */
-export function useQuickAccessVisible() {
+export function useQuickAccessVisible(): boolean {
   // Assuming that the component is rendered in QAM already, so true by default...
   const [isVisible, setIsVisible] = useState(true);
 
