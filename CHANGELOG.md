@@ -1,3 +1,10 @@
+## [3.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.1...v3.2.2) (2022-09-29)
+
+
+### Bug Fixes
+
+* **modal:** extend props for modals ([#32](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/32)) ([1fbe55a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/1fbe55aa544c9e84e2b3e2d6af9950db2fe7546c))
+
 ## [3.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.0...v3.2.1) (2022-09-24)
 
 
