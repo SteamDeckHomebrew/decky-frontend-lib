@@ -1,6 +1,6 @@
 import { findModule } from '../webpack';
 
-type QuickAccessmenuClasses = Record<
+type QuickAccessMenuClasses = Record<
   | 'ActiveTab'
   | 'AllTabContents'
   | 'BatteryDetailsLabels'
@@ -355,11 +355,11 @@ type GamepadSliderClasses = Record<
   string
 >;
 
-export const quickAccessmenuClasses: QuickAccessmenuClasses = findModule((mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'));
+export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule((mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'));
 /**
- * @depreciated please use quickAccessmenuClasses instead
+ * @depreciated please use quickAccessMenuClasses instead
  */
-export const staticClasses = quickAccessmenuClasses;
+export const staticClasses = quickAccessMenuClasses;
 export const scrollPanelClasses: ScrollPanelClasses = findModule((mod) => typeof mod === 'object' && mod?.ScrollPanel?.includes('scrollpanel'));
 /**
  * @depreciated please use scrollPanelClasses instead
