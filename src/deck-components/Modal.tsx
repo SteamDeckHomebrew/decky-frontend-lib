@@ -48,10 +48,18 @@ export interface ModalRootProps {
   bDisableBackgroundDismiss?: boolean;
   bHideCloseIcon?: boolean;
   bOKDisabled?: boolean;
+  bCancelDisabled?: boolean;
 }
 
 export interface ConfirmModalProps extends ModalRootProps {
-  onMiddleButton?(): void;
+  onMiddleButton?(): void; // setting this prop will enable the middle button
+  strTitle?: ReactNode;
+  strDescription?: ReactNode;
+  strOKButtonText?: ReactNode;
+  strCancelButtonText?: ReactNode;
+  strMiddleButtonText?: ReactNode;
+  bAlertDialog?: boolean; // This will open a modal with only OK button enabled
+  bMiddleDisabled?: boolean;
 }
 
 export const ConfirmModal = findModuleChild((m) => {
