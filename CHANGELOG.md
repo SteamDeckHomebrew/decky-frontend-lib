@@ -1,3 +1,10 @@
+## [3.3.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.2...v3.3.3) (2022-10-02)
+
+
+### Bug Fixes
+
+* **modal:** make children optional ([#34](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/34)) ([99ad754](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/99ad7543a9966b8ff3f4ec01e6f05c94e5242c93))
+
 ## [3.3.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.1...v3.3.2) (2022-10-02)
 
 
