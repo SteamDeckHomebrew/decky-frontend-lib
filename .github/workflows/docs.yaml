@@ -49,5 +49,5 @@ jobs:
         with:
           ssh: true
           directory: ./wiki
-          repository: git@github.com:SteamDeckHomebrew/wiki.git
+          repository: git@github.com:SteamDeckHomebrew/wiki
           branch: main
