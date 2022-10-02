@@ -1,3 +1,10 @@
+## [3.3.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.3...v3.3.4) (2022-10-02)
+
+
+### Bug Fixes
+
+* **docs:** build each component as a seperate page ([fbd936d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fbd936dc1fe4c23c72f4ee27af95abc004382acd))
+
 ## [3.3.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.2...v3.3.3) (2022-10-02)
 
 
