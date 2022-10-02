@@ -9,7 +9,7 @@
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "dev": "tsc -b -w",
-    "docs": "typedoc --tsconfig ./tsconfig.json src/*",
+    "docs": "typedoc --tsconfig ./tsconfig.json src/**/*",
     "prepack": "npm run build",
     "test": "echo 'No tests for now!'",
     "prepare": "husky install",

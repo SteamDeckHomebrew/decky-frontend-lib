@@ -41,7 +41,7 @@ jobs:
           cd wiki
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add ./api-docs/decky-frontend-lib
+          git add -A ./api-docs/decky-frontend-lib
           git commit -m "Update decky-frontend-lib API docs"
 
       - name: Push changes
