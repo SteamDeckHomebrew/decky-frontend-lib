@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.2...v3.3.0) (2022-10-02)
+
+
+### Features
+
+* **Menu:** add nested menu groups + more props ([#30](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/30)) ([4233128](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4233128c7ee8c6e5ab4ee74385c7b1b911d507a6))
+
 ## [3.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.1...v3.2.2) (2022-09-29)
 
 
