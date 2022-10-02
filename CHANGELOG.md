@@ -1,3 +1,10 @@
+## [3.3.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.4...v3.3.5) (2022-10-02)
+
+
+### Bug Fixes
+
+* **docs:** set categorizeByGroup to true ([0f205e8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0f205e891694e2cee211b0c2db74a6dda2432507))
+
 ## [3.3.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.3...v3.3.4) (2022-10-02)
 
 
