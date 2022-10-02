@@ -15,6 +15,7 @@ export interface MenuProps {
   label: string;
   onCancel?(): void;
   cancelText?: string;
+  children?: ReactNode;
 }
 
 export const Menu: FC<MenuProps> = findModuleChild((m) => {
@@ -27,8 +28,26 @@ export const Menu: FC<MenuProps> = findModuleChild((m) => {
   }
 });
 
+export interface MenuGroupProps {
+  label: string;
+  disabled?: boolean;
+  children?: ReactNode;
+}
+
+export const MenuGroup: FC<MenuGroupProps> = findModuleChild((m) => {
+  if (typeof m !== 'object') return undefined;
+
+  for (let prop in m) {
+    if (m[prop]?.prototype?.RenderSubMenu && m[prop]?.prototype?.ShowSubMenu) {
+      return m[prop];
+    }
+  }
+});
+
 export interface MenuItemProps {
   onSelected?(): void;
+  disabled?: boolean;
+  children?: ReactNode;
 }
 
 export const MenuItem: FC<MenuItemProps> = findModuleChild((m) => {
