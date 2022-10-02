@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.0...v3.3.1) (2022-10-02)
+
+
+### Bug Fixes
+
+* **SidebarNavigation:** add more props ([#29](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/29)) ([ed0be5e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ed0be5e87e964ed57cc99b40ff55fe35a2f518b2))
+
 # [3.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.2...v3.3.0) (2022-10-02)
 
 
