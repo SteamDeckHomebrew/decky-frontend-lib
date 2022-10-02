@@ -3,7 +3,7 @@ name: Generate docs
 on:
   push:
     branches:
-      - aa/docs
+      - main
 
 jobs:
   release:
