@@ -1,5 +1,5 @@
 {
     "githubPages": false,
-    "categorizeByGroup": true,
+    "categorizeByGroup": false,
     "excludeExternals": true
 }
