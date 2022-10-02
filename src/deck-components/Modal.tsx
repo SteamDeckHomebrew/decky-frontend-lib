@@ -37,7 +37,7 @@ export const showModal: (modal: ReactNode, parent?: EventTarget, props?: ShowMod
 });
 
 export interface ModalRootProps {
-  children: ReactNode;
+  children?: ReactNode;
   onCancel?(): void;
   closeModal?(): void;
   onOK?(): void;
