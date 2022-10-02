@@ -38,3 +38,5 @@ research/
 
 # PNPM lockfile
 pnpm-lock.yaml
+
+docs/

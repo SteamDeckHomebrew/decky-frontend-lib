@@ -1,0 +1,53 @@
+name: Generate docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Generate Docs
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: lib
+      - name: Setup | Checkout wiki
+        uses: actions/checkout@v3
+        with:
+          repository: SteamDeckHomebrew/wiki
+          path: wiki
+          ssh-key: ${{ secrets.SSH_DEPLOY_KEY }}
+          persist-credentials: true
+      - name: Setup | Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Setup | Dependencies
+        run: |
+          cd lib
+          npm ci
+
+      - name: Build Docs
+        run: |
+          cd lib
+          npm run docs -- --out ../wiki/api-docs/decky-frontend-lib
+
+      - name: Commit files
+        run: |
+          cd wiki
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add ./api-docs/decky-frontend-lib
+          git commit -m "Update decky-frontend-lib API docs"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          ssh: true
+          directory: ./wiki
+          repository: SteamDeckHomebrew/wiki
+          branch: main
