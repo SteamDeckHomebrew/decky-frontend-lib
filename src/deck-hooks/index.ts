@@ -1,1 +1,1 @@
-export * from '../deck-hooks/useparams'
+export * from './useparams'
