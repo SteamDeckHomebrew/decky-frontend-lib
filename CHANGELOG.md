@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.5...v3.4.0) (2022-10-06)
+
+
+### Features
+
+* **hooks:** Added useParams hook ([#36](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/36)) ([e2920dd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e2920dd91e81d915a2319280d8473df71a4e4232))
+
 ## [3.3.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.4...v3.3.5) (2022-10-02)
 
 
