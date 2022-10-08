@@ -16,7 +16,7 @@ export interface SidebarNavigationPage {
 
 export interface SidebarNavigationProps {
   title?: string;
-  pages: (SidebarNavigationPage | null)[];
+  pages: SidebarNavigationPage[];
   showTitle?: boolean;
   disableRouteReporting?: boolean;
   page?: string;
