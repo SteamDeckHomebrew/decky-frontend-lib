@@ -1,3 +1,10 @@
+## [3.5.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.1...v3.5.2) (2022-10-08)
+
+
+### Bug Fixes
+
+* **Tabs:** make onShowTab required ([7161e75](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7161e757e9c98d677510e03eb2606ce58152f3b1))
+
 ## [3.5.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.0...v3.5.1) (2022-10-08)
 
 
