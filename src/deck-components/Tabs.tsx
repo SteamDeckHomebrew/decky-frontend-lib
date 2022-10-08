@@ -5,11 +5,11 @@ import { FooterLegendProps } from './FooterLegend';
 /**
  * Individual tab objects for the Tabs component
  * 
- * @property id ID of this tab, can be used with activeTab to auto-focus a given tab
- * @property title Title shown in the header bar
- * @property renderTabAddon Return a {@link ReactNode} to render it next to the tab title, i.e. the counts for each tab on the Media page
- * @property content Content of the tab
- * @property footer Sets up button handlers and labels
+ * `id` ID of this tab, can be used with activeTab to auto-focus a given tab
+ * `title` Title shown in the header bar
+ * `renderTabAddon` Return a {@link ReactNode} to render it next to the tab title, i.e. the counts for each tab on the Media page
+ * `content` Content of the tab
+ * `footer` Sets up button handlers and labels
  */
 export interface Tab {
     id: string;
@@ -22,16 +22,43 @@ export interface Tab {
 /**
  * Props for the {@link Tabs}
  * 
- * @property tabs array of {@link Tab}
- * @property activeTab tab to automatically focus, {@link Tab.id}
- * @property onShowTab Currently unknown, but required.
- * @property autoFocusContents Whether to automatically focus the tab contents or not.
- * @property footer Sets up button handlers and labels
+ * `tabs` array of {@link Tab}
+ * `activeTab` tab currently active, needs to be one of the tabs {@link Tab.id}, must be set using a `useState` in the `onShowTab` handler
+ * `onShowTab` Called when the active tab should change, needs to set `activeTab`. See example.
+ * `autoFocusContents` Whether to automatically focus the tab contents or not.
+ * `footer` Sets up button handlers and labels
+ * 
+ * @example
+ * const Component: FC = () => {
+ * const [currentTab, setCurrentTab] = useState<string>("Tab1");
+ *
+ * return (
+ *   <Tabs
+ *     title="Theme Manager"
+ *     activeTab={currentTabRoute}
+ *     onShowTab={(tabID: string) => {
+ *        setCurrentTabRoute(tabID);
+ *     }}
+ *     tabs={[
+ *       {
+ *         title: "Tab 1",
+ *         content: <Tab1Component />,
+ *         id: "Tab1",
+ *       },
+ *       {
+ *         title: "Tab 2",
+ *         content: <Tab2Component />,
+ *         id: "Tab2",
+ *       },
+ *     ]}
+ *   />
+ *  );
+ * };
  */
 export interface TabsProps {
     tabs: Tab[];
-    activeTab?: string;
-    onShowTab: (...args: unknown[]) => void;
+    activeTab: string;
+    onShowTab: (tab: string) => void;
     autoFocusContents?: boolean;
 }
 
