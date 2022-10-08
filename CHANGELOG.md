@@ -1,3 +1,10 @@
+## [3.5.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.4...v3.5.5) (2022-10-08)
+
+
+### Bug Fixes
+
+* **sidebarnavigation:** no dont ([0ce1b54](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0ce1b5499df699f602aa83ab87ad8b246d133eac))
+
 ## [3.5.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.3...v3.5.4) (2022-10-08)
 
 
