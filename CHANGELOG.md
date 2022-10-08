@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.0...v3.5.1) (2022-10-08)
+
+
+### Bug Fixes
+
+* **Tabs:** actually export it lmao ([0e0e0d2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0e0e0d204adc8d888f05e98edb6c1a1a171d00bb))
+
 # [3.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.4.0...v3.5.0) (2022-10-08)
 
 
