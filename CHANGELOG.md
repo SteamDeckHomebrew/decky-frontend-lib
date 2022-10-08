@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.4.0...v3.5.0) (2022-10-08)
+
+
+### Features
+
+* **Tabs:** initial tabs component, props, docs ([abbd3cd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/abbd3cddae24039cbc9b7d955924431e8fbacf94))
+
 # [3.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.5...v3.4.0) (2022-10-06)
 
 
