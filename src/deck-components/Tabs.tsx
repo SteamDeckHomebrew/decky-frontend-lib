@@ -24,14 +24,14 @@ export interface Tab {
  * 
  * @property tabs array of {@link Tab}
  * @property activeTab tab to automatically focus, {@link Tab.id}
- * @property onShowTab Currently unknown.
+ * @property onShowTab Currently unknown, but required.
  * @property autoFocusContents Whether to automatically focus the tab contents or not.
  * @property footer Sets up button handlers and labels
  */
 export interface TabsProps {
     tabs: Tab[];
     activeTab?: string;
-    onShowTab?: (...args: unknown[]) => void;
+    onShowTab: (...args: unknown[]) => void;
     autoFocusContents?: boolean;
 }
 
