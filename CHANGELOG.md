@@ -1,3 +1,10 @@
+## [3.5.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.3...v3.5.4) (2022-10-08)
+
+
+### Bug Fixes
+
+* **sidebarnavigation:** allow null pags ([d6b00b0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d6b00b07337f7a9d38813eeec7c0a848d5c15f17))
+
 ## [3.5.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.2...v3.5.3) (2022-10-08)
 
 
