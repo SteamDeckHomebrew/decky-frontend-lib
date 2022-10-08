@@ -1,3 +1,10 @@
+## [3.5.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.2...v3.5.3) (2022-10-08)
+
+
+### Bug Fixes
+
+* **tabs:** fix props and add example ([4024b76](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4024b76918eea43e43a24c162a937877f18627f0))
+
 ## [3.5.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.1...v3.5.2) (2022-10-08)
 
 
