@@ -1,3 +1,10 @@
+## [3.5.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.5...v3.5.6) (2022-10-08)
+
+
+### Bug Fixes
+
+* **Dialog:** remove not exported dialog button ([#37](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/37)) ([5a5218a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5a5218a7c43f6a90fc4de5f7a0cd524d1cd298d6))
+
 ## [3.5.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.4...v3.5.5) (2022-10-08)
 
 
