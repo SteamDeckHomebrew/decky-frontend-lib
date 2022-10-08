@@ -51,13 +51,6 @@ export const DialogButtonSecondary = Object.values(CommonUIModule).find(
     mod?.render?.toString()?.includes('Secondary')
 ) as FC<DialogButtonProps>;
 
-export const DialogButtonSmall = Object.values(CommonUIModule).find(
-  (mod: any) =>
-    mod?.render?.toString()?.includes('Object.assign({type:"button"') &&
-    mod?.render?.toString()?.includes('DialogButton') &&
-    mod?.render?.toString()?.includes('Small')
-) as FC<DialogButtonProps>;
-
 // This is the "main" button. The Primary can act as a submit button, 
 // therefore secondary is chosen (also for backwards comp. reasons)
 export const DialogButton = DialogButtonSecondary;
