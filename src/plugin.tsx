@@ -6,6 +6,7 @@ export interface Plugin {
   icon: JSX.Element;
   content?: JSX.Element;
   onDismount?(): void;
+  alwaysRender?: boolean;
 }
 
 interface ServerResponseSuccess<TRes> {
@@ -37,8 +38,8 @@ export interface ToastData {
   icon?: ReactNode;
   className?: string;
   contentClassName?: string;
-  duration?: number
-  critical?: boolean
+  duration?: number;
+  critical?: boolean;
 }
 
 export interface Toaster {

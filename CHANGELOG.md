@@ -1,3 +1,122 @@
+# [3.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.6...v3.6.0) (2022-10-15)
+
+
+### Features
+
+* **plugin:** add alwaysRender ([2fc2060](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2fc2060a6c0d9414d1c36a1a022fdc6f2cd7f8bb))
+
+## [3.5.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.5...v3.5.6) (2022-10-08)
+
+
+### Bug Fixes
+
+* **Dialog:** remove not exported dialog button ([#37](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/37)) ([5a5218a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5a5218a7c43f6a90fc4de5f7a0cd524d1cd298d6))
+
+## [3.5.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.4...v3.5.5) (2022-10-08)
+
+
+### Bug Fixes
+
+* **sidebarnavigation:** no dont ([0ce1b54](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0ce1b5499df699f602aa83ab87ad8b246d133eac))
+
+## [3.5.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.3...v3.5.4) (2022-10-08)
+
+
+### Bug Fixes
+
+* **sidebarnavigation:** allow null pags ([d6b00b0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d6b00b07337f7a9d38813eeec7c0a848d5c15f17))
+
+## [3.5.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.2...v3.5.3) (2022-10-08)
+
+
+### Bug Fixes
+
+* **tabs:** fix props and add example ([4024b76](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4024b76918eea43e43a24c162a937877f18627f0))
+
+## [3.5.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.1...v3.5.2) (2022-10-08)
+
+
+### Bug Fixes
+
+* **Tabs:** make onShowTab required ([7161e75](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7161e757e9c98d677510e03eb2606ce58152f3b1))
+
+## [3.5.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.0...v3.5.1) (2022-10-08)
+
+
+### Bug Fixes
+
+* **Tabs:** actually export it lmao ([0e0e0d2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0e0e0d204adc8d888f05e98edb6c1a1a171d00bb))
+
+# [3.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.4.0...v3.5.0) (2022-10-08)
+
+
+### Features
+
+* **Tabs:** initial tabs component, props, docs ([abbd3cd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/abbd3cddae24039cbc9b7d955924431e8fbacf94))
+
+# [3.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.5...v3.4.0) (2022-10-06)
+
+
+### Features
+
+* **hooks:** Added useParams hook ([#36](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/36)) ([e2920dd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e2920dd91e81d915a2319280d8473df71a4e4232))
+
+## [3.3.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.4...v3.3.5) (2022-10-02)
+
+
+### Bug Fixes
+
+* **docs:** set categorizeByGroup to true ([0f205e8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0f205e891694e2cee211b0c2db74a6dda2432507))
+
+## [3.3.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.3...v3.3.4) (2022-10-02)
+
+
+### Bug Fixes
+
+* **docs:** build each component as a seperate page ([fbd936d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fbd936dc1fe4c23c72f4ee27af95abc004382acd))
+
+## [3.3.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.2...v3.3.3) (2022-10-02)
+
+
+### Bug Fixes
+
+* **modal:** make children optional ([#34](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/34)) ([99ad754](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/99ad7543a9966b8ff3f4ec01e6f05c94e5242c93))
+
+## [3.3.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.1...v3.3.2) (2022-10-02)
+
+
+### Bug Fixes
+
+* **modal:** allow children ([40871af](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/40871af8539858f435c83123a56d4b31b63d627d))
+
+## [3.3.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.3.0...v3.3.1) (2022-10-02)
+
+
+### Bug Fixes
+
+* **SidebarNavigation:** add more props ([#29](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/29)) ([ed0be5e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ed0be5e87e964ed57cc99b40ff55fe35a2f518b2))
+
+# [3.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.2...v3.3.0) (2022-10-02)
+
+
+### Features
+
+* **Menu:** add nested menu groups + more props ([#30](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/30)) ([4233128](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4233128c7ee8c6e5ab4ee74385c7b1b911d507a6))
+
+## [3.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.1...v3.2.2) (2022-09-29)
+
+
+### Bug Fixes
+
+* **modal:** extend props for modals ([#32](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/32)) ([1fbe55a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/1fbe55aa544c9e84e2b3e2d6af9950db2fe7546c))
+
+## [3.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.2.0...v3.2.1) (2022-09-24)
+
+
+### Bug Fixes
+
+* **modal:** update showModal types ([#27](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/27)) ([6996e54](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/6996e5424f33467ef5bb93f47614058c127cb3ee))
+
 # [3.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.1.4...v3.2.0) (2022-09-20)
 
 

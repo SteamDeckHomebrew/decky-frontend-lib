@@ -1,4 +1,4 @@
-                  GNU LESSER GENERAL PUBLIC LICENSE (DECKY-FRONTEND-LIB v1)
+                   GNU LESSER GENERAL PUBLIC LICENSE
                        Version 2.1, February 1999
 
  Copyright (C) 1991, 1999 Free Software Foundation, Inc.
@@ -456,24 +456,6 @@ SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGES.
 
                      END OF TERMS AND CONDITIONS
-
-EXCEPTION NOTICE
-
-1. The exception is that you may use, copy, link, modify and distribute
-under your own terms, binary object code versions of works based on the
-Library.
-
-2. If you copy code from files distributed under the terms of the GNU
-General Public Licence or the GNU Library General Public Licence into a
-copy of this library, as this licence permits, the exception does not apply
-to the code that you add in this way.  To avoid misleading anyone as to the
-status of such modified files, you must delete this exception notice from
-such code and/or adjust the licensing conditions notice accordingly.
-
-3. If you write modifications of your own for this library, it is your
-choice whether to permit this exception to apply to your modifications.  If
-you do not wish that, you must delete the exception notice from such code
-and/or adjust the licensing conditions notice accordingly.
 
            How to Apply These Terms to Your New Libraries
 

@@ -2,17 +2,25 @@ import { ReactNode, VFC } from 'react';
 
 import { Module, findModuleChild } from '../webpack';
 
-export interface SidebarNavigationPages {
+export interface SidebarNavigationPage {
   title: string;
-  route: string;
   content: ReactNode;
+  icon?: ReactNode;
+  visible?: boolean;
+  hideTitle?: boolean;
+  identifier?: string;
+  route?: string;
+  link?: string;
+  padding?: "none" | "compact";
 }
 
 export interface SidebarNavigationProps {
   title?: string;
-  pages: SidebarNavigationPages[];
+  pages: SidebarNavigationPage[];
   showTitle?: boolean;
   disableRouteReporting?: boolean;
+  page?: string;
+  onPageRequested?: (page: string) => void;
 }
 
 export const SidebarNavigation = findModuleChild((mod: Module) => {

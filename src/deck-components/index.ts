@@ -1,6 +1,7 @@
 export * from './Button';
 export * from './ButtonItem';
 export * from './Carousel';
+export * from './Dialog';
 export * from './Dropdown';
 export * from './Field';
 export * from './Focusable';
@@ -16,6 +17,7 @@ export * from './SliderField';
 export * from './Spinner';
 export * from './static-classes';
 export * from './SteamSpinner';
+export * from './Tabs';
 export * from './TextField';
 export * from './Toggle';
 export * from './ToggleField';
