@@ -19,3 +19,4 @@ export * from './SteamSpinner';
 export * from './TextField';
 export * from './Toggle';
 export * from './ToggleField';
+export * from './SteamClient';
