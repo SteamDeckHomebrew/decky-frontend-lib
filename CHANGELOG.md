@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.6...v3.6.0) (2022-10-15)
+
+
+### Features
+
+* **plugin:** add alwaysRender ([2fc2060](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2fc2060a6c0d9414d1c36a1a022fdc6f2cd7f8bb))
+
 ## [3.5.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.5...v3.5.6) (2022-10-08)
 
 
