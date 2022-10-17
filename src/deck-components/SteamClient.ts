@@ -195,8 +195,11 @@ export interface SteamShortcut {
   };
 }
 
+/**
+ * @prop unAppID is not properly set by Steam for non-steam game shortcuts, so it defaults to 0 for them
+ */
 export interface LifetimeNotification {
-  unAppID: number; // seems to be 0 for shortcuts :/
+  unAppID: number;
   nInstanceID: number;
   bRunning: boolean;
 }
