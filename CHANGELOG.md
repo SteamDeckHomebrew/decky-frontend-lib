@@ -1,3 +1,10 @@
+## [3.6.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.6.0...v3.6.1) (2022-10-19)
+
+
+### Bug Fixes
+
+* **plugin:** export RoutePatch ([#39](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/39)) ([c44c66f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c44c66facd4e158aa4fe0a69f62a2ca3add805c1))
+
 # [3.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.5.6...v3.6.0) (2022-10-15)
 
 
