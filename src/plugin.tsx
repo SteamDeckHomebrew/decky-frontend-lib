@@ -21,7 +21,7 @@ interface ServerResponseError {
 
 export type ServerResponse<TRes> = ServerResponseSuccess<TRes> | ServerResponseError;
 
-type RoutePatch = (route: RouteProps) => RouteProps;
+export type RoutePatch = (route: RouteProps) => RouteProps;
 
 export interface RouterHook {
   addRoute(path: string, component: ComponentType, props?: Omit<RouteProps, 'path' | 'children'>): void;
