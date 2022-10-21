@@ -17,6 +17,9 @@ export interface FieldProps extends HTMLAttributes<HTMLDivElement>, FooterLegend
   highlightOnFocus?: boolean;
   indentLevel?: number;
   verticalAlignment?: 'center' | 'none'; // Alligns inline label with children
+  focusable?: boolean; // Allows to get focus without any focusable children or on* callbacks
+  onActivate?: (e: CustomEvent | MouseEvent) => void;
+  onClick?: (e: CustomEvent | MouseEvent) => void;
 }
 
 export const Field = findModuleChild((m) => {
