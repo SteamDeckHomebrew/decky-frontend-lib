@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.6.1...v3.7.0) (2022-10-24)
+
+
+### Features
+
+* **modal:** support for latest steamos preview ([5f0470c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5f0470c351dc4ecb24ea3e928ff0b0199c399fa4))
+
 ## [3.6.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.6.0...v3.6.1) (2022-10-19)
 
 
