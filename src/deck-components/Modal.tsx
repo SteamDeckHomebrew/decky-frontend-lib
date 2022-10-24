@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react';
+import { findSP } from '../utils';
 import { findModuleChild } from '../webpack';
 
 // All of the popout options + strTitle are related. Proper usage is not yet known...
@@ -27,7 +28,7 @@ export interface ShowModalResult {
   Update: (modal: ReactNode) => void;
 }
 
-export const showModal: (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => Promise<ShowModalResult> = findModuleChild((m) => {
+const showModalRaw: (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => Promise<ShowModalResult> = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
   for (let prop in m) {
     if (typeof m[prop] === 'function' && m[prop].toString().includes('bHideMainWindowForPopouts:!0')) {
@@ -35,6 +36,10 @@ export const showModal: (modal: ReactNode, parent?: EventTarget, props?: ShowMod
     }
   }
 });
+
+export const showModal = (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps): Promise<ShowModalResult> => {
+  return showModalRaw(modal, parent || findSP(), props)
+}
 
 export interface ModalRootProps {
   children?: ReactNode;
