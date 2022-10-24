@@ -1,3 +1,10 @@
+## [3.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.0...v3.7.1) (2022-10-24)
+
+
+### Bug Fixes
+
+* **Tabs:** temp remove until we have a way to grab it on beta ([25c33b2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/25c33b2a05a30c3c72008c5f459c3b77f819db5a))
+
 # [3.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.6.1...v3.7.0) (2022-10-24)
 
 
