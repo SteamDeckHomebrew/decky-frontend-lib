@@ -1,3 +1,10 @@
+## [3.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.1...v3.7.2) (2022-10-24)
+
+
+### Bug Fixes
+
+* **tabs:** unkill build ([3dbca1a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3dbca1a0567592a597e70ce5e9bef157f709c765))
+
 ## [3.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.0...v3.7.1) (2022-10-24)
 
 
