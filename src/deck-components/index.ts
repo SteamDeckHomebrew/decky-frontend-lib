@@ -17,7 +17,7 @@ export * from './SliderField';
 export * from './Spinner';
 export * from './static-classes';
 export * from './SteamSpinner';
-//export * from './Tabs';
+export * from './Tabs';
 export * from './TextField';
 export * from './Toggle';
 export * from './ToggleField';

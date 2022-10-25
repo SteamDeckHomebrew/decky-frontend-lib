@@ -1,74 +1,119 @@
-// import { FC, ReactNode } from 'react';
-// import { findModule } from '../webpack';
-// import { FooterLegendProps } from './FooterLegend';
+import { createElement, FC, ReactNode, useEffect, useState } from 'react';
 
-// /**
-//  * Individual tab objects for the Tabs component
-//  * 
-//  * `id` ID of this tab, can be used with activeTab to auto-focus a given tab
-//  * `title` Title shown in the header bar
-//  * `renderTabAddon` Return a {@link ReactNode} to render it next to the tab title, i.e. the counts for each tab on the Media page
-//  * `content` Content of the tab
-//  * `footer` Sets up button handlers and labels
-//  */
-// export interface Tab {
-//     id: string;
-//     title: string;
-//     renderTabAddon?: () => ReactNode;
-//     content: ReactNode;
-//     footer?: FooterLegendProps;
-// }
+import { fakeRenderComponent, findInReactTree, sleep } from '../utils';
+import { FooterLegendProps } from './FooterLegend';
+import { SteamSpinner } from './SteamSpinner';
 
-// /**
-//  * Props for the {@link Tabs}
-//  * 
-//  * `tabs` array of {@link Tab}
-//  * `activeTab` tab currently active, needs to be one of the tabs {@link Tab.id}, must be set using a `useState` in the `onShowTab` handler
-//  * `onShowTab` Called when the active tab should change, needs to set `activeTab`. See example.
-//  * `autoFocusContents` Whether to automatically focus the tab contents or not.
-//  * `footer` Sets up button handlers and labels
-//  * 
-//  * @example
-//  * const Component: FC = () => {
-//  * const [currentTab, setCurrentTab] = useState<string>("Tab1");
-//  *
-//  * return (
-//  *   <Tabs
-//  *     title="Theme Manager"
-//  *     activeTab={currentTabRoute}
-//  *     onShowTab={(tabID: string) => {
-//  *        setCurrentTabRoute(tabID);
-//  *     }}
-//  *     tabs={[
-//  *       {
-//  *         title: "Tab 1",
-//  *         content: <Tab1Component />,
-//  *         id: "Tab1",
-//  *       },
-//  *       {
-//  *         title: "Tab 2",
-//  *         content: <Tab2Component />,
-//  *         id: "Tab2",
-//  *       },
-//  *     ]}
-//  *   />
-//  *  );
-//  * };
-//  */
-// export interface TabsProps {
-//     tabs: Tab[];
-//     activeTab: string;
-//     onShowTab: (tab: string) => void;
-//     autoFocusContents?: boolean;
-// }
+/**
+ * Individual tab objects for the Tabs component
+ *
+ * `id` ID of this tab, can be used with activeTab to auto-focus a given tab
+ * `title` Title shown in the header bar
+ * `renderTabAddon` Return a {@link ReactNode} to render it next to the tab title, i.e. the counts for each tab on the Media page
+ * `content` Content of the tab
+ * `footer` Sets up button handlers and labels
+ */
+export interface Tab {
+  id: string;
+  title: string;
+  renderTabAddon?: () => ReactNode;
+  content: ReactNode;
+  footer?: FooterLegendProps;
+}
 
-// /**
-//  * Tabs component as used in the library and media tabs. See {@link TabsProps}
-//  */
-// export const Tabs = Object.values(findModule((m) => {
-//     if (typeof m !== 'object') return false;
-//     for (let prop in m) {
-//         if (m[prop]?.Unbleed) return true;
-//     }
-//     return false;
-// })).find((x: any) => x?.type?.toString()?.includes("((function(") && x?.type?.toString()?.includes("[\"tabs\"")) as FC<TabsProps>;
+/**
+ * Props for the {@link Tabs}
+ *
+ * `tabs` array of {@link Tab}
+ * `activeTab` tab currently active, needs to be one of the tabs {@link Tab.id}, must be set using a `useState` in the `onShowTab` handler
+ * `onShowTab` Called when the active tab should change, needs to set `activeTab`. See example.
+ * `autoFocusContents` Whether to automatically focus the tab contents or not.
+ * `footer` Sets up button handlers and labels
+ *
+ * @example
+ * const Component: FC = () => {
+ * const [currentTab, setCurrentTab] = useState<string>("Tab1");
+ *
+ * return (
+ *   <Tabs
+ *     title="Theme Manager"
+ *     activeTab={currentTabRoute}
+ *     onShowTab={(tabID: string) => {
+ *        setCurrentTabRoute(tabID);
+ *     }}
+ *     tabs={[
+ *       {
+ *         title: "Tab 1",
+ *         content: <Tab1Component />,
+ *         id: "Tab1",
+ *       },
+ *       {
+ *         title: "Tab 2",
+ *         content: <Tab2Component />,
+ *         id: "Tab2",
+ *       },
+ *     ]}
+ *   />
+ *  );
+ * };
+ */
+export interface TabsProps {
+  tabs: Tab[];
+  activeTab: string;
+  onShowTab: (tab: string) => void;
+  autoFocusContents?: boolean;
+}
+
+declare global {
+  interface Window {
+    DeckyPluginLoader: any;
+  }
+}
+
+let tabsComponent: any;
+
+const getTabs = async () => {
+    if (tabsComponent) return tabsComponent
+    while (!window?.DeckyPluginLoader?.routerHook?.routes) {
+        console.debug("[DFL:Tabs]: Waiting for Decky router...")
+        await sleep(500);
+    }
+    return tabsComponent = fakeRenderComponent(
+        () => {
+          return findInReactTree(
+            findInReactTree(
+              window.DeckyPluginLoader.routerHook.routes
+                .find((x: any) => x.props.path == '/library/app/:appid/achievements')
+                .props.children.type(),
+              (x) => x?.props?.scrollTabsTop,
+            ).type({ appid: 1 }),
+            (x) => x?.props?.tabs,
+          ).type;
+        },
+        {
+          useRef: () => ({ current: { reaction: { track: () => {} } } }),
+          useContext: () => ({ match: { params: { appid: 1 } } }),
+          useMemo: () => ({ data: {} }),
+        },
+    );
+}
+
+/**
+ * Tabs component as used in the library and media tabs. See {@link TabsProps}
+ * Unlike other components in `decky-frontend-lib`, this requires Decky Loader to be running.
+ */
+export const Tabs = ((props: TabsProps) => {
+    const found = tabsComponent;
+    const [tc, setTC] = useState<FC<TabsProps>>(found);
+    useEffect(() => {
+        if (found) return;
+        (async()=> {
+            console.debug("[DFL:Tabs]: Finding component...")
+            const t = await getTabs();
+            console.debug("[DFL:Tabs]: Found!")
+            setTC(t);
+        })();
+    }, [])
+    console.log("tc", tc);
+    return tc ? createElement(tc, props) : <SteamSpinner/>;
+}) as FC<TabsProps>;
