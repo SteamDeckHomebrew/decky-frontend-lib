@@ -29,15 +29,23 @@ if (window.webpackJsonp && !window.webpackJsonp.deckyShimmed) {
   hasWebpack5 = true;
   const id = Math.random();
   let initReq: any;
-  window.webpackChunksteamui.push([[ id ], {}, (r: any) => { initReq = r }]);
+  window.webpackChunksteamui.push([
+    [id],
+    {},
+    (r: any) => {
+      initReq = r;
+    },
+  ]);
   for (let i of Object.keys(initReq.m)) {
-    webpackCache[i] = initReq(i)
+    webpackCache[i] = initReq(i);
   }
 }
 
-export const allModules: Module[] = hasWebpack5 ? Object.values(webpackCache).filter((x) => x) : Object.keys(webpackCache)
-  .map((x) => webpackCache[x].exports)
-  .filter((x) => x);
+export const allModules: Module[] = hasWebpack5
+  ? Object.values(webpackCache).filter((x) => x)
+  : Object.keys(webpackCache)
+      .map((x) => webpackCache[x].exports)
+      .filter((x) => x);
 
 export const findModule = (filter: FilterFn) => {
   for (const m of allModules) {

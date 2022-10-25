@@ -54,6 +54,7 @@
     "husky": "^8.0.1",
     "import-sort-style-module": "^6.0.0",
     "jest": "^27.5.1",
+    "prettier": "^2.7.1",
     "prettier-plugin-import-sort": "^0.0.7",
     "semantic-release": "^19.0.3",
     "shx": "^0.3.4",

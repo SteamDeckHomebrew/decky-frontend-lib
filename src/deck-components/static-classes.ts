@@ -63,13 +63,7 @@ type QuickAccessMenuClasses = Record<
   string
 >;
 
-type ScrollPanelClasses = Record<
-  | 'ScrollBoth'
-  | 'ScrollPanel'
-  | 'ScrollX'
-  | 'ScrollY',
-  string
->;
+type ScrollPanelClasses = Record<'ScrollBoth' | 'ScrollPanel' | 'ScrollX' | 'ScrollY', string>;
 
 type GamepadDialogClasses = Record<
   | 'duration-app-launch'
@@ -166,207 +160,221 @@ type QuickAccessControlsClasses = Record<
 >;
 
 type UpdaterFieldClasses = Record<
-  | "duration-app-launch"
-  | "OOBEUpdateStatusContainer"
-  | "UpdateScreen"
-  | "UpdatePanel"
-  | "CurrentStatus"
-  | "TotalUpdateSize"
-  | "ProgressInfoContainer"
-  | "TimeRemaining"
-  | "BatteryLowWarning"
-  | "fadeInAnimation"
-  | "ProgressStatus"
-  | "UpdateStatusContainer"
-  | "UpdaterFieldStatusSuccess"
-  | "UpdaterFieldStatusApplying"
-  | "TextContainer"
-  | "ApplyingText"
-  | "UpdateBytesRemaining"
-  | "Label"
-  | "Numerator"
-  | "Separator"
-  | "Denominator"
-  | "PatchNotes"
-  | "PostedTime"
-  | "EventDetailTitle"
-  | "EventDetailsSubTitle"
-  | "EventDetailsBody"
-  | "InsufficientBatteryText"
-  | "UnsupportedHardwareWarning"
-  | "Title"
-  | "Text"
-  | "Body"
-  | "ItemFocusAnim-darkerGrey-nocolor"
-  | "ItemFocusAnim-darkerGrey"
-  | "ItemFocusAnim-darkGrey"
-  | "ItemFocusAnim-grey"
-  | "ItemFocusAnimBorder-darkGrey"
-  | "ItemFocusAnim-green"
-  | "focusAnimation"
-  | "hoverAnimation",
+  | 'duration-app-launch'
+  | 'OOBEUpdateStatusContainer'
+  | 'UpdateScreen'
+  | 'UpdatePanel'
+  | 'CurrentStatus'
+  | 'TotalUpdateSize'
+  | 'ProgressInfoContainer'
+  | 'TimeRemaining'
+  | 'BatteryLowWarning'
+  | 'fadeInAnimation'
+  | 'ProgressStatus'
+  | 'UpdateStatusContainer'
+  | 'UpdaterFieldStatusSuccess'
+  | 'UpdaterFieldStatusApplying'
+  | 'TextContainer'
+  | 'ApplyingText'
+  | 'UpdateBytesRemaining'
+  | 'Label'
+  | 'Numerator'
+  | 'Separator'
+  | 'Denominator'
+  | 'PatchNotes'
+  | 'PostedTime'
+  | 'EventDetailTitle'
+  | 'EventDetailsSubTitle'
+  | 'EventDetailsBody'
+  | 'InsufficientBatteryText'
+  | 'UnsupportedHardwareWarning'
+  | 'Title'
+  | 'Text'
+  | 'Body'
+  | 'ItemFocusAnim-darkerGrey-nocolor'
+  | 'ItemFocusAnim-darkerGrey'
+  | 'ItemFocusAnim-darkGrey'
+  | 'ItemFocusAnim-grey'
+  | 'ItemFocusAnimBorder-darkGrey'
+  | 'ItemFocusAnim-green'
+  | 'focusAnimation'
+  | 'hoverAnimation',
   string
 >;
 
 type PlaySectionClasses = Record<
-  | "AchievementCountLabel"
-  | "AchievementProgressRow"
-  | "ActionSection"
-  | "AppButtonsContainer"
-  | "Arrow"
-  | "AvatarAndPersona"
-  | "BreakNarrow"
-  | "BreakShort"
-  | "BreakTall"
-  | "BreakUltraWide"
-  | "BreakWide"
-  | "ClickablePlayBarItem"
-  | "CloudStatusIcon"
-  | "CloudStatusLabel"
-  | "CloudStatusRow"
-  | "CloudSyncProblem"
-  | "CloudSynching"
-  | "ComingSoon"
-  | "Container"
-  | "DetailsProgressBar"
-  | "DetailsProgressContainer"
-  | "DetailsSection"
-  | "DetailsSectionExtra"
-  | "DetailsSectionStatus"
-  | "DotDotDot"
-  | "DownloadPaused"
-  | "DownloadProgressBar"
-  | "Downloading"
-  | "FavoriteButton"
-  | "Favorited"
-  | "GameInfoButton"
-  | "GameStat"
-  | "GameStatIcon"
-  | "GameStatIconForced"
-  | "GameStatRight"
-  | "GameStatsSection"
-  | "GamepadUIBreakNarrow"
-  | "GamepadUIBreakShort"
-  | "GamepadUIBreakWide"
-  | "Glassy"
-  | "HideWhenNarrow"
-  | "Icon"
-  | "Icons"
-  | "InPage"
-  | "InnerContainer"
-  | "InvalidPlatform"
-  | "ItemFocusAnim-darkGrey"
-  | "ItemFocusAnim-darkerGrey"
-  | "ItemFocusAnim-darkerGrey-nocolor"
-  | "ItemFocusAnim-green"
-  | "ItemFocusAnim-grey"
-  | "ItemFocusAnimBorder-darkGrey"
-  | "Label"
-  | "LastPlayed"
-  | "LastPlayedInfo"
-  | "MenuActive"
-  | "MenuButton"
-  | "MiniAchievements"
-  | "OfflineMode"
-  | "OnlyDownloadBar"
-  | "PermanentlyUnavailable"
-  | "PlayBar"
-  | "PlayBarCloudStatusContainer"
-  | "PlayBarDetailLabel"
-  | "PlayBarGameIcon"
-  | "PlayBarGameName"
-  | "PlayBarIconAndGame"
-  | "PlayBarLabel"
-  | "Playtime"
-  | "PlaytimeIcon"
-  | "PlaytimeIconForced"
-  | "PortraitBar"
-  | "Presale"
-  | "RecentlyUpdated"
-  | "RecentlyUpdatedIcon"
-  | "RecentlyUpdatedLink"
-  | "RecentlyUpdatedText"
-  | "RightBreakNarrow"
-  | "RightBreakUltraNarrow"
-  | "RightBreakUltraWide"
-  | "RightBreakWide"
-  | "RightControls"
-  | "Row"
-  | "SharedLibrary"
-  | "StatusAndStats"
-  | "StatusNameContainer"
-  | "StickyHeader"
-  | "StickyHeaderShadow"
-  | "SuperimposedGridItems"
-  | "SyncAnim"
-  | "Visible"
-  | "duration-app-launch"
-  | "favorited"
-  | "focusAnimation"
-  | "hoverAnimation",
+  | 'AchievementCountLabel'
+  | 'AchievementProgressRow'
+  | 'ActionSection'
+  | 'AppButtonsContainer'
+  | 'Arrow'
+  | 'AvatarAndPersona'
+  | 'BreakNarrow'
+  | 'BreakShort'
+  | 'BreakTall'
+  | 'BreakUltraWide'
+  | 'BreakWide'
+  | 'ClickablePlayBarItem'
+  | 'CloudStatusIcon'
+  | 'CloudStatusLabel'
+  | 'CloudStatusRow'
+  | 'CloudSyncProblem'
+  | 'CloudSynching'
+  | 'ComingSoon'
+  | 'Container'
+  | 'DetailsProgressBar'
+  | 'DetailsProgressContainer'
+  | 'DetailsSection'
+  | 'DetailsSectionExtra'
+  | 'DetailsSectionStatus'
+  | 'DotDotDot'
+  | 'DownloadPaused'
+  | 'DownloadProgressBar'
+  | 'Downloading'
+  | 'FavoriteButton'
+  | 'Favorited'
+  | 'GameInfoButton'
+  | 'GameStat'
+  | 'GameStatIcon'
+  | 'GameStatIconForced'
+  | 'GameStatRight'
+  | 'GameStatsSection'
+  | 'GamepadUIBreakNarrow'
+  | 'GamepadUIBreakShort'
+  | 'GamepadUIBreakWide'
+  | 'Glassy'
+  | 'HideWhenNarrow'
+  | 'Icon'
+  | 'Icons'
+  | 'InPage'
+  | 'InnerContainer'
+  | 'InvalidPlatform'
+  | 'ItemFocusAnim-darkGrey'
+  | 'ItemFocusAnim-darkerGrey'
+  | 'ItemFocusAnim-darkerGrey-nocolor'
+  | 'ItemFocusAnim-green'
+  | 'ItemFocusAnim-grey'
+  | 'ItemFocusAnimBorder-darkGrey'
+  | 'Label'
+  | 'LastPlayed'
+  | 'LastPlayedInfo'
+  | 'MenuActive'
+  | 'MenuButton'
+  | 'MiniAchievements'
+  | 'OfflineMode'
+  | 'OnlyDownloadBar'
+  | 'PermanentlyUnavailable'
+  | 'PlayBar'
+  | 'PlayBarCloudStatusContainer'
+  | 'PlayBarDetailLabel'
+  | 'PlayBarGameIcon'
+  | 'PlayBarGameName'
+  | 'PlayBarIconAndGame'
+  | 'PlayBarLabel'
+  | 'Playtime'
+  | 'PlaytimeIcon'
+  | 'PlaytimeIconForced'
+  | 'PortraitBar'
+  | 'Presale'
+  | 'RecentlyUpdated'
+  | 'RecentlyUpdatedIcon'
+  | 'RecentlyUpdatedLink'
+  | 'RecentlyUpdatedText'
+  | 'RightBreakNarrow'
+  | 'RightBreakUltraNarrow'
+  | 'RightBreakUltraWide'
+  | 'RightBreakWide'
+  | 'RightControls'
+  | 'Row'
+  | 'SharedLibrary'
+  | 'StatusAndStats'
+  | 'StatusNameContainer'
+  | 'StickyHeader'
+  | 'StickyHeaderShadow'
+  | 'SuperimposedGridItems'
+  | 'SyncAnim'
+  | 'Visible'
+  | 'duration-app-launch'
+  | 'favorited'
+  | 'focusAnimation'
+  | 'hoverAnimation',
   string
 >;
 
 type GamepadSliderClasses = Record<
-  | "error-shake-duration"
-  | "SliderControlPanelGroup"
-  | "SliderControlAndNotches"
-  | "WithDefaultValue"
-  | "SliderControl"
-  | "Disabled"
-  | "SliderTrack"
-  | "SliderHasNotches"
-  | "SliderTrackDark"
-  | "SliderHandleContainer"
-  | "VerticalLineSliderHandleContainer"
-  | "ParenSliderHandleContainer"
-  | "SliderHandle"
-  | "SliderHandleFocusPop"
-  | "VerticalLineSliderHandle"
-  | "ParenSliderHandle"
-  | "Left"
-  | "SliderControlWithIcon"
-  | "Icon"
-  | "SliderNotchContainer"
-  | "SliderNotch"
-  | "AlignToEnds"
-  | "SliderNotchLabel"
-  | "AlignToLeft"
-  | "AlignToRight"
-  | "SliderNotchTick"
-  | "TickActive"
-  | "LabelText"
-  | "DescriptionValue"
-  | "EditableValue"
-  | "FakeEditableValue"
-  | "RedBorder"
-  | "EditableValueSuffix"
-  | "ErrorShake"
-  | "error-shake"
-  | "CompoundSlider"
-  | "CompoundSliderSubSlider"
-  | "Right"
-  | "CompoundSliderSubSliderLabelContainer"
-  | "CompoundSliderSubSliderLabelPositioner"
-  | "CompoundSliderSubSliderLabel"
-  | "CompoundSliderSubSliderLabelInternal"
-  | "DefaultValueTickContainer"
-  | "DefaultValueTick",
+  | 'error-shake-duration'
+  | 'SliderControlPanelGroup'
+  | 'SliderControlAndNotches'
+  | 'WithDefaultValue'
+  | 'SliderControl'
+  | 'Disabled'
+  | 'SliderTrack'
+  | 'SliderHasNotches'
+  | 'SliderTrackDark'
+  | 'SliderHandleContainer'
+  | 'VerticalLineSliderHandleContainer'
+  | 'ParenSliderHandleContainer'
+  | 'SliderHandle'
+  | 'SliderHandleFocusPop'
+  | 'VerticalLineSliderHandle'
+  | 'ParenSliderHandle'
+  | 'Left'
+  | 'SliderControlWithIcon'
+  | 'Icon'
+  | 'SliderNotchContainer'
+  | 'SliderNotch'
+  | 'AlignToEnds'
+  | 'SliderNotchLabel'
+  | 'AlignToLeft'
+  | 'AlignToRight'
+  | 'SliderNotchTick'
+  | 'TickActive'
+  | 'LabelText'
+  | 'DescriptionValue'
+  | 'EditableValue'
+  | 'FakeEditableValue'
+  | 'RedBorder'
+  | 'EditableValueSuffix'
+  | 'ErrorShake'
+  | 'error-shake'
+  | 'CompoundSlider'
+  | 'CompoundSliderSubSlider'
+  | 'Right'
+  | 'CompoundSliderSubSliderLabelContainer'
+  | 'CompoundSliderSubSliderLabelPositioner'
+  | 'CompoundSliderSubSliderLabel'
+  | 'CompoundSliderSubSliderLabelInternal'
+  | 'DefaultValueTickContainer'
+  | 'DefaultValueTick',
   string
 >;
 
-export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule((mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'));
+export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'),
+);
 /**
  * @depreciated please use quickAccessMenuClasses instead
  */
 export const staticClasses = quickAccessMenuClasses;
-export const scrollPanelClasses: ScrollPanelClasses = findModule((mod) => typeof mod === 'object' && mod?.ScrollPanel?.includes('scrollpanel'));
+export const scrollPanelClasses: ScrollPanelClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.ScrollPanel?.includes('scrollpanel'),
+);
 /**
  * @depreciated please use scrollPanelClasses instead
  */
 export const scrollClasses = scrollPanelClasses;
-export const gamepadDialogClasses: GamepadDialogClasses = findModule((mod) => typeof mod === 'object' && mod?.GamepadDialogContent?.includes('gamepaddialog'));
-export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule((mod) => typeof mod === 'object' && mod?.PanelSection?.includes('quickaccesscontrols'));
-export const updaterFieldClasses: UpdaterFieldClasses = findModule((mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer?.includes('updaterfield'));
-export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod?.Container?.includes('appdetailsplaysection'));
-export const gamepadSliderClasses: GamepadSliderClasses = findModule((mod) => typeof mod === 'object' && mod?.SliderControlPanelGroup?.includes('gamepadslider'));
+export const gamepadDialogClasses: GamepadDialogClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.GamepadDialogContent?.includes('gamepaddialog'),
+);
+export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.PanelSection?.includes('quickaccesscontrols'),
+);
+export const updaterFieldClasses: UpdaterFieldClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer?.includes('updaterfield'),
+);
+export const playSectionClasses: PlaySectionClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.Container?.includes('appdetailsplaysection'),
+);
+export const gamepadSliderClasses: GamepadSliderClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.SliderControlPanelGroup?.includes('gamepadslider'),
+);

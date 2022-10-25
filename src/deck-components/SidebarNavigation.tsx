@@ -11,7 +11,7 @@ export interface SidebarNavigationPage {
   identifier?: string;
   route?: string;
   link?: string;
-  padding?: "none" | "compact";
+  padding?: 'none' | 'compact';
 }
 
 export interface SidebarNavigationProps {

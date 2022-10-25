@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react';
+
 import { findSP } from '../utils';
 import { findModuleChild } from '../webpack';
 
@@ -21,25 +22,26 @@ export interface ShowModalResult {
   Close: () => void;
 
   // This method will replace the modal element completely and will not update the callback chains,
-  // meaning that "closeModal" and etc. will not automatically close the modal anymore (also "fnOnClose" 
-  // will not be even called upon close anymore)! You have to manually call the "Close" method when, for example, 
-  // the "closeModal" is invoked in the newly updated modal: 
+  // meaning that "closeModal" and etc. will not automatically close the modal anymore (also "fnOnClose"
+  // will not be even called upon close anymore)! You have to manually call the "Close" method when, for example,
+  // the "closeModal" is invoked in the newly updated modal:
   //   <ModalRoot closeModal={() => { console.log("ABOUT TO CLOSE"); showModalRes.Close(); }} />
   Update: (modal: ReactNode) => void;
 }
 
-const showModalRaw: (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => Promise<ShowModalResult> = findModuleChild((m) => {
-  if (typeof m !== 'object') return undefined;
-  for (let prop in m) {
-    if (typeof m[prop] === 'function' && m[prop].toString().includes('bHideMainWindowForPopouts:!0')) {
-      return m[prop];
+const showModalRaw: (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => Promise<ShowModalResult> =
+  findModuleChild((m) => {
+    if (typeof m !== 'object') return undefined;
+    for (let prop in m) {
+      if (typeof m[prop] === 'function' && m[prop].toString().includes('bHideMainWindowForPopouts:!0')) {
+        return m[prop];
+      }
     }
-  }
-});
+  });
 
 export const showModal = (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps): Promise<ShowModalResult> => {
-  return showModalRaw(modal, parent || findSP(), props)
-}
+  return showModalRaw(modal, parent || findSP(), props);
+};
 
 export interface ModalRootProps {
   children?: ReactNode;

@@ -54,7 +54,7 @@ export interface FilePickerRes {
 export interface ServerAPI {
   routerHook: RouterHook;
   toaster: Toaster;
-  openFilePicker(startPath: string, includeFiles?: boolean, regex?: RegExp): Promise<FilePickerRes>
+  openFilePicker(startPath: string, includeFiles?: boolean, regex?: RegExp): Promise<FilePickerRes>;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   fetchNoCors<TRes = {}>(url: RequestInfo, request?: RequestInit): Promise<ServerResponse<TRes>>;

@@ -1,4 +1,4 @@
-import { VFC, ReactNode } from 'react';
+import { ReactNode, VFC } from 'react';
 
 import { findModuleChild } from '../webpack';
 import { ItemProps } from './Item';

@@ -57,11 +57,11 @@ export enum DisplayStatus {
 }
 
 export type AppOverview = {
-  appid: string
-  display_name: string
-  display_status: DisplayStatus
-  sort_as: string
-}
+  appid: string;
+  display_name: string;
+  display_status: DisplayStatus;
+  sort_as: string;
+};
 
 export interface Router {
   CloseSideMenus(): void;
@@ -69,19 +69,19 @@ export interface Router {
   GetQuickAccessTab(): QuickAccessTab;
   Navigate(path: string): void;
   NavigateBackOrOpenMenu(): void;
-  NavigateToAppProperties(): void
-  NavigateToBugForum(): void
+  NavigateToAppProperties(): void;
+  NavigateToBugForum(): void;
   NavigateToExternalWeb(url: string): void;
-  NavigateToHelp(): void
-  NavigateToInvites(): void
+  NavigateToHelp(): void;
+  NavigateToInvites(): void;
   NavigateToRunningApp(replace?: boolean): void;
-  NavigateToStorage(): void
-  NavigateToStore(): void
-  NavigateToStoreApp(appId: number | string): void
-  NavigateToStoreFreeToPlay(): void
-  NavigateToStoreManual(): void
-  NavigateToStoreNewReleases(): void
-  NavigateToStoreOnSale(): void
+  NavigateToStorage(): void;
+  NavigateToStore(): void;
+  NavigateToStoreApp(appId: number | string): void;
+  NavigateToStoreFreeToPlay(): void;
+  NavigateToStoreManual(): void;
+  NavigateToStoreNewReleases(): void;
+  NavigateToStoreOnSale(): void;
   ToggleSideMenu(sideMenu: SideMenu): void;
   CloseSideMenus(): void;
   OpenSideMenu(sideMenu: SideMenu): void;

@@ -1,1 +1,1 @@
-export * from './useParams'
+export * from './useParams';

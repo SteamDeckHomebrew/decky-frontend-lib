@@ -1,10 +1,11 @@
-import { HTMLAttributes, ReactNode, RefAttributes, VFC } from "react";
-import { findModuleChild } from "../webpack";
-import { FooterLegendProps } from "./FooterLegend";
+import { HTMLAttributes, ReactNode, RefAttributes, VFC } from 'react';
+
+import { findModuleChild } from '../webpack';
+import { FooterLegendProps } from './FooterLegend';
 
 export interface FocusableProps extends HTMLAttributes<HTMLDivElement>, FooterLegendProps {
   children: ReactNode;
-  "flow-children"?: string;
+  'flow-children'?: string;
   focusClassName?: string;
   focusWithinClassName?: string;
   onActivate?: (e: CustomEvent) => void;

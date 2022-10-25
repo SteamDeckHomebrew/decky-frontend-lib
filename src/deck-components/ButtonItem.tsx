@@ -8,6 +8,8 @@ export interface ButtonItemProps extends ItemProps {
   disabled?: boolean;
 }
 
-export const ButtonItem = Object.values(CommonUIModule).find((mod: any) =>
-  mod?.render?.toString()?.includes('"highlightOnFocus","childrenContainerWidth"') || mod?.render?.toString()?.includes('childrenContainerWidth:"min"'),
+export const ButtonItem = Object.values(CommonUIModule).find(
+  (mod: any) =>
+    mod?.render?.toString()?.includes('"highlightOnFocus","childrenContainerWidth"') ||
+    mod?.render?.toString()?.includes('childrenContainerWidth:"min"'),
 ) as FC<ButtonItemProps>;

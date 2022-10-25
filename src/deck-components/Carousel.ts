@@ -1,5 +1,6 @@
-import { HTMLAttributes, ReactNode, RefAttributes, VFC } from "react";
-import { findModuleChild } from "../webpack";
+import { HTMLAttributes, ReactNode, RefAttributes, VFC } from 'react';
+
+import { findModuleChild } from '../webpack';
 
 export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   autoFocus?: boolean;
@@ -22,7 +23,6 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
 export const Carousel = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
   for (let prop in m) {
-    if (m[prop]?.render?.toString().includes("setFocusedColumn:"))
-      return m[prop];
+    if (m[prop]?.render?.toString().includes('setFocusedColumn:')) return m[prop];
   }
 }) as VFC<CarouselProps & RefAttributes<HTMLDivElement>>;
