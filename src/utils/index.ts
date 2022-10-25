@@ -10,7 +10,7 @@ export function sleep(ms: number) {
 }
 
 /**
- * Finds the SP window, since it is a render target as of {10-19-2022}'s beta
+ * Finds the SP window, since it is a render target as of 10-19-2022's beta
  */
 export function findSP(): Window {
   // old (SP as host)
