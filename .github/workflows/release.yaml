@@ -19,11 +19,11 @@ jobs:
         with:
           node-version: 16
       - name: Setup | Dependencies
-        run: npm ci
+        run: npm i -g pnpm && pnpm i --frozen-lockfile
       - name: Test
-        run: npm test
+        run: pnpm run test
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm exec semantic-release
+        run: pnpm exec semantic-release
