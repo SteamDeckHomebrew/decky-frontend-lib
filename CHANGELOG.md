@@ -1,3 +1,10 @@
+## [3.7.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.2...v3.7.3) (2022-10-25)
+
+
+### Bug Fixes
+
+* **tabs:** it returns ([3c553a2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3c553a227d1aa7b03c4431ff968f336b4f871801))
+
 ## [3.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.1...v3.7.2) (2022-10-24)
 
 
