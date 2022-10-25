@@ -29,12 +29,13 @@ jobs:
       - name: Setup | Dependencies
         run: |
           cd lib
-          npm ci
+          npm i -g pnpm
+          pnpm i --frozen-lockfile
 
       - name: Build Docs
         run: |
           cd lib
-          npm run docs -- --out ../wiki/api-docs/decky-frontend-lib
+          pnpm run docs -- --out ../wiki/api-docs/decky-frontend-lib
 
       - name: Commit files
         run: |
