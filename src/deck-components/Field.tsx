@@ -3,7 +3,7 @@ import { FC, HTMLAttributes, ReactNode, RefAttributes } from 'react';
 import { findModuleChild } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
-export interface FieldProps extends HTMLAttributes<HTMLDivElement>, FooterLegendProps {
+export interface FieldProps extends FooterLegendProps {
   label?: ReactNode;
   bottomSeparator?: 'standard' | 'thick' | 'none';
   description?: ReactNode;
