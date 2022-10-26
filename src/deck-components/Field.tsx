@@ -20,7 +20,7 @@ export interface FieldProps extends FooterLegendProps {
   verticalAlignment?: 'center' | 'none'; // Alligns inline label with children
   focusable?: boolean; // Allows to get focus without any focusable children or on* callbacks
   onActivate?: (e: CustomEvent | MouseEvent) => void;
-  onClick?: (e: CustomEvent | MouseEvent) => void;
+  override onClick?: (e: CustomEvent | MouseEvent) => void;
 }
 
 export const Field = findModuleChild((m) => {

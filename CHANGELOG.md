@@ -1,3 +1,10 @@
+## [3.7.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.5...v3.7.6) (2022-10-26)
+
+
+### Bug Fixes
+
+* **Field:** add override for onClick type ([#43](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/43)) ([fe75dfb](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fe75dfb5f4fb1ec9417cc07dc714c71820945748))
+
 ## [3.7.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.4...v3.7.5) (2022-10-26)
 
 
