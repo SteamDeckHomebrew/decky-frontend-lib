@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, ReactNode, RefAttributes } from 'react';
+import { FC, ReactNode, RefAttributes } from 'react';
 
 import { findModuleChild } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
