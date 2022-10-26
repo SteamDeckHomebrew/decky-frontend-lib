@@ -1,3 +1,10 @@
+## [3.7.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.6...v3.7.7) (2022-10-26)
+
+
+### Bug Fixes
+
+* **Field:** remove incompatible properties ([#42](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/42)) ([0010a1f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0010a1fceedc417aa25b709d066341da97d42444))
+
 ## [3.7.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.5...v3.7.6) (2022-10-26)
 
 
