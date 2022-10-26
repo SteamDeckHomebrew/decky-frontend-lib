@@ -1,3 +1,11 @@
+## [3.7.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.3...v3.7.4) (2022-10-26)
+
+
+### Bug Fixes
+
+* **docs:** change arg format ([ed0b92d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ed0b92de2ec13a585f6524b45eef0ab538d87448))
+* **tabs:** fix on stable ([f16e0b2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/f16e0b29f8e1de500e8f436db659d1ad99d4eaa6))
+
 ## [3.7.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.2...v3.7.3) (2022-10-25)
 
 
