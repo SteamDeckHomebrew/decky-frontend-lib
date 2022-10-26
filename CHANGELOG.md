@@ -1,3 +1,10 @@
+## [3.7.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.4...v3.7.5) (2022-10-26)
+
+
+### Bug Fixes
+
+* **Field:** add types for focusing field ([#41](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/41)) ([bedb6b8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bedb6b8bb90e021a60e47a93709d6f48e0bd75c6))
+
 ## [3.7.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.3...v3.7.4) (2022-10-26)
 
 
