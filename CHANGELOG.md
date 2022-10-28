@@ -1,3 +1,10 @@
+## [3.7.9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.8...v3.7.9) (2022-10-28)
+
+
+### Bug Fixes
+
+* **tabs:** fix on stable for real this time i think ([a074277](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a074277bb58428a64295154ebf96aceb96e654a7))
+
 ## [3.7.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.7...v3.7.8) (2022-10-26)
 
 
