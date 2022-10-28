@@ -1,3 +1,10 @@
+## [3.7.10](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.9...v3.7.10) (2022-10-28)
+
+
+### Bug Fixes
+
+* **tabs:** shut up typescript ([75f3588](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/75f35882f27252e1255208953a6e801c68d5dcec))
+
 ## [3.7.9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.8...v3.7.9) (2022-10-28)
 
 
