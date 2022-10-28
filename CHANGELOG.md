@@ -1,3 +1,10 @@
+## [3.7.11](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.10...v3.7.11) (2022-10-28)
+
+
+### Bug Fixes
+
+* **package.json:** train wtf ([789e163](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/789e16380fd01a6b46188c7a1174a55c18c8dead))
+
 ## [3.7.10](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.9...v3.7.10) (2022-10-28)
 
 
