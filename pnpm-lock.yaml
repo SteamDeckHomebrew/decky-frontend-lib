@@ -25,9 +25,6 @@ specifiers:
   typedoc-plugin-missing-exports: ^1.0.0
   typescript: ^4.6.3
 
-dependencies:
-  minimist: 1.2.6
-
 devDependencies:
   '@commitlint/cli': 17.0.2
   '@commitlint/config-conventional': 17.0.2
@@ -41,6 +38,7 @@ devDependencies:
   husky: 8.0.1
   import-sort-style-module: 6.0.0
   jest: 27.5.1
+  minimist: 1.2.6
   prettier: 2.7.1
   prettier-plugin-import-sort: 0.0.7_prettier@2.7.1
   semantic-release: 19.0.3
@@ -3735,6 +3733,7 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+    dev: true
 
   /modify-values/1.0.1:
     resolution: {integrity: sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==}
