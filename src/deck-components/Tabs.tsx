@@ -109,27 +109,30 @@ try {
     }
     return false;
   });
-  if (oldTabsModule) oldTabs = Object.values(oldTabsModule).find((x: any) => x?.type?.toString()?.includes("((function(") && x?.type?.toString()?.includes("[\"tabs\""));
+  if (oldTabsModule)
+    oldTabs = Object.values(oldTabsModule).find((x: any) => x?.type?.toString()?.includes('((function(){'));
 } catch (e) {
-  console.error("Error finding oldTabs:", e)
+  console.error('Error finding oldTabs:', e);
 }
 
 /**
  * Tabs component as used in the library and media tabs. See {@link TabsProps}
  * Unlike other components in `decky-frontend-lib`, this requires Decky Loader to be running.
  */
-export const Tabs = oldTabs || ((props: TabsProps) => {
-  const found = tabsComponent;
-  const [tc, setTC] = useState<FC<TabsProps>>(found);
-  useEffect(() => {
-    if (found) return;
-    (async () => {
-      console.debug('[DFL:Tabs]: Finding component...');
-      const t = await getTabs();
-      console.debug('[DFL:Tabs]: Found!');
-      setTC(t);
-    })();
-  }, []);
-  console.log('tc', tc);
-  return tc ? createElement(tc, props) : <SteamSpinner />;
-}) as FC<TabsProps>;
+export const Tabs =
+  oldTabs ||
+  (((props: TabsProps) => {
+    const found = tabsComponent;
+    const [tc, setTC] = useState<FC<TabsProps>>(found);
+    useEffect(() => {
+      if (found) return;
+      (async () => {
+        console.debug('[DFL:Tabs]: Finding component...');
+        const t = await getTabs();
+        console.debug('[DFL:Tabs]: Found!');
+        setTC(t);
+      })();
+    }, []);
+    console.log('tc', tc);
+    return tc ? createElement(tc, props) : <SteamSpinner />;
+  }) as FC<TabsProps>);
