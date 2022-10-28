@@ -65,16 +65,11 @@ export interface TabsProps {
   autoFocusContents?: boolean;
 }
 
-declare global {
-  interface Window {
-    DeckyPluginLoader: any;
-  }
-}
-
 let tabsComponent: any;
 
 const getTabs = async () => {
   if (tabsComponent) return tabsComponent;
+  // @ts-ignore
   while (!window?.DeckyPluginLoader?.routerHook?.routes) {
     console.debug('[DFL:Tabs]: Waiting for Decky router...');
     await sleep(500);
@@ -83,6 +78,7 @@ const getTabs = async () => {
     () => {
       return findInReactTree(
         findInReactTree(
+          // @ts-ignore
           window.DeckyPluginLoader.routerHook.routes
             .find((x: any) => x.props.path == '/library/app/:appid/achievements')
             .props.children.type(),
