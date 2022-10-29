@@ -1,3 +1,10 @@
+## [3.7.12](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.11...v3.7.12) (2022-10-29)
+
+
+### Bug Fixes
+
+* **Item:** change title and description types to ReactNode ([0ed054f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0ed054fae972ffd36299b142bd693f80388480a6))
+
 ## [3.7.11](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.10...v3.7.11) (2022-10-28)
 
 
