@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  pull_request:
   push:
     branches:
       - main
@@ -20,9 +21,12 @@ jobs:
           node-version: 16
       - name: Setup | Dependencies
         run: npm i -g pnpm && pnpm i --frozen-lockfile
+      - name: Build
+        run: pnpm run build
       - name: Test
         run: pnpm run test
       - name: Release
+        if: github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
