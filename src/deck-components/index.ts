@@ -21,3 +21,10 @@ export * from './Tabs';
 export * from './TextField';
 export * from './Toggle';
 export * from './ToggleField';
+export * from './SteamClient';
+
+import {SteamClient} from './SteamClient'
+
+declare global {
+    var SteamClient: SteamClient;
+}
