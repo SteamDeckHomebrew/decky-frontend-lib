@@ -1,6 +1,10 @@
+export interface UnregisterObject {
+  unregister: () => void;
+}
+
 export interface Apps {
   RegisterForAppOverviewChanges: any;
-  RegisterForAppDetails: any;
+  RegisterForAppDetails: (appId: number, callback: (details: AppDetails) => void) => UnregisterObject;
   RegisterForLocalizationChanges: any;
   RegisterForWorkshopChanges: any;
   RegisterForWorkshopItemDownloads: any;
@@ -14,7 +18,7 @@ export interface Apps {
   ClearAndSetUserTagsOnApp: any;
   SetAppHidden: any;
   ResetHiddenState: any;
-  SetAppLaunchOptions: any;
+  SetAppLaunchOptions: (appId: number, value: string) => void;
   SetAppResolutionOverride: any;
   SetAppCurrentLanguage: any;
   SetAppAutoUpdateBehavior: any;
@@ -51,10 +55,10 @@ export interface Apps {
   GetLaunchOptionsForApp: any;
   GetResolutionOverrideForApp: any;
   ScanForShortcuts: any;
-  GetAllShortcuts: any;
+  GetAllShortcuts: () => Promise<SteamShortcut[]>;
   GetShortcutData: any;
-  AddShortcut: any;
-  RemoveShortcut: any;
+  AddShortcut: (appName: string, execPath: string) => Promise<number | undefined | null>;
+  RemoveShortcut: (appId: number) => void;
   InstallFlatpakAppAndCreateShortcut: any;
   ListFlatpakApps: any;
   UninstallFlatpakApp: any;
@@ -74,7 +78,7 @@ export interface Apps {
   RequestIconDataForApp: any;
   SpecifyCompatTool: any;
   GetAvailableCompatTools: any;
-  SetShortcutName: any;
+  SetShortcutName: (appId: number, value: string) => void;
   SetShortcutExe: any;
   SetShortcutStartDir: any;
   SetShortcutLaunchOptions: any;
@@ -82,11 +86,11 @@ export interface Apps {
   PromptToChangeShortcut: any;
   PromptToSelectShortcutIcon: any;
   InstallApp: any;
-  RunGame: any;
+  RunGame: (gameId: string, unknownArg1: string, unknownArg2: number, unknownArg3: number) => void;
   VerifyApp: any;
   StreamGame: any;
   CancelLaunch: any;
-  TerminateApp: any;
+  TerminateApp: (gameId: string, unknownArg: boolean) => void;
   UninstallApps: any;
   ShowStore: any;
   SetDLCEnabled: any;
@@ -114,6 +118,14 @@ export interface Apps {
   RegisterForGameActionShowUI: any;
   OpenAppSettingsDialog: any;
 }
+
+export interface GameSessions {
+  RegisterForAppLifetimeNotifications: (callback: (data: LifetimeNotification) => void) => UnregisterObject;
+};
+
+export interface User {
+  StartRestart: () => void;
+};
 
 export interface Window {
   RegisterForExternalDisplayChanged: any;
@@ -155,7 +167,7 @@ export interface SteamClient {
   FamilySharing: any;
   FriendSettings: any;
   Friends: any;
-  GameSessions: any;
+  GameSessions: GameSessions;
   Input: any;
   InstallFolder: any;
   Installs: any;
@@ -178,7 +190,7 @@ export interface SteamClient {
   UI: any;
   URL: any;
   Updates: any;
-  User: any;
+  User: User;
   WebChat: any;
   Window: Window;
 }
