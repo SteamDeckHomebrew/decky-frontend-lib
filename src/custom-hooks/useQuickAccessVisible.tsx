@@ -4,6 +4,16 @@ declare global {
   var FocusNavController: any;
 }
 
+function getQuickAccessWindow(): Window | null {
+  try {
+    const navTrees = FocusNavController?.m_ActiveContext?.m_rgGamepadNavigationTrees || FocusNavController?.m_rgGamepadNavigationTrees;
+    return navTrees?.find((tree: any) => tree?.id === "QuickAccess-NA")?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 /**
  * Returns state indicating the visibility of quick access menu.
  *
@@ -42,12 +52,10 @@ declare global {
  * };
  */
 export function useQuickAccessVisible(): boolean {
-  // Assuming that the component is rendered in QAM already, so true by default...
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(getQuickAccessWindow()?.document.hasFocus() ?? true);
 
   useEffect(() => {
-    const quickAccessWindow: Window | null =
-      FocusNavController?.GetGamepadNavTreeByID('QuickAccess-NA')?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
+    const quickAccessWindow = getQuickAccessWindow();
     if (quickAccessWindow === null) {
       console.error('Could not get window of QuickAccess menu!');
       return;

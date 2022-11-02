@@ -1,1 +1,1 @@
-export * from './usequickaccessvisible';
+export * from './useQuickAccessVisible';
