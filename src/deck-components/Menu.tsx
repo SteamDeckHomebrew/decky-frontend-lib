@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react';
 
+import { fakeRenderComponent } from '../utils';
 import { findModuleChild } from '../webpack';
 
 export const showContextMenu: (children: ReactNode, parent?: EventTarget) => void = findModuleChild((m) => {
@@ -38,7 +39,11 @@ export const MenuGroup: FC<MenuGroupProps> = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
 
   for (let prop in m) {
-    if (m[prop]?.prototype?.RenderSubMenu && m[prop]?.prototype?.ShowSubMenu) {
+    if (
+      (m[prop]?.toString()?.includes('bInGamepadUI:') &&
+        fakeRenderComponent(() => m[prop]())?.type?.prototype?.RenderSubMenu) ||
+      (m[prop]?.prototype?.RenderSubMenu && m[prop]?.prototype?.ShowSubMenu)
+    ) {
       return m[prop];
     }
   }
@@ -54,7 +59,10 @@ export const MenuItem: FC<MenuItemProps> = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
 
   for (let prop in m) {
-    if (m[prop]?.prototype?.OnOKButton && m[prop]?.prototype?.OnMouseEnter) {
+    if (
+      m[prop]?.render?.toString()?.includes('bPlayAudio:') ||
+      (m[prop]?.prototype?.OnOKButton && m[prop]?.prototype?.OnMouseEnter)
+    ) {
       return m[prop];
     }
   }
