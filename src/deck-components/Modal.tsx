@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 
 import { findSP } from '../utils';
-import { findModuleChild } from '../webpack';
+import { findModule, findModuleChild } from '../webpack';
 
 // All of the popout options + strTitle are related. Proper usage is not yet known...
 export interface ShowModalProps {
@@ -29,18 +29,57 @@ export interface ShowModalResult {
   Update: (modal: ReactNode) => void;
 }
 
-const showModalRaw: (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => Promise<ShowModalResult> =
-  findModuleChild((m) => {
-    if (typeof m !== 'object') return undefined;
-    for (let prop in m) {
-      if (typeof m[prop] === 'function' && m[prop].toString().includes('bHideMainWindowForPopouts:!0')) {
-        return m[prop];
-      }
+const showModalRaw:
+  | ((
+      modal: ReactNode,
+      parent?: EventTarget,
+      title?: string,
+      props?: ShowModalProps,
+      unknown1?: unknown,
+      hideActions?: { bHideActions?: boolean },
+      modalManager?: unknown,
+    ) => Promise<ShowModalResult>)
+  | void = findModuleChild((m) => {
+  if (typeof m !== 'object') return undefined;
+  for (let prop in m) {
+    if (
+      typeof m[prop] === 'function' &&
+      m[prop].toString().includes('props.bDisableBackgroundDismiss') &&
+      !m[prop]?.prototype?.Cancel
+    ) {
+      return m[prop];
     }
-  });
+  }
+});
 
-export const showModal = (modal: ReactNode, parent?: EventTarget, props?: ShowModalProps): Promise<ShowModalResult> => {
-  return showModalRaw(modal, parent || findSP(), props);
+const oldShowModalRaw:
+  | ((modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => Promise<ShowModalResult>)
+  | void = findModuleChild((m) => {
+  if (typeof m !== 'object') return undefined;
+  for (let prop in m) {
+    if (typeof m[prop] === 'function' && m[prop].toString().includes('bHideMainWindowForPopouts:!0')) {
+      return m[prop];
+    }
+  }
+});
+
+export const showModal = (
+  modal: ReactNode,
+  parent?: EventTarget,
+  props: ShowModalProps = {
+    strTitle: 'Decky Dialog',
+    bHideMainWindowForPopouts: false,
+  },
+): Promise<ShowModalResult> => {
+  if (showModalRaw) {
+    return showModalRaw(modal, parent || findSP(), props.strTitle, props, undefined, {
+      bHideActions: props.bHideActionIcons,
+    });
+  } else if (oldShowModalRaw) {
+    return oldShowModalRaw(modal, parent || findSP(), props);
+  } else {
+    throw new Error('[DFL:Modals]: Cannot find showModal function');
+  }
 };
 
 export interface ModalRootProps {
@@ -79,11 +118,26 @@ export const ConfirmModal = findModuleChild((m) => {
   }
 }) as FC<ConfirmModalProps>;
 
-export const ModalRoot = findModuleChild((m) => {
-  if (typeof m !== 'object') return undefined;
-  for (let prop in m) {
-    if (m[prop]?.prototype?.OK && m[prop]?.prototype?.Cancel && m[prop]?.prototype?.render) {
-      return m[prop];
+// new
+export const ModalRoot = (Object.values(
+  findModule((m: any) => {
+    if (typeof m !== 'object') return false;
+
+    for (let prop in m) {
+      if (m[prop]?.toString()?.includes('"ModalManager","DialogWrapper"')) {
+        return true;
+      }
     }
-  }
-}) as FC<ModalRootProps>;
+
+    return false;
+  }) || {},
+)?.find((x: any) => x?.type?.toString()?.includes('((function(){')) ||
+  // old
+  findModuleChild((m) => {
+    if (typeof m !== 'object') return undefined;
+    for (let prop in m) {
+      if (m[prop]?.prototype?.OK && m[prop]?.prototype?.Cancel && m[prop]?.prototype?.render) {
+        return m[prop];
+      }
+    }
+  })) as FC<ModalRootProps>;
