@@ -1,3 +1,11 @@
+## [3.7.14](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.13...v3.7.14) (2022-11-05)
+
+
+### Bug Fixes
+
+* **Menu:** fix on Steam beta ([82768e0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/82768e0415d084deb2af39beb3f9273a83e819de))
+* **Modal:** fix on Steam beta ([e44187f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e44187fe4b9d3e3c9e94490669591599dc5246ba))
+
 ## [3.7.13](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.12...v3.7.13) (2022-11-02)
 
 
