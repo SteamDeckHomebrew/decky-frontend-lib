@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.14...v3.8.0) (2022-11-11)
+
+
+### Features
+
+* **routerhook:** add global components support ([215156d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/215156d31688faac9028627379e5a3ac4d64ec46))
+
 ## [3.7.14](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.13...v3.7.14) (2022-11-05)
 
 
