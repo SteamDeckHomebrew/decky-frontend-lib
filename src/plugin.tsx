@@ -26,8 +26,10 @@ export type RoutePatch = (route: RouteProps) => RouteProps;
 export interface RouterHook {
   addRoute(path: string, component: ComponentType, props?: Omit<RouteProps, 'path' | 'children'>): void;
   addPatch(path: string, patch: RoutePatch): RoutePatch;
-  removePatch(path: string, patch: RoutePatch): void;
+  addGlobalComponent(name: string, component: ComponentType): void;
   removeRoute(path: string): void;
+  removePatch(path: string, patch: RoutePatch): void;
+  removeGlobalComponent(name: string): void;
 }
 
 export interface ToastData {
