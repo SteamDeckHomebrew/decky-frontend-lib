@@ -9,8 +9,35 @@ export interface DialogCommonProps extends RefAttributes<HTMLDivElement> {
 }
 
 export interface DialogButtonProps extends DialogCommonProps, FooterLegendProps {
+  /**
+   * Enables/disables the focus around the button.
+   * 
+   * @note
+   * Default value depends on context, so setting it to `false` will enable it.
+   */
   noFocusRing?: boolean;
+
+  /**
+   * Disables the button - assigned `on*` methods will not be invoked if clicked.
+   * 
+   * @note
+   * Depending on where it is, it might still get focus. In such case it can be 
+   * partially disabled separately.
+   * 
+   * @see focusable.
+   */
   disabled?: boolean;
+
+  /**
+   * Enables/disables the navigation based focus on button - you won't be able to navigate to
+   * it via the gamepad or keyboard. 
+   * 
+   * @note
+   * If set to `false`, it still can be clicked and **WILL** become focused until navigated away.
+   * Depending on the context of where the button is, even a disabled button can focused.
+   */
+  focusable?: boolean;
+  
   onClick?(e: MouseEvent): void;
   onPointerDown?(e: PointerEvent): void;
   onPointerUp?(e: PointerEvent): void;
