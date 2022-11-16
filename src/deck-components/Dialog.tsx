@@ -11,6 +11,7 @@ export interface DialogCommonProps extends RefAttributes<HTMLDivElement> {
 export interface DialogButtonProps extends DialogCommonProps, FooterLegendProps {
   noFocusRing?: boolean;
   disabled?: boolean;
+  focusable?: boolean;
   onClick?(e: MouseEvent): void;
   onPointerDown?(e: PointerEvent): void;
   onPointerUp?(e: PointerEvent): void;
