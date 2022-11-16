@@ -1,3 +1,10 @@
+# [3.9.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.8.0...v3.9.0) (2022-11-16)
+
+
+### Features
+
+* **Dialog:** add "focusable" button prop ([#51](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/51)) ([e167ef5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e167ef5a138a3edc004db2365334f8455c177132))
+
 # [3.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.7.14...v3.8.0) (2022-11-11)
 
 
