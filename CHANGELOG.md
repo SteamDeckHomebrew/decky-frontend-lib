@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.10.0...v3.11.0) (2022-11-18)
+
+
+### Features
+
+* **classes:** add "appDetailsClasses" ([#55](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/55)) ([ed98d14](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ed98d14b37cf09500afd88e7c8e9c03749119b38))
+
 # [3.10.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.9.0...v3.10.0) (2022-11-18)
 
 
