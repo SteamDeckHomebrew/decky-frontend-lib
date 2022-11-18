@@ -405,6 +405,42 @@ type AppDetailsHeaderClasses = Record<
   string
 >;
 
+type AppDetailsClasses = Record<
+  | 'BreakNarrow'
+  | 'BreakShort'
+  | 'BreakTall'
+  | 'BreakUltraWide'
+  | 'BreakWide'
+  | 'Container'
+  | 'GamepadUIBreakNarrow'
+  | 'GamepadUIBreakShort'
+  | 'GamepadUIBreakWide'
+  | 'Glassy'
+  | 'Header'
+  | 'HeaderLoaded'
+  | 'InnerContainer'
+  | 'ItemFocusAnim-darkGrey'
+  | 'ItemFocusAnim-darkerGrey'
+  | 'ItemFocusAnim-darkerGrey-nocolor'
+  | 'ItemFocusAnim-green'
+  | 'ItemFocusAnim-grey'
+  | 'ItemFocusAnimBorder-darkGrey'
+  | 'PlayBar'
+  | 'PreventScrolling'
+  | 'RightBreakNarrow'
+  | 'RightBreakUltraNarrow'
+  | 'RightBreakUltraWide'
+  | 'RightBreakWide'
+  | 'ScrollContainer'
+  | 'ShowPlayBar'
+  | 'Throbber'
+  | 'duration-app-launch'
+  | 'fadein'
+  | 'focusAnimation'
+  | 'hoverAnimation',
+  string
+>;
+
 export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'),
 );
@@ -436,4 +472,7 @@ export const gamepadSliderClasses: GamepadSliderClasses = findModule(
 );
 export const appDetailsHeaderClasses: AppDetailsHeaderClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.TopCapsule?.includes('sharedappdetailsheader'),
+);
+export const appDetailsClasses: AppDetailsClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.HeaderLoaded?.includes('appdetails_'),
 );
