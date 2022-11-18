@@ -349,6 +349,62 @@ type GamepadSliderClasses = Record<
   string
 >;
 
+type AppDetailsHeaderClasses = Record<
+  | 'AddBoxSizer'
+  | 'Background'
+  | 'Bottom'
+  | 'BottomCenter'
+  | 'BottomLeft'
+  | 'BottomRight'
+  | 'BoxSizer'
+  | 'BoxSizerButtonContainer'
+  | 'BoxSizerContainer'
+  | 'BoxSizerDelete'
+  | 'BoxSizerDragBox'
+  | 'BoxSizerEdge'
+  | 'BoxSizerGridBox'
+  | 'BoxSizerInfo'
+  | 'BoxSizerSettings'
+  | 'BoxSizerValidRegion'
+  | 'CenterCenter'
+  | 'DialogButton'
+  | 'EdgeDown'
+  | 'FallbackArt'
+  | 'Features'
+  | 'FullscreenEnterActive'
+  | 'FullscreenEnterDone'
+  | 'FullscreenEnterStart'
+  | 'FullscreenExitActive'
+  | 'FullscreenExitDone'
+  | 'FullscreenExitStart'
+  | 'HeaderBackgroundImage'
+  | 'ImgBlur'
+  | 'ImgBlurBackdrop'
+  | 'ImgContainer'
+  | 'ImgSrc'
+  | 'Left'
+  | 'Loaded'
+  | 'Middle'
+  | 'NoArt'
+  | 'PinBox'
+  | 'Right'
+  | 'SVGTitle'
+  | 'SaveBoxSizer'
+  | 'TextNameSpace'
+  | 'TitleImageContainer'
+  | 'TitleLogo'
+  | 'TitleSection'
+  | 'Top'
+  | 'TopCapsule'
+  | 'TopGradient'
+  | 'TopLeft'
+  | 'TopRight'
+  | 'UpperCenter'
+  | 'UpperLeft'
+  | 'duration-app-launch',
+  string
+>;
+
 export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'),
 );
@@ -377,4 +433,7 @@ export const playSectionClasses: PlaySectionClasses = findModule(
 );
 export const gamepadSliderClasses: GamepadSliderClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.SliderControlPanelGroup?.includes('gamepadslider'),
+);
+export const appDetailsHeaderClasses: AppDetailsHeaderClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.TopCapsule?.includes('sharedappdetailsheader'),
 );
