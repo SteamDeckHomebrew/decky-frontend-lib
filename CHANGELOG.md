@@ -1,3 +1,10 @@
+## [3.11.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.11.0...v3.11.1) (2022-11-20)
+
+
+### Bug Fixes
+
+* **Footer:** add types for ActionDescriptionMap ([2ec9519](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2ec9519b7d6d1cc0d232853ce05a773953b37c5a))
+
 # [3.11.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.10.0...v3.11.0) (2022-11-18)
 
 
