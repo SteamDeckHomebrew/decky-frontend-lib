@@ -29,25 +29,24 @@ export enum GamepadButton {
   STEAM_GUIDE,
   STEAM_QUICK_MENU,
 }
-
-export enum NavEntryPositionPreferences {
+export declare enum NavEntryPositionPreferences {
   FIRST,
   LAST,
   MAINTAIN_X,
   MAINTAIN_Y,
-  PREFERRED_CHILD,
+  PREFERRED_CHILD
 }
-
 export interface GamepadEventDetail {
   button: number;
   is_repeat?: boolean;
   source: number;
 }
-
-export type GamepadEvent = CustomEvent<GamepadEventDetail>;
-
+export declare type ActionDescriptionMap = {
+  [key in GamepadButton]?: string
+}
+export declare type GamepadEvent = CustomEvent<GamepadEventDetail>;
 export interface FooterLegendProps {
-  actionDescriptionMap?: unknown;
+  actionDescriptionMap?: ActionDescriptionMap;
   onOKActionDescription?: string;
   onCancelActionDescription?: string;
   onSecondaryActionDescription?: string;
