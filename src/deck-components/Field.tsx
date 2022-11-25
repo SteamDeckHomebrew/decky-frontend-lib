@@ -1,9 +1,10 @@
-import { FC, ReactNode, RefAttributes } from 'react';
+import { CSSProperties, FC, ReactNode, RefAttributes } from 'react';
 
 import { findModuleChild } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 export interface FieldProps extends FooterLegendProps {
+  style?: CSSProperties,
   label?: ReactNode;
   bottomSeparator?: 'standard' | 'thick' | 'none';
   description?: ReactNode;
