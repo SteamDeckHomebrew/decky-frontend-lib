@@ -26,5 +26,6 @@ export default Object.values(findModule((m: any) => {
   m.contextType &&
   m.prototype?.render.toString().includes('fallback:') &&
   m?.prototype?.SetChecked &&
-  m?.prototype?.Toggle
+  m?.prototype?.Toggle &&
+  m?.prototype?.GetPanelElementProps
 ) as FC<DialogCheckboxProps>;
