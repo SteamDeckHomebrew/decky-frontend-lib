@@ -2,6 +2,7 @@ export * from './Button';
 export * from './ButtonItem';
 export * from './Carousel';
 export * from './Dialog';
+export * from './DialogCheckbox';
 export * from './Dropdown';
 export * from './Field';
 export * from './Focusable';
