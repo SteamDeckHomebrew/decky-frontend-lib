@@ -2,9 +2,9 @@ import { FC, ReactNode } from 'react';
 
 import { findModule } from '../webpack';
 import { DialogCommonProps } from './Dialog';
-import { FocusableProps } from './Focusable';
+import { FooterLegendProps } from './FooterLegend';
 
-export interface DialogCheckboxProps extends DialogCommonProps, FocusableProps {
+export interface DialogCheckboxProps extends DialogCommonProps, FooterLegendProps {
   onChange?(checked: boolean): void;
   label?: ReactNode;
   description?: ReactNode;
