@@ -2,8 +2,9 @@ import { FC, ReactNode } from 'react';
 
 import { findModule } from '../webpack';
 import { DialogCommonProps } from './Dialog';
+import { FocusableProps } from './Focusable';
 
-export interface DialogCheckboxProps extends DialogCommonProps {
+export interface DialogCheckboxProps extends DialogCommonProps, FocusableProps {
   onChange?(checked: boolean): void;
   label?: ReactNode;
   description?: ReactNode;
