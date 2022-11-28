@@ -50,7 +50,11 @@ export const MenuGroup: FC<MenuGroupProps> = findModuleChild((m) => {
 });
 
 export interface MenuItemProps {
-  onSelected?(): void;
+  bInteractableItem?: boolean;
+  onClick?(evt: Event): void;
+  onSelected?(evt: Event): void;
+  onMouseEnter?(evt: MouseEvent): void;
+  onMoveRight?(): void;
   disabled?: boolean;
   children?: ReactNode;
 }
