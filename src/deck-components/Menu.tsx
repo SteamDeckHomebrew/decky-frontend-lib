@@ -56,7 +56,10 @@ export interface MenuItemProps extends FooterLegendProps {
   onSelected?(evt: Event): void;
   onMouseEnter?(evt: MouseEvent): void;
   onMoveRight?(): void;
+  selected?: boolean;
   disabled?: boolean;
+  bPlayAudio?: boolean;
+  tone?: 'positive' | 'emphasis' | 'destructive';
   children?: ReactNode;
 }
 
