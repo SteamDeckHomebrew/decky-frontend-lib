@@ -1,3 +1,10 @@
+# [3.12.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.11.1...v3.12.0) (2022-11-28)
+
+
+### Features
+
+* **MenuItem:** add missing props ([#59](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/59)) ([c84a091](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c84a09146935f0942265b7a1e4aadc40e8cf22dc))
+
 ## [3.11.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.11.0...v3.11.1) (2022-11-20)
 
 
