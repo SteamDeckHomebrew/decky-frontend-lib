@@ -15,6 +15,7 @@ export interface DialogCheckboxProps extends DialogCommonProps, FooterLegendProp
   bottomSeparator?: 'standard' | 'thick' | 'none';
   controlled?: boolean;
   checked?: boolean;
+  onClick?(evt: Event): void;
 }
 
 export default Object.values(findModule((m: any) => {
