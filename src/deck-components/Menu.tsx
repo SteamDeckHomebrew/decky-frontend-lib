@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react';
 
 import { fakeRenderComponent } from '../utils';
 import { findModuleChild } from '../webpack';
+import { FooterLegendProps } from './FooterLegend';
 
 export const showContextMenu: (children: ReactNode, parent?: EventTarget) => void = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
@@ -12,7 +13,7 @@ export const showContextMenu: (children: ReactNode, parent?: EventTarget) => voi
   }
 });
 
-export interface MenuProps {
+export interface MenuProps extends FooterLegendProps {
   label: string;
   onCancel?(): void;
   cancelText?: string;
@@ -49,13 +50,16 @@ export const MenuGroup: FC<MenuGroupProps> = findModuleChild((m) => {
   }
 });
 
-export interface MenuItemProps {
+export interface MenuItemProps extends FooterLegendProps {
   bInteractableItem?: boolean;
   onClick?(evt: Event): void;
   onSelected?(evt: Event): void;
   onMouseEnter?(evt: MouseEvent): void;
   onMoveRight?(): void;
+  selected?: boolean;
   disabled?: boolean;
+  bPlayAudio?: boolean;
+  tone?: 'positive' | 'emphasis' | 'destructive';
   children?: ReactNode;
 }
 
