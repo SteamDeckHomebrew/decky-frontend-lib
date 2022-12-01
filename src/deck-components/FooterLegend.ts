@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export enum GamepadButton {
   INVALID,
   OK,
@@ -42,16 +44,16 @@ export interface GamepadEventDetail {
   source: number;
 }
 export declare type ActionDescriptionMap = {
-  [key in GamepadButton]?: string
+  [key in GamepadButton]?: ReactNode
 }
 export declare type GamepadEvent = CustomEvent<GamepadEventDetail>;
 export interface FooterLegendProps {
   actionDescriptionMap?: ActionDescriptionMap;
-  onOKActionDescription?: string;
-  onCancelActionDescription?: string;
-  onSecondaryActionDescription?: string;
-  onOptionsActionDescription?: string;
-  onMenuActionDescription?: string;
+  onOKActionDescription?: ReactNode;
+  onCancelActionDescription?: ReactNode;
+  onSecondaryActionDescription?: ReactNode;
+  onOptionsActionDescription?: ReactNode;
+  onMenuActionDescription?: ReactNode;
   onButtonDown?: (evt: GamepadEvent) => void;
   onButtonUp?: (evt: GamepadEvent) => void;
   onOKButton?: (evt: GamepadEvent) => void;
