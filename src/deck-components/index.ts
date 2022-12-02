@@ -7,6 +7,7 @@ export * from './Field';
 export * from './Focusable';
 export * from './FocusRing';
 export * from './FooterLegend';
+export * from './Marquee';
 export * from './Menu';
 export * from './Modal';
 export * from './Panel';
