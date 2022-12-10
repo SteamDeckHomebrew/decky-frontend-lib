@@ -42,6 +42,10 @@ export interface ToastData {
   contentClassName?: string;
   duration?: number;
   critical?: boolean;
+  eType?: number;
+  sound?: number;
+  playSound?: boolean;
+  showToast?: boolean;
 }
 
 export interface Toaster {
