@@ -1,3 +1,10 @@
+# [3.14.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.13.0...v3.14.0) (2022-12-10)
+
+
+### Features
+
+* **toast:** add showToast/playSound to ToastData ([#64](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/64)) ([7ba1229](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7ba1229a4e24fea587b96dc8b078200faf45ddee))
+
 # [3.13.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.12.0...v3.13.0) (2022-11-29)
 
 
