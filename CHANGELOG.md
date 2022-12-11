@@ -1,3 +1,10 @@
+## [3.16.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.1...v3.16.2) (2022-12-11)
+
+
+### Bug Fixes
+
+* **Marquee:** replace default export with named export ([cd0635e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/cd0635e94f98499f9f5fc24a7fd4b93efe7dfc38))
+
 ## [3.16.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.0...v3.16.1) (2022-12-11)
 
 
