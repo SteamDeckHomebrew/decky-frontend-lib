@@ -8,6 +8,7 @@ export interface FocusableProps extends HTMLAttributes<HTMLDivElement>, FooterLe
   'flow-children'?: string;
   focusClassName?: string;
   focusWithinClassName?: string;
+  noFocusRing?: boolean;
   onActivate?: (e: CustomEvent) => void;
   onCancel?: (e: CustomEvent) => void;
 }
