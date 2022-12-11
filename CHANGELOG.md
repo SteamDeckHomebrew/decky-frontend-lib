@@ -1,3 +1,10 @@
+# [3.15.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.14.0...v3.15.0) (2022-12-11)
+
+
+### Features
+
+* **Focusable:** add noFocusRing prop type ([#65](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/65)) ([cc29dda](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/cc29ddaf578e21ab2abe1cd266f1d15debee0637))
+
 # [3.14.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.13.0...v3.14.0) (2022-12-10)
 
 
