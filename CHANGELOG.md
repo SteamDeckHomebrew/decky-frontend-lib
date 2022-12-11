@@ -1,3 +1,10 @@
+## [3.18.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.1...v3.18.2) (2022-12-11)
+
+
+### Bug Fixes
+
+* **useQuickAccessVisible:** remove invalid prop access ([#66](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/66)) ([767dc2f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/767dc2fcee97d8b6c2d331ae29704d9b469de51a))
+
 ## [3.18.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.0...v3.18.1) (2022-12-11)
 
 
