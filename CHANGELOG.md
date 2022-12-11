@@ -1,3 +1,10 @@
+# [3.16.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.15.0...v3.16.0) (2022-12-11)
+
+
+### Features
+
+* **Marquee:** Add Marquee component ([#63](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/63)) ([925ea8c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/925ea8c3ceaaf6ff2f79b8808908a9b144a4fcff))
+
 # [3.15.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.14.0...v3.15.0) (2022-12-11)
 
 
