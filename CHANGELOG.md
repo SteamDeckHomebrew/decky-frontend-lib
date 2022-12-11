@@ -1,3 +1,10 @@
+# [3.17.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.2...v3.17.0) (2022-12-11)
+
+
+### Features
+
+* **ControlsList:** Add ControlsList component ([#61](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/61)) ([c586afb](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c586afb97d59928ecb703b5a254ed1b9405e2c7e))
+
 ## [3.16.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.1...v3.16.2) (2022-12-11)
 
 
