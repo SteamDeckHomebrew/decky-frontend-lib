@@ -7,7 +7,7 @@ declare global {
 function getQuickAccessWindow(): Window | null {
   try {
     const context = FocusNavController?.m_ActiveContext || FocusNavController?.m_LastActiveContext;
-    const navTrees = context?.m_ActiveContext?.m_rgGamepadNavigationTrees || FocusNavController?.m_rgGamepadNavigationTrees;
+    const navTrees = context?.m_rgGamepadNavigationTrees || FocusNavController?.m_rgGamepadNavigationTrees;
     return navTrees?.find((tree: any) => tree?.id === "QuickAccess-NA")?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
   } catch (error) {
     console.error(error);
