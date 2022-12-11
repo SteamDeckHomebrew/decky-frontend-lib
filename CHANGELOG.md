@@ -1,3 +1,10 @@
+## [3.16.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.0...v3.16.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **FooterLegend:** change description types to ReactNode ([#62](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/62)) ([d24136e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d24136ecb6b0c5239b68723e8f92a4822aa7b590))
+
 # [3.16.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.15.0...v3.16.0) (2022-12-11)
 
 
