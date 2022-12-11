@@ -65,7 +65,7 @@ export type AppOverview = {
 
 export interface MenuStore {
   OpenSideMenu(sideMenu: SideMenu): void;
-  OpenQuickAccessMenu(): void;
+  OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
   OpenMainMenu(): void;
 }
 
