@@ -1,3 +1,10 @@
+## [3.18.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.0...v3.18.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **findSP:** fallback to last active context ([#53](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/53)) ([6f14da1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/6f14da152acc4757b814844f1b77bf83dd98d77e))
+
 # [3.18.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.17.0...v3.18.0) (2022-12-11)
 
 
