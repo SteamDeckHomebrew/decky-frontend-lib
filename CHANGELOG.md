@@ -1,3 +1,10 @@
+# [3.18.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.17.0...v3.18.0) (2022-12-11)
+
+
+### Features
+
+* **DialogCheckbox:** Add DialogCheckbox component ([#58](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/58)) ([88f245d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/88f245d476a6477e9fc0cd35e9b675961ecbc26c))
+
 # [3.17.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.2...v3.17.0) (2022-12-11)
 
 
