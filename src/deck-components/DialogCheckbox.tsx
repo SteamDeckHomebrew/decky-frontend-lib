@@ -18,7 +18,7 @@ export interface DialogCheckboxProps extends DialogCommonProps, FooterLegendProp
   onClick?(evt: Event): void;
 }
 
-export default Object.values(findModule((m: any) => {
+export const DialogCheckbox = Object.values(findModule((m: any) => {
   if (typeof m !== 'object') return false;
   for (const prop in m) {
     if (m[prop]?.prototype?.GetPanelElementProps) return true;
