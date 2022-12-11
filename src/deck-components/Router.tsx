@@ -119,7 +119,7 @@ export interface Navigation {
   NavigateToSteamWeb(url: string): void;
   NavigateToWebRoute(unknown?: any, unknown2?: any): void;
   OpenSideMenu(sideMenu: SideMenu): void;
-  OpenQuickAccessMenu(): void;
+  OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
   OpenMainMenu(): void;
   OpenPowerMenu(unknown?: any): void;
   CloseSideMenus(): void;
