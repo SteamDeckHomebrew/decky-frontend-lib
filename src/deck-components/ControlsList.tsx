@@ -6,7 +6,7 @@ export interface ControlsListProps {
   spacing?: 'standard' | 'extra';
 }
 
-const ControlsList: FC<ControlsListProps> = findModuleChild((m) => {
+export const ControlsList: FC<ControlsListProps> = findModuleChild((m) => {
   if (typeof m !== 'object') return;
   for (const prop in m) {
     if (m[prop]?.toString && m[prop].toString().includes('().ControlsListChild') && m[prop].toString().includes('().ControlsListOuterPanel')) {
@@ -15,5 +15,3 @@ const ControlsList: FC<ControlsListProps> = findModuleChild((m) => {
   }
   return;
 });
-
-export default ControlsList;
