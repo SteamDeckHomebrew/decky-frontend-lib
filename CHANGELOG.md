@@ -1,3 +1,10 @@
+## [3.18.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.2...v3.18.3) (2022-12-12)
+
+
+### Bug Fixes
+
+* **Router:** update Router interface to SteamOS3.4 and add Navigation ([#52](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/52)) ([f0379e5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/f0379e5d19279863b571e66918bc9107efedb612))
+
 ## [3.18.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.1...v3.18.2) (2022-12-11)
 
 
