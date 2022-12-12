@@ -7,9 +7,5 @@
  * the Steam client.
  */
 export function restartSteamClient(): void {
-  try {
-    SteamClient.User.StartRestart();
-  } catch (error) {
-    console.error(error);
-  }
+  SteamClient.User.StartRestart();
 }
