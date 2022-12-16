@@ -1,3 +1,10 @@
+## [3.18.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.3...v3.18.4) (2022-12-16)
+
+
+### Bug Fixes
+
+* **modals:** fix ModalRoot again ([fd94842](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fd94842647e51dd9a104e170e0c5ee2bebce12d6))
+
 ## [3.18.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.2...v3.18.3) (2022-12-12)
 
 
