@@ -1,3 +1,10 @@
+## [3.18.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.4...v3.18.5) (2022-12-21)
+
+
+### Bug Fixes
+
+* fixed prop interfaces ([#70](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/70)) ([0b50f2c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0b50f2cf0baa76fc00aa0a41a8435d7a512bff19))
+
 ## [3.18.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.3...v3.18.4) (2022-12-16)
 
 
