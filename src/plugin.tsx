@@ -21,6 +21,52 @@ interface ServerResponseError {
 
 export type ServerResponse<TRes> = ServerResponseSuccess<TRes> | ServerResponseError;
 
+export interface MainMenuItem {
+  /** Called when clicking this menu item, useful if you do not want to navigate to a route.
+   * For navigating to a route, use route instead. */
+  action?: () => void;
+  /** The route this menu item navigates to @example "/steamweb" */
+  route?: string;
+  /** Props for the route this item navigates to. Currently only used for /steamweb to determine what webpack to navigate to @example {url: 'https://store.steampowered.com/'} */
+  routeState?: any;
+  /** Label for this menu item, @example "Store" */
+  label: ReactNode;
+  /** Runs when this item is selected. Defaults to setting the focused app to null.
+   * If you override this you must also call the original to retain proper behaivour */
+  onFocus?: () => void;
+  /** Icon of this menu item, you probably want a react SVG node */
+  children: ReactNode;
+}
+
+export interface CustomMainMenuItem extends MainMenuItem {
+  index: number;
+}
+
+export interface MainMenuItemReactNode {
+  props: MainMenuItem;
+  type: ComponentType;
+  key: any;
+}
+
+export interface OverlayReactNode {
+  props: MainMenuItem;
+  type: ComponentType;
+}
+
+export type ItemPatch = (item: MainMenuItemReactNode) => MainMenuItemReactNode;
+export type OverlayPatch = (overlay: OverlayReactNode) => OverlayReactNode;
+
+export interface MenuHook {
+  addItem(item: CustomMainMenuItem): CustomMainMenuItem;
+  addPatch(path: string, patch: ItemPatch): ItemPatch;
+  addOverlayPatch(patch: OverlayPatch): OverlayPatch;
+  addOverlayComponent(component: ReactNode): ReactNode;
+  removePatch(path: string, patch: ItemPatch): void;
+  removeOverlayPatch(patch: OverlayPatch): void;
+  removeOverlayComponent(component: ReactNode): void;
+  removeItem(item: CustomMainMenuItem): void;
+}
+
 export type RoutePatch = (route: RouteProps) => RouteProps;
 
 export interface RouterHook {
@@ -59,6 +105,7 @@ export interface FilePickerRes {
 
 export interface ServerAPI {
   routerHook: RouterHook;
+  menuHook: MenuHook;
   toaster: Toaster;
   openFilePicker(startPath: string, includeFiles?: boolean, regex?: RegExp): Promise<FilePickerRes>;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
