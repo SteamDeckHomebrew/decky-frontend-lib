@@ -2,6 +2,7 @@ export * from './Button';
 export * from './ButtonItem';
 export * from './Carousel';
 export * from './ControlsList';
+export * from './Chevron';
 export * from './Dialog';
 export * from './DialogCheckbox';
 export * from './Dropdown';
