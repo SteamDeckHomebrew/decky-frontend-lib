@@ -1,3 +1,101 @@
+## [3.18.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.4...v3.18.5) (2022-12-21)
+
+
+### Bug Fixes
+
+* fixed prop interfaces ([#70](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/70)) ([0b50f2c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0b50f2cf0baa76fc00aa0a41a8435d7a512bff19))
+
+## [3.18.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.3...v3.18.4) (2022-12-16)
+
+
+### Bug Fixes
+
+* **modals:** fix ModalRoot again ([fd94842](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fd94842647e51dd9a104e170e0c5ee2bebce12d6))
+
+## [3.18.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.2...v3.18.3) (2022-12-12)
+
+
+### Bug Fixes
+
+* **Router:** update Router interface to SteamOS3.4 and add Navigation ([#52](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/52)) ([f0379e5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/f0379e5d19279863b571e66918bc9107efedb612))
+
+## [3.18.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.1...v3.18.2) (2022-12-11)
+
+
+### Bug Fixes
+
+* **useQuickAccessVisible:** remove invalid prop access ([#66](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/66)) ([767dc2f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/767dc2fcee97d8b6c2d331ae29704d9b469de51a))
+
+## [3.18.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.0...v3.18.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **findSP:** fallback to last active context ([#53](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/53)) ([6f14da1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/6f14da152acc4757b814844f1b77bf83dd98d77e))
+
+# [3.18.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.17.0...v3.18.0) (2022-12-11)
+
+
+### Features
+
+* **DialogCheckbox:** Add DialogCheckbox component ([#58](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/58)) ([88f245d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/88f245d476a6477e9fc0cd35e9b675961ecbc26c))
+
+# [3.17.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.2...v3.17.0) (2022-12-11)
+
+
+### Features
+
+* **ControlsList:** Add ControlsList component ([#61](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/61)) ([c586afb](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c586afb97d59928ecb703b5a254ed1b9405e2c7e))
+
+## [3.16.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.1...v3.16.2) (2022-12-11)
+
+
+### Bug Fixes
+
+* **Marquee:** replace default export with named export ([cd0635e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/cd0635e94f98499f9f5fc24a7fd4b93efe7dfc38))
+
+## [3.16.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.16.0...v3.16.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* **FooterLegend:** change description types to ReactNode ([#62](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/62)) ([d24136e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d24136ecb6b0c5239b68723e8f92a4822aa7b590))
+
+# [3.16.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.15.0...v3.16.0) (2022-12-11)
+
+
+### Features
+
+* **Marquee:** Add Marquee component ([#63](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/63)) ([925ea8c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/925ea8c3ceaaf6ff2f79b8808908a9b144a4fcff))
+
+# [3.15.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.14.0...v3.15.0) (2022-12-11)
+
+
+### Features
+
+* **Focusable:** add noFocusRing prop type ([#65](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/65)) ([cc29dda](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/cc29ddaf578e21ab2abe1cd266f1d15debee0637))
+
+# [3.14.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.13.0...v3.14.0) (2022-12-10)
+
+
+### Features
+
+* **toast:** add showToast/playSound to ToastData ([#64](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/64)) ([7ba1229](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7ba1229a4e24fea587b96dc8b078200faf45ddee))
+
+# [3.13.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.12.0...v3.13.0) (2022-11-29)
+
+
+### Features
+
+* **Menu:** add more missing props ([#60](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/60)) [CI SKIP] ([678ba21](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/678ba216f1e194986b0c391398e6f73536cd0102))
+
+# [3.12.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.11.1...v3.12.0) (2022-11-28)
+
+
+### Features
+
+* **MenuItem:** add missing props ([#59](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/59)) ([c84a091](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c84a09146935f0942265b7a1e4aadc40e8cf22dc))
+
 ## [3.11.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.11.0...v3.11.1) (2022-11-20)
 
 

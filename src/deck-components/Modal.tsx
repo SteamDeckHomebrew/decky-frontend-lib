@@ -38,7 +38,7 @@ const showModalRaw:
       unknown1?: unknown,
       hideActions?: { bHideActions?: boolean },
       modalManager?: unknown,
-    ) => Promise<ShowModalResult>)
+    ) => ShowModalResult)
   | void = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
   for (let prop in m) {
@@ -52,16 +52,15 @@ const showModalRaw:
   }
 });
 
-const oldShowModalRaw:
-  | ((modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => Promise<ShowModalResult>)
-  | void = findModuleChild((m) => {
-  if (typeof m !== 'object') return undefined;
-  for (let prop in m) {
-    if (typeof m[prop] === 'function' && m[prop].toString().includes('bHideMainWindowForPopouts:!0')) {
-      return m[prop];
+const oldShowModalRaw: ((modal: ReactNode, parent?: EventTarget, props?: ShowModalProps) => ShowModalResult) | void =
+  findModuleChild((m) => {
+    if (typeof m !== 'object') return undefined;
+    for (let prop in m) {
+      if (typeof m[prop] === 'function' && m[prop].toString().includes('bHideMainWindowForPopouts:!0')) {
+        return m[prop];
+      }
     }
-  }
-});
+  });
 
 export const showModal = (
   modal: ReactNode,
@@ -70,7 +69,7 @@ export const showModal = (
     strTitle: 'Decky Dialog',
     bHideMainWindowForPopouts: false,
   },
-): Promise<ShowModalResult> => {
+): ShowModalResult => {
   if (showModalRaw) {
     return showModalRaw(modal, parent || findSP(), props.strTitle, props, undefined, {
       bHideActions: props.bHideActionIcons,
@@ -118,13 +117,13 @@ export const ConfirmModal = findModuleChild((m) => {
   }
 }) as FC<ConfirmModalProps>;
 
-// new
+// new as of december 2022 on beta
 export const ModalRoot = (Object.values(
   findModule((m: any) => {
     if (typeof m !== 'object') return false;
 
     for (let prop in m) {
-      if (m[prop]?.toString()?.includes('"ModalManager","DialogWrapper"')) {
+      if (m[prop]?.m_mapModalManager) {
         return true;
       }
     }
@@ -132,6 +131,20 @@ export const ModalRoot = (Object.values(
     return false;
   }) || {},
 )?.find((x: any) => x?.type?.toString()?.includes('((function(){')) ||
+  // before december 2022 beta
+  Object.values(
+    findModule((m: any) => {
+      if (typeof m !== 'object') return false;
+
+      for (let prop in m) {
+        if (m[prop]?.toString()?.includes('"ModalManager","DialogWrapper"')) {
+          return true;
+        }
+      }
+
+      return false;
+    }) || {},
+  )?.find((x: any) => x?.type?.toString()?.includes('((function(){')) ||
   // old
   findModuleChild((m) => {
     if (typeof m !== 'object') return undefined;
