@@ -107,6 +107,16 @@ export const Router = findModuleChild((m: Module) => {
   }
 }) as Router;
 
+// With how much Valve is changing these, you really shouldn't use them directly, instead see Navigation
+export const InternalNavigators = findModuleChild((m: any) => {
+  if (typeof m !== 'object') return undefined;
+  for (let prop in m) {
+    if (m[prop]?.GetNavigator) {
+      return m[prop];
+    }
+  }
+})?.GetNavigator()
+
 export interface Navigation {
   Navigate(path: string): void;
   NavigateBack(): void;
@@ -125,32 +135,38 @@ export interface Navigation {
   CloseSideMenus(): void;
 }
 
-export const Navigation = {
-  Navigate: Router.Navigate.bind(Router),
-  NavigateBack: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateBack.bind(
-    Router.WindowStore.GamepadUIMainWindowInstance,
-  ),
-  NavigateToAppProperties: Router.NavigateToAppProperties.bind(Router),
-  NavigateToExternalWeb: Router.NavigateToExternalWeb.bind(Router),
-  NavigateToInvites: Router.NavigateToInvites.bind(Router),
-  NavigateToChat: Router.NavigateToChat.bind(Router),
-  NavigateToLibraryTab: Router.NavigateToLibraryTab.bind(Router),
-  NavigateToLayoutPreview: Router.NavigateToLayoutPreview.bind(Router),
-  NavigateToSteamWeb: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToSteamWeb.bind(
-    Router.WindowStore.GamepadUIMainWindowInstance,
-  ),
-  NavigateToWebRoute: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToWebRoute.bind(
-    Router.WindowStore.GamepadUIMainWindowInstance,
-  ),
-  OpenSideMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenSideMenu.bind(
-    Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
-  ),
-  OpenQuickAccessMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenQuickAccessMenu.bind(
-    Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
-  ),
-  OpenMainMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenMainMenu.bind(
-    Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
-  ),
-  CloseSideMenus: Router.CloseSideMenus.bind(Router),
-  OpenPowerMenu: Router.OpenPowerMenu.bind(Router),
-} as Navigation;
+export let Navigation = {} as Navigation;
+
+try {
+  Navigation = {
+    Navigate: Router.Navigate.bind(Router),
+    NavigateBack: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateBack.bind(
+      Router.WindowStore.GamepadUIMainWindowInstance,
+    ),
+    NavigateToAppProperties: InternalNavigators.AppProperties || Router.NavigateToAppProperties.bind(Router),
+    NavigateToExternalWeb: Router.NavigateToExternalWeb.bind(Router),
+    NavigateToInvites: InternalNavigators.Invites || Router.NavigateToInvites.bind(Router),
+    NavigateToChat: Router.NavigateToChat.bind(Router),
+    NavigateToLibraryTab: InternalNavigators.LibraryTab || Router.NavigateToLibraryTab.bind(Router),
+    NavigateToLayoutPreview: Router.NavigateToLayoutPreview.bind(Router),
+    NavigateToSteamWeb: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToSteamWeb.bind(
+      Router.WindowStore.GamepadUIMainWindowInstance,
+    ),
+    NavigateToWebRoute: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToWebRoute.bind(
+      Router.WindowStore.GamepadUIMainWindowInstance,
+    ),
+    OpenSideMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenSideMenu.bind(
+      Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
+    ),
+    OpenQuickAccessMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenQuickAccessMenu.bind(
+      Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
+    ),
+    OpenMainMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenMainMenu.bind(
+      Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
+    ),
+    CloseSideMenus: Router.CloseSideMenus.bind(Router),
+    OpenPowerMenu: Router.OpenPowerMenu.bind(Router),
+  } as Navigation;
+} catch (e) {
+  console.error("[DFL:Router]: Error initializing Navigation interface", e)
+}
