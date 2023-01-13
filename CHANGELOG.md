@@ -1,3 +1,10 @@
+## [3.18.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.5...v3.18.6) (2023-01-13)
+
+
+### Bug Fixes
+
+* **Router:** fix Navigation for the millionth time ([aac2d52](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/aac2d520a68b1074ba1ae988d6c92f7881a296d7))
+
 ## [3.18.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.4...v3.18.5) (2022-12-21)
 
 
