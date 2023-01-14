@@ -441,10 +441,8 @@ type AppDetailsClasses = Record<
   string
 >;
 
-type VirtualKeyboardContainerClasses = Record <
-  | 'VirtualKeyboardStandaloneContainer'
-  | 'VirtualKeyboardContainer'
-  | 'keyboard_appear',
+type VirtualKeyboardContainerClasses = Record<
+  'VirtualKeyboardStandaloneContainer' | 'VirtualKeyboardContainer' | 'keyboard_appear',
   string
 >;
 
@@ -485,5 +483,5 @@ export const appDetailsClasses: AppDetailsClasses = findModule(
 );
 
 export const virtualKeyboardContainerClasses: VirtualKeyboardContainerClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.HeaderLoaded?.includes('virtualkeyboardcontainer_'),
+  (mod) => typeof mod === 'object' && mod?.VirtualKeyboardContainer?.includes('virtualkeyboardcontainer_'),
 );
