@@ -130,29 +130,29 @@ export let Navigation = {} as Navigation;
 
 try {
   (async () => {
-    // With how much Valve is changing these, you really shouldn't use them directly, instead see Navigation
-    let InternalNavigators: any;
-    function initInternalNavigators() {
-      try {
-        InternalNavigators = findModuleChild((m: any) => {
-          if (typeof m !== 'object') return undefined;
-          for (let prop in m) {
-            if (m[prop]?.GetNavigator) {
-              return m[prop];
+    let InternalNavigators: any = {};
+    if (!Router.NavigateToAppProperties || (Router as unknown as any).deckyShim) {
+      function initInternalNavigators() {
+        try {
+          InternalNavigators = findModuleChild((m: any) => {
+            if (typeof m !== 'object') return undefined;
+            for (let prop in m) {
+              if (m[prop]?.GetNavigator) {
+                return m[prop];
+              }
             }
-          }
-        })?.GetNavigator();
-      } catch (e) {
-        console.error('[DFL:Router]: Failed to init internal navigators, trying again');
+          })?.GetNavigator();
+        } catch (e) {
+          console.error('[DFL:Router]: Failed to init internal navigators, trying again');
+        }
+      }
+      initInternalNavigators();
+      while (!InternalNavigators?.AppProperties) {
+        console.log('[DFL:Router]: Trying to init internal navigators again');
+        await sleep(100);
+        initInternalNavigators();
       }
     }
-    initInternalNavigators();
-    while (!InternalNavigators?.AppProperties) {
-      console.log('[DFL:Router]: Trying to init internal navigators again');
-      await sleep(100);
-      initInternalNavigators();
-    }
-    console.log("got navigators", InternalNavigators)
     const newNavigation = {
       Navigate: Router.Navigate.bind(Router),
       NavigateBack: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateBack.bind(
