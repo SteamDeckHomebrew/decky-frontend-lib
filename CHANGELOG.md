@@ -1,3 +1,10 @@
+## [3.18.9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.8...v3.18.9) (2023-01-16)
+
+
+### Bug Fixes
+
+* **Navigation:** fix on stable ([4affd4a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4affd4aaec088f01d0f30af48cb4daa34acf26b1))
+
 ## [3.18.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.7...v3.18.8) (2023-01-16)
 
 
