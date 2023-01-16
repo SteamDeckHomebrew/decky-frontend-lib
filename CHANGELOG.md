@@ -1,3 +1,10 @@
+## [3.18.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.6...v3.18.7) (2023-01-16)
+
+
+### Bug Fixes
+
+* un-break navigation on stable ([2e66e5a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2e66e5a555f44009d24e332eca82453ba930baf7))
+
 ## [3.18.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.5...v3.18.6) (2023-01-13)
 
 
