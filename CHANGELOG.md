@@ -1,3 +1,10 @@
+## [3.18.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.7...v3.18.8) (2023-01-16)
+
+
+### Bug Fixes
+
+* **Navigation:** fix timing issue in decky-loader ([58b69f0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/58b69f0d6c43356c4f0ed183802d5bf7fb80e978))
+
 ## [3.18.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.6...v3.18.7) (2023-01-16)
 
 
