@@ -143,11 +143,11 @@ try {
     NavigateBack: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateBack.bind(
       Router.WindowStore.GamepadUIMainWindowInstance,
     ),
-    NavigateToAppProperties: InternalNavigators.AppProperties || Router.NavigateToAppProperties.bind(Router),
+    NavigateToAppProperties: InternalNavigators?.AppProperties || Router.NavigateToAppProperties.bind(Router),
     NavigateToExternalWeb: Router.NavigateToExternalWeb.bind(Router),
-    NavigateToInvites: InternalNavigators.Invites || Router.NavigateToInvites.bind(Router),
+    NavigateToInvites: InternalNavigators?.Invites || Router.NavigateToInvites.bind(Router),
     NavigateToChat: Router.NavigateToChat.bind(Router),
-    NavigateToLibraryTab: InternalNavigators.LibraryTab || Router.NavigateToLibraryTab.bind(Router),
+    NavigateToLibraryTab: InternalNavigators?.LibraryTab || Router.NavigateToLibraryTab.bind(Router),
     NavigateToLayoutPreview: Router.NavigateToLayoutPreview.bind(Router),
     NavigateToSteamWeb: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToSteamWeb.bind(
       Router.WindowStore.GamepadUIMainWindowInstance,
