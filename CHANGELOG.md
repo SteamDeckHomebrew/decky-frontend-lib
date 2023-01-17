@@ -1,3 +1,10 @@
+## [3.18.10](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.9...v3.18.10) (2023-01-17)
+
+
+### Bug Fixes
+
+* **SuspensefulImage:** fix changing src ([9723854](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/9723854ddca53d7708e1effbddec9e5ead22d5de))
+
 ## [3.18.9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.8...v3.18.9) (2023-01-16)
 
 
