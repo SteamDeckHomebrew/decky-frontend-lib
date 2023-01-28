@@ -95,7 +95,7 @@ export function ReorderableList<T extends Positioned>(props: ReorderableListProp
         const toSave: { [key: string]: T } = {};
         Object.values(refs).map((val: ReorderableEntry<T>) => {
           toSave[val.key] = val.data;
-        })
+        });
         onUpdate(toSave);
 
         if (down) {
@@ -108,163 +108,154 @@ export function ReorderableList<T extends Positioned>(props: ReorderableListProp
 
     return (
       <Fragment>
-        <div className="custom-buttons">
-          {/* @ts-ignore */}
-          <Field label={props.entry.label} onFocus={() => { focusIdx.current = props.index; }} ref={wrapperFocusable} style={{ width: "100%" }}>
-            <Focusable
-              style={{
-                display: "flex",
-                width: "100%"
-              }}
-              onGamepadDirection={(e: GamepadEvent) => {
-                switch (e.detail.button) {
-                  case GamepadButton.DIR_DOWN: {
-
-                    if (reorderEnabled.current && props.entry.data.position === dataAsList.length) {
-                      e.preventDefault();
-                      e.stopImmediatePropagation();
-                    }
-
-                    if (reorderEnabled.current && props.entry.data.position != dataAsList.length) reorder(true);
-
-                    if (props.entry.data.position != dataAsList.length) {
-                      focusIdx.current++;
-                      forceUpdate();
-                    }
-                    break;
+        {/* @ts-ignore */}
+        <Field label={props.entry.label} onFocus={() => { focusIdx.current = props.index; }} ref={wrapperFocusable} style={{ width: "100%" }}>
+          <Focusable
+            style={{
+              display: "flex",
+              width: "100%"
+            }}
+            onGamepadDirection={(e: GamepadEvent) => {
+              switch (e.detail.button) {
+                case GamepadButton.DIR_DOWN: {
+                  if (reorderEnabled.current && props.entry.data.position === dataAsList.length) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
                   }
-                  case GamepadButton.DIR_UP: {
-                    if (reorderEnabled.current && props.entry.data.position === 1) {
-                      e.preventDefault();
-                      e.stopImmediatePropagation();
-                    }
 
-                    if (reorderEnabled.current && props.entry.data.position != 1) reorder(false);
+                  if (reorderEnabled.current && props.entry.data.position != dataAsList.length) reorder(true);
 
-                    if (props.entry.data.position != 1) {
-                      focusIdx.current--;
-                      forceUpdate();
-                    }
-                    break;
+                  if (props.entry.data.position != dataAsList.length) {
+                    focusIdx.current++;
+                    forceUpdate();
                   }
-                  case GamepadButton.DIR_LEFT: {
-                    lastEvent = true;
-                    if (focusedSide.current) {
-                      focusedSide.current = false;
+                  break;
+                }
+                case GamepadButton.DIR_UP: {
+                  if (reorderEnabled.current && props.entry.data.position === 1) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                  }
+
+                  if (reorderEnabled.current && props.entry.data.position != 1) reorder(false);
+
+                  if (props.entry.data.position != 1) {
+                    focusIdx.current--;
+                    forceUpdate();
+                  }
+                  break;
+                }
+                case GamepadButton.DIR_LEFT: {
+                  lastEvent = true;
+                  if (focusedSide.current) {
+                    focusedSide.current = false;
+                  }
+                  reorderEnabled.current = false;
+                }
+                case GamepadButton.DIR_RIGHT: {
+                  if (!lastEvent) {
+                    if (!focusedSide.current) {
+                      focusedSide.current = true;
                     }
                     reorderEnabled.current = false;
-                  }
-                  case GamepadButton.DIR_RIGHT: {
-                    if (!lastEvent) {
-                      if (!focusedSide.current) {
-                        focusedSide.current = true;
-                      }
-                      reorderEnabled.current = false;
-                    } else {
-                      lastEvent = false;
-                    }
+                  } else {
+                    lastEvent = false;
                   }
                 }
-                return false;
-              }}
-              onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
-                // once user has moved height of an entry, swap
-                if (reorderEnabled.current) {
-                  const dy = e.clientY - mouseOrigin.current.y;
-                  if (Math.abs(dy) >= ELEM_HEIGHT) {
-                    reorder(dy > 0);
-                    mouseOrigin.current = {
-                      "x": e.clientX,
-                      "y": e.clientY,
-                    }
-                  }
-                }
-              }}
-              onTouchMove={(e: React.TouchEvent<HTMLDivElement>) => {
-                if (reorderEnabled.current) {
-                  const dy = e.touches[0].clientY - touchOrigin.current.y;
-                  if (Math.abs(dy) >= ELEM_HEIGHT) {
-                    reorder(dy > 0);
-                    touchOrigin.current = {
-                      "x": e.touches[0].clientX,
-                      "y": e.touches[0].clientY,
-                    }
-                  }
-                }
-              }}
-            >
-              <DialogButton
-                style={{
-                  marginRight: "14px",
-                  minWidth: "30px",
-                  maxWidth: "60px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-                ref={reorderBtn}
-                onOKActionDescription={"Hold to reorder items"}
-                onButtonDown={(e: GamepadEvent) => {
-                  switch (e.detail.button) {
-                    case GamepadButton.OK: {
-                      enableReorder();
-                    }
-                  }
-                }}
-                onButtonUp={(e: GamepadEvent) => {
-                  switch (e.detail.button) {
-                    case GamepadButton.OK: {
-                      disabledReorder();
-                    }
-                  }
-                }}
-                onMouseDown={(e: MouseEvent) => {
+              }
+              return false;
+            }}
+            onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
+              // once user has moved height of an entry, swap
+              if (reorderEnabled.current) {
+                const dy = e.clientY - mouseOrigin.current.y;
+                if (Math.abs(dy) >= ELEM_HEIGHT) {
+                  reorder(dy > 0);
                   mouseOrigin.current = {
                     "x": e.clientX,
                     "y": e.clientY,
                   }
-                  enableReorder();
-                }}
-                onTouchStart={(e: TouchEvent) => {
+                }
+              }
+            }}
+            onTouchMove={(e: React.TouchEvent<HTMLDivElement>) => {
+              if (reorderEnabled.current) {
+                const dy = e.touches[0].clientY - touchOrigin.current.y;
+                if (Math.abs(dy) >= ELEM_HEIGHT) {
+                  reorder(dy > 0);
                   touchOrigin.current = {
                     "x": e.touches[0].clientX,
                     "y": e.touches[0].clientY,
                   }
-                  enableReorder();
-                }}
-              >
-                <FaArrowsAltV />
-              </DialogButton>
-              <DialogButton
-                style={{
-                  minWidth: "30px",
-                  maxWidth: "60px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-                onClick={(e: MouseEvent) => { props.action(e, props.entry); }}
-                ref={optionsBtn}
-              >
-                <FaEllipsisH />
-              </DialogButton>
-            </Focusable>
-          </Field>
-        </div>
+                }
+              }
+            }}
+          >
+            <DialogButton
+              style={{
+                marginRight: "14px",
+                minWidth: "30px",
+                maxWidth: "60px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+              ref={reorderBtn}
+              onOKActionDescription={"Hold to reorder items"}
+              onButtonDown={(e: GamepadEvent) => {
+                switch (e.detail.button) {
+                  case GamepadButton.OK: {
+                    enableReorder();
+                  }
+                }
+              }}
+              onButtonUp={(e: GamepadEvent) => {
+                switch (e.detail.button) {
+                  case GamepadButton.OK: {
+                    disabledReorder();
+                  }
+                }
+              }}
+              onMouseDown={(e: MouseEvent) => {
+                mouseOrigin.current = {
+                  "x": e.clientX,
+                  "y": e.clientY,
+                }
+                enableReorder();
+              }}
+              onTouchStart={(e: TouchEvent) => {
+                touchOrigin.current = {
+                  "x": e.touches[0].clientX,
+                  "y": e.touches[0].clientY,
+                }
+                enableReorder();
+              }}
+            >
+              <FaArrowsAltV />
+            </DialogButton>
+            <DialogButton
+              style={{
+                minWidth: "30px",
+                maxWidth: "60px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+              onClick={(e: MouseEvent) => { props.action(e, props.entry); }}
+              ref={optionsBtn}
+            >
+              <FaEllipsisH />
+            </DialogButton>
+          </Focusable>
+        </Field>
       </Fragment>
     );
   }
 
   return (
     <Fragment>
-      <style>{`
-        .scoper {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-        }
-      `}</style>
-      <div className="scoper"
+      <div 
+        style={{ width: "100%", display: "flex", flexDirection: "column" }}
         onMouseUp={() => {
           mouseOrigin.current = {
             "x": -1,
