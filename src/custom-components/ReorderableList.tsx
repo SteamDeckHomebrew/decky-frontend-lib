@@ -1,6 +1,7 @@
 import { Fragment, JSXElementConstructor, ReactElement, useState } from "react"
 import { FaEllipsisH } from "react-icons/fa"
 import { DialogButton, Field, Focusable, GamepadButton } from "../deck-components"
+import { IconType } from "react-icons"
 
 export type ReorderableEntry<T> = {
   label: string,
@@ -12,7 +13,8 @@ type ListProps<T> = {
   entries: ReorderableEntry<T>[],
   onAction: (entryReference: ReorderableEntry<T>) => void,
   onSave: (entries: ReorderableEntry<T>[]) => void,
-  secondButton?: JSXElementConstructor<{entry:ReorderableEntry<T>}>
+  secondButton?: JSXElementConstructor<{entry:ReorderableEntry<T>}>,
+  primaryIcon?:IconType
 }
 
 /**
@@ -61,7 +63,7 @@ export function ReorderableList<T>(props: ListProps<T>) {
           onClick={toggleReorderEnabled}>
           {
             entryList.map((entry: ReorderableEntry<T>) => (
-              <ReorderableItem listData={entryList} entryData={entry} reorderEntryFunc={setEntryList} reorderEnabled={reorderEnabled} onAction={props.onAction}>
+              <ReorderableItem listData={entryList} entryData={entry} reorderEntryFunc={setEntryList} reorderEnabled={reorderEnabled} onAction={props.onAction} primaryIcon={props.primaryIcon ? props.primaryIcon : FaEllipsisH}>
                 {props.secondButton ? <props.secondButton entry={entry} /> : null}
               </ReorderableItem>
             ))
@@ -78,7 +80,8 @@ type ListEntryProps<T> = {
   reorderEntryFunc: CallableFunction,
   reorderEnabled: boolean,
   onAction: (entryReference: ReorderableEntry<T>) => void,
-  children:ReactElement|null
+  children:ReactElement|null,
+  primaryIcon: IconType
 }
 
 function ReorderableItem<T>(props: ListEntryProps<T>) {
@@ -125,7 +128,7 @@ function ReorderableItem<T>(props: ListEntryProps<T>) {
       <Focusable style={{ display: "flex", width: "100%", position: "relative" }} onButtonDown={onReorder}>
         {props.children}
         <DialogButton style={{ height: "40px", minWidth: "40px", width: "40px", display: "flex", justifyContent: "center", alignItems: "center", padding: "10px" }} onClick={() => props.onAction(props.entryData)} onOKButton={() => props.onAction(props.entryData)}>
-          <FaEllipsisH />
+          <props.primaryIcon />
         </DialogButton>
       </Focusable>
     </Field>
