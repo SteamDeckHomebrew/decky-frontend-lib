@@ -1,291 +1,148 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, JSXElementConstructor, ReactElement, useState } from "react"
+import { FaEllipsisH } from "react-icons/fa"
+import { DialogButton, Field, Focusable, GamepadButton, gamepadDialogClasses, quickAccessControlsClasses } from "../deck-components"
 
-import { FaEllipsisH, FaArrowsAltV } from "react-icons/fa";
-import { ButtonItem, DialogButton, Field, Focusable, GamepadButton, GamepadEvent } from "../deck-components";
-
-interface Positioned {
-  position: number
-}
-
-export type ReorderableEntry<T extends Positioned> = {
-  key: string,
+export type ReorderableEntry<T> = {
   label: string,
-  data: T
+  data?:T,
+  position:number
 }
 
-export type ReorderableEntryProps<T extends Positioned> = {
-  entry: ReorderableEntry<T>,
-  index: number,
-  action: (e: MouseEvent, entry: ReorderableEntry<T>) => void
+type ListProps<T> = {
+  entries: ReorderableEntry<T>[],
+  onAction: (entryReference: ReorderableEntry<T>) => void,
+  onSave: (entries: ReorderableEntry<T>[]) => void,
+  secondButton?: JSXElementConstructor<{entry:ReorderableEntry<T>}>
 }
 
-export type ReorderableListData<T extends Positioned> = {
-  [key: string]: ReorderableEntry<T>
-}
+/**
+ * A component for creating reorderable lists.
+ * 
+ * Implementation example can be found {@link https://github.com/Tormak9970/Component-Testing-Plugin/blob/main/src/testing-window/ReorderableListTest.tsx here}.
+ */
+export function ReorderableList<T>(props: ListProps<T>) {
+  const [entryList, setEntryList] = useState<ReorderableEntry<T>[]>(props.entries.sort((a:ReorderableEntry<T>, b:ReorderableEntry<T>) => a.position - b.position));
+  const [reorderEnabled, setReorderEnabled] = useState<boolean>(false);
 
-export type ReloadData = {
-  showReload: boolean,
-  reload: () => Promise<void>,
-  reloadLabel?: string
-}
+  function toggleReorderEnabled(): void {
+    let newReorderValue = !reorderEnabled;
+    setReorderEnabled(newReorderValue);
 
-type ReorderableListProps<T extends Positioned> = {
-  data: ReorderableListData<T>,
-  action: (e: MouseEvent, entry: ReorderableEntry<T>) => void,
-  onUpdate: (data: { [key: string]: T }) => void,
-  reloadData: ReloadData
-}
-
-const ELEM_HEIGHT = 32; //height of each ReorderableEntry element
-
-export function ReorderableList<T extends Positioned>(props: ReorderableListProps<T>) {
-  let reorderEnabled = useRef(false);
-  const touchOrigin = useRef({ "x": -1, "y": -1 });
-  const mouseOrigin = useRef({ "x": -1, "y": -1 });
-  let focusedSide = useRef(false); //false = left, true = right
-  let focusIdx = useRef(0);
-
-  let data = props.data;
-  let onUpdate = props.onUpdate;
-  let dataAsList: ReorderableEntry<T>[] = Object.values(props.data).sort((a, b) => a.data.position - b.data.position);;
-
-  const [update, setUpdate] = useState(0);
-
-  useEffect(() => {
-    dataAsList = [];
-    dataAsList = Object.values(props.data).sort((a, b) => a.data.position - b.data.position);
-    data = props.data;
-  });
-
-  function enableReorder() { reorderEnabled.current = true; }
-  function disabledReorder() { reorderEnabled.current = false; }
-  function forceUpdate() { setUpdate(update === 0 ? 1 : 0); }
-
-  function ReorderableEntry(props: ReorderableEntryProps<T>) {
-    const wrapperFocusable = useRef<HTMLDivElement>(null);
-    const reorderBtn = useRef<HTMLDivElement>(null);
-    const optionsBtn = useRef<HTMLDivElement>(null);
-
-    let lastEvent = false;
-
-    useEffect(() => {
-      if (focusIdx.current === props.index) {
-        if (!focusedSide.current) {
-          optionsBtn.current?.blur();
-          reorderBtn.current?.focus();
-        } else {
-          reorderBtn.current?.blur();
-          optionsBtn.current?.focus();
-        }
-      }
-    });
-
-    function reorder(down: boolean) {
-      if ((down && props.entry.data.position != dataAsList.length) || (!down && props.entry.data.position != 1)) {
-        const thisData = props.entry;
-        const previous = dataAsList[down ? props.index + 1 : props.index - 1];
-        const tmp = thisData.data.position;
-        thisData.data.position = previous.data.position;
-        previous.data.position = tmp;
-
-        const refs = data;
-        refs[thisData.key] = thisData;
-        refs[previous.key] = previous;
-
-        const toSave: { [key: string]: T } = {};
-        Object.values(refs).map((val: ReorderableEntry<T>) => {
-          toSave[val.key] = val.data;
-        });
-        onUpdate(toSave);
-
-        if (down) {
-          focusIdx.current++;
-        } else {
-          focusIdx.current--;
-        }
-      }
+    if (!newReorderValue){
+      props.onSave(entryList);
     }
-
-    return (
-      <Fragment>
-        {/* @ts-ignore */}
-        <Field label={props.entry.label} onFocus={() => { focusIdx.current = props.index; }} ref={wrapperFocusable} style={{ width: "100%" }}>
-          <Focusable
-            style={{
-              display: "flex",
-              width: "100%"
-            }}
-            onGamepadDirection={(e: GamepadEvent) => {
-              switch (e.detail.button) {
-                case GamepadButton.DIR_DOWN: {
-                  if (reorderEnabled.current && props.entry.data.position === dataAsList.length) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                  }
-
-                  if (reorderEnabled.current && props.entry.data.position != dataAsList.length) reorder(true);
-
-                  if (props.entry.data.position != dataAsList.length) {
-                    focusIdx.current++;
-                    forceUpdate();
-                  }
-                  break;
-                }
-                case GamepadButton.DIR_UP: {
-                  if (reorderEnabled.current && props.entry.data.position === 1) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                  }
-
-                  if (reorderEnabled.current && props.entry.data.position != 1) reorder(false);
-
-                  if (props.entry.data.position != 1) {
-                    focusIdx.current--;
-                    forceUpdate();
-                  }
-                  break;
-                }
-                case GamepadButton.DIR_LEFT: {
-                  lastEvent = true;
-                  if (focusedSide.current) {
-                    focusedSide.current = false;
-                  }
-                  reorderEnabled.current = false;
-                }
-                case GamepadButton.DIR_RIGHT: {
-                  if (!lastEvent) {
-                    if (!focusedSide.current) {
-                      focusedSide.current = true;
-                    }
-                    reorderEnabled.current = false;
-                  } else {
-                    lastEvent = false;
-                  }
-                }
-              }
-              return false;
-            }}
-            onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
-              // once user has moved height of an entry, swap
-              if (reorderEnabled.current) {
-                const dy = e.clientY - mouseOrigin.current.y;
-                if (Math.abs(dy) >= ELEM_HEIGHT) {
-                  reorder(dy > 0);
-                  mouseOrigin.current = {
-                    "x": e.clientX,
-                    "y": e.clientY,
-                  }
-                }
-              }
-            }}
-            onTouchMove={(e: React.TouchEvent<HTMLDivElement>) => {
-              if (reorderEnabled.current) {
-                const dy = e.touches[0].clientY - touchOrigin.current.y;
-                if (Math.abs(dy) >= ELEM_HEIGHT) {
-                  reorder(dy > 0);
-                  touchOrigin.current = {
-                    "x": e.touches[0].clientX,
-                    "y": e.touches[0].clientY,
-                  }
-                }
-              }
-            }}
-          >
-            <DialogButton
-              style={{
-                marginRight: "14px",
-                minWidth: "30px",
-                maxWidth: "60px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-              ref={reorderBtn}
-              onOKActionDescription={"Hold to reorder items"}
-              onButtonDown={(e: GamepadEvent) => {
-                switch (e.detail.button) {
-                  case GamepadButton.OK: {
-                    enableReorder();
-                  }
-                }
-              }}
-              onButtonUp={(e: GamepadEvent) => {
-                switch (e.detail.button) {
-                  case GamepadButton.OK: {
-                    disabledReorder();
-                  }
-                }
-              }}
-              onMouseDown={(e: MouseEvent) => {
-                mouseOrigin.current = {
-                  "x": e.clientX,
-                  "y": e.clientY,
-                }
-                enableReorder();
-              }}
-              onTouchStart={(e: TouchEvent) => {
-                touchOrigin.current = {
-                  "x": e.touches[0].clientX,
-                  "y": e.touches[0].clientY,
-                }
-                enableReorder();
-              }}
-            >
-              <FaArrowsAltV />
-            </DialogButton>
-            <DialogButton
-              style={{
-                minWidth: "30px",
-                maxWidth: "60px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-              onClick={(e: MouseEvent) => { props.action(e, props.entry); }}
-              ref={optionsBtn}
-            >
-              <FaEllipsisH />
-            </DialogButton>
-          </Focusable>
-        </Field>
-      </Fragment>
-    );
   }
 
   return (
     <Fragment>
-      <div 
-        style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        onMouseUp={() => {
-          mouseOrigin.current = {
-            "x": -1,
-            "y": -1,
-          }
-          disabledReorder();
-        }}
-        onTouchEnd={() => {
-          touchOrigin.current = {
-            "x": -1,
-            "y": -1,
-          }
-          disabledReorder();
-        }}
-      >
-        {dataAsList.length > 0 ?
-          dataAsList.map((itm: ReorderableEntry<T>, i: number) => (
-            <ReorderableEntry entry={itm} index={i} action={props.action} />
-          )) : (
-            <div style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", padding: "5px" }}>
-              No data to display right now.
-            </div>
-          )
+      <style>{`
+        .reorderable-list {
+          width: inherit;
+          height: inherit;
+
+          flex: 1 1 1px;
+          scroll-padding: 48px 0px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-content: stretch;
         }
-        {props.reloadData.showReload ? (
-          <ButtonItem layout="below" onClick={props.reloadData.reload} bottomSeparator='none'>
-            Reload {props.reloadData.reloadLabel}
-          </ButtonItem>
-        ) : ""}
+        .reorderable-list .${quickAccessControlsClasses.PanelSection} {
+          padding: 0px;
+        }
+
+        .reorderable-list .${gamepadDialogClasses.FieldChildren} {
+          margin: 0px 16px;
+        }
+        
+        .reorderable-list .${gamepadDialogClasses.FieldLabel} {
+          margin-left: 16px;
+        }
+
+        .reorderable-list .custom-buttons {
+          width: inherit;
+          height: inherit;
+          display: inherit;
+        }
+
+        .reorderable-list .custom-buttons .${gamepadDialogClasses.FieldChildren} {
+          margin: 0px 16px;
+        }
+      `}</style>
+      <div className="reorderable-list">
+        <Focusable
+          onSecondaryButton={toggleReorderEnabled}
+          onSecondaryActionDescription={reorderEnabled ? "Save Order" : "Reorder"}
+          onClick={toggleReorderEnabled}>
+          {
+            entryList.map((entry: ReorderableEntry<T>) => (
+              <ReorderableItem listData={entryList} entryData={entry} reorderEntryFunc={setEntryList} reorderEnabled={reorderEnabled} onAction={props.onAction}>
+                {props.secondButton ? <props.secondButton entry={entry} /> : null}
+              </ReorderableItem>
+            ))
+          }
+        </Focusable>
       </div>
     </Fragment>
+  );
+}
+
+type ListEntryProps<T> = {
+  listData: ReorderableEntry<T>[],
+  entryData: ReorderableEntry<T>,
+  reorderEntryFunc: CallableFunction,
+  reorderEnabled: boolean,
+  onAction: (entryReference: ReorderableEntry<T>) => void,
+  children:ReactElement|null
+}
+
+function ReorderableItem<T>(props: ListEntryProps<T>) {
+  const listEntries = props.listData;
+
+  function onReorder(e: Event): void {
+    if (!props.reorderEnabled) return;
+
+    const event = e as CustomEvent;
+    const currentIdx = listEntries.findIndex((entryData: ReorderableEntry<T>) => entryData === props.entryData);
+    const currentIdxValue = listEntries[currentIdx];
+    if (currentIdx < 0) return;
+
+    let targetPosition: number = -1;
+    if (event.detail.button == GamepadButton.DIR_DOWN) {
+      targetPosition = currentIdxValue.position+1;
+    } else if (event.detail.button == GamepadButton.DIR_UP) {
+      targetPosition = currentIdxValue.position-1;
+    } 
+
+    if (targetPosition >= listEntries.length || targetPosition < 0) return;
+
+    let otherToUpdate = listEntries.find((entryData: ReorderableEntry<T>) => entryData.position === targetPosition);
+    if (!otherToUpdate) return;
+
+    let currentPosition = currentIdxValue.position;
+
+    currentIdxValue.position = otherToUpdate.position;
+    otherToUpdate.position = currentPosition;
+
+    props.reorderEntryFunc([...listEntries].sort((a:ReorderableEntry<T>, b:ReorderableEntry<T>) => a.position - b.position));
+  }
+
+  const baseCssProps = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%"
+  };
+
+  return(
+    // @ts-ignore
+    <Field label={props.entryData.label} style={props.reorderEnabled ? {...baseCssProps, background: "#678BA670"} : {...baseCssProps}}>
+      <Focusable style={{ display: "flex", width: "100%", position: "relative" }} onButtonDown={onReorder}>
+        {props.children}
+        <DialogButton style={{ minWidth: "30px", maxWidth: "60px", display: "flex", justifyContent: "center", alignItems: "center" }} onClick={() => props.onAction(props.entryData)} onOKButton={() => props.onAction(props.entryData)}>
+          <FaEllipsisH />
+        </DialogButton>
+      </Focusable>
+    </Field>
   );
 }
