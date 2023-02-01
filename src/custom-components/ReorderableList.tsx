@@ -46,12 +46,6 @@ export function ReorderableList<T>(props: ListProps<T>) {
           justify-content: flex-start;
           align-content: stretch;
         }
-
-        .reorderable-list .custom-buttons {
-          width: inherit;
-          height: inherit;
-          display: inherit;
-        }
       `}</style>
       <div className="reorderable-list">
         <Focusable
@@ -77,7 +71,7 @@ type ListEntryProps<T> = {
   entryData: ReorderableEntry<T>,
   reorderEntryFunc: CallableFunction,
   reorderEnabled: boolean,
-  children:ReactElement|null
+  children: ReactElement | null
 }
 
 function ReorderableItem<T>(props: ListEntryProps<T>) {
