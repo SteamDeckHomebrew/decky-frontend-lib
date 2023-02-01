@@ -1,6 +1,6 @@
 import { Fragment, JSXElementConstructor, ReactElement, useState } from "react"
 import { FaEllipsisH } from "react-icons/fa"
-import { DialogButton, Field, Focusable, GamepadButton, gamepadDialogClasses, quickAccessControlsClasses } from "../deck-components"
+import { DialogButton, Field, Focusable, GamepadButton } from "../deck-components"
 
 export type ReorderableEntry<T> = {
   label: string,
@@ -47,26 +47,11 @@ export function ReorderableList<T>(props: ListProps<T>) {
           justify-content: flex-start;
           align-content: stretch;
         }
-        .reorderable-list .${quickAccessControlsClasses.PanelSection} {
-          padding: 0px;
-        }
-
-        .reorderable-list .${gamepadDialogClasses.FieldChildren} {
-          margin: 0px 16px;
-        }
-        
-        .reorderable-list .${gamepadDialogClasses.FieldLabel} {
-          margin-left: 16px;
-        }
 
         .reorderable-list .custom-buttons {
           width: inherit;
           height: inherit;
           display: inherit;
-        }
-
-        .reorderable-list .custom-buttons .${gamepadDialogClasses.FieldChildren} {
-          margin: 0px 16px;
         }
       `}</style>
       <div className="reorderable-list">
@@ -139,7 +124,7 @@ function ReorderableItem<T>(props: ListEntryProps<T>) {
     <Field label={props.entryData.label} style={props.reorderEnabled ? {...baseCssProps, background: "#678BA670"} : {...baseCssProps}}>
       <Focusable style={{ display: "flex", width: "100%", position: "relative" }} onButtonDown={onReorder}>
         {props.children}
-        <DialogButton style={{ minWidth: "30px", maxWidth: "60px", display: "flex", justifyContent: "center", alignItems: "center" }} onClick={() => props.onAction(props.entryData)} onOKButton={() => props.onAction(props.entryData)}>
+        <DialogButton style={{ height: "40px", minWidth: "40px", width: "40px", display: "flex", justifyContent: "center", alignItems: "center", padding: "10px" }} onClick={() => props.onAction(props.entryData)} onOKButton={() => props.onAction(props.entryData)}>
           <FaEllipsisH />
         </DialogButton>
       </Focusable>
