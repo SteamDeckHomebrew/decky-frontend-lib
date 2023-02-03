@@ -1,4 +1,4 @@
-import { Fragment, JSXElementConstructor, ReactElement, useState } from "react";
+import { Fragment, JSXElementConstructor, ReactElement, useEffect, useState } from "react";
 import { Field, FieldProps, Focusable, GamepadButton } from "../deck-components";
 
 export type ReorderableEntry<T> = {
@@ -22,6 +22,10 @@ type ListProps<T> = {
 export function ReorderableList<T>(props: ListProps<T>) {
   const [entryList, setEntryList] = useState<ReorderableEntry<T>[]>(props.entries.sort((a:ReorderableEntry<T>, b:ReorderableEntry<T>) => a.position - b.position));
   const [reorderEnabled, setReorderEnabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    setEntryList(props.entries.sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position));
+  }, [props.entries]);
 
   function toggleReorderEnabled(): void {
     let newReorderValue = !reorderEnabled;
