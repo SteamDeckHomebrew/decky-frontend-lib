@@ -9,7 +9,7 @@
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "dev": "tsc -b -w",
-    "docs": "typedoc --tsconfig ./tsconfig.json src/**/*",
+    "docs": "typedoc --theme wiki-js --tsconfig ./tsconfig.json src/**/*",
     "test": "echo 'No tests for now!'",
     "prepare": "husky install",
     "commit": "git-cz"
@@ -59,11 +59,11 @@
     "semantic-release": "^19.0.3",
     "shx": "^0.3.4",
     "ts-jest": "^27.1.4",
-    "typedoc": "^0.23.15",
-    "typedoc-plugin-markdown": "^3.13.6",
+    "typedoc": "^0.23.24",
     "typedoc-plugin-mdn-links": "^2.0.0",
     "typedoc-plugin-missing-exports": "^1.0.0",
-    "typescript": "^4.6.3"
+    "typedoc-wikijs-theme": "^1.0.1",
+    "typescript": "^4.9.5"
   },
   "pnpm": {
     "peerDependencyRules": {
