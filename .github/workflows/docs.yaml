@@ -36,6 +36,7 @@ jobs:
         run: |
           cd lib
           pnpm run docs
+          mkdir -p ../wiki/api-docs/decky-frontend-lib
           mv ./docs ../wiki/api-docs/decky-frontend-lib
 
       - name: Commit files
