@@ -22,7 +22,7 @@ specifiers:
   typedoc: ^0.23.24
   typedoc-plugin-mdn-links: ^2.0.0
   typedoc-plugin-missing-exports: ^1.0.0
-  typedoc-wikijs-theme: ^1.0.4
+  typedoc-wikijs-theme: ^1.0.5
   typescript: ^4.9.5
 
 devDependencies:
@@ -47,7 +47,7 @@ devDependencies:
   typedoc: 0.23.24_typescript@4.9.5
   typedoc-plugin-mdn-links: 2.0.0_typedoc@0.23.24
   typedoc-plugin-missing-exports: 1.0.0_typedoc@0.23.24
-  typedoc-wikijs-theme: 1.0.4_typedoc@0.23.24
+  typedoc-wikijs-theme: 1.0.5_typedoc@0.23.24
   typescript: 4.9.5
 
 packages:
@@ -5188,8 +5188,8 @@ packages:
       typedoc: 0.23.24_typescript@4.9.5
     dev: true
 
-  /typedoc-wikijs-theme/1.0.4_typedoc@0.23.24:
-    resolution: {integrity: sha512-1ql29nCcT25wLRy0f544VkWj8XbGV2tR5B97P4WRU0zVxj0vpEsr73ENFVtqiuwY2utgt1+JfJI5Iza6UUYcjA==}
+  /typedoc-wikijs-theme/1.0.5_typedoc@0.23.24:
+    resolution: {integrity: sha512-nMHOcaER9EHh6XACq5wb+CBT26Xi3Coj7/0AAG1OdrNDzRirnxZVpqVNlFEcd7MOdTKauKgY6yAqfSjaJ6fapQ==}
     peerDependencies:
       typedoc: '>=0.23.0'
     dependencies:
