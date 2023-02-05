@@ -35,7 +35,7 @@ jobs:
       - name: Build Docs
         run: |
           cd lib
-          pnpm run docs -- --out ../wiki/api-docs/decky-frontend-lib
+          pnpm run docs --out ../wiki/api-docs/decky-frontend-lib
 
       - name: Commit files
         run: |
