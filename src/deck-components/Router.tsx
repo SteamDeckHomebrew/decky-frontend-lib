@@ -159,7 +159,7 @@ try {
         Router.WindowStore.GamepadUIMainWindowInstance,
       ),
       NavigateToAppProperties: InternalNavigators?.AppProperties || Router.NavigateToAppProperties.bind(Router),
-      NavigateToExternalWeb: Router.NavigateToExternalWeb.bind(Router),
+      NavigateToExternalWeb: InternalNavigators?.ExternalWeb || Router.NavigateToExternalWeb.bind(Router),
       NavigateToInvites: InternalNavigators?.Invites || Router.NavigateToInvites.bind(Router),
       NavigateToChat: Router.NavigateToChat.bind(Router),
       NavigateToLibraryTab: InternalNavigators?.LibraryTab || Router.NavigateToLibraryTab.bind(Router),
