@@ -1,3 +1,11 @@
+## [3.18.11](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.10...v3.18.11) (2023-02-18)
+
+
+### Bug Fixes
+
+* **Navigation:** fix NavigateToExternalWeb ([82214fe](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/82214fef4c0a383776631fbb754550fe69f9000d))
+* **Navigation:** fix NavigateToExternalWeb ([c53d7f8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c53d7f8448d8aad76dc699f1f309bdd547ee14df))
+
 ## [3.18.10](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.9...v3.18.10) (2023-01-17)
 
 
