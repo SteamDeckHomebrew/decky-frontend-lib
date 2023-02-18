@@ -217,6 +217,14 @@ export type AppLanguages = {
   strShortName: string;
 };
 
+export type LogoPinPositions = 'BottomLeft' | 'UpperLeft' | 'CenterCenter' | 'UpperCenter' | 'BottomCenter';
+
+export interface LogoPosition {
+  pinnedPosition: LogoPinPositions;
+  nWidthPct: number;
+  nHeightPct: number;
+};
+
 export interface AppDetails {
   achievements: AppAchievements;
   bCanMoveInstallFolder: boolean;
@@ -292,9 +300,18 @@ export interface AppDetails {
   vecMusicAlbums: any[];
   vecPlatforms: string[];
   vecScreenShots: any[];
+  libraryAssets?: {
+    logoPosition?: LogoPosition;
+  };
 }
 
 export interface SteamAppOverview {
   display_name: string;
   gameid: string;
+  appid: number;
+  icon_hash: string;
+  third_party_mod?: boolean;
+  selected_clientid?: string;
+  BIsModOrShortcut: () => boolean;
+  BIsShortcut: () => boolean;
 }
