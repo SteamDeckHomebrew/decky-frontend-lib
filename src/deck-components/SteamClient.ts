@@ -297,4 +297,10 @@ export interface AppDetails {
 export interface SteamAppOverview {
   display_name: string;
   gameid: string;
+  appid: number;
+  icon_hash: string;
+  third_party_mod?: boolean;
+  selected_clientid?: string;
+  BIsModOrShortcut: () => boolean;
+  BIsShortcut: () => boolean;
 }
