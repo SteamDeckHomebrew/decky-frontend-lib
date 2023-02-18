@@ -123,7 +123,7 @@ export const ModalRoot = (Object.values(
     if (typeof m !== 'object') return false;
 
     for (let prop in m) {
-      if (m[prop]?.m_mapModalManager) {
+      if (m[prop]?.m_mapModalManager && Object.values(m)?.find((x: any) => x?.type)) {
         return true;
       }
     }
