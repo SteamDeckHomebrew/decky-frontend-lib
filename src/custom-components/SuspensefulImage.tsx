@@ -13,6 +13,8 @@ export const SuspensefulImage: FC<SuspensefulImageProps> = (props) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    setError(false);
     const img = new Image();
     img.src = props.src || '';
     img.addEventListener('load', () => {
@@ -21,7 +23,7 @@ export const SuspensefulImage: FC<SuspensefulImageProps> = (props) => {
     img.addEventListener('error', () => {
       setError(true);
     });
-  }, []);
+  }, [props.src]);
 
   return loading ? (
     <div

@@ -1,3 +1,46 @@
+## [3.18.11](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.10...v3.18.11) (2023-02-18)
+
+
+### Bug Fixes
+
+* **Navigation:** fix NavigateToExternalWeb ([82214fe](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/82214fef4c0a383776631fbb754550fe69f9000d))
+* **Navigation:** fix NavigateToExternalWeb ([c53d7f8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c53d7f8448d8aad76dc699f1f309bdd547ee14df))
+
+## [3.18.10](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.9...v3.18.10) (2023-01-17)
+
+
+### Bug Fixes
+
+* **SuspensefulImage:** fix changing src ([9723854](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/9723854ddca53d7708e1effbddec9e5ead22d5de))
+
+## [3.18.9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.8...v3.18.9) (2023-01-16)
+
+
+### Bug Fixes
+
+* **Navigation:** fix on stable ([4affd4a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4affd4aaec088f01d0f30af48cb4daa34acf26b1))
+
+## [3.18.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.7...v3.18.8) (2023-01-16)
+
+
+### Bug Fixes
+
+* **Navigation:** fix timing issue in decky-loader ([58b69f0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/58b69f0d6c43356c4f0ed183802d5bf7fb80e978))
+
+## [3.18.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.6...v3.18.7) (2023-01-16)
+
+
+### Bug Fixes
+
+* un-break navigation on stable ([2e66e5a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2e66e5a555f44009d24e332eca82453ba930baf7))
+
+## [3.18.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.5...v3.18.6) (2023-01-13)
+
+
+### Bug Fixes
+
+* **Router:** fix Navigation for the millionth time ([aac2d52](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/aac2d520a68b1074ba1ae988d6c92f7881a296d7))
+
 ## [3.18.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.4...v3.18.5) (2022-12-21)
 
 

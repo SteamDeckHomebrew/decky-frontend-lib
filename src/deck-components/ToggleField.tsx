@@ -4,6 +4,7 @@ import { CommonUIModule } from '../webpack';
 import { ItemProps } from './Item';
 
 export interface ToggleFieldProps extends ItemProps {
+  highlightOnFocus?: boolean;
   checked: boolean;
   disabled?: boolean;
   onChange?(checked: boolean): void;

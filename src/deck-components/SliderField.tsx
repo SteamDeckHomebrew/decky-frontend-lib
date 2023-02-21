@@ -25,6 +25,7 @@ export interface SliderFieldProps extends ItemProps {
   valueSuffix?: string;
   minimumDpadGranularity?: number;
   onChange?(value: number): void;
+  className?: string;
 }
 
 export const SliderField = Object.values(CommonUIModule).find((mod: any) =>
