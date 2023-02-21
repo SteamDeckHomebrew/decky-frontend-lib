@@ -4,6 +4,9 @@ import { Field, FieldProps, Focusable, GamepadButton } from '../deck-components'
 
 /**
  * A ReorderableList entry of type <T>.
+ * @param label The name of this entry in the list.
+ * @param data Optional data to connect to this entry.
+ * @param position The position of this entry in the list.
  */
 export type ReorderableEntry<T> = {
   label: string;
