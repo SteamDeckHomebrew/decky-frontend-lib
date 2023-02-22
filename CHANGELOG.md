@@ -1,3 +1,10 @@
+# [3.19.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.11...v3.19.0) (2023-02-22)
+
+
+### Features
+
+* added reorderable list and updated fieldProps ([#57](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/57)) ([5a074b5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5a074b5bb68c675c484a7b693f67a67488be9bcf))
+
 ## [3.18.11](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.10...v3.18.11) (2023-02-18)
 
 
