@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
+import { Fragment, JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
 
 import { Field, FieldProps, Focusable, GamepadButton } from '../deck-components';
 
@@ -16,12 +16,15 @@ export type ReorderableEntry<T> = {
 
 /**
  * Properties for a ReorderableList component of type <T>.
+ *
+ * @param animate If the list should animate. @default true
  */
-type ListProps<T> = {
+export type ReorderableListProps<T> = {
   entries: ReorderableEntry<T>[];
   onSave: (entries: ReorderableEntry<T>[]) => void;
   interactables?: JSXElementConstructor<{ entry: ReorderableEntry<T> }>;
   fieldProps?: FieldProps;
+  animate?: boolean;
 };
 
 /**
@@ -29,7 +32,8 @@ type ListProps<T> = {
  *
  * See an example implementation {@linkplain https://github.com/Tormak9970/Component-Testing-Plugin/blob/main/src/testing-window/ReorderableListTest.tsx here}.
  */
-export function ReorderableList<T>(props: ListProps<T>) {
+export function ReorderableList<T>(props: ReorderableListProps<T>) {
+  if (props.animate === undefined) props.animate = true;
   const [entryList, setEntryList] = useState<ReorderableEntry<T>[]>(
     props.entries.sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position),
   );
@@ -69,6 +73,7 @@ export function ReorderableList<T>(props: ListProps<T>) {
         >
           {entryList.map((entry: ReorderableEntry<T>) => (
             <ReorderableItem
+              animate={props.animate!}
               listData={entryList}
               entryData={entry}
               reorderEntryFunc={setEntryList}
@@ -87,16 +92,19 @@ export function ReorderableList<T>(props: ListProps<T>) {
 /**
  * Properties for a ReorderableItem component of type <T>
  */
-type ListEntryProps<T> = {
+export type ReorderableListEntryProps<T> = {
   fieldProps?: FieldProps;
   listData: ReorderableEntry<T>[];
   entryData: ReorderableEntry<T>;
   reorderEntryFunc: CallableFunction;
   reorderEnabled: boolean;
+  animate: boolean;
   children: ReactElement | null;
 };
 
-function ReorderableItem<T>(props: ListEntryProps<T>) {
+function ReorderableItem<T>(props: ReorderableListEntryProps<T>) {
+  const [isSelected, _setIsSelected] = useState<boolean>(false);
+  const [isSelectedLastFrame, setIsSelectedLastFrame] = useState<boolean>(false);
   const listEntries = props.listData;
 
   function onReorder(e: Event): void {
@@ -129,22 +137,38 @@ function ReorderableItem<T>(props: ListEntryProps<T>) {
     );
   }
 
-  const baseCssProps: CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  };
+  async function setIsSelected(val: boolean) {
+    _setIsSelected(val);
+    // Wait 3 frames, then set. I have no idea why, but if you dont wait long enough it doesn't work.
+    for (let i = 0; i < 3; i++) await new Promise((res) => requestAnimationFrame(res));
+    setIsSelectedLastFrame(val);
+  }
 
   return (
-    <Field
-      label={props.entryData.label}
-      style={props.reorderEnabled ? { ...baseCssProps, background: '#678BA670' } : { ...baseCssProps }}
-      {...props.fieldProps}
-      focusable={!props.children}
-      onButtonDown={onReorder}
+    <div
+      style={
+        props.animate
+          ? {
+              transition:
+                isSelected || isSelectedLastFrame
+                  ? ''
+                  : 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1)', // easeOutQuart https://easings.net/#easeOutQuart
+              transform: !props.reorderEnabled || isSelected ? 'scale(1)' : 'scale(0.9)',
+              opacity: !props.reorderEnabled || isSelected ? 1 : 0.7,
+            }
+          : {}
+      }
     >
-      <Focusable style={{ display: 'flex', width: '100%', position: 'relative' }}>{props.children}</Focusable>
-    </Field>
+      <Field
+        label={props.entryData.label}
+        {...props.fieldProps}
+        focusable={!props.children}
+        onButtonDown={onReorder}
+        onGamepadBlur={() => setIsSelected(false)}
+        onGamepadFocus={() => setIsSelected(true)}
+      >
+        <Focusable style={{ display: 'flex', width: '100%', position: 'relative' }}>{props.children}</Focusable>
+      </Field>
+    </div>
   );
 }
