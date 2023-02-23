@@ -1,3 +1,10 @@
+## [3.19.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.0...v3.19.1) (2023-02-23)
+
+
+### Bug Fixes
+
+* refactoring to fix for feb 22 2023 beta ([0b6dc24](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0b6dc24c0da2d7644e185425e975787657f8bba1))
+
 # [3.19.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.11...v3.19.0) (2023-02-22)
 
 
