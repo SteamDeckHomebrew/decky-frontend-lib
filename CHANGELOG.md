@@ -1,3 +1,10 @@
+## [3.19.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.1...v3.19.2) (2023-03-07)
+
+
+### Bug Fixes
+
+* **Item:** add highlightOnFocus prop ([c53f87b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c53f87b4a9273b377853bfff1d27474ebd6e564a))
+
 ## [3.19.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.0...v3.19.1) (2023-02-23)
 
 
