@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react';
-
-import { getFocusNavController } from '../utils';
+import { getGamepadNavigationTrees } from '../utils';
 
 function getQuickAccessWindow(): Window | null {
-  try {
-    const navTrees = getFocusNavController()?.m_rgGamepadNavigationTrees;
-    return (
-      navTrees?.find((tree: any) => tree?.id === 'QuickAccess-NA')?.m_Root?.m_element?.ownerDocument.defaultView ?? null
-    );
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  const navTrees = getGamepadNavigationTrees();
+  return navTrees.find((tree: any) => tree?.id === 'QuickAccess-NA')?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
 }
 
 /**
