@@ -8,4 +8,5 @@ export interface ItemProps {
   bottomSeparator?: 'standard' | 'thick' | 'none';
   indentLevel?: number;
   tooltip?: string;
+  highlightOnFocus?: boolean;
 }
