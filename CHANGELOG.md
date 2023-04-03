@@ -1,3 +1,10 @@
+## [3.20.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.0...v3.20.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* **useQuickAccessVisible:** make it work again ([7dacb23](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7dacb23e8be7b1f076cdd0869a4e3a3902b07ec5))
+
 # [3.20.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.2...v3.20.0) (2023-04-03)
 
 
