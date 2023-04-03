@@ -21,10 +21,8 @@ export function findSP(): Window {
   // old (SP as host)
   if (document.title == 'SP') return window;
   // new (SP as popup)
-  const focusNav = getFocusNavController();
-  const context = focusNav.m_ActiveContext || focusNav.m_LastActiveContext;
-  return context.m_rgGamepadNavigationTrees.find((x: any) => x.m_ID == 'root_1_').Root.Element.ownerDocument
-    .defaultView;
+  const navTrees = getGamepadNavigationTrees();
+  return navTrees.find((x: any) => x.m_ID == 'root_1_').Root.Element.ownerDocument.defaultView;
 }
 
 /**
@@ -32,4 +30,13 @@ export function findSP(): Window {
  */
 export function getFocusNavController(): any {
   return window.GamepadNavTree?.m_context?.m_controller || window.FocusNavController;
+}
+
+/**
+ * Gets the gamepad navigation trees as Valve seems to be moving them.
+ */
+export function getGamepadNavigationTrees(): any {
+  const focusNav = getFocusNavController();
+  const context = focusNav.m_ActiveContext || focusNav.m_LastActiveContext;
+  return context.m_rgGamepadNavigationTrees;
 }
