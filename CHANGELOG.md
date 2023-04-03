@@ -1,3 +1,25 @@
+# [3.20.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.2...v3.20.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* **Field:** remove style ([53faf55](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/53faf55df1484204e276cd21a32703c2d7809332))
+* fixed missing export ([b480d39](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b480d397c4251f42c1f24ff5e74322d22e313f05))
+* list didn't update on prop change ([b146eab](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b146eab8d7e1338afa54a168a2fd895e716c2bb2))
+
+
+### Features
+
+* added doc comments ([dfcb3be](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/dfcb3bec19900e099ae3766771e120dbd4f229f5))
+* added reorderable list and updated fieldProps ([3c171cf](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3c171cfb8ff18ed02eeb569a183c9d43fd0b4f57))
+* changed ReorderableList to working version ([5b166d6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5b166d6db879200b049e872cba327957ba5fb705))
+* made requested changes and ran prettier ([b1b2f4f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b1b2f4fa2da755efd65b82b15b52196f89fb09c0))
+* refactoring mostly complete ([cea315a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/cea315a52c285b31ad4e5d0a03104c674ae4f7f5))
+* reorderable list now saves on backout ([b1591f8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b1591f86bbd36e160818626760e0717ee50878e0))
+* **ReorderableList:** add animations, clean up ([26fae13](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/26fae13c8ebd3f11f134c3bc0edfc971afd42fff))
+* support for non-interactable reordering ([dbd01b1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/dbd01b11cafe9b102cc371b9812f99aec718d106))
+* support for user specified icon ([47a6fdd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/47a6fddc89b8f9110252c5e19a6e95152c367dbf))
+
 ## [3.19.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.1...v3.19.2) (2023-03-07)
 
 
