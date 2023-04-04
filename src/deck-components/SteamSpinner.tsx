@@ -5,7 +5,7 @@ import { findModuleChild } from '../webpack';
 export const SteamSpinner = findModuleChild((m) => {
   if (typeof m !== 'object') return undefined;
   for (let prop in m) {
-    if (m[prop]?.toString()?.includes('Steam Spinner') && m[prop].toString().includes('PreloadThrobber'))
+    if (m[prop]?.toString()?.includes('Steam Spinner') && m[prop]?.toString().includes('PreloadThrobber'))
       return m[prop];
   }
 }) as FC<SVGAttributes<SVGElement>>;
