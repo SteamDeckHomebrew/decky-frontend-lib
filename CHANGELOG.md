@@ -1,3 +1,10 @@
+## [3.20.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.3...v3.20.4) (2023-04-04)
+
+
+### Bug Fixes
+
+* **SteamSpinner:** oh apparently the class was moved outside the component for some reason?????? ([b8ddf3d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b8ddf3d927401d04c0fde8ebc8960639369b8ad3))
+
 ## [3.20.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.2...v3.20.3) (2023-04-04)
 
 
