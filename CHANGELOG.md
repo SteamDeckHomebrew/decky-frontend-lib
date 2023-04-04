@@ -1,3 +1,10 @@
+## [3.20.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.1...v3.20.2) (2023-04-04)
+
+
+### Bug Fixes
+
+* **SteamSpinner:** dont error on latest desktop beta ([19819b7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/19819b7a5bc9434fa802f4e8dca4f4cb6921df07))
+
 ## [3.20.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.0...v3.20.1) (2023-04-03)
 
 
