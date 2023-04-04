@@ -54,8 +54,9 @@ export function ReorderableList<T>(props: ReorderableListProps<T>) {
 
   function saveOnBackout(e: Event) {
     const event = e as CustomEvent;
-    if (event.detail.button == GamepadButton.CANCEL) {
-      toggleReorderEnabled();
+    if (event.detail.button == GamepadButton.CANCEL && reorderEnabled) {
+      setReorderEnabled(!reorderEnabled);
+      props.onSave(entryList);
     }
   }
 
