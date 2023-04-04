@@ -1,3 +1,24 @@
+## [3.19.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.1...v3.19.2) (2023-03-07)
+
+
+### Bug Fixes
+
+* **Item:** add highlightOnFocus prop ([c53f87b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c53f87b4a9273b377853bfff1d27474ebd6e564a))
+
+## [3.19.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.19.0...v3.19.1) (2023-02-23)
+
+
+### Bug Fixes
+
+* refactoring to fix for feb 22 2023 beta ([0b6dc24](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0b6dc24c0da2d7644e185425e975787657f8bba1))
+
+# [3.19.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.11...v3.19.0) (2023-02-22)
+
+
+### Features
+
+* added reorderable list and updated fieldProps ([#57](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/57)) ([5a074b5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5a074b5bb68c675c484a7b693f67a67488be9bcf))
+
 ## [3.18.11](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.18.10...v3.18.11) (2023-02-18)
 
 

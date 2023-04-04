@@ -77,7 +77,6 @@ export interface WindowRouter {
   NavigateToChat(): void;
   NavigateToSteamWeb(url: string): void;
   NavigateBack(): void;
-  NavigateToWebRoute(unknown?: any, unknown2?: any): void;
 }
 
 export interface WindowStore {
@@ -118,7 +117,6 @@ export interface Navigation {
   NavigateToLibraryTab(): void;
   NavigateToLayoutPreview(e: unknown): void;
   NavigateToSteamWeb(url: string): void;
-  NavigateToWebRoute(unknown?: any, unknown2?: any): void;
   OpenSideMenu(sideMenu: SideMenu): void;
   OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
   OpenMainMenu(): void;
@@ -154,33 +152,30 @@ try {
       }
     }
     const newNavigation = {
-      Navigate: Router.Navigate.bind(Router),
-      NavigateBack: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateBack.bind(
+      Navigate: Router.Navigate?.bind(Router),
+      NavigateBack: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateBack?.bind(
         Router.WindowStore.GamepadUIMainWindowInstance,
       ),
-      NavigateToAppProperties: InternalNavigators?.AppProperties || Router.NavigateToAppProperties.bind(Router),
-      NavigateToExternalWeb: InternalNavigators?.ExternalWeb || Router.NavigateToExternalWeb.bind(Router),
-      NavigateToInvites: InternalNavigators?.Invites || Router.NavigateToInvites.bind(Router),
-      NavigateToChat: Router.NavigateToChat.bind(Router),
-      NavigateToLibraryTab: InternalNavigators?.LibraryTab || Router.NavigateToLibraryTab.bind(Router),
-      NavigateToLayoutPreview: Router.NavigateToLayoutPreview.bind(Router),
-      NavigateToSteamWeb: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToSteamWeb.bind(
+      NavigateToAppProperties: InternalNavigators?.AppProperties || Router.NavigateToAppProperties?.bind(Router),
+      NavigateToExternalWeb: InternalNavigators?.ExternalWeb || Router.NavigateToExternalWeb?.bind(Router),
+      NavigateToInvites: InternalNavigators?.Invites || Router.NavigateToInvites?.bind(Router),
+      NavigateToChat: Router.NavigateToChat?.bind(Router),
+      NavigateToLibraryTab: InternalNavigators?.LibraryTab || Router.NavigateToLibraryTab?.bind(Router),
+      NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
+      NavigateToSteamWeb: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToSteamWeb?.bind(
         Router.WindowStore.GamepadUIMainWindowInstance,
       ),
-      NavigateToWebRoute: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToWebRoute.bind(
-        Router.WindowStore.GamepadUIMainWindowInstance,
-      ),
-      OpenSideMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenSideMenu.bind(
+      OpenSideMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenSideMenu?.bind(
         Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
       ),
-      OpenQuickAccessMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenQuickAccessMenu.bind(
+      OpenQuickAccessMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenQuickAccessMenu?.bind(
         Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
       ),
-      OpenMainMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenMainMenu.bind(
+      OpenMainMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenMainMenu?.bind(
         Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
       ),
-      CloseSideMenus: Router.CloseSideMenus.bind(Router),
-      OpenPowerMenu: Router.OpenPowerMenu.bind(Router),
+      CloseSideMenus: Router.CloseSideMenus?.bind(Router),
+      OpenPowerMenu: Router.OpenPowerMenu?.bind(Router),
     } as Navigation;
 
     Object.assign(Navigation, newNavigation);
