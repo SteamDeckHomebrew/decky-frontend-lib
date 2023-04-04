@@ -1,3 +1,10 @@
+## [3.20.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.4...v3.20.5) (2023-04-04)
+
+
+### Bug Fixes
+
+* reorderable list no longer toggles on backout ([7e1182a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7e1182a83f7fafbec6fe115a72f8b64b71c119a4))
+
 ## [3.20.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.3...v3.20.4) (2023-04-04)
 
 
