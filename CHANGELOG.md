@@ -1,3 +1,10 @@
+## [3.20.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.2...v3.20.3) (2023-04-04)
+
+
+### Bug Fixes
+
+* **SteamSpinner:** fix the fix ([79d229b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/79d229be50d26e2510af0ea16cdf6644371a5967))
+
 ## [3.20.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.1...v3.20.2) (2023-04-04)
 
 
