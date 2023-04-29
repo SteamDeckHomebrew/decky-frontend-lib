@@ -1,3 +1,10 @@
+## [3.20.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.5...v3.20.6) (2023-04-29)
+
+
+### Bug Fixes
+
+* **QuickAccessTab:** set decky tab ID to 999 ([5d5cb31](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5d5cb31638070deae9970a93c587b447d5e56559))
+
 ## [3.20.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.4...v3.20.5) (2023-04-04)
 
 
