@@ -15,7 +15,8 @@ export enum QuickAccessTab {
   Settings,
   Perf,
   Help,
-  Decky,
+  Music,
+  Decky = 999,
 }
 
 export enum DisplayStatus {
