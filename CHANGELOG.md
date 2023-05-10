@@ -1,3 +1,10 @@
+## [3.20.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.6...v3.20.7) (2023-05-10)
+
+
+### Bug Fixes
+
+* **decky:** fix decky on latest beta ([74a7cba](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/74a7cbaf94538c68a01f5fa707935c4d21570c5f))
+
 ## [3.20.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.5...v3.20.6) (2023-04-29)
 
 
