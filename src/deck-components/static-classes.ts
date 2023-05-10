@@ -459,7 +459,7 @@ export const gamepadDialogClasses: GamepadDialogClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.GamepadDialogContent?.includes('gamepaddialog'),
 );
 export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.PanelSection?.includes('quickaccesscontrols'),
+  (mod) => typeof mod === 'object' && typeof mod?.PanelSection === 'string' && mod?.PanelSection?.includes('quickaccesscontrols'),
 );
 export const updaterFieldClasses: UpdaterFieldClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer?.includes('updaterfield'),
