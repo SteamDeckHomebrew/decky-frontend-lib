@@ -41,8 +41,8 @@ export const MenuGroup: FC<MenuGroupProps> = findModuleChild((m) => {
 
   for (let prop in m) {
     if (
-      (m[prop]?.toString()?.includes('bInGamepadUI:') &&
-        fakeRenderComponent(() => m[prop]())?.type?.prototype?.RenderSubMenu) ||
+      (m[prop]?.toString()?.includes?.('bInGamepadUI:') &&
+        fakeRenderComponent(() => m[prop]({overview: {appid: 7}}))?.type?.prototype?.RenderSubMenu) ||
       (m[prop]?.prototype?.RenderSubMenu && m[prop]?.prototype?.ShowSubMenu)
     ) {
       return m[prop];
