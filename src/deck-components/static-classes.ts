@@ -441,6 +441,69 @@ type AppDetailsClasses = Record<
   string
 >;
 
+type GamepadUIClasses = Record<
+  | 'duration-app-launch'
+  | 'TransitionMenuDelay'
+  | 'PanelSection'
+  | 'PanelSectionTitle'
+  | 'Text'
+  | 'PanelSectionRow'
+  | 'Label'
+  | 'ComingSoon'
+  | 'LowBattery'
+  | 'ReallyLow'
+  | 'LowBatteryGauge'
+  | 'Remaining'
+  | 'EmptyNotifications'
+  | 'BatterySectionContainer'
+  | 'BatteryIcon'
+  | 'BatteryPercentageLabel'
+  | 'BatteryDetailsLabels'
+  | 'BatteryProjectedValue'
+  | 'BatteryProjectedLabel'
+  | 'ViewPlaceholder'
+  | 'FullHeight'
+  | 'Title'
+  | 'Container'
+  | 'Open'
+  | 'QuickAccessMenu'
+  | 'HeaderContainer'
+  | 'Menu'
+  | 'HeaderAndFooterVisible'
+  | 'TabContentColumn'
+  | 'Tabs'
+  | 'Tab'
+  | 'Selected'
+  | 'ItemFocusAnim-darkerGrey'
+  | 'ItemFocusAnim-darkerGrey-nocolor'
+  | 'VoiceTab'
+  | 'ItemFocusAnim-green'
+  | 'Blocked'
+  | 'TabPanelHidden'
+  | 'FriendsTitle'
+  | 'FriendsListTabPanel'
+  | 'PanelOuterNav'
+  | 'PanelExitAnchor'
+  | 'TabGroupPanel'
+  | 'FooterBoxShadow'
+  | 'AllTabContents'
+  | 'ContentTransition'
+  | 'ActiveTab'
+  | 'Up'
+  | 'Enter'
+  | 'EnterActive'
+  | 'Exit'
+  | 'ExitActive'
+  | 'Down'
+  | 'KeyboardButton'
+  | 'ItemFocusAnim-darkGrey'
+  | 'ItemFocusAnim-grey'
+  | 'ItemFocusAnimBorder-darkGrey'
+  | 'focusAnimation'
+  | 'hoverAnimation',
+  string
+>;
+
 export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'),
 );
@@ -475,4 +538,7 @@ export const appDetailsHeaderClasses: AppDetailsHeaderClasses = findModule(
 );
 export const appDetailsClasses: AppDetailsClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.HeaderLoaded?.includes('appdetails_'),
+);
+export const gamepadUIClasses: GamepadUIClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.BasicUiRoot?.includes('gamepadui_'),
 );
