@@ -1,3 +1,15 @@
+# [3.21.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.7...v3.21.0) (2023-05-19)
+
+
+### Bug Fixes
+
+* **Utils:** return null when SP not found ([18d341f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/18d341f82acf843ff830d1bf3d44678f3f2eda52))
+
+
+### Features
+
+* **StaticClasses:** add new GamepadUI classes ([3ca8c43](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3ca8c43a542b1049c4e203ad186e555401fbfbfe))
+
 ## [3.20.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.6...v3.20.7) (2023-05-10)
 
 
