@@ -1,4 +1,4 @@
-import { Fragment, JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
+import { Fragment, JSXElementConstructor, ReactElement, ReactNode, useEffect, useState } from 'react';
 
 import { Field, FieldProps, Focusable, GamepadButton } from '../deck-components';
 
@@ -9,7 +9,7 @@ import { Field, FieldProps, Focusable, GamepadButton } from '../deck-components'
  * @param position The position of this entry in the list.
  */
 export type ReorderableEntry<T> = {
-  label: string;
+  label: ReactNode;
   data?: T;
   position: number;
 };
