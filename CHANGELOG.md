@@ -1,3 +1,10 @@
+## [3.21.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.0...v3.21.1) (2023-05-28)
+
+
+### Bug Fixes
+
+* **reorderable-list:** open label type from string to ReactNode ([fb5f043](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fb5f043ba9eeed0209960c8ae4ae597c2831b8c8))
+
 # [3.21.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.20.7...v3.21.0) (2023-05-19)
 
 
