@@ -2,9 +2,9 @@
 
 Library used to develop plugins used for use with [decky-loader](https://github.com/SteamDeckHomebrew/decky-loader).
 
-## Decky Loader Discord [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/ZU74G2NJzk)
+## Decky Loader Discord [![Chat](https://img.shields.io/discord/960281551428522045?color=%235865F2&label=discord)](https://deckbrew.xyz/discord)
 
-Please contact the developers here for questions and support that cannot be addressed via a Github issue.
+Please [contact the developers here](https://deckbrew.xyz/discord) for questions and support that cannot be addressed via a Github issue.
 
 ## Developers and Contributors
 
