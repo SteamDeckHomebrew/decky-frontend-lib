@@ -1,3 +1,10 @@
+## [3.21.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.1...v3.21.2) (2023-06-18)
+
+
+### Bug Fixes
+
+* **SidebarNavigation:** allow ReactNode for page title ([44d9b90](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/44d9b90cdcfb9e6441fdb1e4b21fe844f1f29fd5))
+
 ## [3.21.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.0...v3.21.1) (2023-05-28)
 
 
