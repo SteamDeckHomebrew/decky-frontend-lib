@@ -3,7 +3,7 @@ import { ReactNode, VFC } from 'react';
 import { Module, findModuleChild } from '../webpack';
 
 export interface SidebarNavigationPage {
-  title: string;
+  title: ReactNode;
   content: ReactNode;
   icon?: ReactNode;
   visible?: boolean;
