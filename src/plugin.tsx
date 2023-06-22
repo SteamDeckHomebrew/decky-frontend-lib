@@ -64,8 +64,8 @@ export interface ServerAPI {
   openFilePickerV2(
     startPath: string,
     includeFiles?: boolean,
-    filter?: RegExp | ((file: File) => boolean),
     includeFolders?: boolean,
+    filter?: RegExp | ((file: File) => boolean),
     extensions?: string[],
     showHiddenFiles?: boolean,
     allowAllFiles?: boolean,
