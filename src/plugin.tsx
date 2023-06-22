@@ -67,6 +67,7 @@ export interface ServerAPI {
   toaster: Toaster;
   openFilePicker(startPath: string, includeFiles?: boolean, regex?: RegExp): Promise<FilePickerRes>;
   openFilePickerV2(
+    select: FileSelectionType,
     startPath: string,
     includeFiles?: boolean,
     includeFolders?: boolean,
@@ -75,7 +76,6 @@ export interface ServerAPI {
     showHiddenFiles?: boolean,
     allowAllFiles?: boolean,
     max?: number,
-    select?: FileSelectionType,
   ): Promise<FilePickerRes>;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
