@@ -55,7 +55,6 @@ export interface Toaster {
 export interface FilePickerRes {
   path: string;
   realpath: string;
-  total: number;
 }
 
 export interface ServerAPI {
