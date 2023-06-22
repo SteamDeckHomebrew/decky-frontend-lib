@@ -1,3 +1,10 @@
+## [3.21.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.4...v3.21.5) (2023-06-22)
+
+
+### Bug Fixes
+
+* missing parameter ([8b54ee9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/8b54ee990ee4d9b51174737979c35ab7ad92ed7a))
+
 ## [3.21.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.3...v3.21.4) (2023-06-22)
 
 
