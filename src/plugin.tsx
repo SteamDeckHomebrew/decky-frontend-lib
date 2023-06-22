@@ -57,6 +57,11 @@ export interface FilePickerRes {
   realpath: string;
 }
 
+export enum FileSelectionType {
+  FILE,
+  FOLDER,
+}
+
 export interface ServerAPI {
   routerHook: RouterHook;
   toaster: Toaster;
@@ -70,6 +75,7 @@ export interface ServerAPI {
     showHiddenFiles?: boolean,
     allowAllFiles?: boolean,
     max?: number,
+    select?: FileSelectionType,
   ): Promise<FilePickerRes>;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
