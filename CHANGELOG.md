@@ -1,3 +1,10 @@
+## [3.21.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.5...v3.21.6) (2023-06-22)
+
+
+### Bug Fixes
+
+* reposition parameter for file picker V2 ([ee51dc5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ee51dc5fc0dd5bdc2b0b9e10aa27607fbe51f491))
+
 ## [3.21.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.4...v3.21.5) (2023-06-22)
 
 
