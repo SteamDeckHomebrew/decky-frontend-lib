@@ -1,3 +1,10 @@
+## [3.21.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.3...v3.21.4) (2023-06-22)
+
+
+### Bug Fixes
+
+* move the new file picker api as v2 ([8bfeae4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/8bfeae4b3593b2efa0aa075a0d9e0b5926cdf169))
+
 ## [3.21.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.2...v3.21.3) (2023-06-22)
 
 
