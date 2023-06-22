@@ -60,7 +60,8 @@ export interface FilePickerRes {
 export interface ServerAPI {
   routerHook: RouterHook;
   toaster: Toaster;
-  openFilePicker(
+  openFilePicker(startPath: string, includeFiles?: boolean, regex?: RegExp): Promise<FilePickerRes>;
+  openFilePickerV2(
     startPath: string,
     includeFiles?: boolean,
     filter?: RegExp | ((file: File) => boolean),
