@@ -1,3 +1,10 @@
+## [3.21.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.2...v3.21.3) (2023-06-22)
+
+
+### Bug Fixes
+
+* total is not needed as a return value to plugins ([979a630](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/979a630f2b02ac4a1ac19e38002244f9dfe97177))
+
 ## [3.21.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.1...v3.21.2) (2023-06-18)
 
 
