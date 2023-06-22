@@ -55,12 +55,22 @@ export interface Toaster {
 export interface FilePickerRes {
   path: string;
   realpath: string;
+  total: number;
 }
 
 export interface ServerAPI {
   routerHook: RouterHook;
   toaster: Toaster;
-  openFilePicker(startPath: string, includeFiles?: boolean, regex?: RegExp): Promise<FilePickerRes>;
+  openFilePicker(
+    startPath: string,
+    includeFiles?: boolean,
+    filter?: RegExp | ((file: File) => boolean),
+    includeFolders?: boolean,
+    extensions?: string[],
+    showHiddenFiles?: boolean,
+    allowAllFiles?: boolean,
+    max?: number,
+  ): Promise<FilePickerRes>;
   callPluginMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   callServerMethod<TArgs = {}, TRes = {}>(methodName: string, args: TArgs): Promise<ServerResponse<TRes>>;
   fetchNoCors<TRes = {}>(url: RequestInfo, request?: RequestInit): Promise<ServerResponse<TRes>>;
