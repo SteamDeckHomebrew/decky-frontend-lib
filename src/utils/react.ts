@@ -46,15 +46,19 @@ export function fakeRenderComponent(fun: Function, customHooks: any = {}): any {
 }
 
 export function wrapReactType(node: any, prop: any = 'type') {
-  return node[prop].__DECKY_WRAPPED ? node[prop] : (node[prop] = { ...node[prop], __DECKY_WRAPPED: true });
+  if (node[prop]?.__DECKY_WRAPPED) {
+    return node[prop];
+  } else {
+    return (node[prop] = { ...node[prop], __DECKY_WRAPPED: true });
+  }
 }
 
 export function wrapReactClass(node: any, prop: any = 'type') {
-  if (node[prop].__DECKY_WRAPPED) {
+  if (node[prop]?.__DECKY_WRAPPED) {
     return node[prop];
   } else {
     const cls = node[prop];
-    const wrappedCls = class extends cls { __DECKY_WRAPPED = true; };
+    const wrappedCls = class extends cls { static __DECKY_WRAPPED = true; };
     return (node[prop] = wrappedCls);
   }
 }
