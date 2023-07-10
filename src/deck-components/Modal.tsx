@@ -154,3 +154,16 @@ export const ModalRoot = (Object.values(
       }
     }
   })) as FC<ModalRootProps>;
+
+interface SimpleModalProps{
+  active?: boolean,
+  children: ReactNode
+}
+
+const ModalModule = findModuleChild((mod) => {
+  if (typeof mod !== 'object' || !mod.__esModule) return undefined;
+  if (mod.SimpleModal && mod.ModalPosition) return mod;
+})
+
+export const SimpleModal = ModalModule.SimpleModal  as FC<SimpleModalProps>
+export const ModalPosition = ModalModule.ModalPosition  as FC<SimpleModalProps>
