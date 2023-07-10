@@ -57,7 +57,7 @@ export interface FilePickerRes {
   realpath: string;
 }
 
-export enum FileSelectionType {
+export const enum FileSelectionType {
   FILE,
   FOLDER,
 }

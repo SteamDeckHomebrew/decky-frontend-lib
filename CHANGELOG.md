@@ -1,3 +1,17 @@
+## [3.21.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.7...v3.21.8) (2023-06-27)
+
+
+### Bug Fixes
+
+* the typescript compiler was eating the enum ([c9b5839](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c9b583945c1cb5267b41a821743590a841572abe))
+
+## [3.21.7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.6...v3.21.7) (2023-06-26)
+
+
+### Bug Fixes
+
+* add patch indicator to prevent crashes ([#88](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/88)) ([9128c1e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/9128c1e7dadb98a8926d3dba9907a01cc78d90cf))
+
 ## [3.21.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.5...v3.21.6) (2023-06-22)
 
 
