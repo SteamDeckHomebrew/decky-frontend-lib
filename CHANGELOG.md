@@ -1,3 +1,16 @@
+# [3.22.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.8...v3.22.0) (2023-08-09)
+
+
+### Bug Fixes
+
+* add patch indicator to prevent crashes ([3170779](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3170779c6b3d02ea17f7b6c1fbd57e00498ffe4f))
+
+
+### Features
+
+* add components found while working on tabmaster ([4f8f65d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4f8f65d42979149cc80b4a86545d3d0d9bf14bf3))
+* add components found while working on tabmaster ([fd0d011](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fd0d011cbf05790c5a1078970b5be72f9267402c))
+
 ## [3.21.8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.7...v3.21.8) (2023-06-27)
 
 
