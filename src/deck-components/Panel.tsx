@@ -2,6 +2,11 @@ import { FC, ReactNode } from 'react';
 
 import { findModuleChild } from '../webpack';
 
+export const Panel: FC<{ children?: ReactNode; }> = findModuleChild((mod) => {
+  if (typeof mod !== 'object' || !mod.__esModule) return undefined;
+  return mod.Panel;
+})
+
 export interface PanelSectionProps {
   title?: string;
   spinner?: boolean;

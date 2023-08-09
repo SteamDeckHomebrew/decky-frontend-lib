@@ -25,6 +25,7 @@ export * from './TextField';
 export * from './Toggle';
 export * from './ToggleField';
 export * from './SteamClient';
+export * from './Scroll';
 
 import { AppDetails, LogoPosition, SteamAppOverview, SteamClient } from './SteamClient';
 
