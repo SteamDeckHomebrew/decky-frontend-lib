@@ -160,7 +160,7 @@ interface SimpleModalProps{
   children: ReactNode
 }
 
-const ModalModule = findModuleChild((mod) => {
+const ModalModule = findModule((mod) => {
   if (typeof mod !== 'object' || !mod.__esModule) return undefined;
   if (mod.SimpleModal && mod.ModalPosition) return mod;
 })

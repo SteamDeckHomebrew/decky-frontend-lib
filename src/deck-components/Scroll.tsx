@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
-import { findModuleChild } from "../webpack";
+import { findModuleChild, findModule } from "../webpack";
 
-const ScrollingModule = findModuleChild((mod) => {
+const ScrollingModule = findModule((mod) => {
   if (typeof mod !== 'object' || !mod.__esModule) return undefined;
   if (mod.ScrollPanel) return mod;
 });
