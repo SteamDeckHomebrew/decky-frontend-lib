@@ -40,7 +40,13 @@ export interface Apps {
     CancelBackup(): any;
 
     CancelGameAction: any;
-    CancelLaunch: any;
+
+    /**
+     * Cancels the launch of an application with the specified ID.
+     * @param appId - The ID of the application whose launch is to be canceled.
+     */
+    CancelLaunch(appId: string): void;
+
     ClearAndSetUserTagsOnApp: any;
 
     /**
@@ -62,7 +68,7 @@ export interface Apps {
     /**
      * Retrieves a list of available compatibility tools for a specific application.
      * @param appId The ID of the application to retrieve compatibility tools for.
-     * @returns A Promise that resolves to an array of CompatibilityToolInfo objects.
+     * @returns {Promise<CompatibilityToolInfo[]>} A Promise that resolves to an array of CompatibilityToolInfo objects.
      */
     GetAvailableCompatTools(appId: number): Promise<CompatibilityToolInfo[]>;
 
@@ -81,7 +87,14 @@ export interface Apps {
     GetLaunchOptionsForApp: any;
     GetLibraryBootstrapData: any;
     GetMyAchievementsForApp: any;
-    GetPlaytime: any;
+
+    /**
+     * Retrieves the playtime information for a specific application.
+     * @param {number} appId - The ID of the application to get playtime information for.
+     * @returns {Promise<Playtime | undefined>} - A Promise that resolves to playtime information or undefined if not available.
+     */
+    GetPlaytime(appId: number): Promise<Playtime | undefined>;
+
     GetPrePurchasedApps: any;
 
     /**
@@ -99,7 +112,8 @@ export interface Apps {
 
     GetStoreTagLocalization(tags: number[]): Promise<any>;
 
-    GetSubscribedWorkshopItems: any;
+    GetSubscribedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
+
     InstallFlatpakAppAndCreateShortcut: any;
     JoinAppContentBeta: any;
     JoinAppContentBetaByPassword: any;
@@ -113,7 +127,7 @@ export interface Apps {
     /**
      * Registers a callback function to be called when achievement changes occur.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForAchievementChanges(callback: () => void): Unregisterable | any;
 
@@ -123,7 +137,7 @@ export interface Apps {
      * Registers a callback function to be called when app details change.
      * @param appId The ID of the application to monitor.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForAppDetails(appId: number, callback: (appDetails: AppDetails) => void): Unregisterable | any;
 
@@ -133,7 +147,7 @@ export interface Apps {
     /**
      * Registers a callback function to be called when a game action ends.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForGameActionEnd(callback: (param0: number) => void): Unregisterable | any;
 
@@ -142,14 +156,14 @@ export interface Apps {
     /**
      * Registers a callback function to be called when a game action UI is shown.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForGameActionShowUI(callback: () => void): Unregisterable | any;
 
     /**
      * Registers a callback function to be called when a game action starts.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForGameActionStart(callback: (actionType: any, appId: any) => void): Unregisterable | any;
 
@@ -216,7 +230,14 @@ export interface Apps {
 
     SetStreamingClientForApp: any;
     SetThirdPartyControllerConfiguration: any;
-    ShowControllerConfigurator: any;
+
+    /**
+     * Opens the controller configurator for a specific application.
+     * @param {number} appId - The ID of the application for which to open the controller configurator.
+     * @returns {void}
+     */
+    ShowControllerConfigurator(appId: number): void;
+
     ShowStore: any;
 
     /**
@@ -435,27 +456,32 @@ export interface Input {
     PreviewConfiguForAppAndController: any;
     PreviewControllerLEDColor: any;
     QueryControllerConfigsForApp: any;
-    RegisterForActiveControllerChanges: any;
-    RegisterForConfigSelectionChanges: any;
-    RegisterForControllerAccountChanges: any;
-    RegisterForControllerAnalogInputMessages: any;
-    RegisterForControllerCommandMessages: any;
-    RegisterForControllerConfigCloudStateChanges: any;
-    RegisterForControllerConfigInfoMessages: any;
+    RegisterForActiveControllerChanges: Unregisterable | any;
+    RegisterForConfigSelectionChanges: Unregisterable | any;
+    RegisterForControllerAccountChanges: Unregisterable | any;
+    RegisterForControllerAnalogInputMessages: Unregisterable | any;
+    RegisterForControllerCommandMessages: Unregisterable | any;
+    RegisterForControllerConfigCloudStateChanges: Unregisterable | any;
+    RegisterForControllerConfigInfoMessages: Unregisterable | any;
 
-    RegisterForControllerInputMessages(callback: () => void): any;
+    /**
+     * Registers a callback function to be invoked when controller input messages are received.
+     * @param {() => void} callback - The callback function to be invoked when controller input messages are received.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForControllerInputMessages(callback: () => void): Unregisterable | any;
 
-    RegisterForControllerListChanges: any;
-    RegisterForControllerStateChanges: any;
-    RegisterForGameKeyboardMessages: any;
-    RegisterForRemotePlayConfigChanges: any;
-    RegisterForShowControllerLayoutPreviewMessages: any;
-    RegisterForTouchMenuInputMessages: any;
-    RegisterForTouchMenuMessages: any;
-    RegisterForUIVisualization: any;
-    RegisterForUnboundControllerListChanges: any;
-    RegisterForUserDismissKeyboardMessages: any;
-    RegisterForUserKeyboardMessages: any;
+    RegisterForControllerListChanges: Unregisterable | any;
+    RegisterForControllerStateChanges: Unregisterable | any;
+    RegisterForGameKeyboardMessages: Unregisterable | any;
+    RegisterForRemotePlayConfigChanges: Unregisterable | any;
+    RegisterForShowControllerLayoutPreviewMessages: Unregisterable | any;
+    RegisterForTouchMenuInputMessages: Unregisterable | any;
+    RegisterForTouchMenuMessages: Unregisterable | any;
+    RegisterForUIVisualization: Unregisterable | any;
+    RegisterForUnboundControllerListChanges: Unregisterable | any;
+    RegisterForUserDismissKeyboardMessages: Unregisterable | any;
+    RegisterForUserKeyboardMessages: Unregisterable | any;
     RequestGyroActive: any;
     RequestRemotePlayControllerConfigs: any;
     ResetControllerBindings: any;
@@ -678,7 +704,7 @@ export interface RemotePlay {
     RegisterForRemoteClientStarted: Unregisterable | any;
     RegisterForRemoteClientStopped: Unregisterable | any;
 
-    RegisterForSettingsChanges(callback: (steamSettings: any) => void): Unregisterable | any;
+    RegisterForSettingsChanges: Unregisterable | any;
 
     SetClientStreamingBitrate: any;
     SetClientStreamingQuality: any;
@@ -771,7 +797,9 @@ export interface Settings {
     OpenWindowsMicSettings: any;
     RegisterForMicVolumeUpdates: Unregisterable | any;
     RegisterForSettingsArrayChanges: Unregisterable | any;
-    RegisterForSettingsChanges: Unregisterable | any;
+
+    RegisterForSettingsChanges(callback: (steamSettings: SteamSettings) => void): Unregisterable | any;
+
     RegisterForTimeZoneChange: Unregisterable | any;
     ReinitMicSettings: any;
     RequestDeviceAuthInfo: any;
@@ -870,7 +898,7 @@ export interface Devkit {
 export interface Display {
     EnableUnderscan: any;
 
-    RegisterForBrightnessChanges(callback: (brightness: number) => void): Unregisterable | any;
+    RegisterForBrightnessChanges(callback: (brightnessChanges: BrightnessChange) => void): Unregisterable | any;
 
     SetBrightness(brightness: number): any;
 
@@ -943,8 +971,10 @@ export interface System {
     FormatStorage: any;
     GetLegacyAmpControlEnabled: any;
     GetOSType: any;
-    GetSystemInfo: any;
-    IsDeckFactoryImage: any;
+
+    GetSystemInfo(): Promise<SystemInfo>;
+
+    IsDeckFactoryImage: Promise<boolean>;
     Network: Network;
     NotifyGameOverlayStateChanged: any;
     OpenFileDialog: any;
@@ -952,7 +982,7 @@ export interface System {
     RebootToAlternateSystemPartition: any;
     RebootToFactoryTestImage: any;
 
-    RegisterForAirplaneModeChanges(callback: (param0: any) => void): Unregisterable | any;
+    RegisterForAirplaneModeChanges(callback: (airplaneModeChange: AirplaneModeChange) => void): Unregisterable | any;
 
     RegisterForBatteryStateChanges: Unregisterable | any;
     RegisterForFormatStorageProgress: Unregisterable | any;
@@ -963,16 +993,31 @@ export interface System {
 
     RegisterForSettingsChanges: Unregisterable | any;
     Report: Report;
-    RestartPC: any;
-    SetAirplaneMode: any;
+
+    /**
+     * Restarts the system.
+     */
+    RestartPC(): any;
+
+    SetAirplaneMode(enabled: boolean): void;
+
     SetLegacyAmpControl: any;
 
     ShutdownPC(): any;
 
     SteamRuntimeSystemInfo: any;
     Storage: SystemStorage;
-    SuspendPC: any;
-    SwitchToDesktop: any;
+
+    /**
+     * Suspends the system.
+     */
+    SuspendPC(): any;
+
+    /**
+     * Switches to desktop mode.
+     */
+    SwitchToDesktop(): any;
+
     UI: SystemUI;
     UpdateSettings: any;
 }
@@ -982,13 +1027,29 @@ export interface UI {
     ExitBigPictureMode: any;
     GetDesiredSteamUIWindows: any;
     GetOSEndOfLifeInfo: any;
-    GetUIMode: any;
+
+    /**
+     * Retrieves the current UI mode.
+     * @returns {Promise<number>} - A Promise that resolves to the current UI mode.
+     *                             4 represents Deck Mode/Big Picture Mode.
+     *                             7 represents Desktop Mode.
+     */
+    GetUIMode(): Promise<number>;
+
     NotifyAppInitialized: any;
     RegisterDesiredSteamUIWindowsChanged: Unregisterable | any;
     RegisterForKioskModeResetSignal: Unregisterable | any;
     RegisterForUIModeChanged: Unregisterable | any;
     ResetErrorCondition: any;
-    SetUIMode: any;
+
+    /**
+     * Sets the UI mode to the specified value.
+     * @param {number} mode - The UI mode to set. Use values:
+     *                       - 4 for Deck Mode/Big Picture Mode.
+     *                       - 7 for Desktop Mode.
+     * @returns {void}
+     */
+    SetUIMode(mode: number): void;
 }
 
 export interface URL {
@@ -1491,6 +1552,110 @@ export interface AuthRefreshInfo {
     reason: number;
     account_name: string;
     login_id_token: string;
+}
+
+export interface WorkshopItem {
+    unAppID: number;
+    ulPublishedFileID: string;
+}
+
+/**
+ * Represents playtime information for an application.
+ */
+export interface Playtime {
+    /** Total playtime in minutes for the last 2 weeks. */
+    nPlaytimeLastTwoWeeks: number;
+    /** Total playtime in minutes. */
+    nPlaytimeForever: number;
+    /** Last played time in Unix Epoch time format. */
+    rtLastTimePlayed: number;
+}
+
+export interface BrightnessChange {
+    flBrightness: number;
+}
+
+export interface AirplaneModeChange {
+    bEnabled: boolean;
+}
+
+export interface SystemInfo {
+    sOSName: string;
+    sKernelVersion: string;
+    sBIOSVersion: string;
+    sHostname: string;
+    sOSCodename: string;
+    sOSVariantId: string;
+    sOSVersionId: string;
+    sOSBuildId: string;
+    nSteamVersion: number;
+    sSteamBuildDate: string;
+    sSteamAPI: string;
+    sCPUVendor: string;
+    sCPUName: string;
+    nCPUHz: number;
+    nCPUPhysicalCores: number;
+    nCPULogicalCores: number;
+    nSystemRAMSizeMB: number;
+    sVideoCardName: string;
+    sVideoDriverVersion: string;
+    nVideoRAMSizeMB: number;
+    bIsUnsupportedPrototypeHardware: boolean;
+}
+
+interface Region {
+    nRegionID: number;
+    strRegionName: string;
+}
+
+interface Hour {
+    nHour: number;
+    strDisplay: string;
+}
+
+interface AvailableClientBeta {
+    nBetaID: number;
+    strName: string;
+}
+
+interface DisplaySettings {
+    bDisplayIsExternal: boolean;
+    flAutoDisplayScaleFactor: number;
+    flCurrentDisplayScaleFactor: number;
+    bDisplayIsUsingAutoScale: boolean;
+    flMinDisplayScaleFactor: number;
+    flMaxDisplayScaleFactor: number;
+    flCurrentUnderscanLevel: number;
+    bUnderscanEnabled: boolean;
+}
+
+interface SteamSettings {
+    bIsInClientBeta: boolean;
+    bIsSteamSideload: boolean;
+    eClientBetaState: number;
+    strSelectedBetaName: string;
+    nAvailableBetas: number;
+    bChangeBetaEnabled: boolean;
+    nSelectedBetaID: number;
+    vecAvailableClientBetas: AvailableClientBeta[];
+    bIsValveEmail: boolean;
+    bIsInDesktopUIBeta: boolean;
+    bEnableSoftProcessKill: boolean;
+    vecValidDownloadRegions: Region[];
+    vecValidAutoUpdateRestrictHours: Hour[];
+    bCompatEnabled: boolean;
+    bCompatEnabledForOtherTitles: boolean;
+    strCompatTool: string;
+    bShowMobxDevTools: boolean;
+    bForceOOBE: boolean;
+    bEnableTestUpdaters: boolean;
+    bOOBETestModeEnabled: boolean;
+    bEnableTabbedAppDetails: boolean;
+    eOverrideBrowserComposerMode: number;
+    bCefRemoteDebuggingEnabled: boolean;
+    strDisplayName: string;
+    displaySettings: DisplaySettings;
+    vecNightModeScheduledHours: Hour[];
 }
 
 
