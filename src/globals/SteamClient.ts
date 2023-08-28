@@ -18,8 +18,9 @@ export interface Apps {
      * Backups an app to the specified path.
      * @param appId The ID of the application to back up.
      * @param backupToPath The path to store the backup.
+     * @return {number} - A Promise that resolves to the number. // Todo: Which appears to be "20" for backup busy and "0" success
      */
-    BackupFilesForApp(appId: number, backupToPath: string): any;
+    BackupFilesForApp(appId: number, backupToPath: string): Promise<number>;
 
     /**
      * Opens the screenshot folder for a specific app.
@@ -37,7 +38,7 @@ export interface Apps {
     /**
      * Cancels the current backup process.
      */
-    CancelBackup(): any;
+    CancelBackup(): void;
 
     CancelGameAction: any;
 
@@ -78,15 +79,26 @@ export interface Apps {
     GetConflictingFileTimestamps: any;
     GetDetailsForScreenshotUpload: any;
     GetDetailsForScreenshotUploads: any;
-    GetDownloadedWorkshopItems: any;
+
+    GetDownloadedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
+
     GetDurationControlInfo: any;
-    GetFriendAchievementsForApp: any;
-    GetFriendsWhoPlay: any;
+
+    GetFriendAchievementsForApp(appId: string, friendSteam64Id: string): Promise<AppAchievementResponse>;
+
+    /**
+     * Retrieves a list of friends who play the specified application.
+     * @param {number} appId - The ID of the application.
+     * @returns {Promise<string[]>} - A Promise that resolves to an array of Steam64 IDs representing friends who play the application.
+     */
+    GetFriendsWhoPlay(appId: number): Promise<string[]>;
+
     GetGameActionDetails: any;
     GetGameActionForApp: any;
     GetLaunchOptionsForApp: any;
     GetLibraryBootstrapData: any;
-    GetMyAchievementsForApp: any;
+
+    GetMyAchievementsForApp(appId: string): Promise<AppAchievementResponse>;
 
     /**
      * Retrieves the playtime information for a specific application.
@@ -95,16 +107,17 @@ export interface Apps {
      */
     GetPlaytime(appId: number): Promise<Playtime | undefined>;
 
-    GetPrePurchasedApps: any;
+    GetPrePurchasedApps(appIds: number[]): Promise<PrePurchaseInfo>;
 
     /**
      * Retrieves the resolution override for a specific application.
      * @param appId The ID of the application to retrieve the resolution override for.
-     * @returns A Promise that resolves to a string of the resolution override.
+     * @returns {Promise<string>} A Promise that resolves to a string of the resolution override.
      */
     GetResolutionOverrideForApp(appId: number): Promise<string>;
 
-    GetScreenshotInfo: any;
+    GetScreenshotInfo(param0: string, param1: number): any;
+
     GetScreenshotsInTimeRange: any;
     GetShortcutData: any;
     GetShortcutDataForPath: any;
@@ -131,7 +144,7 @@ export interface Apps {
      */
     RegisterForAchievementChanges(callback: () => void): Unregisterable | any;
 
-    RegisterForAppBackupStatus: Unregisterable | any;
+    RegisterForAppBackupStatus(callback: (appBackupStatus: AppBackupStatus) => void): Unregisterable | any;
 
     /**
      * Registers a callback function to be called when app details change.
@@ -149,7 +162,7 @@ export interface Apps {
      * @param callback The callback function to be called.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
-    RegisterForGameActionEnd(callback: (param0: number) => void): Unregisterable | any;
+    RegisterForGameActionEnd(callback: (gameActionIdentifier: number) => void): Unregisterable | any;
 
     RegisterForGameActionShowError: Unregisterable | any;
 
@@ -158,24 +171,26 @@ export interface Apps {
      * @param callback The callback function to be called.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
-    RegisterForGameActionShowUI(callback: () => void): Unregisterable | any;
+    RegisterForGameActionShowUI(callback: () => void): Unregisterable | any; // todo: no idea what this callback is from
 
     /**
      * Registers a callback function to be called when a game action starts.
      * @param callback The callback function to be called.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
-    RegisterForGameActionStart(callback: (actionType: any, appId: any) => void): Unregisterable | any;
+    RegisterForGameActionStart(callback: (gameActionIdentifier: number, appId: string, action: string, param3: number) => void): Unregisterable | any; // gameActionIdentifier is incremental per game action since steam client start
 
-    RegisterForGameActionTaskChange(callback: (data: any) => void): Unregisterable | any;
+    RegisterForGameActionTaskChange(callback: (gameActionIdentifier: number, appId: string, action: string, requestedAction: string, param4: string) => void): Unregisterable | any;
 
-    RegisterForGameActionUserRequest(callback: (param0: number, appId: string, action: string, requestedAction: string, appId2: string) => void): Unregisterable | any;
+    RegisterForGameActionUserRequest(callback: (gameActionIdentifier: number, appId: string, action: string, requestedAction: string, appId2: string) => void): Unregisterable | any;
 
     RegisterForLocalizationChanges: Unregisterable | any;
     RegisterForPrePurchasedAppChanges: Unregisterable | any;
     RegisterForShowMarketingMessageDialog: Unregisterable | any;
-    RegisterForWorkshopChanges: Unregisterable | any;
-    RegisterForWorkshopItemDownloads: Unregisterable | any;
+
+    RegisterForWorkshopChanges(callback: (appId: number) => void): Unregisterable | any;
+
+    RegisterForWorkshopItemDownloads(param0: number, callback: () => void): Unregisterable | any;
 
     RemoveShortcut(appId: number): any;
 
@@ -189,7 +204,9 @@ export interface Apps {
     RunGame(appId: string, param1: string, param2: number, param3: number): any;
 
     SaveAchievementProgressCache: any;
-    ScanForInstalledNonSteamApps: any;
+
+    ScanForInstalledNonSteamApps(): Promise<NonSteamApp[]>;
+
     SetAppAutoUpdateBehavior: any;
     SetAppBackgroundDownloadsBehavior: any;
     SetAppCurrentLanguage: any;
@@ -510,14 +527,17 @@ export interface Input {
     SetGamepadKeyboardText: any;
     SetKeyboardActionset: any;
 
-    SetMousePosition(x: number, y: number): any;
+    SetMousePosition: any;
 
     SetSelectedConfigForApp: any;
     SetSteamControllerDonglePairingMode: any;
     SetVirtualMenuKeySelected: any;
     SetWebBrowserActionset: any;
     SetXboxDriverInstallState: any;
-    ShowControllerSettings: any;
+
+    // Shows Steam Input controller settings
+    ShowControllerSettings(): any;
+
     StandaloneKeyboardDismissed: any;
     StartControllerDeviceSupportFlow: any;
     StartEditingControllerConfigurationForAppIDAndControllerIndex: any;
@@ -731,26 +751,102 @@ export interface RemotePlay {
     UnpairRemoteDevices: any;
 }
 
+/**
+ * Interface for managing screenshots.
+ */
 export interface Screenshots {
-    DeleteLocalScreenshot: any;
+    /**
+     * Deletes a local screenshot.
+     * @param {string} appId - The ID of the application.
+     * @param {number} screenshotIndex - The index of the local screenshot.
+     * @returns {Promise<boolean>} - A Promise that resolves to a boolean value indicating whether the deletion was successful.
+     */
+    DeleteLocalScreenshot(appId: string, screenshotIndex: number): Promise<boolean>;
 
+    /**
+     * Retrieves all local screenshots for all applications.
+     * @returns {Promise<Screenshot[]>} - A Promise that resolves to an array of Screenshot objects.
+     */
     GetAllAppsLocalScreenshots(): Promise<Screenshot[]>;
 
-    GetAllAppsLocalScreenshotsCount: any;
-    GetAllAppsLocalScreenshotsRange: any;
+    /**
+     * Retrieves the count of all local screenshots for all applications.
+     * @returns {Promise<number>} - A Promise that resolves to the count of local screenshots.
+     */
+    GetAllAppsLocalScreenshotsCount(): Promise<number>;
 
+    /**
+     * Retrieves a range of local screenshots for all applications.
+     * @param {number} start - The starting index of the screenshot range.
+     * @param {number} end - The ending index of the screenshot range.
+     * @returns {Promise<Screenshot[]>} - A Promise that resolves to an array of Screenshot objects within the specified range.
+     */
+    GetAllAppsLocalScreenshotsRange(start: number, end: number): Promise<Screenshot[]>;
+
+    /**
+     * Retrieves all local screenshots.
+     * @returns {Promise<Screenshot[]>} - A Promise that resolves to an array of Screenshot objects.
+     */
     GetAllLocalScreenshots(): Promise<Screenshot[]>;
 
-    GetGameWithLocalScreenshots: any;
+    /**
+     * Retrieves the game associated with a specific local screenshot index.
+     * @param {number} screenshotIndex - The index of the local screenshot.
+     * @returns {Promise<number>} - A Promise that resolves to the ID of the game associated with the screenshot.
+     */
+    GetGameWithLocalScreenshots(screenshotIndex: number): Promise<number>;
 
+    /**
+     * Retrieves the last taken local screenshot.
+     * @returns {Promise<Screenshot>} - A Promise that resolves to the last taken local screenshot.
+     */
     GetLastScreenshotTaken(): Promise<Screenshot>;
 
-    GetLocalScreenshot: any;
-    GetLocalScreenshotCount: any;
-    GetNumGamesWithLocalScreenshots: any;
-    ShowScreenshotInSystemViewer: any;
-    ShowScreenshotOnDisk: any;
-    UploadLocalScreenshot: any;
+    /**
+     * Retrieves a specific local screenshot for an application.
+     * @param {string} appId - The ID of the application.
+     * @param {number} screenshotIndex - The index of the local screenshot.
+     * @returns {Promise<Screenshot>} - A Promise that resolves to the requested local screenshot.
+     */
+    GetLocalScreenshot(appId: string, screenshotIndex: number): Promise<Screenshot>;
+
+    /**
+     * Retrieves the count of local screenshots for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @returns {Promise<number>} - A Promise that resolves to the count of local screenshots for the application.
+     */
+    GetLocalScreenshotCount(appId: number): Promise<number>;
+
+    /**
+     * Retrieves the number of games with local screenshots.
+     * @returns {Promise<number>} - A Promise that resolves to the number of games with local screenshots.
+     */
+    GetNumGamesWithLocalScreenshots(): Promise<number>;
+
+    /**
+     * Opens a local screenshot in the system image viewer.
+     * If the screenshot index is invalid, this function opens the screenshots directory for the specified application ID.
+     * @param {string} appId - The ID of the application.
+     * @param {number} screenshotIndex - The index of the local screenshot.
+     * @returns {void}
+     */
+    ShowScreenshotInSystemViewer(appId: string, screenshotIndex: number): void;
+
+    /**
+     * Opens the folder containing local screenshots for a specific application.
+     * @param {string} appId - The ID of the application.
+     * @returns {void}
+     */
+    ShowScreenshotsOnDisk(appId: string): void;
+
+    /**
+     * Uploads a local screenshot.
+     * @param {string} appId - The ID of the application.
+     * @param {number} localScreenshot_hHandle - The handle of the local screenshot.
+     * @param {number} param2 - Additional parameter. // Todo: Unknown at this time. My assumption is the visibility of the screenshot.
+     * @returns {Promise<boolean>} - A Promise that resolves to a boolean value indicating whether the upload was successful.
+     */
+    UploadLocalScreenshot(appId: string, localScreenshot_hHandle: number, param2: number): Promise<boolean>;
 }
 
 export interface ServerBrowser {
@@ -780,19 +876,31 @@ export interface Settings {
     AddClientBeta: any;
     ClearAllHTTPCaches: any;
     ClearDownloadCache: any;
-    GetAccountSettings: any;
-    GetAppUsesP2PVoice: any;
-    GetAvailableLanguages: any;
-    GetAvailableTimeZones: any;
-    GetCurrentLanguage: any;
+
+    GetAccountSettings(): Promise<AccountSettings>;
+
+    GetAppUsesP2PVoice(appId: number): Promise<boolean>;
+
+    GetAvailableLanguages(): Promise<Language[]>;
+
+    GetAvailableTimeZones(): Promise<TimeZone[]>;
+
+    // Returns the current language "english"
+    GetCurrentLanguage(): Promise<string>;
 
     GetGlobalCompatTools(): Promise<CompatibilityToolInfo[]>;
 
     GetMonitorInfo: any;
-    GetOOBETestMode: any;
-    GetRegisteredSteamDeck: any;
-    GetTimeZone: any;
-    GetWindowed: any;
+
+    GetOOBETestMode(): Promise<boolean>;
+
+    GetRegisteredSteamDeck(): Promise<RegisteredSteamDeck>;
+
+    // Returns the current timezone "America/Los_Angeles"
+    GetTimeZone(): Promise<string>;
+
+    GetWindowed(): Promise<boolean>;
+
     IgnoreSteamDeckRewards: any;
     OpenWindowsMicSettings: any;
     RegisterForMicVolumeUpdates: Unregisterable | any;
@@ -807,7 +915,9 @@ export interface Settings {
 
     SetCefRemoteDebuggingEnabled(value: boolean): any;
 
-    SetCurrentLanguage: any;
+    // Get from available languages
+    SetCurrentLanguage(strShortName: string): void;
+
     SetEnableSoftProcessKill: any;
     SetEnableTestUpdaters: any;
     SetForceOOBE: any;
@@ -824,7 +934,9 @@ export interface Settings {
     SetTimeZone: any;
     SetUseNintendoButtonLayout: any;
     SetWindowed: any;
-    SpecifyGlobalCompatTool: any;
+
+    SpecifyGlobalCompatTool(strToolName: string): void;
+
     ToggleSteamInstall: any;
 }
 
@@ -1467,18 +1579,20 @@ export interface ScreenshotNotification {
 }
 
 export interface Screenshot {
-    bSpoilers: boolean,
-    bUploaded: boolean,
-    ePrivacy: number,
-    hHandle: number,
     nAppID: number,
-    nCreated: number,
-    nHeight: number,
+    strGameID: string,
+    hHandle: number,
     nWidth: number,
+    nHeight: number,
+    nCreated: number, // timestamp
+    ePrivacy: number,
     strCaption: "",
+    bSpoilers: boolean,
     strUrl: string,
+    bUploaded: boolean,
     ugcHandle: string
 }
+
 
 export interface DownloadItem {
     active: boolean,
@@ -1658,6 +1772,84 @@ interface SteamSettings {
     vecNightModeScheduledHours: Hour[];
 }
 
+export interface PrePurchaseApp {
+    nAppID: number;
+    eState: number;
+}
+
+export interface PrePurchaseInfo {
+    apps: PrePurchaseApp[];
+    lastChangeNumber: number;
+}
+
+export interface AppAchievement {
+    strID: string;
+    strName: string;
+    strDescription: string;
+    bAchieved: boolean;
+    rtUnlocked: number; // epoch time
+    strImage: string;
+    bHidden: boolean;
+    flMinProgress: number;
+    flCurrentProgress: number;
+    flMaxProgress: number;
+    flAchieved: number;
+}
+
+export interface AppAchievementData {
+    rgAchievements: AppAchievement[];
+}
+
+export interface AppAchievementResponse {
+    result: number;
+    data: AppAchievementData
+}
+
+export interface NonSteamApp {
+    bIsApplication: boolean;
+    strAppName: string;
+    strExePath: string;
+    strArguments: string;
+    strCmdline: string;
+    strIconDataBase64: string;
+}
+
+export interface RegisteredSteamDeck {
+    bRegistered: boolean;
+    bIgnoreRegistrationPrompt: boolean;
+    strSteamID: string;
+    strSerialNumber: string;
+}
+
+export interface AccountSettings {
+    strEmail: string;
+    bEmailValidated: boolean;
+    bHasAnyVACBans: boolean;
+    bHasTwoFactor: boolean;
+    eSteamGuardState: number;
+    rtSteamGuardEnableTime: number;
+    bSaveAccountCredentials: boolean;
+}
+
+export interface Language {
+    language: number;
+    strShortName: string;
+}
+
+export interface TimeZone {
+    utcOffset: number;
+    timezoneID: string;
+    timezoneLocalizationToken: string;
+    regionsLocalizationToken: string;
+}
+
+export interface AppBackupStatus {
+    appid: number;
+    eError: number; // Without confirmation  20 - In progress, 3 - Cancelled?
+    strBytesToProcess: string;
+    strBytesProcessed: string;
+    strTotalBytesWritten: string;
+}
 
 export interface Unregisterable {
     /**
