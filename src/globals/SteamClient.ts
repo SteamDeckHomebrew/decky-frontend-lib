@@ -2,6 +2,9 @@ declare global {
   var SteamClient: SteamClient;
 }
 
+/**
+ * Represents various functions related to Steam applications.
+ */
 export interface Apps {
     /**
      * Adds a non-Steam game to the local Steam library.
@@ -44,7 +47,7 @@ export interface Apps {
 
     /**
      * Cancels the launch of an application with the specified ID.
-     * @param appId - The ID of the application whose launch is to be canceled.
+     * @param appId The ID of the application whose launch is to be canceled.
      */
     CancelLaunch(appId: string): void;
 
@@ -316,15 +319,17 @@ export interface Browser {
     BIsVROverlayBrowser: any;
     ClearAllBrowsingData: any;
     ClearHistory: any;
-    CloseDevTools: any;
-    GetBrowserID: Promise<number>;
-    GetSteamBrowserID: Promise<number>; // 16-bit unsigned integer?
+    CloseDevTools(): void;
+    GetBrowserID(): Promise<number>;
+    GetSteamBrowserID(): Promise<number>; // 16-bit unsigned integer?
     GoBack: any;
     GoForward: any;
     HideCursorUntilMouseEvent: any;
-    InspectElement: any;
+
+    InspectElement(param0: any, param1: any): any;
+
     NotifyUserActivation: any;
-    OpenDevTools: any;
+    OpenDevTools(): void;
     OpenURLForNavigation: any;
     RegisterForGestureEvents: Unregisterable | any;
     RegisterForOpenNewTab: Unregisterable | any;
@@ -356,11 +361,29 @@ export interface CommunityItems {
     RemoveDownloadedItemAsset: any;
 }
 
+/**
+ * Represents the console functionality for executing commands and handling spew output.
+ */
 export interface Console {
+    /**
+     * Executes a console command.
+     * @param command - The command to execute in the console.
+     * @returns {void}
+     */
     ExecCommand(command: string): void;
 
+    /**
+     * Retrieves autocomplete suggestions for a given console command.
+     * @param command - The console command to provide autocomplete suggestions for.
+     * @returns {Promise<string[]>} - A Promise that resolves to an array of autocomplete suggestions.
+     */
     GetAutocompleteSuggestions(command: string): Promise<string[]>;
 
+    /**
+     * Registers a callback function to receive spew output.
+     * @param callback - The callback function that will receive spew output.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForSpewOutput(callback: (spewOutput: SpewOutput) => void): Unregisterable | any;
 }
 
@@ -382,7 +405,7 @@ export interface Downloads {
     RegisterForDownloadOverview(callback: (downloadOverview: DownloadOverview) => void): Unregisterable | any;
 
     RemoveFromDownloadList: any;
-    ResumeAppUpdate: any;
+    ResumeAppUpdate(appId: number): void;
     SetLaunchOnUpdateComplete: any;
     SetQueueIndex: any;
     SuspendDownloadThrottling: any;
@@ -390,19 +413,34 @@ export interface Downloads {
 }
 
 export interface FamilySharing {
-    AuthorizeLocalDevice: any;
-    DeauthorizeLocalDevice: any;
+    AuthorizeLocalDevice(): Promise<number>;
+    DeauthorizeLocalDevice(): Promise<number>;
     RequestFamilySharingAuthorization: any;
     UpdateAuthorizedBorrower: any;
 }
 
 export interface Features {
-    SteamInitsPopups: any;
+    SteamInitsPopups(): boolean;
 }
 
+/**
+ * Represents friend settings and configuration.
+ */
 export interface FriendSettings {
-    GetEnabledFeatures: any;
-    RegisterForSettingsChanged: any;
+    /**
+     * Retrieves a list of enabled friend settings features.
+     * @returns {Promise<FriendSettingsFeature[]>} - A Promise that resolves to an array of enabled friend settings features.
+     */
+    GetEnabledFeatures(): Promise<FriendSettingsFeature[]>;
+
+    /**
+     * Registers a callback function to be notified of friend settings changes.
+     * @param callback - The callback function to be called when friend settings change.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @todo The callback receives an escaped JSON object string as "settingsChanges", which should be parsed into FriendSettingsChange object.
+     */
+    RegisterForSettingsChanges(callback: (settingsChanges: string) => void): Unregisterable | any;
+
     SetFriendSettings: any;
 }
 
@@ -476,25 +514,34 @@ export interface Input {
     RegisterForActiveControllerChanges: Unregisterable | any;
     RegisterForConfigSelectionChanges: Unregisterable | any;
     RegisterForControllerAccountChanges: Unregisterable | any;
-    RegisterForControllerAnalogInputMessages: Unregisterable | any;
-    RegisterForControllerCommandMessages: Unregisterable | any;
+
+    RegisterForControllerAnalogInputMessages(callback: (controllerAnalogInputMessages: ControllerAnalogInputMessage[])): Unregisterable | any;
+
+    RegisterForControllerCommandMessages(callback: (controllerCommandMessage: ControllerCommandMessage) => void): Unregisterable | any;
+
     RegisterForControllerConfigCloudStateChanges: Unregisterable | any;
     RegisterForControllerConfigInfoMessages: Unregisterable | any;
 
     /**
      * Registers a callback function to be invoked when controller input messages are received.
-     * @param {() => void} callback - The callback function to be invoked when controller input messages are received.
+     * @param {(controllerInputMessages: ControllerInputMessage[]) => void} callback - The callback function to be invoked when controller input messages are received.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
-    RegisterForControllerInputMessages(callback: () => void): Unregisterable | any;
+    RegisterForControllerInputMessages(callback: (controllerInputMessages: ControllerInputMessage[]) => void): Unregisterable | any;
 
-    RegisterForControllerListChanges: Unregisterable | any;
-    RegisterForControllerStateChanges: Unregisterable | any;
+
+    RegisterForControllerListChanges(callback: (controllerListChanges: ControllerInfo[]) => void): Unregisterable | any;
+
+    // For controller input state changes
+    RegisterForControllerStateChanges(callback: (controllerStateChanges: ControllerStateChange[]) => void): Unregisterable | any;
+
     RegisterForGameKeyboardMessages: Unregisterable | any;
     RegisterForRemotePlayConfigChanges: Unregisterable | any;
     RegisterForShowControllerLayoutPreviewMessages: Unregisterable | any;
     RegisterForTouchMenuInputMessages: Unregisterable | any;
-    RegisterForTouchMenuMessages: Unregisterable | any;
+
+    RegisterForTouchMenuMessages(callback: (touchMenuMessage: TouchMenuMessage) => void): Unregisterable | any;
+
     RegisterForUIVisualization: Unregisterable | any;
     RegisterForUnboundControllerListChanges: Unregisterable | any;
     RegisterForUserDismissKeyboardMessages: Unregisterable | any;
@@ -535,8 +582,12 @@ export interface Input {
     SetWebBrowserActionset: any;
     SetXboxDriverInstallState: any;
 
-    // Shows Steam Input controller settings
-    ShowControllerSettings(): any;
+    /**
+     * Opens the Steam Input controller settings.
+     * This function displays the Steam Input controller settings for configuration.
+     * @returns {void}
+     */
+    ShowControllerSettings(): void;
 
     StandaloneKeyboardDismissed: any;
     StartControllerDeviceSupportFlow: any;
@@ -677,10 +728,30 @@ export interface Overlay {
     SetOverlayState: any;
 }
 
+/**
+ * Interface for managing parental control settings.
+ */
 export interface Parental {
-    LockParentalLock: any;
-    RegisterForParentalLockStatus: Unregisterable | any;
-    UnlockParentalLock: any;
+    /**
+     * Locks the parental control settings.
+     * @returns {void}
+     */
+    LockParentalLock(): void;
+
+    /**
+     * Registers a callback function to be invoked when parental settings change.
+     * @param {(parentalSettings: ParentalSettings) => void} callback - The callback function to be invoked when parental settings change.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForParentalSettingsChanges(callback: (parentalSettings: ParentalSettings) => void): Unregisterable | any;
+
+    /**
+     * Unlocks the parental lock with the provided PIN.
+     * @param {string} pin - The 4-digit PIN to unlock the parental lock.
+     * @param {boolean} param1 - Additional parameter. // Todo: Unknown usage.
+     * @returns {Promise<number>} - A Promise that resolves to a number representing the result of the unlock operation.
+     */
+    UnlockParentalLock(pin: string, param1: boolean): Promise<number>;
 }
 
 export interface RemotePlay {
@@ -1035,8 +1106,11 @@ export interface Network {
     GetProxyInfo: any;
     RegisterForAppSummaryUpdate: Unregisterable | any;
     RegisterForConnectionStateUpdate: Unregisterable | any;
-    RegisterForConnectivityTestChanges: Unregisterable | any;
-    RegisterForDeviceChanges: Unregisterable | any;
+
+    RegisterForConnectivityTestChanges(callback: (connectivityTestChange: ConnectivityTestChange) => void): Unregisterable | any;
+
+    RegisterForDeviceChanges(callback: (param0: any) => void): Unregisterable | any;
+
     SetFakeLocalSystemState: any;
     SetProxyInfo: any;
     SetWifiEnabled: any;
@@ -1193,12 +1267,16 @@ export interface User {
     GetIPCountry: any;
     GetLoginProgress: any;
     GetLoginUsers: any;
-    GoOffline: any;
-    GoOnline: any;
+
+    GoOffline(): void;
+
+    GoOnline(): void;
+
     OptOutOfSurvey: any;
     PrepareForSystemSuspend: any;
     Reconnect: any;
-    RegisterForConnectionAttemptsThrottled: Unregisterable | any;
+
+    RegisterForConnectionAttemptsThrottled(callback: (param0: any) => void): Unregisterable | any;
 
     RegisterForCurrentUserChanges(callback: (data: any) => void): Unregisterable | any;
 
@@ -1657,8 +1735,18 @@ export interface InstallWizardInfo {
     rgAppIDs: number[],
 }
 
+/**
+ * Represents spew output information.
+ */
 export interface SpewOutput {
+    /**
+     * The content of the spew output.
+     */
     spew: string;
+
+    /**
+     * The type or category of the spew output.
+     */
     spew_type: string;
 }
 
@@ -1850,6 +1938,226 @@ export interface AppBackupStatus {
     strBytesProcessed: string;
     strTotalBytesWritten: string;
 }
+
+/**
+ * Represents a list of applications with their IDs.
+ */
+interface AppList {
+    /**
+     * Key-value pairs where the key is the `appId` (e.g., "App_123456") and the value indicates whether the appId is allowed during parental lock.
+     */
+    [appId: string]: number;
+}
+
+/**
+ * Represents the parental settings and restrictions.
+ */
+export interface ParentalSettings {
+    /**
+     * Indicates whether parental settings are enabled.
+     */
+    enabled: boolean;
+    /**
+     * Indicates whether parental settings are locked.
+     */
+    locked: boolean;
+    /**
+     * Bitmask representing enabled features.
+     * - Bit 0: Unknown (@todo Please provide more details if known)
+     * - Bit 1: Online content & features - Steam Store
+     * - Bit 2: Online content & features - Community-generated content
+     * - Bit 3: Online content & features - Friends, chat, and groups
+     * - Bit 4: Online content & features - My online profile, screenshots, and achievements
+     * - Bit 5-11: Unknown (@todo Please provide more details if known)
+     * - Bit 12: Library content - 0: Only games I choose, 1: All games
+     */
+    features: number;
+    /**
+     * Indicates whether all apps are allowed.
+     */
+    allowallapps: boolean;
+    /**
+     * Base list (type not specified but an object).
+     * @todo Determine the type of this property.
+     */
+    baselist: any | undefined;
+    /**
+     * Custom list of allowed applications.
+     */
+    customlist: AppList;
+    /**
+     * Email for recovery (if applicable).
+     */
+    recoveryemail: string | undefined;
+}
+
+export interface ConnectivityTestChange {
+    eConnectivityTestResult: number;
+    eFakeState: number;
+    bChecking: boolean;
+}
+
+export interface ControllerStateChange {
+    unControllerIndex: number;
+    unPacketNum: number;
+    ulUpperButtons: number;
+    ulButtons: number;
+    sLeftPadX: number;
+    sLeftPadY: number;
+    sRightPadX: number;
+    sRightPadY: number;
+    sCenterPadX: number;
+    sCenterPadY: number;
+    sLeftStickX: number;
+    sLeftStickY: number;
+    sRightStickX: number;
+    sRightStickY: number;
+    sTriggerL: number;
+    sTriggerR: number;
+    flDriftCorrectedQuatW: number;
+    flDriftCorrectedQuatX: number;
+    flDriftCorrectedQuatY: number;
+    flDriftCorrectedQuatZ: number;
+    flSensorFusionGyroQuatW: number;
+    flSensorFusionGyroQuatX: number;
+    flSensorFusionGyroQuatY: number;
+    flSensorFusionGyroQuatZ: number;
+    flDeferredSensorFusionGyroQuatW: number;
+    flDeferredSensorFusionGyroQuatX: number;
+    flDeferredSensorFusionGyroQuatY: number;
+    flDeferredSensorFusionGyroQuatZ: number;
+    flGyroDegreesPerSecondX: number;
+    flGyroDegreesPerSecondY: number;
+    flGyroDegreesPerSecondZ: number;
+    flGravityVectorX: number;
+    flGravityVectorY: number;
+    flGravityVectorZ: number;
+    flAccelerometerNoiseLength: number;
+    flGyroNoiseLength: number;
+    flGyroCalibrationProgress: number;
+    sBatteryLevel: number;
+    sPressurePadLeft: number;
+    sPressurePadRight: number;
+    sPressureBumperLeft: number;
+    sPressureBumperRight: number;
+    unHardwareUpdateInMicrosec: number;
+}
+
+export interface ActiveAccount {
+    strActiveAccountID: string;
+    strName: string;
+    strAvatarHash: string;
+}
+
+export interface ControllerInfo {
+    strName: string;
+    eControllerType: number;
+    nXInputIndex: number;
+    nControllerIndex: number;
+    eRumblePreference: number;
+    bWireless: boolean;
+    unUniqueID: number;
+    unVendorID: number;
+    unProductID: number;
+    unCapabilities: number;
+    strFirmwareBuildTime: string;
+    strSerialNumber: string;
+    strChipID: string;
+    nLEDColorR: number;
+    nLEDColorG: number;
+    nLEDColorB: number;
+    flLEDBrightness: number;
+    flLEDSaturation: number;
+    nTurnOnSound: number;
+    nTurnOffSound: number;
+    nLStickDeadzone: number;
+    nRStickDeadzone: number;
+    nLHapticStrength: number;
+    nRHapticStrength: number;
+    flLPadPressureCurve: number;
+    flRPadPressureCurve: number;
+    bHaptics: boolean;
+    bSWAntiDrift: boolean;
+    flGyroStationaryTolerance: number;
+    flAccelerometerStationaryTolerance: number;
+    bRemoteDevice: boolean;
+    bNintendoLayout: boolean;
+    bUseReversedLayout: boolean;
+    ActiveAccount: ActiveAccount | undefined;
+    vecAltAccounts: any[]; // The type for this property might need to be more specific based on the actual data structure
+}
+
+export interface TouchMenuMessage {
+    bHasVirtualMenus: boolean;
+    unControllerIndex: number;
+    appID: number;
+}
+
+export interface ControllerCommandMessage {
+    eAction: number;
+    nControllerIndex: number;
+}
+
+export interface ControllerInputMessage {
+    nA: number;
+    bS: boolean;
+    nC: number;
+}
+
+export interface ControllerAnalogInputMessage {
+    nA: number;
+    x: number;
+    y: number;
+    nC: number;
+}
+
+export interface FriendSettingsFeature {
+    feature: string;
+    bEnabled: boolean;
+}
+
+export interface FriendSettingsEnabledFeature {
+    DoNotDisturb: number;
+    LoaderWindowSynchronization: number;
+    NonFriendMessageHandling: number;
+    NewVoiceHotKeyState: number;
+    PersonaNotifications: number;
+    ServerVirtualizedMemberLists: number;
+    SteamworksChatAPI: number;
+    FriendsFilter: number;
+}
+
+export interface FriendSettingsChange {
+    bNotifications_ShowIngame: number;
+    bNotifications_ShowOnline: number;
+    bNotifications_ShowMessage: number;
+    bNotifications_EventsAndAnnouncements: number;
+    bSounds_PlayIngame: number;
+    bSounds_PlayOnline: number;
+    bSounds_PlayMessage: number;
+    bSounds_EventsAndAnnouncements: number;
+    bAlwaysNewChatWindow: number;
+    bForceAlphabeticFriendSorting: number;
+    nChatFlashMode: number;
+    bRememberOpenChats: number;
+    bCompactQuickAccess: number;
+    bCompactFriendsList: number;
+    bNotifications_ShowChatRoomNotification: number;
+    bSounds_PlayChatRoomNotification: number;
+    bHideOfflineFriendsInTagGroups: number;
+    bHideCategorizedFriends: number;
+    bCategorizeInGameFriendsByGame: number;
+    nChatFontSize: number;
+    b24HourClock: number;
+    bDoNotDisturbMode: number;
+    bDisableEmbedInlining: number;
+    bSignIntoFriends: number;
+    bDisableSpellcheck: number;
+    bDisableRoomEffects: number;
+    bAnimatedAvatars: number;
+    featuresEnabled: FriendSettingsEnabledFeature;
+}
+
 
 export interface Unregisterable {
     /**
