@@ -7,39 +7,49 @@ declare global {
  */
 export interface Apps {
     /**
-     * Adds a non-Steam game to the local Steam library.
-     * @param appName The name of the game.
-     * @param executablePath The path to the game executable.
-     * @param directory The working directory for the game.
-     * @param launchOptions Options to be passed when launching the game.
+     * Adds a non-Steam application to the local Steam library.
+     * @param {string} appName - The name of the application.
+     * @param {string} executablePath - The path to the application executable.
+     * @param {string} directory - The working directory for the application.
+     * @param {string} launchOptions - Options to be passed when launching the application.
      */
     AddShortcut(appName: string, executablePath: string, directory: string, launchOptions: string): any;
 
-    AddUserTagToApps: any;
+    /**
+     * Adds user tags to specified apps in the Steam library.
+     * @param {number[]} appIds - The IDs of the apps to which user tags will be added.
+     * @param {string} userTag - The user tag to be added.
+     * @returns {void}
+     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
+     */
+    AddUserTagToApps(appIds: number[], userTag: string): void;
 
     /**
      * Backups an app to the specified path.
-     * @param appId The ID of the application to back up.
-     * @param backupToPath The path to store the backup.
-     * @return {number} - A Promise that resolves to the number. // Todo: Which appears to be "20" for backup busy and "0" success
+     * @param {number} appId - The ID of the application to back up.
+     * @param {string} backupToPath - The path to store the backup.
+     * @returns {number} A Promise that resolves to a number. This value may be "20" for backup busy and "0" for success.
      */
     BackupFilesForApp(appId: number, backupToPath: string): Promise<number>;
 
     /**
      * Opens the screenshot folder for a specific app.
-     * @param appId The ID of the app to browse screenshots for.
-     * @param param1 Additional parameter (exact usage may vary).
+     * @param {string} appId - The ID of the app to browse screenshots for.
+     * @param {number} param1 - Additional parameter (exact usage may vary).
+     * @returns {void}
      */
-    BrowseScreenshotForApp(appId: string, param1: number): any;
+    BrowseScreenshotForApp(appId: string, param1: number): void;
 
     /**
      * Opens the screenshot folder for a specific app.
-     * @param appId The ID of the app to browse screenshots for.
+     * @param {string} appId - The ID of the app to browse screenshots for.
+     * @returns {void}
      */
-    BrowseScreenshotsForApp(appId: string): any;
+    BrowseScreenshotsForApp(appId: string): void;
 
     /**
      * Cancels the current backup process.
+     * @returns {void}
      */
     CancelBackup(): void;
 
@@ -47,31 +57,59 @@ export interface Apps {
 
     /**
      * Cancels the launch of an application with the specified ID.
-     * @param appId The ID of the application whose launch is to be canceled.
+     * @param {string} appId - The ID of the application whose launch is to be canceled.
+     * @returns {void}
      */
     CancelLaunch(appId: string): void;
 
-    ClearAndSetUserTagsOnApp: any;
+    /**
+     * Clears existing user tags on a specified application and sets new user tags.
+     * @param {number} appId - The ID of the application to clear and set user tags for.
+     * @param {string[]} userTags - An array of user tags to set for the application.
+     * @returns {void}
+     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
+     */
+    ClearAndSetUserTagsOnApp(appId: number, userTags: string[]): void;
 
     /**
      * Clears the custom artwork for a given application.
-     * @param appId The ID of the application to clear custom artwork for.
-     * @param assetType 0 = Grid, 1 = Hero, 2 = Logo
+     * @param {number} appId - The ID of the application to clear custom artwork for.
+     * @param {number} assetType - 0 = Grid, 1 = Hero, 2 = Logo
      */
     ClearCustomArtworkForApp(appId: number, assetType: number): Promise<any>;
 
     ClearCustomLogoPositionForApp: any;
     ClearProton: any;
-    ClearUserTagsOnApps: any;
+
+    /**
+     * Clears user tags on a list of specified applications.
+     * @param {number[]} appIds - An array of application IDs for which to clear user tags.
+     * @returns {void}
+     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
+     */
+    ClearUserTagsOnApps(appIds: number[]): void;
+
     ContinueGameAction: any;
-    CreateDesktopShortcutForApp: any;
+
+    /**
+     * Creates a Steam application shortcut on the desktop.
+     * @param {number} appId - The ID of the application for which to create a desktop shortcut.
+     * @returns {void}
+     */
+    CreateDesktopShortcutForApp(appId: number): void;
+
     DownloadWorkshopItem: any;
     GetAchievementsInTimeRange: any;
-    GetActiveGameActions: any;
+
+    /**
+     * Retrieves a list of active game actions, such as launching an application.
+     * @returns {Promise<GameAction[]>} A Promise that resolves to an array of active game actions.
+     */
+    GetActiveGameActions(): Promise<GameAction[]>;
 
     /**
      * Retrieves a list of available compatibility tools for a specific application.
-     * @param appId The ID of the application to retrieve compatibility tools for.
+     * @param {number} appId - The ID of the application to retrieve compatibility tools for.
      * @returns {Promise<CompatibilityToolInfo[]>} A Promise that resolves to an array of CompatibilityToolInfo objects.
      */
     GetAvailableCompatTools(appId: number): Promise<CompatibilityToolInfo[]>;
@@ -81,18 +119,30 @@ export interface Apps {
     GetCloudPendingRemoteOperations: any;
     GetConflictingFileTimestamps: any;
     GetDetailsForScreenshotUpload: any;
-    GetDetailsForScreenshotUploads: any;
 
+    GetDetailsForScreenshotUploads(param0: string, param1: number[]): any;
+
+    /**
+     * Retrieves a list of downloaded workshop items for a specific application.
+     * @param {number} appId - The ID of the application to retrieve downloaded workshop items for.
+     * @returns {Promise<WorkshopItem[]>} - A Promise that resolves to an array of downloaded workshop items for the specified application.
+     */
     GetDownloadedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
     GetDurationControlInfo: any;
 
+    /**
+     * Retrieves achievement information for a specific application for a given friend.
+     * @param {string} appId - The ID of the application to retrieve achievement information for.
+     * @param {string} friendSteam64Id - The Steam64 ID of the friend for whom to retrieve achievement information.
+     * @returns {Promise<AppAchievementResponse>} - A Promise that resolves to an object containing achievement information for the specified friend and application.
+     */
     GetFriendAchievementsForApp(appId: string, friendSteam64Id: string): Promise<AppAchievementResponse>;
 
     /**
      * Retrieves a list of friends who play the specified application.
      * @param {number} appId - The ID of the application.
-     * @returns {Promise<string[]>} - A Promise that resolves to an array of Steam64 IDs representing friends who play the application.
+     * @returns {Promise<string[]>} A Promise that resolves to an array of Steam64 IDs representing friends who play the application.
      */
     GetFriendsWhoPlay(appId: number): Promise<string[]>;
 
@@ -101,12 +151,17 @@ export interface Apps {
     GetLaunchOptionsForApp: any;
     GetLibraryBootstrapData: any;
 
+    /**
+     * Retrieves achievement information for the authenticated user in a specific Steam application.
+     * @param {string} appId - The ID of the application to retrieve achievement information for.
+     * @returns {Promise<AppAchievementResponse>} A Promise that resolves to an AppAchievementResponse object containing the achievement information for the authenticated user in the specified application.
+     */
     GetMyAchievementsForApp(appId: string): Promise<AppAchievementResponse>;
 
     /**
      * Retrieves the playtime information for a specific application.
      * @param {number} appId - The ID of the application to get playtime information for.
-     * @returns {Promise<Playtime | undefined>} - A Promise that resolves to playtime information or undefined if not available.
+     * @returns {Promise<Playtime | undefined>} A Promise that resolves to playtime information or undefined if not available.
      */
     GetPlaytime(appId: number): Promise<Playtime | undefined>;
 
@@ -114,7 +169,7 @@ export interface Apps {
 
     /**
      * Retrieves the resolution override for a specific application.
-     * @param appId The ID of the application to retrieve the resolution override for.
+     * @param {number} appId - The ID of the application to retrieve the resolution override for.
      * @returns {Promise<string>} A Promise that resolves to a string of the resolution override.
      */
     GetResolutionOverrideForApp(appId: number): Promise<string>;
@@ -123,27 +178,49 @@ export interface Apps {
 
     GetScreenshotsInTimeRange: any;
     GetShortcutData: any;
-    GetShortcutDataForPath: any;
+
+    /**
+     * Retrieves shortcut data for a given shortcut file path.
+     * @param {string} pathToShortcut The path to the shortcut file.
+     * @returns {Promise<Shortcut>} A Promise that resolves to the shortcut data.
+     */
+    GetShortcutDataForPath(pathToShortcut: string): Promise<Shortcut>;
+
     GetSoundtrackDetails: any;
 
     GetStoreTagLocalization(tags: number[]): Promise<any>;
 
+    /**
+     * Retrieves a list of subscribed workshop items for a specific application.
+     * @param {number} appId - The ID of the application to retrieve subscribed workshop items for.
+     * @returns {Promise<WorkshopItem[]>} - A Promise that resolves to an array of subscribed workshop items for the specified application.
+     */
     GetSubscribedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
     InstallFlatpakAppAndCreateShortcut: any;
     JoinAppContentBeta: any;
     JoinAppContentBetaByPassword: any;
-    ListFlatpakApps: any;
+
+    ListFlatpakApps(): Promise<any>;
+
     LoadEula: any;
     MarkEulaAccepted: any;
     MarkEulaRejected: any;
-    OpenAppSettingsDialog: any;
+
+    /**
+     * Opens the settings dialog for a specific application.
+     * @param {number} appId - The ID of the application for which to open the settings dialog.
+     * @param {string} param1 - Additional parameter (exact usage may vary).
+     * @returns {void}
+     */
+    OpenAppSettingsDialog(appId: number, param1: string): void;
+
     RaiseWindowForGame: any;
 
     /**
      * Registers a callback function to be called when achievement changes occur.
      * @param callback The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
      */
     RegisterForAchievementChanges(callback: () => void): Unregisterable | any;
 
@@ -153,7 +230,7 @@ export interface Apps {
      * Registers a callback function to be called when app details change.
      * @param appId The ID of the application to monitor.
      * @param callback The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
      */
     RegisterForAppDetails(appId: number, callback: (appDetails: AppDetails) => void): Unregisterable | any;
 
@@ -162,7 +239,7 @@ export interface Apps {
 
     /**
      * Registers a callback function to be called when a game action ends.
-     * @param callback The callback function to be called.
+     * @param {function} callback - The callback function to be called.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForGameActionEnd(callback: (gameActionIdentifier: number) => void): Unregisterable | any;
@@ -172,62 +249,149 @@ export interface Apps {
     /**
      * Registers a callback function to be called when a game action UI is shown.
      * @param callback The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
      */
     RegisterForGameActionShowUI(callback: () => void): Unregisterable | any; // todo: no idea what this callback is from
 
     /**
      * Registers a callback function to be called when a game action starts.
-     * @param callback The callback function to be called.
+     * @param {function} callback - The callback function to be called.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
-    RegisterForGameActionStart(callback: (gameActionIdentifier: number, appId: string, action: string, param3: number) => void): Unregisterable | any; // gameActionIdentifier is incremental per game action since steam client start
+    RegisterForGameActionStart(callback: (gameActionIdentifier: number, appId: string, action: string, param3: number) => void): Unregisterable | any;
 
+    /**
+     * Registers a callback function to be called when a game action task changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForGameActionTaskChange(callback: (gameActionIdentifier: number, appId: string, action: string, requestedAction: string, param4: string) => void): Unregisterable | any;
 
+    /**
+     * Registers a callback function to be called when a user requests a game action.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForGameActionUserRequest(callback: (gameActionIdentifier: number, appId: string, action: string, requestedAction: string, appId2: string) => void): Unregisterable | any;
 
     RegisterForLocalizationChanges: Unregisterable | any;
     RegisterForPrePurchasedAppChanges: Unregisterable | any;
     RegisterForShowMarketingMessageDialog: Unregisterable | any;
 
+    /**
+     * Registers a callback function to be notified when workshop items are added or removed from a Steam application.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForWorkshopChanges(callback: (appId: number) => void): Unregisterable | any;
 
     RegisterForWorkshopItemDownloads(param0: number, callback: () => void): Unregisterable | any;
 
-    RemoveShortcut(appId: number): any;
+    /**
+     * Removes a non-Steam application shortcut from the Steam library.
+     * @param {number} appId - The ID of the application for which to remove the shortcut.
+     * @returns {void}
+     */
+    RemoveShortcut(appId: number): void;
 
-    RemoveUserTagFromApps: any;
+    /**
+     * Removes a user tag from multiple Steam applications.
+     * @param {number[]} appIds - An array of application IDs from which the user tag should be removed.
+     * @param {string} userTag - The user tag to be removed.
+     * @returns {void}
+     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
+     */
+    RemoveUserTagFromApps(appIds: number[], userTag: string): void;
+
     ReportLibraryAssetCacheMiss: any;
     ReportMarketingMessageDialogShown: any;
     RequestIconDataForApp: any;
     RequestLegacyCDKeysForApp: any;
     ResetHiddenState: any;
 
+    /**
+     * Runs a game with specified parameters.
+     * @param {string} appId - The ID of the application to run.
+     * @param {string} param1 - Additional parameter (exact usage may vary).
+     * @param {number} param2 - Additional parameter (exact usage may vary).
+     * @param {number} param3 - Additional parameter (exact usage may vary).
+     * @returns {any}
+     */
     RunGame(appId: string, param1: string, param2: number, param3: number): any;
 
     SaveAchievementProgressCache: any;
 
+    /**
+     * Scans the system for installed non-Steam applications.
+     * @returns {Promise<NonSteamApp[]>} A Promise that resolves to an array of NonSteamApp objects representing installed non-Steam applications.
+     * @remarks This function scans the user's system for installed applications that are not part of the Steam library. It does not scan for shortcuts added to the Steam library.
+     */
     ScanForInstalledNonSteamApps(): Promise<NonSteamApp[]>;
 
-    SetAppAutoUpdateBehavior: any;
-    SetAppBackgroundDownloadsBehavior: any;
-    SetAppCurrentLanguage: any;
-    SetAppHidden: any;
+    /**
+     * Sets the automatic update behavior for a Steam application.
+     * @param {number} appId - The ID of the application to set the update behavior for.
+     * @param {number} mode - The update behavior mode to set. Possible values: 0 (Always keep this game updated), 1 (Only update this game when I launch it), 2 (High priority).
+     * @returns {void}
+     * @remarks This function only works with installed Steam applications.
+     * @todo The 'mode' parameter is likely an enum with values that control the auto-update behavior of the specified application.
+     */
+    SetAppAutoUpdateBehavior(appId: number, mode: number): void;
 
-    SetAppLaunchOptions(appId: number, launchOptions: string): any;
+    /**
+     * Sets the background downloads behavior for a specific Steam application.
+     * @param {number} appId - The ID of the application to set the background downloads behavior for.
+     * @param {number} mode - The background downloads mode to set. Possible values are: 0 (Pause), 1 (Always), 2 (Never).
+     * @returns {void}
+     * @remarks This function only works with installed Steam applications.
+     * @todo The 'mode' parameter is likely an enum with values that control the background downloads behavior of the specified application.
+     */
+    SetAppBackgroundDownloadsBehavior(appId: number, mode: number): void;
 
-    SetAppResolutionOverride: any;
+    /**
+     * Sets the current language for a specific Steam application.
+     * @param {number} appId - The ID of the application to set the current language for.
+     * @param {string} language - The language to set, represented as a language (e.g., "english", "spanish", "tchinese", "schinese").
+     * @returns {void}
+     */
+    SetAppCurrentLanguage(appId: number, language: string): void;
+
+    /**
+     * Sets the hidden status of a specific Steam application.
+     * @param {number} appId - The ID of the application to set the hidden status for.
+     * @param {boolean} value - The value indicating whether the application should be hidden (true) or not (false).
+     * @returns {void}
+     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file to set the hidden status of the specified application.
+     */
+    SetAppHidden(appId: number, value: boolean): void;
+
+    /**
+     * Sets launch options for a Steam application.
+     * @param {number} appId - The ID of the application to set launch options for.
+     * @param {string} launchOptions - The launch options to be set for the application.
+     * @returns {void}
+     */
+    SetAppLaunchOptions(appId: number, launchOptions: string): void;
+
+    /**
+     * Sets a resolution override for a Steam application.
+     * @param {number} appId - The ID of the application to set the resolution override for.
+     * @param {string} resolution - The resolution to be set for the application. It can be "Default", "Native", or other compatible resolutions for the user's monitor.
+     * @returns {void}
+     */
+    SetAppResolutionOverride(appId: number, resolution: string): any;
+
     SetCachedAppDetails: any;
     SetControllerRumblePreference: any;
 
     /**
      * Sets the custom artwork for a given application.
-     * @param appId The ID of the application to set custom artwork for.
-     * @param base64Image Base64 encoded image.
-     * @param imageType "jpeg" or "png".
-     * @param assetType 0 = Grid, 1 = Hero, 2 = Logo.
-     * @returns A Promise that resolves after the custom artwork is set.
+     * @param {number} appId - The ID of the application to set custom artwork for.
+     * @param {string} base64Image - Base64 encoded image.
+     * @param {string} imageType - "jpeg" or "png".
+     * @param {number} assetType - 0 = Grid, 1 = Hero, 2 = Logo.
+     * @returns {Promise<any>} A Promise that resolves after the custom artwork is set.
+     * @todo More missing assetTypes
      */
     SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: number): Promise<any>;
 
@@ -237,16 +401,45 @@ export interface Apps {
     SetLocalScreenshotPrivacy: any;
     SetLocalScreenshotSpoiler: any;
 
-    SetShortcutExe(appId: number, path: string): any;
+    /**
+     * Sets the icon for a non-Steam application shortcut.
+     * @param {string} appId - The ID of the application to set the shortcut icon for.
+     * @param {string} iconPath - The path to the icon image (can be png or tga format).
+     * @returns {void}
+     */
+    SetShortcutIcon(appId: number, iconPath: string): void;
 
-    SetShortcutIcon: any;
-    SetShortcutIsVR: any;
+    /**
+     * Sets whether a non-Steam application shortcut should be included in the VR library.
+     * @param {number} appId The ID of the application to set the VR status for.
+     * @param {boolean} value A boolean indicating whether the application should be included in the VR library.
+     * @returns {void}
+     */
+    SetShortcutIsVR(appId: number, value: boolean): void;
 
-    SetShortcutLaunchOptions(appId: number, launchOptions: string): any;
+    /**
+     * Sets launch options for a non-Steam application shortcut.
+     * @param {number} appId - The ID of the application to set the launch options for.
+     * @param {string} launchOptions - The launch options to be used when starting the application.
+     * @returns {void}
+     */
+    SetShortcutLaunchOptions(appId: number, launchOptions: string): void;
 
-    SetShortcutName(appId: number, shortcutName: string): any;
+    /**
+     * Sets the name for a non-Steam application shortcut.
+     * @param {number} appId - The ID of the application to set the shortcut name for.
+     * @param {string} shortcutName - The name to be displayed for the application shortcut.
+     * @returns {void}
+     */
+    SetShortcutName(appId: number, shortcutName: string): void;
 
-    SetShortcutStartDir(appId: number, directory: string): any;
+    /**
+     * Sets the starting directory for a non-Steam application shortcut.
+     * @param {number} appId - The ID of the application to set the starting directory for.
+     * @param {string} directory - The directory from which the application should be launched.
+     * @returns {void}
+     */
+    SetShortcutStartDir(appId: number, directory: string): void;
 
     SetStreamingClientForApp: any;
     SetThirdPartyControllerConfiguration: any;
@@ -262,15 +455,22 @@ export interface Apps {
 
     /**
      * Specifies a compatibility tool by its name for a given application. If strToolName is an empty string, the specified application will no longer use a compatibility tool.
-     * @param appId The ID of the application to specify compatibility tool for.
-     * @param strToolName The name of the compatibility tool to specify.
+     * @param {number} appId - The ID of the application to specify compatibility tool for.
+     * @param {string} strToolName - The name of the compatibility tool to specify.
+     * @returns {void}
      */
     SpecifyCompatTool(appId: number, strToolName: string): void;
 
     StreamGame: any;
     SubscribeWorkshopItem: any;
 
-    TerminateApp(appId: string, param1: boolean): any;
+    /**
+     * Terminates a running application.
+     * @param {string} appId - The ID of the application to terminate.
+     * @param {boolean} param1 - Additional parameter. // Todo: Unknown usage. My guess is it forces the termination; otherwise, attempts a graceful termination.
+     * @returns {void}
+     */
+    TerminateApp(appId: string, param1: boolean): void;
 
     ToggleAllowDesktopConfiguration: any;
     ToggleAppFamilyBlockedState: any;
@@ -283,9 +483,9 @@ export interface Apps {
 
     /**
      * Verifies the integrity of an app's files.
-     * @param appId The ID of the app to verify.
+     * @param {number} appId - The ID of the app to verify.
      */
-    VerifyApp(appId: number): any;
+    VerifyApp(appId: number): Promise<any>; // todo: returns {"nGameActionID":9}
 }
 
 export interface Auth {
@@ -319,8 +519,11 @@ export interface Browser {
     BIsVROverlayBrowser: any;
     ClearAllBrowsingData: any;
     ClearHistory: any;
+
     CloseDevTools(): void;
+
     GetBrowserID(): Promise<number>;
+
     GetSteamBrowserID(): Promise<number>; // 16-bit unsigned integer?
     GoBack: any;
     GoForward: any;
@@ -329,7 +532,9 @@ export interface Browser {
     InspectElement(param0: any, param1: any): any;
 
     NotifyUserActivation: any;
+
     OpenDevTools(): void;
+
     OpenURLForNavigation: any;
     RegisterForGestureEvents: Unregisterable | any;
     RegisterForOpenNewTab: Unregisterable | any;
@@ -367,22 +572,22 @@ export interface CommunityItems {
 export interface Console {
     /**
      * Executes a console command.
-     * @param command - The command to execute in the console.
+     * @param {string} command - The command to execute in the console.
      * @returns {void}
      */
     ExecCommand(command: string): void;
 
     /**
      * Retrieves autocomplete suggestions for a given console command.
-     * @param command - The console command to provide autocomplete suggestions for.
+     * @param {string} command - The console command to provide autocomplete suggestions for.
      * @returns {Promise<string[]>} - A Promise that resolves to an array of autocomplete suggestions.
      */
     GetAutocompleteSuggestions(command: string): Promise<string[]>;
 
     /**
      * Registers a callback function to receive spew output.
-     * @param callback - The callback function that will receive spew output.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param {function} callback - The callback function that will receive spew output.
+     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
      */
     RegisterForSpewOutput(callback: (spewOutput: SpewOutput) => void): Unregisterable | any;
 }
@@ -405,18 +610,33 @@ export interface Downloads {
     RegisterForDownloadOverview(callback: (downloadOverview: DownloadOverview) => void): Unregisterable | any;
 
     RemoveFromDownloadList: any;
+
     ResumeAppUpdate(appId: number): void;
+
     SetLaunchOnUpdateComplete: any;
     SetQueueIndex: any;
     SuspendDownloadThrottling: any;
     SuspendLanPeerContent: any;
 }
 
+/**
+ * Represents functions related to Steam Family Sharing.
+ */
 export interface FamilySharing {
+    /**
+     * Authorizes library sharing on the local device.
+     * @returns {Promise<number>} A Promise that resolves to a status code.
+     */
     AuthorizeLocalDevice(): Promise<number>;
+
+    /**
+     * Deauthorizes library sharing on the local device.
+     * @returns {Promise<number>} A Promise that resolves to a status code.
+     */
     DeauthorizeLocalDevice(): Promise<number>;
-    RequestFamilySharingAuthorization: any;
-    UpdateAuthorizedBorrower: any;
+
+    RequestFamilySharingAuthorization(param0: string): Promise<number>; // Unknown param0, my assumption is probably a steam64Id of the user sharing the library
+    UpdateAuthorizedBorrower(param0: number, param1: boolean): Promise<number>; // Unknown
 }
 
 export interface Features {
@@ -436,7 +656,7 @@ export interface FriendSettings {
     /**
      * Registers a callback function to be notified of friend settings changes.
      * @param callback - The callback function to be called when friend settings change.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
      * @todo The callback receives an escaped JSON object string as "settingsChanges", which should be parsed into FriendSettingsChange object.
      */
     RegisterForSettingsChanges(callback: (settingsChanges: string) => void): Unregisterable | any;
@@ -515,7 +735,7 @@ export interface Input {
     RegisterForConfigSelectionChanges: Unregisterable | any;
     RegisterForControllerAccountChanges: Unregisterable | any;
 
-    RegisterForControllerAnalogInputMessages(callback: (controllerAnalogInputMessages: ControllerAnalogInputMessage[])): Unregisterable | any;
+    RegisterForControllerAnalogInputMessages(callback: (controllerAnalogInputMessages: ControllerAnalogInputMessage[]) => void): Unregisterable | any;
 
     RegisterForControllerCommandMessages(callback: (controllerCommandMessage: ControllerCommandMessage) => void): Unregisterable | any;
 
@@ -525,7 +745,7 @@ export interface Input {
     /**
      * Registers a callback function to be invoked when controller input messages are received.
      * @param {(controllerInputMessages: ControllerInputMessage[]) => void} callback - The callback function to be invoked when controller input messages are received.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
      */
     RegisterForControllerInputMessages(callback: (controllerInputMessages: ControllerInputMessage[]) => void): Unregisterable | any;
 
@@ -741,7 +961,7 @@ export interface Parental {
     /**
      * Registers a callback function to be invoked when parental settings change.
      * @param {(parentalSettings: ParentalSettings) => void} callback - The callback function to be invoked when parental settings change.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
      */
     RegisterForParentalSettingsChanges(callback: (parentalSettings: ParentalSettings) => void): Unregisterable | any;
 
@@ -757,20 +977,27 @@ export interface Parental {
 export interface RemotePlay {
     BCanAcceptInviteForGame: any;
     BCanCreateInviteForGame: any;
-    BCanHostIsolatedGameAudio: any;
-    BEnabled: any;
+
+    BCanHostIsolatedGameAudio(): Promise<boolean>;
+
+    BEnabled(): Promise<boolean>;
+
     BRemotePlayTogetherGuestOnPhoneOrTablet: any;
-    BRemotePlayTogetherGuestSupported: any;
+
+    BRemotePlayTogetherGuestSupported(): Promise<boolean>;
+
     CancelInviteAndSession: any;
     CancelInviteAndSessionWithGuestID: any;
     CloseGroup: any;
     CreateGroup: any;
     CreateInviteAndSession: any;
     CreateInviteAndSessionWithGuestID: any;
-    GetClientStreamingBitrate: any;
-    GetClientStreamingQuality: any;
-    GetControllerType: any;
-    GetGameSystemVolume: any;
+
+    GetClientStreamingBitrate(): Promise<number>; //todo: -1 not streaming??
+    GetClientStreamingQuality(): Promise<number>; //todo: -1 not streaming??
+    GetControllerType(param0: number): Promise<number>; // todo: param0 with value 0 is host controller type - param0 is likely an index of clients or guestId?
+    GetGameSystemVolume(): Promise<number>;
+
     GetPerUserInputSettings: any;
     GetPerUserInputSettingsWithGuestID: any;
     IdentifyController: any;
@@ -780,26 +1007,36 @@ export interface RemotePlay {
     RegisterForAudioDriverPrompt: Unregisterable | any;
     RegisterForBitrateOverride: Unregisterable | any;
     RegisterForControllerIndexSet: Unregisterable | any;
-    RegisterForDevicesChanges: Unregisterable | any;
+
+    RegisterForDevicesChanges(callback: (devicesChange: RemotePlayDevice[]) => void): Unregisterable | any;
+
     RegisterForGroupCreated: Unregisterable | any;
     RegisterForGroupDisbanded: Unregisterable | any;
     RegisterForInputDriverPrompt: Unregisterable | any;
     RegisterForInputDriverRestartNotice: Unregisterable | any;
-    RegisterForInputUsed: Unregisterable | any;
+
+    RegisterForInputUsed(callback: (param0: string, param1: number, param2: number) => void): Unregisterable | any; // only fires on host
+
     RegisterForInviteResult: Unregisterable | any;
-    RegisterForNetworkUtilizationUpdate: Unregisterable | any;
+
+    RegisterForNetworkUtilizationUpdate(callback: (param0: string, param1: number, param2: number, param3: number) => void): Unregisterable | any; // only fires on host
+
     RegisterForPlaceholderStateChanged: Unregisterable | any;
     RegisterForPlayerInputSettingsChanged: Unregisterable | any;
     RegisterForQualityOverride: Unregisterable | any;
     RegisterForRemoteClientLaunchFailed: Unregisterable | any;
-    RegisterForRemoteClientStarted: Unregisterable | any;
-    RegisterForRemoteClientStopped: Unregisterable | any;
 
-    RegisterForSettingsChanges: Unregisterable | any;
+    RegisterForRemoteClientStarted(callback: (steam64Id: string, appId: number) => void): Unregisterable | any; // only fires on client
+
+    RegisterForRemoteClientStopped(callback: (steam64Id: string, appId: number) => void): Unregisterable | any; // only fires on client
+
+    RegisterForSettingsChanges(callback: (remotePlaySettings: RemotePlaySettings) => void): Unregisterable | any;
 
     SetClientStreamingBitrate: any;
     SetClientStreamingQuality: any;
-    SetGameSystemVolume: any;
+
+    SetGameSystemVolume(volume: number): void;
+
     SetPerUserControllerInputEnabled: any;
     SetPerUserControllerInputEnabledWithGuestID: any;
     SetPerUserKeyboardInputEnabled: any;
@@ -815,11 +1052,14 @@ export interface RemotePlay {
     SetStreamingP2PScope: any;
     SetStreamingServerConfig: any;
     SetStreamingServerConfigEnabled: any;
-    StopStreamingClient: any;
+
+    StopStreamingClient(): void;
+
     StopStreamingSession: any;
     StopStreamingSessionAndSuspendDevice: any;
     UnlockH264: any;
-    UnpairRemoteDevices: any;
+
+    UnpairRemoteDevices(): void;// unpairs all devices
 }
 
 /**
@@ -1101,9 +1341,12 @@ export interface NetworkDevice {
 
 export interface Network {
     Device: NetworkDevice;
-    ForceRefresh: any;
-    ForceTestConnectivity: any;
-    GetProxyInfo: any;
+
+    ForceRefresh(): Promise<any>; // Returns {"result":1,"message":""}
+    ForceTestConnectivity(): void;
+
+    GetProxyInfo(): Promise<ProxyInfo>;
+
     RegisterForAppSummaryUpdate: Unregisterable | any;
     RegisterForConnectionStateUpdate: Unregisterable | any;
 
@@ -1112,10 +1355,12 @@ export interface Network {
     RegisterForDeviceChanges(callback: (param0: any) => void): Unregisterable | any;
 
     SetFakeLocalSystemState: any;
-    SetProxyInfo: any;
-    SetWifiEnabled: any;
-    StartScanningForNetworks: any;
-    StopScanningForNetworks: any;
+
+    SetProxyInfo(mode: number, address: string, port: number, excludeLocal: boolean): void;
+
+    SetWifiEnabled(value: boolean): Promise<any>; // Returns {"result":1,"message":""}
+    StartScanningForNetworks(): Promise<any>; // Returns {"result":1,"message":""}
+    StopScanningForNetworks(): Promise<any>; // Returns {"result":1,"message":""}
 }
 
 export interface Report {
@@ -1444,14 +1689,18 @@ export interface SteamClient {
 
 export interface SteamShortcut {
     appid: number;
-    data: {
-        bIsApplication: boolean;
-        strAppName: string;
-        strExePath: string;
-        strArguments: string;
-        strShortcutPath: string;
-        strSortAs: string;
-    };
+    data: Shortcut;
+}
+
+export interface Shortcut {
+    bIsApplication: boolean;
+    strAppName: string;
+    strExePath: string;
+    strArguments: string;
+    strCmdline: string;
+    strShortcutPath: string | undefined;
+    strSortAs: string | undefined;
+    strIconDataBase64: string | undefined;
 }
 
 /**
@@ -1966,8 +2215,8 @@ export interface ParentalSettings {
      * - Bit 0: Unknown (@todo Please provide more details if known)
      * - Bit 1: Online content & features - Steam Store
      * - Bit 2: Online content & features - Community-generated content
-     * - Bit 3: Online content & features - Friends, chat, and groups
-     * - Bit 4: Online content & features - My online profile, screenshots, and achievements
+     * - Bit 3: Online content & features - My online profile, screenshots, and achievements
+     * - Bit 4: Online content & features - Friends, chat, and groups
      * - Bit 5-11: Unknown (@todo Please provide more details if known)
      * - Bit 12: Library content - 0: Only games I choose, 1: All games
      */
@@ -2156,6 +2405,52 @@ export interface FriendSettingsChange {
     bDisableRoomEffects: number;
     bAnimatedAvatars: number;
     featuresEnabled: FriendSettingsEnabledFeature;
+}
+
+export interface ProxyInfo {
+    proxy_mode: number;
+    address: string;
+    port: number; // todo: 16 bit integer
+    exclude_local: boolean;
+}
+
+export interface RemotePlayDevice {
+    clientName: string;
+    status: string; // "Connected", "Paired",
+    formFactor: number;
+    unStreamingSessionID: number;
+    bCanSuspend: boolean;
+}
+
+export interface RemotePlaySettings {
+    bRemotePlaySupported: boolean;
+    bRemotePlayEnabled: boolean;
+    eRemotePlayP2PScope: number;
+    bRemotePlayServerConfigAvailable: boolean;
+    bRemotePlayServerConfigEnabled: boolean;
+    RemotePlayServerConfig: any; // todo: document {}
+    bRemotePlayClientConfigEnabled: boolean;
+    unStreamingSessionID: number;
+    strStreamingClientName: string;
+    RemotePlayClientConfig: any; // todo: document {}
+    nDefaultAudioChannels: number;
+    bDefaultEncodeNVIDIA: boolean;
+    bDefaultEncodeAMD: boolean;
+    bDefaultEncodeIntel: boolean;
+    nAutomaticResolutionX: number;
+    nAutomaticResolutionY: number;
+}
+
+export interface GameAction {
+    nGameActionID: number;
+    gameid: string;
+    strActionName: string;
+    strTaskName: string;
+    strTaskDetails: string;
+    nSecondsRemaing: number; //fixme: not a typo, actually valve
+    strNumDone: string;
+    strNumTotal: string;
+    bWaitingForUI: boolean;
 }
 
 
