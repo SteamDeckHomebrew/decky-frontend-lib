@@ -474,10 +474,31 @@ export interface Apps {
 
     ToggleAllowDesktopConfiguration: any;
     ToggleAppFamilyBlockedState: any;
-    ToggleAppSteamCloudEnabled: any;
+
+    /**
+     * Toggles the Steam Cloud synchronization for game saves for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @returns {void}
+     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
+     */
+    ToggleAppSteamCloudEnabled(appId: number): void;
+
     ToggleAppSteamCloudSyncOnSuspendEnabled: any;
-    ToggleEnableDesktopTheatreForApp: any;
-    ToggleEnableSteamOverlayForApp: any;
+
+    /**
+     * Toggles the "Use Desktop Game Theatre while SteamVR is active" setting for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @returns {void}
+     */
+    ToggleEnableDesktopTheatreForApp(appId: number): void;
+
+    /**
+     * Toggles the Steam Overlay setting for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @returns {void}
+     */
+    ToggleEnableSteamOverlayForApp(appId: number): void;
+
     ToggleOverrideResolutionForInternalDisplay: any;
     UninstallFlatpakApp: any;
 
@@ -598,25 +619,93 @@ export interface Customization {
     GetLocalStartupMovies: any;
 }
 
+/**
+ * Represents functions related to managing downloads in Steam.
+ */
 export interface Downloads {
-    EnableAllDownloads: any;
-    MoveAppUpdateDown: any;
-    MoveAppUpdateUp: any;
-    PauseAppUpdate: any;
-    QueueAppUpdate: any;
+    EnableAllDownloads(enable: boolean): void; // todo: Unknown usage
 
+    /**
+     * Moves the update for a specific app down the download queue.
+     * @param {number} appId - The ID of the application to move.
+     * @returns {void}
+     */
+    MoveAppUpdateDown(appId: number): void;
+
+    /**
+     * Moves the update for a specific app up the download queue.
+     * @param {number} appId - The ID of the application to move.
+     * @returns {void}
+     */
+    MoveAppUpdateUp(appId: number): void;
+
+    PauseAppUpdate(appId: number): void; // Broken? It seems to be removing it from download list like RemoveFromDownloadList
+
+    /**
+     * Adds the update for a specific app to the download queue.
+     * @param {number} appId - The ID of the application to queue.
+     * @returns {void}
+     */
+    QueueAppUpdate(appId: number): void;
+
+    /**
+     * Registers a callback function to be called when download items change.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForDownloadItems(callback: (isDownloading: boolean, downloadItems: DownloadItem[]) => void): Unregisterable | any;
 
+    /**
+     * Registers a callback function to be called when download overview changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForDownloadOverview(callback: (downloadOverview: DownloadOverview) => void): Unregisterable | any;
 
-    RemoveFromDownloadList: any;
+    /**
+     * Removes the update for a specific app from the download list and places it in the unscheduled list.
+     * @param {number} appId - The ID of the application to remove.
+     * @returns {void}
+     */
+    RemoveFromDownloadList(appId: number): void;
 
+    /**
+     * Resumes the update for a specific app in the queue.
+     * @param {number} appId - The ID of the application to resume.
+     * @returns {void}
+     */
     ResumeAppUpdate(appId: number): void;
 
-    SetLaunchOnUpdateComplete: any;
-    SetQueueIndex: any;
-    SuspendDownloadThrottling: any;
-    SuspendLanPeerContent: any;
+    /**
+     * Sets an app to launch when its download is complete.
+     * @param {number} appId - The ID of the application to set.
+     * @returns {void}
+     * @todo: unsure if this toggles though
+     */
+    SetLaunchOnUpdateComplete(appId: number): void;
+
+    /**
+     * Sets the queue index for an app in the download queue.
+     * @param {number} appId - The ID of the application to set the index for.
+     * @param {number} index - The index to set.
+     * @returns {void}
+     * @remarks Index of 0 is the current download in progress.
+     */
+    SetQueueIndex(appId: number, index: number): void;
+
+    /**
+     * Suspends or resumes download throttling.
+     * @param {boolean} suspend - Whether to suspend or resume download throttling.
+     * @returns {void}
+     */
+    SuspendDownloadThrottling(suspend: boolean): void;
+
+    /**
+     * Suspends or resumes local transfers.
+     * @param {boolean} suspend - Whether to suspend or resume local transfers.
+     * @returns {void}
+     */
+    SuspendLanPeerContent(suspend: boolean): void;
 }
 
 /**
@@ -682,7 +771,8 @@ export interface GameNotes {
     GetNotesMetadata: any;
     GetNumNotes: any;
     GetQuota: any;
-    IterateNotes: any;
+
+    IterateNotes(appId: number, length: number): any; // Results array of {"result":1,"filename":"","filesize":0,"timestamp":0}
     ResolveSyncConflicts: any;
     SaveNotes: any;
     SyncToClient: any;
@@ -690,11 +780,29 @@ export interface GameNotes {
     UploadImage: any;
 }
 
+/**
+ * Represents functions related to Steam Game Sessions.
+ */
 export interface GameSessions {
+    /**
+     * Registers a callback function to be called when an achievement notification is received.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForAchievementNotification(callback: (achievementNotification: AchievementNotification) => void): Unregisterable | any;
 
+    /**
+     * Registers a callback function to be called when an app lifetime notification is received.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForAppLifetimeNotifications(callback: (appLifetimeNotification: AppLifetimeNotification) => void): Unregisterable | any;
 
+    /**
+     * Registers a callback function to be called when a screenshot notification is received.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForScreenshotNotification(callback: (screenshotNotification: ScreenshotNotification) => void): Unregisterable | any;
 }
 
@@ -824,45 +932,195 @@ export interface Input {
     UploadChangesForCloudedControllerConfigs: any;
 }
 
+/**
+ * Represents functions related to Steam Install Folders.
+ */
 export interface InstallFolder {
-    AddInstallFolder: any;
-    BrowseFilesInFolder: any;
-    CancelMove: any;
+    /**
+     * Adds a Steam Library folder to the Steam client.
+     * @param {string} steamLibraryPath - The path of the Steam Library folder to be added.
+     * @returns {Promise<number>} - A Promise that resolves to the index of the added folder.
+     */
+    AddInstallFolder(steamLibraryPath: string): Promise<number>;
 
     /**
-     * Retrieves a list of install folders.
-     * @returns A Promise that resolves to an array of InstallFolder objects.
+     * Opens the file explorer to browse files in a specific Steam Library folder.
+     * @param {number} folderIndex - The index of the folder to be opened.
+     * @returns {void}
      */
-    GetInstallFolders(): Promise<InstallFolder[]>;
+    BrowseFilesInFolder(folderIndex: number): void;
 
-    GetPotentialFolders: any;
-    MoveInstallFolderForApp: any;
-    RefreshFolders: any;
-    RegisterForInstallFolderChanges: Unregisterable | any;
-    RegisterForMoveContentProgress: Unregisterable | any;
-    RegisterForRepairFolderFinished: Unregisterable | any;
-    RemoveInstallFolder: any;
-    RepairInstallFolder: any;
-    SetDefaultInstallFolder: any;
-    SetFolderLabel: any;
+    /**
+     * Cancels the current move operation for moving game content.
+     * @returns {void}
+     */
+    CancelMove(): void;
+
+    /**
+     * Retrieves a list of installed Steam Library folders.
+     * @returns {Promise<SteamInstallFolder[]>} - A Promise that resolves to an array of SteamInstallFolder objects.
+     */
+    GetInstallFolders(): Promise<SteamInstallFolder[]>;
+
+    /**
+     * Retrieves a list of potential Steam Library folders that can be added.
+     * @returns {Promise<PotentialInstallFolder[]>} - A Promise that resolves to an array of PotentialInstallFolder objects.
+     */
+    GetPotentialFolders(): Promise<PotentialInstallFolder[]>;
+
+    /**
+     * Moves the installation folder for a specific app to another Steam Library folder.
+     * @param {number} appId - The ID of the application to be moved.
+     * @param {number} folderIndex - The index of the target Steam Library folder.
+     * @returns {void}
+     */
+    MoveInstallFolderForApp(appId: number, folderIndex: number): void;
+
+    /**
+     * Refreshes the list of installed Steam Library folders.
+     * @returns {any} - A Promise or response indicating the refresh operation.
+     */
+    RefreshFolders(): any;
+
+    /**
+     * Registers a callback function to be called when changes occur in Steam Install Folders.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForInstallFolderChanges(callback: (folderChange: FolderChange) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when moving game content progresses.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForMoveContentProgress(callback: (moveContentProgress: MoveContentProgress) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when repairing an install folder is finished.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForRepairFolderFinished(callback: (folderChange: FolderChange) => void): Unregisterable | any;
+
+    /**
+     * Removes a Steam Library folder from the Steam client.
+     * @param {number} folderIndex - The index of the folder to be removed.
+     * @returns {void}
+     */
+    RemoveInstallFolder(folderIndex: number): void;
+
+    /**
+     * Repairs an installed Steam Library folder.
+     * @param {number} folderIndex - The index of the folder to be repaired.
+     * @returns {void}
+     */
+    RepairInstallFolder(folderIndex: number): void;
+
+    /**
+     * Sets a specific Steam Library folder as the default install folder.
+     * @param {number} folderIndex - The index of the folder to be set as default.
+     * @returns {void}
+     */
+    SetDefaultInstallFolder(folderIndex: number): void;
+
+    /**
+     * Sets a user-defined label for a specific Steam Library folder.
+     * @param {number} folderIndex - The index of the folder to be labeled.
+     * @param {string} userLabel - The label to be assigned to the folder.
+     * @returns {void}
+     */
+    SetFolderLabel(folderIndex: number, userLabel: string): void;
 }
 
+/**
+ * Represents functions related to managing installs and installation wizards in Steam.
+ */
 export interface Installs {
-    CancelInstall: any;
-    ContinueInstall: any;
-    GetInstallManagerInfo: any;
-    OpenInstallBackup: any;
-    OpenInstallWizard: any;
-    OpenUninstallWizard: any;
-    RegisterForShowConfirmUninstall: Unregisterable | any;
-    RegisterForShowFailedUninstall: Unregisterable | any;
+    /**
+     * Cancels the installation wizard if it is open.
+     * @returns {void}
+     */
+    CancelInstall(): void;
 
-    RegisterForShowInstallWizard(callback: (data: InstallWizardInfo) => void): Unregisterable | any;
+    /**
+     * Continues and starts the installation if the wizard is still open.
+     * @returns {void}
+     */
+    ContinueInstall(): void;
+
+    /**
+     * Retrieves information from the last opened or currently opened installation wizard.
+     * @returns {Promise<InstallInfo>} A Promise that resolves to the InstallInfo.
+     */
+    GetInstallManagerInfo(): Promise<InstallInfo>;
+
+    /**
+     * Opens the restore from backup installer wizard for a specific app.
+     * @param {string} appBackupPath - The backup path of the app.
+     * @returns {void}
+     */
+    OpenInstallBackup(appBackupPath: string): void;
+
+    /**
+     * Opens the installation wizard for specified app IDs.
+     * @param {number[]} appIds - An array of app IDs to install.
+     * @returns {void}
+     */
+    OpenInstallWizard(appIds: number[]): void;
+
+    /**
+     * Opens the uninstall wizard for specified app IDs.
+     * @param {number[]} appIds - An array of app IDs to uninstall.
+     * @param {boolean} param1 - Additional parameter (exact usage may vary).
+     * @returns {any} - Returns an unknown value.
+     */
+    OpenUninstallWizard(appIds: number[], param1: boolean): any;
+
+    RegisterForShowConfirmUninstall: Unregisterable | any; // Broken?
+
+    /**
+     * Registers a callback function to be called when the "Failed Uninstall" dialog is shown.
+     * @param {function} callback - The callback function to be called when the dialog is shown.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @remarks For example, a `reason` code of 16 indicates that the app is currently running, preventing the uninstallation.
+     * @todo Document other reason codes.
+     */
+    RegisterForShowFailedUninstall(callback: (appId: number, reason: number) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when the installation wizard is shown.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForShowInstallWizard(callback: (data: InstallInfo) => void): Unregisterable | any;
 
     RegisterForShowRegisterCDKey: any;
-    SetAppList: any;
-    SetCreateShortcuts: any;
-    SetInstallFolder: any;
+
+    /**
+     * Sets a list of app identifiers for downloads in the installation wizard.
+     * @param {number[]} appIds - An array of app IDs to set.
+     * @returns {void}
+     * @remarks The wizard will not reflect this change immediately, but changing another option will.
+     */
+    SetAppList(appIds: number[]): void; // Sets a list of app identifiers for downloads, the wizard will not reflect this immediately but changing and option will.
+
+    /**
+     * Sets the options for creating shortcuts in the installation wizard.
+     * @param {boolean} bDesktopShortcut - Whether to create a desktop shortcut.
+     * @param {boolean} bSystemMenuShortcut - Whether to create a system menu shortcut.
+     * @returns {void}
+     * @remarks The wizard will not reflect this change immediately, but changing another option will.
+     */
+    SetCreateShortcuts(bDesktopShortcut: boolean, bSystemMenuShortcut: boolean): void; // Sets install wizard create shortcuts options
+
+    /**
+     * Sets the install folder for the installation wizard using an install folder index.
+     * @param {number} folderIndex - The index of the install folder.
+     * @returns {void}
+     * @remarks The wizard will not reflect this change immediately, but changing another option will.
+     */
+    SetInstallFolder(folderIndex: number): void; // Sets install wizard install folder with install folder index
 }
 
 export interface Messaging {
@@ -871,20 +1129,84 @@ export interface Messaging {
     PostMessage(): void;
 }
 
+/**
+ * Represents functions related to controlling music playback in the Steam client.
+ */
 export interface Music {
-    DecreaseVolume: any;
-    IncreaseVolume: any;
-    PlayEntry: any;
-    PlayNext: any;
-    PlayPrevious: any;
-    RegisterForMusicPlaybackChanges: Unregisterable | any;
-    RegisterForMusicPlaybackPosition: Unregisterable | any;
-    SetPlaybackPosition: any;
-    SetPlayingRepeatStatus: any;
-    SetPlayingShuffled: any;
-    SetVolume: any;
-    ToggleMuteVolume: any;
-    TogglePlayPause: any;
+    /**
+     * Decreases the music volume by 10%.
+     */
+    DecreaseVolume(): void;
+
+    /**
+     * Increases the music volume by 10%.
+     */
+    IncreaseVolume(): void;
+
+    /**
+     * @param {number} param0 - Unknown parameter usage.
+     * @param {number} param1 - Unknown parameter usage.
+     * @todo: unknown parameter usages, I have tried soundtrack identifier + track index and in reverse as well
+     */
+    PlayEntry(param0: number, param1: number): void;
+
+    /**
+     * Plays the next track in the music playlist.
+     */
+    PlayNext(): void;
+
+    /**
+     * Plays the previous track in the music playlist.
+     */
+    PlayPrevious(): void;
+
+    /**
+     * Registers a callback function to be called when music playback changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForMusicPlaybackChanges(callback: (param0: boolean | MusicTrack) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when the music playback position changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForMusicPlaybackPosition(callback: (position: number) => void): Unregisterable | any;
+
+    /**
+     * Sets the playback position of the music track.
+     * @param {number} position - The position to set in seconds.
+     */
+    SetPlaybackPosition(position: number): void;
+
+    /**
+     * Sets the repeat status for music playback.
+     * @param {number} status - The repeat status. 0 = off, 1 = repeat all, 2 = repeat one.
+     */
+    SetPlayingRepeatStatus(status: number): void;
+
+    /**
+     * Sets the shuffle status for music playback.
+     * @param {boolean} value - True to enable shuffle, false to disable shuffle.
+     */
+    SetPlayingShuffled(value: boolean): void;
+
+    /**
+     * Sets the volume for music playback.
+     * @param {number} volume - The volume level to set.
+     */
+    SetVolume(volume: number): void;
+
+    /**
+     * Toggles the mute state of the music volume.
+     */
+    ToggleMuteVolume(): void;
+
+    /**
+     * Toggles between play and pause for music playback.
+     */
+    TogglePlayPause(): void;
 }
 
 export interface Notifications {
@@ -1814,14 +2136,73 @@ export interface AppDetails {
 }
 
 export interface SteamAppOverview {
-    display_name: string;
-    gameid: string;
     appid: number;
+    display_name: string;
+    app_type: number; // 1 - games, 2 - software, 4 - tools, 8192 - soundtracks
+    mru_index?: number;
+    rt_recent_activity_time: number;
+    minutes_playtime_forever: number;
+    minutes_playtime_last_two_weeks: number;
+    rt_last_time_played_or_installed: number;
+    rt_last_time_played: number;
+    rt_purchased_time: number;
+    rt_original_release_date: number;
+    rt_steam_release_date: number;
     icon_hash: string;
-    third_party_mod?: boolean;
+    metacritic_score: number;
+    visible_in_game_list: boolean;
+    most_available_clientid: string;
     selected_clientid?: string;
+    rt_store_asset_mtime: number;
+    sort_as: string;
+    association: SteamAppOverviewAssociation[];
+    m_setStoreCategories: unknown;
+    m_setStoreTags: unknown;
+    per_client_data: SteamAppOverviewClientData[];
+    canonicalAppType: number;
+    local_per_client_data: SteamAppOverviewClientData;
+    most_available_per_client_data: SteamAppOverviewClientData;
+    selected_per_client_data: SteamAppOverviewClientData;
+    review_score_with_bombs: number;
+    review_percentage_with_bombs: number;
+    review_score_without_bombs: number;
+    review_percentage_without_bombs: number;
+    steam_deck_compat_category: number;
+
+
+    gameid: string;
+    third_party_mod?: boolean;
     BIsModOrShortcut: () => boolean;
     BIsShortcut: () => boolean;
+}
+
+export interface SteamAppOverviewAssociation {
+    type: number;
+    name: string;
+}
+
+export interface SteamAppOverviewClientData {
+    clientid: string;
+    client_name: string;
+    display_status: number;
+    status_percentage: number;
+    bytes_downloaded: string;
+    bytes_total: string;
+    is_available_on_current_platform: boolean;
+
+    /**
+     * cloud status 0 is don't show
+     * cloud status 1 is disabled
+     * cloud status 2 is unknown
+     * cloud status 3 is up to date
+     * cloud status 4 is checking...
+     * cloud status 5 is out of sync
+     * cloud status 6 is uploading...
+     * cloud status 7 is downloading...
+     * cloud status 8 is unable to sync
+     * cloud status 9 is file conflict
+     */
+    cloud_status: number;
 }
 
 /**
@@ -1860,19 +2241,9 @@ export interface AppInfo {
 /**
  * Represents information about an installation folder.
  */
-export interface InstallFolder {
+export interface SteamInstallFolder extends PotentialInstallFolder {
     /** Index of the folder. */
     nFolderIndex: number;
-    /** Path of the folder. */
-    strFolderPath: string;
-    /** User label for the folder. */
-    strUserLabel: string;
-    /** Name of the drive where the folder is located. */
-    strDriveName: string;
-    /** Total capacity of the folder. */
-    strCapacity: string;
-    /** Available free space in the folder. */
-    strFreeSpace: string;
     /** Used space in the folder. */
     strUsedSize: string;
     /** Size of DLC storage used in the folder. */
@@ -1885,10 +2256,23 @@ export interface InstallFolder {
     bIsDefaultFolder: boolean;
     /** Indicates if the folder is currently mounted. */
     bIsMounted: boolean;
-    /** Indicates if the folder is on a fixed drive. */
-    bIsFixed: boolean;
     /** List of applications installed in the folder. */
     vecApps: AppInfo[];
+}
+
+export interface PotentialInstallFolder {
+    /** Path of the folder. */
+    strFolderPath: string;
+    /** User label for the folder. */
+    strUserLabel: string;
+    /** Name of the drive where the folder is located. */
+    strDriveName: string;
+    /** Total capacity of the folder. */
+    strCapacity: string;
+    /** Available free space in the folder. */
+    strFreeSpace: string;
+    /** Indicates if the folder is on a fixed drive. */
+    bIsFixed: boolean;
 }
 
 export interface AchievementNotification {
@@ -1970,18 +2354,30 @@ export interface DownloadOverview {
     update_state: "None" | "Starting" | "Updating" | "Stopping"
 }
 
-export interface InstallWizardInfo {
-    bCanChangeInstallFolder: boolean,
-    bIsRetailInstall: boolean,
-    currentAppID: number,
-    eAppError: number,
-    eInstallState: number,
-    errorDetail: string,
-    iInstallFolder: number,
-    iUnmountedFolder: number,
-    nDiskSpaceAvailable: number,
-    nDiskSpaceRequired: number,
-    rgAppIDs: number[],
+export interface InstallInfo {
+    rgAppIDs: InstallInfoApps[],
+    eInstallState: number;
+    nDiskSpaceRequired: number;
+    nDiskSpaceAvailable: number;
+    nCurrentDisk: number;
+    nTotalDisks: number;
+    bCanChangeInstallFolder: boolean;
+    iInstallFolder: number; // index of the install folder
+    iUnmountedFolder: number;
+    currentAppID: number;
+    eAppError: number;
+    errorDetail: string;
+    bSystemMenuShortcut: boolean;
+    bDesktopShortcut: boolean;
+    bIsBackupInstall: boolean;
+    strPeerContentServer: string;
+    bPeerContentServerOnline: boolean;
+    bPeerContentServerAvailable: boolean;
+}
+
+export interface InstallInfoApps {
+    nAppID: number;
+    lDiskSpaceRequiredBytes: number;
 }
 
 /**
@@ -2451,6 +2847,29 @@ export interface GameAction {
     strNumDone: string;
     strNumTotal: string;
     bWaitingForUI: boolean;
+}
+
+export interface MoveContentProgress {
+    appid: number;
+    eError: number; // 0 - appear when you open the move dialog and when it's done, 3 - cancelled? but appid is 0?, 20 - in progress
+    flProgress: number;
+    strBytesMoved: string;
+    strTotalBytesToMove: string;
+    nFilesMoved: number;
+}
+
+export interface FolderChange {
+    folderIndex: number;
+}
+
+export interface MusicTrack {
+    uSoundtrackAppId: number;
+    ePlaybackStatus: number;// 1 - playing, 2 - paused
+    eRepeatStatus: number;
+    bShuffle: boolean;
+    nVolume: number;
+    nActiveTrack: number;
+    nLengthInMsec: number;
 }
 
 
