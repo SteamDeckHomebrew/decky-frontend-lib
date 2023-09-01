@@ -7,13 +7,14 @@ declare global {
  */
 export interface Apps {
     /**
-     * Adds a non-Steam application to the local Steam library.
-     * @param {string} appName - The name of the application.
-     * @param {string} executablePath - The path to the application executable.
-     * @param {string} directory - The working directory for the application.
-     * @param {string} launchOptions - Options to be passed when launching the application.
+     * Adds a non-Steam application shortcut to the local Steam library.
+     * @param {string} appName - The name of the non-Steam application.
+     * @param {string} executablePath - The path to the executable file of the non-Steam application.
+     * @param {string} directory - The working directory for the non-Steam application.
+     * @param {string} launchOptions - Options to be passed when launching the non-Steam application.
+     * @returns {Promise<number>} - A Promise that resolves to a unique AppID assigned to the added non-Steam application shortcut.
      */
-    AddShortcut(appName: string, executablePath: string, directory: string, launchOptions: string): any;
+    AddShortcut(appName: string, executablePath: string, directory: string, launchOptions: string): Promise<number>;
 
     /**
      * Adds user tags to specified apps in the Steam library.
@@ -114,7 +115,13 @@ export interface Apps {
      */
     GetAvailableCompatTools(appId: number): Promise<CompatibilityToolInfo[]>;
 
-    GetBackupsInFolder: any;
+    /**
+     * Represents a function to retrieve the name of the application in a backup folder.
+     * @param {string} appBackupPath - The path to the application's backup folder.
+     * @returns {Promise<string | undefined>} - A Promise that resolves to the name of the application in the backup folder, or undefined if the path is invalid.
+     */
+    GetBackupsInFolder(appBackupPath: string): Promise<string | undefined>;
+
     GetCachedAppDetails: any;
     GetCloudPendingRemoteOperations: any;
     GetConflictingFileTimestamps: any;
@@ -146,7 +153,8 @@ export interface Apps {
      */
     GetFriendsWhoPlay(appId: number): Promise<string[]>;
 
-    GetGameActionDetails: any;
+    GetGameActionDetails(appId: number, callback: (gameAction: GameAction) => void): void;
+
     GetGameActionForApp: any;
     GetLaunchOptionsForApp: any;
     GetLibraryBootstrapData: any;
@@ -174,10 +182,29 @@ export interface Apps {
      */
     GetResolutionOverrideForApp(appId: number): Promise<string>;
 
-    GetScreenshotInfo(param0: string, param1: number): any;
+    /**
+     * Represents a function to retrieve detailed information about a specific screenshot.
+     * @param {string} appId - The ID of the application the screenshot belongs to.
+     * @param {number} hHandle - The handle of the screenshot.
+     * @returns {Promise<Screenshot>} - A Promise that resolves to detailed information about the specified screenshot.
+     */
+    GetScreenshotInfo(appId: string, hHandle: number): Promise<Screenshot>;
 
-    GetScreenshotsInTimeRange: any;
-    GetShortcutData: any;
+    /**
+     * Represents a function to retrieve screenshots within a specified time range.
+     * @param {number} appId - The ID of the application.
+     * @param {number} start - The start of the time range as a Unix timestamp.
+     * @param {number} end - The end of the time range as a Unix timestamp.
+     * @returns {Promise<Screenshot[]>} - A Promise that resolves to an array of screenshots taken within the specified time range.
+     */
+    GetScreenshotsInTimeRange(appId: number, start: number, end: number): Promise<Screenshot[]>;
+
+    /**
+     * Represents a function to retrieve shortcut data for a list of non-Steam app IDs.
+     * @param {number[]} appIds - An array of non-Steam application IDs.
+     * @returns {Promise<Shortcut[]>} - A Promise that resolves to an array of Shortcut objects for the specified non-Steam app IDs.
+     */
+    GetShortcutData(appIds: number[]): Promise<Shortcut[]>;
 
     /**
      * Retrieves shortcut data for a given shortcut file path.
@@ -186,7 +213,12 @@ export interface Apps {
      */
     GetShortcutDataForPath(pathToShortcut: string): Promise<Shortcut>;
 
-    GetSoundtrackDetails: any;
+    /**
+     * Represents a function to retrieve details about a soundtrack associated with a soundtrack application.
+     * @param {number} appId - The ID of the soundtrack application.
+     * @returns {Promise<SoundtrackDetails>} - A Promise that resolves to the details of the soundtrack associated with the specified soundtrack application.
+     */
+    GetSoundtrackDetails(appId: number): Promise<SoundtrackDetails>;
 
     GetStoreTagLocalization(tags: number[]): Promise<any>;
 
@@ -203,7 +235,7 @@ export interface Apps {
 
     ListFlatpakApps(): Promise<any>;
 
-    LoadEula: any;
+    LoadEula(appId: number): Promise<EndUserLicenseAgreement[]>; // Doesn't bring up the EULA dialog, just returns the eula data
     MarkEulaAccepted: any;
     MarkEulaRejected: any;
 
@@ -220,7 +252,7 @@ export interface Apps {
     /**
      * Registers a callback function to be called when achievement changes occur.
      * @param callback The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForAchievementChanges(callback: () => void): Unregisterable | any;
 
@@ -230,7 +262,7 @@ export interface Apps {
      * Registers a callback function to be called when app details change.
      * @param appId The ID of the application to monitor.
      * @param callback The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForAppDetails(appId: number, callback: (appDetails: AppDetails) => void): Unregisterable | any;
 
@@ -249,7 +281,7 @@ export interface Apps {
     /**
      * Registers a callback function to be called when a game action UI is shown.
      * @param callback The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForGameActionShowUI(callback: () => void): Unregisterable | any; // todo: no idea what this callback is from
 
@@ -396,7 +428,9 @@ export interface Apps {
     SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: number): Promise<any>;
 
     SetCustomLogoPositionForApp: any;
-    SetDLCEnabled: any;
+
+    SetDLCEnabled(appId: number, appDLCId: number, value: boolean): void;
+
     SetLocalScreenshotCaption: any;
     SetLocalScreenshotPrivacy: any;
     SetLocalScreenshotSpoiler: any;
@@ -467,7 +501,7 @@ export interface Apps {
     /**
      * Terminates a running application.
      * @param {string} appId - The ID of the application to terminate.
-     * @param {boolean} param1 - Additional parameter. // Todo: Unknown usage. My guess is it forces the termination; otherwise, attempts a graceful termination.
+     * @param {boolean} param1 - Additional parameter. Exact usage may vary.
      * @returns {void}
      */
     TerminateApp(appId: string, param1: boolean): void;
@@ -525,10 +559,13 @@ export interface Auth {
     StartSignInFromCache: any;
 }
 
+// Broadcasting support hasn't been implemented on Linux yet
 export interface Broadcast {
     ApproveViewerRequest: any;
     InviteToWatch: any;
-    RegisterForBroadcastStatus: Unregisterable | any;
+
+    RegisterForBroadcastStatus(callback: (broadcastStatus: BroadcastStatus) => void): Unregisterable | any;
+
     RegisterForViewerRequests: Unregisterable | any;
     RejectViewerRequest: any;
     StopBroadcasting: any;
@@ -608,7 +645,7 @@ export interface Console {
     /**
      * Registers a callback function to receive spew output.
      * @param {function} callback - The callback function that will receive spew output.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForSpewOutput(callback: (spewOutput: SpewOutput) => void): Unregisterable | any;
 }
@@ -745,7 +782,7 @@ export interface FriendSettings {
     /**
      * Registers a callback function to be notified of friend settings changes.
      * @param callback - The callback function to be called when friend settings change.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      * @todo The callback receives an escaped JSON object string as "settingsChanges", which should be parsed into FriendSettingsChange object.
      */
     RegisterForSettingsChanges(callback: (settingsChanges: string) => void): Unregisterable | any;
@@ -807,8 +844,8 @@ export interface GameSessions {
 }
 
 export interface Input {
-    BIsSteamController: any;
-    BSupportsControllerLEDColor: any;
+    BIsSteamController(callback: (steamController: boolean) => void): void; // Whether the specified controller is a Steam Controller
+    BSupportsControllerLEDColor(callback: (supportControllerLEDColor: boolean) => void): void; // Whether the specified controller supports LED color
     CalibrateControllerIMU: any;
     CalibrateControllerJoystick: any;
     CalibrateControllerTrackpads: any;
@@ -826,8 +863,10 @@ export interface Input {
     ForceConfiguratorFocus: any;
     ForceSimpleHapticEvent: any;
     FreeControllerConfig: any;
-    GetConfigForAppAndController: any;
-    GetControllerMappingString: any;
+
+    GetConfigForAppAndController(appId: number, unControllerIndex: number): any;
+
+    GetControllerMappingString(unControllerIndex: number): Promise<string>;// returns mappings
     GetSteamControllerDongleState: any;
     GetTouchMenuIconsForApp: any;
     GetXboxDriverInstallState: any;
@@ -853,7 +892,7 @@ export interface Input {
     /**
      * Registers a callback function to be invoked when controller input messages are received.
      * @param {(controllerInputMessages: ControllerInputMessage[]) => void} callback - The callback function to be invoked when controller input messages are received.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForControllerInputMessages(callback: (controllerInputMessages: ControllerInputMessage[]) => void): Unregisterable | any;
 
@@ -1077,7 +1116,7 @@ export interface Installs {
      */
     OpenUninstallWizard(appIds: number[], param1: boolean): any;
 
-    RegisterForShowConfirmUninstall: Unregisterable | any; // Broken?
+    RegisterForShowConfirmUninstall: Unregisterable | any; // Broken? doesn't seem to work
 
     /**
      * Registers a callback function to be called when the "Failed Uninstall" dialog is shown.
@@ -1103,7 +1142,7 @@ export interface Installs {
      * @returns {void}
      * @remarks The wizard will not reflect this change immediately, but changing another option will.
      */
-    SetAppList(appIds: number[]): void; // Sets a list of app identifiers for downloads, the wizard will not reflect this immediately but changing and option will.
+    SetAppList(appIds: number[]): void;
 
     /**
      * Sets the options for creating shortcuts in the installation wizard.
@@ -1112,7 +1151,7 @@ export interface Installs {
      * @returns {void}
      * @remarks The wizard will not reflect this change immediately, but changing another option will.
      */
-    SetCreateShortcuts(bDesktopShortcut: boolean, bSystemMenuShortcut: boolean): void; // Sets install wizard create shortcuts options
+    SetCreateShortcuts(bDesktopShortcut: boolean, bSystemMenuShortcut: boolean): void;
 
     /**
      * Sets the install folder for the installation wizard using an install folder index.
@@ -1120,7 +1159,7 @@ export interface Installs {
      * @returns {void}
      * @remarks The wizard will not reflect this change immediately, but changing another option will.
      */
-    SetInstallFolder(folderIndex: number): void; // Sets install wizard install folder with install folder index
+    SetInstallFolder(folderIndex: number): void;
 }
 
 export interface Messaging {
@@ -1256,17 +1295,56 @@ export interface OpenVR {
 }
 
 export interface Overlay {
-    DestroyGamePadUIDesktopConfiguratorWindow: any;
+    /**
+     * Destroys the gamepad UI desktop configurator window if open.
+     * @returns {void}
+     */
+    DestroyGamePadUIDesktopConfiguratorWindow(): void;
+
     GetOverlayBrowserInfo: any;
     HandleGameWebCallback: any;
     HandleProtocolForOverlayBrowser: any;
-    RegisterForActiveOverlayRequests: Unregisterable | any;
-    RegisterForMicroTxnAuth: Unregisterable | any;
-    RegisterForMicroTxnAuthDismiss: Unregisterable | any;
+    RegisterForActivateOverlayRequests: Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when a microtransaction authorization is requested.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForMicroTxnAuth(callback: (appId: number, microTxnId: string, param2: number, microTxnUrl: string) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when a microtransaction authorization is dismissed by the user in Steam's authorization page.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForMicroTxnAuthDismiss(callback: (appId: number, microTxnId: string) => void): Unregisterable | any;
+
     RegisterForNotificationPositionChanged: Unregisterable | any;
-    RegisterForOverlayActivated: Unregisterable | any;
-    RegisterForOverlayBrowserProtocols: Unregisterable | any;
-    RegisterOverlayBrowserInfoChanged: Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when an overlay is activated or closed.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForOverlayActivated(callback: (popUpContextId: number, appId: number, active: boolean, param3: boolean) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when the overlay browser protocols change.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForOverlayBrowserProtocols(callback: (browseProtocols: OverlayBrowserProtocols) => void): Unregisterable | any;
+
+    /**
+     * Registers **the** callback function to be called when the overlay browser information changes.
+     * @param {function} callback - The callback function to be called when the overlay browser information changes.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @remarks Do Not Use, this will break the overlay unless you know what you are doing.
+     */
+    RegisterOverlayBrowserInfoChanged(callback: () => void): Unregisterable | any;
+
+
     SetOverlayState: any;
 }
 
@@ -1283,7 +1361,7 @@ export interface Parental {
     /**
      * Registers a callback function to be invoked when parental settings change.
      * @param {(parentalSettings: ParentalSettings) => void} callback - The callback function to be invoked when parental settings change.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForParentalSettingsChanges(callback: (parentalSettings: ParentalSettings) => void): Unregisterable | any;
 
@@ -2138,8 +2216,31 @@ export interface AppDetails {
 export interface SteamAppOverview {
     appid: number;
     display_name: string;
-    app_type: number; // 1 - games, 2 - software, 4 - tools, 8192 - soundtracks
-    mru_index?: number;
+
+    /**
+     * Invalid = 0;
+     * Game = 1;
+     * Application = 2;
+     * Tool = 4;
+     * Demo = 8;
+     * Deprecated = 16;
+     * DLC = 32;
+     * Guide = 64;
+     * Driver = 128;
+     * Config = 256;
+     * Hardware = 512;
+     * Franchise = 1024;
+     * Video = 2048;
+     * Plugin = 4096;
+     * MusicAlbum = 8192;
+     * Series = 16384;
+     * Comic = 32768;
+     * Beta = 65536;
+     * Shortcut = 1073741824;
+     * DepotOnly = -2147483648;
+     */
+    app_type: number;
+    mru_index: number | undefined;
     rt_recent_activity_time: number;
     minutes_playtime_forever: number;
     minutes_playtime_last_two_weeks: number;
@@ -2156,8 +2257,8 @@ export interface SteamAppOverview {
     rt_store_asset_mtime: number;
     sort_as: string;
     association: SteamAppOverviewAssociation[];
-    m_setStoreCategories: unknown;
-    m_setStoreTags: unknown;
+    m_setStoreCategories: Set<number>;
+    m_setStoreTags: Set<number>;
     per_client_data: SteamAppOverviewClientData[];
     canonicalAppType: number;
     local_per_client_data: SteamAppOverviewClientData;
@@ -2168,6 +2269,8 @@ export interface SteamAppOverview {
     review_score_without_bombs: number;
     review_percentage_without_bombs: number;
     steam_deck_compat_category: number;
+    m_strPerClientData: Set<any> | undefined;
+    m_strAssociations: Set<any> | undefined;
 
 
     gameid: string;
@@ -2177,6 +2280,12 @@ export interface SteamAppOverview {
 }
 
 export interface SteamAppOverviewAssociation {
+    /**
+     * Invalid = 0;
+     * Publisher = 1;
+     * Developer = 2;
+     * Franchise = 3;
+     */
     type: number;
     name: string;
 }
@@ -2184,6 +2293,44 @@ export interface SteamAppOverviewAssociation {
 export interface SteamAppOverviewClientData {
     clientid: string;
     client_name: string;
+    /**
+     * Invalid = 0;
+     * Launching = 1;
+     * Uninstalling = 2;
+     * Installing = 3;
+     * Running = 4;
+     * Validating = 5;
+     * Updating = 6;
+     * Downloading = 7;
+     * Synchronizing = 8;
+     * ReadyToInstall = 9;
+     * ReadyToPreload = 10;
+     * ReadyToLaunch = 11;
+     * RegionRestricted = 12;
+     * PresaleOnly = 13;
+     * InvalidPlatform = 14;
+     * PreloadComplete = 16;
+     * BorrowerLocked = 17;
+     * UpdatePaused = 18;
+     * UpdateQueued = 19;
+     * UpdateRequired = 20;
+     * UpdateDisabled = 21;
+     * DownloadPaused = 22;
+     * DownloadQueued = 23;
+     * DownloadRequired = 24;
+     * DownloadDisabled = 25;
+     * LicensePending = 26;
+     * LicenseExpired = 27;
+     * AvailForFree = 28;
+     * AvailToBorrow = 29;
+     * AvailGuestPass = 30;
+     * Purchase = 31;
+     * Unavailable = 32;
+     * NotLaunchable = 33;
+     * CloudError = 34;
+     * CloudOutOfDate = 35;
+     * Terminating = 36;
+     */
     display_status: number;
     status_percentage: number;
     bytes_downloaded: string;
@@ -2191,16 +2338,17 @@ export interface SteamAppOverviewClientData {
     is_available_on_current_platform: boolean;
 
     /**
-     * cloud status 0 is don't show
-     * cloud status 1 is disabled
-     * cloud status 2 is unknown
-     * cloud status 3 is up to date
-     * cloud status 4 is checking...
-     * cloud status 5 is out of sync
-     * cloud status 6 is uploading...
-     * cloud status 7 is downloading...
-     * cloud status 8 is unable to sync
-     * cloud status 9 is file conflict
+     * Invalid = 0;
+     * Disabled = 1;
+     * Unknown = 2;
+     * Synchronized = 3;
+     * Checking = 4;
+     * OutOfSync = 5;
+     * Uploading = 6;
+     * Downloading = 7;
+     * SyncFailed = 8;
+     * Conflict = 9;
+     * PendingElsewhere = 10;
      */
     cloud_status: number;
 }
@@ -2806,7 +2954,7 @@ export interface FriendSettingsChange {
 export interface ProxyInfo {
     proxy_mode: number;
     address: string;
-    port: number; // todo: 16 bit integer
+    port: number;
     exclude_local: boolean;
 }
 
@@ -2870,6 +3018,50 @@ export interface MusicTrack {
     nVolume: number;
     nActiveTrack: number;
     nLengthInMsec: number;
+}
+
+export interface SoundtrackDetails {
+    tracks: Track[];
+    metadata: SoundtrackMetadata;
+    vecAdditionalImageAssetURLs: string[];
+    strCoverImageAssetURL: string;
+}
+
+export interface SoundtrackMetadata {
+    artist: string;
+}
+
+export interface Track {
+    discNumber: number;
+    trackNumber: number;
+    durationSeconds: number;
+    trackDisplayName: string;
+}
+
+export interface EndUserLicenseAgreement {
+    id: string;
+    url: string;
+    version: number;
+}
+
+export interface BroadcastStatus {
+    broadcastid: string;
+    nViewers: number;
+    nRequests: number;
+    bIsBroadcasting: boolean;
+    bIsRecordingDesktop: boolean;
+    eBroadcastReady: number;
+    bBroadcastCapable: boolean;
+    bMicrophoneEnabled: boolean;
+    bMicrophoneActive: boolean;
+    nCurrentFPS: number;
+    nUploadKbps: number;
+}
+
+export interface OverlayBrowserProtocols {
+    unAppID: number;
+    strScheme: string;
+    bAdded: boolean;
 }
 
 
