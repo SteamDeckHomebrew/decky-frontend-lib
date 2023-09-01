@@ -247,6 +247,7 @@ export interface Apps {
      */
     OpenAppSettingsDialog(appId: number, param1: string): void;
 
+    PromptToChangeShortcut: any; // Steam Version 1691097434
     RaiseWindowForGame: any;
 
     /**
@@ -761,6 +762,8 @@ export interface FamilySharing {
      */
     DeauthorizeLocalDevice(): Promise<number>;
 
+    RegisterForKickedBorrower: any; // Steam Version 1691097434
+
     RequestFamilySharingAuthorization(param0: string): Promise<number>; // Unknown param0, my assumption is probably a steam64Id of the user sharing the library
     UpdateAuthorizedBorrower(param0: number, param1: boolean): Promise<number>; // Unknown
 }
@@ -1267,7 +1270,25 @@ export interface DeviceProperties {
 }
 
 export interface Keyboard {
+    Hide: any; // Steam Version 1691097434
+    RegisterForStatus: Unregisterable | any; // Steam Version 1691097434
+    SendDone: any; // Steam Version 1691097434
     SendText: any;
+    Show: any; // Steam Version 1691097434
+}
+
+export interface PathProperties {
+    GetBoolPathProperty: any;
+    GetDoublePathProperty: any;
+    GetFloatPathProperty: any;
+    GetInt32PathProperty: any;
+    GetStringPathProperty: any;
+    RegisterForPathPropertyChange: any;
+    SetBoolPathProperty: any;
+    SetDoublePathProperty: any;
+    SetFloatPathProperty: any;
+    SetInt32PathProperty: any;
+    SetStringPathProperty: any;
 }
 
 export interface VROverlay {
@@ -1278,17 +1299,15 @@ export interface OpenVR {
     Device: VRDevice;
     DeviceProperties: DeviceProperties;
     GetWebSecret: any;
-    HideKeyboard: any;
     InstallVR: any;
     Keyboard: Keyboard;
+    PathProperties: PathProperties; // Steam Version 1691097434
     QuitAllVR: any;
     RegisterForInstallDialog: Unregisterable | any;
     RegisterStartupErrors: Unregisterable | any;
     RegisterForVRHardwareDetected: Unregisterable | any;
     RegisterForVRModeChange: Unregisterable | any;
-    SendKeyboardDone: any;
     SetOverlayInteractionAffordance: any;
-    ShowKeyboard: any;
     StartVR: any;
     TriggerOverlayHapticEffect: any;
     VROverlay: VROverlay;
@@ -1711,6 +1730,22 @@ export interface Audio {
     SetDeviceVolume: any;
 }
 
+export interface AudioDevice { // Steam Version 1691097434
+    RegisterForStateChanges: Unregisterable | any;
+    UpdateSomething: any;
+}
+
+export interface Bluetooth { // Steam Version 1691097434
+    CancelPairing: any;
+    Connect: any;
+    Disconnect: any;
+    Pair: any;
+    RegisterForStateChanges: Unregisterable | any;
+    SetAdapterDiscovering: any;
+    SetEnabled: any;
+    UnPair: any;
+}
+
 export interface Devkit {
     DeveloperModeChanged: any;
     RegisterForPairingPrompt: Unregisterable | any;
@@ -1726,6 +1761,21 @@ export interface Display {
     SetBrightness(brightness: number): any;
 
     SetUnderscanLevel: any;
+}
+
+export interface DisplayManager { // Steam Version 1691097434
+    ClearModeOverride: any;
+    GetState: any;
+    RegisterForStateChanges: Unregisterable | any;
+    SetCompatibilityMode: any;
+    SetGamescopeInternalResolution: any;
+    SetMode: any;
+}
+
+export interface Dock { // Steam Version 1691097434
+    DisarmSafetyNet: any;
+    RegisterForStateChanges: Unregisterable | any;
+    UpdateFirmware: any;
 }
 
 export interface WirelessNetwork {
@@ -1763,6 +1813,12 @@ export interface Network {
     StopScanningForNetworks(): Promise<any>; // Returns {"result":1,"message":""}
 }
 
+export interface Perf {
+    RegisterForDiagnosticInfoChanges: Unregisterable | any;
+    RegisterForStateChanges: Unregisterable | any;
+    UpdateSettings: any;
+}
+
 export interface Report {
     GenerateSystemReport: any;
     Submit: any;
@@ -1795,8 +1851,12 @@ export interface SystemUI {
 
 export interface System {
     Audio: Audio;
+    AudioDevice: AudioDevice; // Steam Version 1691097434
+    Bluetooth: Bluetooth;
     Devkit: Devkit;
     Display: Display;
+    DisplayManager: DisplayManager; // Steam Version 1691097434
+    Dock: Dock; // Steam Version 1691097434
     ExitFakeCaptivePortal: any;
     FactoryReset: any;
     FormatStorage: any;
@@ -1810,6 +1870,7 @@ export interface System {
     NotifyGameOverlayStateChanged: any;
     OpenFileDialog: any;
     OpenLocalDirectoryInSystemExplorer: any;
+    Perf: Perf; // Steam Version 1691097434
     RebootToAlternateSystemPartition: any;
     RebootToFactoryTestImage: any;
 
