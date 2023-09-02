@@ -156,7 +156,16 @@ export interface Apps {
     GetGameActionDetails(appId: number, callback: (gameAction: GameAction) => void): void;
 
     GetGameActionForApp: any;
-    GetLaunchOptionsForApp: any;
+
+    /**
+     * Retrieves launch options for a specified application.
+     * These options may include different configurations or settings for launching the application, such as DirectX, Vulkan, OpenGL, 32-bit, 64-bit, etc.
+     * This function does not retrieve launch/argument options inputted by the user.
+     * @param {number} appId - The ID of the application.
+     * @returns {Promise<LaunchOption[]>} - A Promise that resolves to an array of launch options for the specified application.
+     */
+    GetLaunchOptionsForApp(appId: number): Promise<LaunchOption[]>;
+
     GetLibraryBootstrapData: any;
 
     /**
@@ -247,7 +256,7 @@ export interface Apps {
      */
     OpenAppSettingsDialog(appId: number, param1: string): void;
 
-    PromptToChangeShortcut: any; // Steam Version 1691097434
+    PromptToChangeShortcut: any;
     RaiseWindowForGame: any;
 
     /**
@@ -762,7 +771,7 @@ export interface FamilySharing {
      */
     DeauthorizeLocalDevice(): Promise<number>;
 
-    RegisterForKickedBorrower: any; // Steam Version 1691097434
+    RegisterForKickedBorrower: any;
 
     RequestFamilySharingAuthorization(param0: string): Promise<number>; // Unknown param0, my assumption is probably a steam64Id of the user sharing the library
     UpdateAuthorizedBorrower(param0: number, param1: boolean): Promise<number>; // Unknown
@@ -1270,11 +1279,11 @@ export interface DeviceProperties {
 }
 
 export interface Keyboard {
-    Hide: any; // Steam Version 1691097434
-    RegisterForStatus: Unregisterable | any; // Steam Version 1691097434
-    SendDone: any; // Steam Version 1691097434
+    Hide: any;
+    RegisterForStatus: Unregisterable | any;
+    SendDone: any;
     SendText: any;
-    Show: any; // Steam Version 1691097434
+    Show: any;
 }
 
 export interface PathProperties {
@@ -1301,7 +1310,7 @@ export interface OpenVR {
     GetWebSecret: any;
     InstallVR: any;
     Keyboard: Keyboard;
-    PathProperties: PathProperties; // Steam Version 1691097434
+    PathProperties: PathProperties;
     QuitAllVR: any;
     RegisterForInstallDialog: Unregisterable | any;
     RegisterStartupErrors: Unregisterable | any;
@@ -1626,7 +1635,7 @@ export interface Settings {
 
     GetRegisteredSteamDeck(): Promise<RegisteredSteamDeck>;
 
-    // Returns the current timezone "America/Los_Angeles"
+    // Returns the current timezone
     GetTimeZone(): Promise<string>;
 
     GetWindowed(): Promise<boolean>;
@@ -1638,7 +1647,7 @@ export interface Settings {
 
     RegisterForSettingsChanges(callback: (steamSettings: SteamSettings) => void): Unregisterable | any;
 
-    RegisterForTimeZoneChange: Unregisterable | any;
+    RegisterForTimeZoneChange(callback: (timezoneId: string) => void): Unregisterable | any; // When timezone is changed from settings, callback will return new timezoneId
     ReinitMicSettings: any;
     RequestDeviceAuthInfo: any;
     SelectClientBeta: any;
@@ -1648,12 +1657,15 @@ export interface Settings {
     // Get from available languages
     SetCurrentLanguage(strShortName: string): void;
 
-    SetEnableSoftProcessKill: any;
+    SetEnableSoftProcessKill(value: boolean): void; // Default value is false, this is Valve internal menu
     SetEnableTestUpdaters: any;
-    SetForceOOBE: any;
+
+    SetForceOOBE(value: boolean): void; // Force OOBE - Forces out of box experience on every device start
     SetHostname: any;
     SetMicTestMode: any;
-    SetOOBETestMode: any;
+
+    SetOOBETestMode(value: boolean): void;
+
     SetOverrideBrowserComposerMode: any;
     SetPreferredMonitor: any;
     SetRegisteredSteamDeck: any;
@@ -1661,7 +1673,8 @@ export interface Settings {
     SetSetting: any;
     SetShowMobxDevTools: any;
     SetSteamPlayEnabled: any;
-    SetTimeZone: any;
+
+    SetTimeZone(timezoneId: string): void; // You can get valid timezoneIds from GetAvailableTimeZones()
     SetUseNintendoButtonLayout: any;
     SetWindowed: any;
 
@@ -1702,13 +1715,47 @@ export interface Storage {
 export interface Streaming {
     AcceptStreamingEULA: any;
     CancelStreamGame: any;
-    RegisterForStreamingClientFinished: Unregisterable | any;
-    RegisterForStreamingClientLaunchProgress: Unregisterable | any;
-    RegisterForStreamingClientStarted: Unregisterable | any;
-    RegisterForStreamingLaunchComplete: Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when the streaming client finishes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStreamingClientFinished(callback: (param0: number, description: string) => void): Unregisterable | any;
+
+
+    /**
+     * Registers a callback function to be called when there is progress in the launch of the streaming client.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStreamingClientLaunchProgress(callback: (actionType: string, param1: string, param2: number, param3: number) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when the streaming client is started (e.g., when clicking the stream button).
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStreamingClientStarted(callback: (appId: number) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when the streaming launch is complete.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @todo Param0 is likely a code, 1 being it started, 10 being host computer is updating game, param1 just returns "complete"
+     */
+    RegisterForStreamingLaunchComplete(callback: (param0: number, param1: string) => void): Unregisterable | any;
+
     RegisterForStreamingShowEula: Unregisterable | any;
     RegisterForStreamingShowIntro: Unregisterable | any;
-    RegisterForStreamingShowLaunchOptions: Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when the streaming client receives launch options from the host.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStreamingShowLaunchOptions(callback: (appId: number, launchOptions: LaunchOption[]) => void): Unregisterable | any; // Callback when streaming client receives launch options from host
+
     StreamingContinueStreamGame: any;
     StreamingSetLaunchOption: any;
 }
@@ -1730,20 +1777,76 @@ export interface Audio {
     SetDeviceVolume: any;
 }
 
-export interface AudioDevice { // Steam Version 1691097434
+export interface AudioDevice {
     RegisterForStateChanges: Unregisterable | any;
     UpdateSomething: any;
 }
 
-export interface Bluetooth { // Steam Version 1691097434
-    CancelPairing: any;
-    Connect: any;
-    Disconnect: any;
-    Pair: any;
-    RegisterForStateChanges: Unregisterable | any;
-    SetAdapterDiscovering: any;
-    SetEnabled: any;
-    UnPair: any;
+/**
+ * Provides functionality for managing Bluetooth devices and interactions.
+ */
+export interface Bluetooth {
+    /**
+     * Cancels an ongoing pairing request with a Bluetooth device.
+     * @param {number} adapterId - The ID of the Bluetooth adapter.
+     * @param {number} deviceId - The ID of the Bluetooth device to cancel pairing with.
+     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the cancellation.
+     */
+    CancelPairing(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+
+    /**
+     * Connects to a paired Bluetooth device using the specified adapter.
+     * @param {number} adapterId - The ID of the Bluetooth adapter.
+     * @param {number} deviceId - The ID of the paired Bluetooth device to connect to.
+     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the connection attempt.
+     */
+    Connect(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+
+    /**
+     * Disconnects from a currently connected Bluetooth device using the specified adapter.
+     * @param {number} adapterId - The ID of the Bluetooth adapter.
+     * @param {number} deviceId - The ID of the connected Bluetooth device to disconnect from.
+     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the disconnection.
+     */
+    Disconnect(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+
+    /**
+     * Initiates pairing with a Bluetooth device using the specified adapter.
+     * @param {number} adapterId - The ID of the Bluetooth adapter.
+     * @param {number} deviceId - The ID of the Bluetooth device to initiate pairing with.
+     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the pairing attempt.
+     */
+    Pair(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+
+    /**
+     * Registers a callback function to be called when the Bluetooth state changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStateChanges(callback: (bluetoothStateChange: BluetoothStateChange) => void): Unregisterable | any;
+
+    /**
+     * Sets whether the Bluetooth adapter should be in discovering mode.
+     * @param {number} adapterId - The ID of the Bluetooth adapter.
+     * @param {boolean} value - `true` to enable discovering mode, `false` to disable it.
+     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the operation.
+     */
+    SetAdapterDiscovering(adapterId: number, value: boolean): Promise<BluetoothOperationResponse>;
+
+    /**
+     * Enables or disables Bluetooth functionality.
+     * @param {boolean} bluetooth - `true` to enable Bluetooth, `false` to disable it.
+     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the operation.
+     */
+    SetEnabled(bluetooth: boolean): Promise<BluetoothOperationResponse>;
+
+    /**
+     * Unpairs a Bluetooth device from the adapter.
+     * @param {number} adapterId - The ID of the Bluetooth adapter.
+     * @param {number} deviceId - The ID of the Bluetooth device to unpair with.
+     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the unpairing request.
+     */
+    UnPair(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
 }
 
 export interface Devkit {
@@ -1763,7 +1866,7 @@ export interface Display {
     SetUnderscanLevel: any;
 }
 
-export interface DisplayManager { // Steam Version 1691097434
+export interface DisplayManager {
     ClearModeOverride: any;
     GetState: any;
     RegisterForStateChanges: Unregisterable | any;
@@ -1772,7 +1875,7 @@ export interface DisplayManager { // Steam Version 1691097434
     SetMode: any;
 }
 
-export interface Dock { // Steam Version 1691097434
+export interface Dock {
     DisarmSafetyNet: any;
     RegisterForStateChanges: Unregisterable | any;
     UpdateFirmware: any;
@@ -1851,12 +1954,12 @@ export interface SystemUI {
 
 export interface System {
     Audio: Audio;
-    AudioDevice: AudioDevice; // Steam Version 1691097434
+    AudioDevice: AudioDevice;
     Bluetooth: Bluetooth;
     Devkit: Devkit;
     Display: Display;
-    DisplayManager: DisplayManager; // Steam Version 1691097434
-    Dock: Dock; // Steam Version 1691097434
+    DisplayManager: DisplayManager;
+    Dock: Dock;
     ExitFakeCaptivePortal: any;
     FactoryReset: any;
     FormatStorage: any;
@@ -1870,7 +1973,7 @@ export interface System {
     NotifyGameOverlayStateChanged: any;
     OpenFileDialog: any;
     OpenLocalDirectoryInSystemExplorer: any;
-    Perf: Perf; // Steam Version 1691097434
+    Perf: Perf;
     RebootToAlternateSystemPartition: any;
     RebootToFactoryTestImage: any;
 
@@ -3123,6 +3226,123 @@ export interface OverlayBrowserProtocols {
     unAppID: number;
     strScheme: string;
     bAdded: boolean;
+}
+
+export interface LaunchOption {
+    nIndex: number;
+    strDescription: string;
+    strGameName: string;
+}
+
+/**
+ * Represents information about a Bluetooth adapter.
+ */
+export interface BluetoothAdapter {
+    /**
+     * The unique identifier of the Bluetooth adapter.
+     */
+    nId: number;
+
+    /**
+     * The MAC address of the Bluetooth adapter.
+     */
+    sMAC: string;
+
+    /**
+     * The name of the Bluetooth adapter.
+     */
+    sName: string;
+
+    /**
+     * Indicates whether the Bluetooth adapter is enabled.
+     */
+    bEnabled: boolean;
+
+    /**
+     * Indicates whether the Bluetooth adapter is in discovering mode.
+     */
+    bDiscovering: boolean;
+}
+
+/**
+ * Represents information about a Bluetooth device.
+ */
+export interface BluetoothDevice {
+    /**
+     * The unique identifier of the Bluetooth device.
+     */
+    nId: number;
+
+    /**
+     * The ID of the Bluetooth adapter to which this device is discovered by / connected to.
+     */
+    nAdapterId: number;
+
+    /**
+     * The type of the Bluetooth device (e.g., headphones, mouse, keyboard).
+     * @remarks 2 - Smartphone, 5 - Wireless Handset, 10 - Wireless Controller, 11 - Keyboard
+     */
+    eType: number;
+
+    /**
+     * The MAC address of the Bluetooth device.
+     */
+    sMAC: string;
+
+    /**
+     * The name of the Bluetooth device.
+     */
+    sName: string;
+
+    /**
+     * Indicates whether the Bluetooth device is currently connected to the adapter.
+     */
+    bConnected: boolean;
+
+    /**
+     * Indicates whether the Bluetooth device is paired to the adapter.
+     */
+    bPaired: boolean;
+
+    /**
+     * The raw signal strength of the Bluetooth device.
+     */
+    nStrengthRaw: number;
+}
+
+/**
+ * Represents a change in the state of Bluetooth adapters and devices.
+ */
+export interface BluetoothStateChange {
+    /**
+     * An array of Bluetooth adapters with their current state.
+     */
+    vecAdapters: BluetoothAdapter[];
+
+    /**
+     * An array of Bluetooth devices with their current state.
+     */
+    vecDevices: BluetoothDevice[];
+
+    /**
+     * Indicates whether Bluetooth is enabled (`true`) or disabled (`false`).
+     */
+    bEnabled: boolean;
+}
+
+/**
+ * Represents the response of a Bluetooth operation.
+ */
+export interface BluetoothOperationResponse {
+    /**
+     * The result code of the operation (1 for success, 2 for failure).
+     */
+    result: number;
+
+    /**
+     * A message describing the result of the operation.
+     */
+    message: string;
 }
 
 
