@@ -122,12 +122,25 @@ export interface Apps {
      */
     GetBackupsInFolder(appBackupPath: string): Promise<string | undefined>;
 
-    GetCachedAppDetails: any;
+    GetCachedAppDetails(appId: number): Promise<string>; // todo: Parsing nightmare, returns a string like // [["achievements",{"version":2,"data":{"vecHighlight":[{"strID":"AchNyxChaosReunion","strName":"Night and Darkness","strDescription":"Fulfill the 'Night and Darkness' Prophecy","bAchieved":true,"rtUnlocked":1688769817,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/fa367c6ffb8495cdaac17bdfdccfe358e3a089fe.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":11.199999809265137},{"strID":"AchSilverSkellyTrophy","strName":"Skelly's Last Lamentations","strDescription":"Earn the second of Skelly's prizes","bAchieved":true,"rtUnlocked":1688769465,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/5cb095fe7abc9fdf7340bc25637e97fab4fa682d.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":7.599999904632568},{"strID":"AchBuffedButterfly","strName":"Thorn of Thanatos","strDescription":"Get 30% bonus damage with the Pierced Butterfly","bAchieved":true,"rtUnlocked":1686611642,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/97caa23cdfb43ae581ee56c0b3b4eaadd7eda49d.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":7.599999904632568},{"strID":"AchFoundAllSummons","strName":"Complete Set","strDescription":"Earn all Chthonic Companions","bAchieved":true,"rtUnlocked":1685708516,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/aa9c66d2af7aa367490f953e54829b9c95fef474.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":7},{"strID":"ActUnlockedAllAspects","strName":"Infernal Arms","strDescription":"Unlock all Weapon Aspects","bAchieved":true,"rtUnlocked":1685698220,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/35779dd3575af4fcc9b4aa9e42c5639dd4ff5ded.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":9.899999618530273},{"strID":"AchSisyphusLiberation","strName":"End to Torment","strDescription":"Fulfill the 'End to Torment' Prophecy","bAchieved":true,"rtUnlocked":1685698202,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/437398a6a89d53e5a114fb11bc2ee538e990349e.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":10.800000190734863},{"strID":"AchMyrmidonReunion","strName":"Divided by Death","strDescription":"Fulfill the 'Divided by Death' Prophecy","bAchieved":true,"rtUnlocked":1685240429,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/1136200c4e397c4ff3af5c97d3f0d16614dac1d7.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":9},{"strID":"AchReachedEpilogue","strName":"One for the Ages","strDescription":"Reach the epilogue of the story","bAchieved":true,"rtUnlocked":1685240411,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/6065e9fa889e953201201a062d0a8f8dd75e943e.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":8.699999809265137},{"strID":"AchPactUpgradesClears","strName":"Harsh Conditions","strDescription":"Fulfill the 'Harsh Conditions' Prophecy","bAchieved":true,"rtUnlocked":1685237824,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/40d01fbcb70ed7eeb41c98244683895f7b2befec.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":8.100000381469727},{"strID":"AchLeveledKeepsakes","strName":"Friends Forever","strDescription":"Max-rank each standard Keepsake","bAchieved":true,"rtUnlocked":1685090343,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/27423565bd81b365b8ec37462e44c6215df26beb.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":6.199999809265137},{"strID":"AchBronzeSkellyTrophy","strName":"The Useless Trinket","strDescription":"Earn the first of Skelly's prizes","bAchieved":true,"rtUnlocked":1684473962,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/4c4be2fc0e6f1c6906e41ac2aa3a9d87985e7a98.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":13.699999809265137},{"strID":"AchEliteAttributeKills","strName":"Slashed Benefits","strDescription":"Fulfill the 'Slashed Benefits' Prophecy","bAchieved":true,"rtUnlocked":1684473931,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/49532f6187591c23b3d39760c87e5ad82e7d37c1.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":12.899999618530273}],"vecUnachieved":[],"vecAchievedHidden":[],"nTotal":49,"nAchieved":49}}]]
     GetCloudPendingRemoteOperations: any;
     GetConflictingFileTimestamps: any;
-    GetDetailsForScreenshotUpload: any;
 
-    GetDetailsForScreenshotUploads(param0: string, param1: number[]): any;
+    /**
+     * Retrieves details for a specific screenshot upload.
+     * @param {string} appId - The ID of the application.
+     * @param {number} hHandle - The handle of the screenshot upload.
+     * @returns {Promise<DetailsForScreenshotUpload>} - A Promise that resolves to details about the screenshot upload.
+     */
+    GetDetailsForScreenshotUpload(appId: string, hHandle: number): Promise<DetailsForScreenshotUpload>;
+
+    /**
+     * Retrieves details for multiple screenshot uploads.
+     * @param {string} appId - The ID of the application.
+     * @param {number[]} hHandles - An array of handles of the screenshot uploads.
+     * @returns {Promise<DetailsForScreenshotUploads>} - A Promise that resolves to details about the screenshot uploads.
+     */
+    GetDetailsForScreenshotUploads(appId: string, hHandles: number[]): Promise<DetailsForScreenshotUploads>;
 
     /**
      * Retrieves a list of downloaded workshop items for a specific application.
@@ -256,7 +269,7 @@ export interface Apps {
      */
     OpenAppSettingsDialog(appId: number, param1: string): void;
 
-    PromptToChangeShortcut: any;
+    PromptToChangeShortcut(): Promise<any>; // todo: unknown, prompts file picker
     RaiseWindowForGame: any;
 
     /**
@@ -317,7 +330,8 @@ export interface Apps {
     RegisterForGameActionUserRequest(callback: (gameActionIdentifier: number, appId: string, action: string, requestedAction: string, appId2: string) => void): Unregisterable | any;
 
     RegisterForLocalizationChanges: Unregisterable | any;
-    RegisterForPrePurchasedAppChanges: Unregisterable | any;
+
+    RegisterForPrePurchasedAppChanges(callback: () => void): Unregisterable | any; // Unknown, did have it show up a few times, but not callback parameters
     RegisterForShowMarketingMessageDialog: Unregisterable | any;
 
     /**
@@ -1760,21 +1774,104 @@ export interface Streaming {
     StreamingSetLaunchOption: any;
 }
 
+/**
+ * Represents various functions related to Steam system audio.
+ */
 export interface Audio {
-    ClearDefaultDeviceOverride: any;
-    GetApps: any;
-    GetDevices: any;
-    RegisterForAppAdded: Unregisterable | any;
-    RegisterForAppRemoved: Unregisterable | any;
-    RegisterForAppVolumeChanged: Unregisterable | any;
-    RegisterForDeviceAdded: Unregisterable | any;
-    RegisterForDeviceRemoved: Unregisterable | any;
-    RegisterForDeviceVolumeChanged: Unregisterable | any;
+    /**
+     * Clears the default device override for a specified audio type.
+     * @param {number} audioType - The audio type (0 for input, 1 for output).
+     * @returns {Promise<OperationResponse>} - A Promise indicating the result of the operation.
+     */
+    ClearDefaultDeviceOverride(audioType: number): Promise<OperationResponse>;
+
+    /**
+     * Retrieves information about audio applications.
+     * @returns {Promise<ApplicationsAudio>} - A Promise that resolves to information about audio applications.
+     */
+    GetApps(): Promise<ApplicationsAudio>;
+
+    /**
+     * Retrieves information about audio devices.
+     * @returns {Promise<AudioDeviceInfo>} - A Promise that resolves to information about audio devices.
+     */
+    GetDevices(): Promise<AudioDeviceInfo>;
+
+    /**
+     * Registers a callback to be called when a new audio application is added.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForAppAdded(callback: (appAudioAdded: ApplicationAudio) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback to be called when an audio application is removed.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForAppRemoved(callback: (appAudioId: number) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback to be called when the volume of an audio application changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForAppVolumeChanged(callback: (appAudioId: number, volume: number) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback to be called when a new audio device is added.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForDeviceAdded(callback: (audioDevice: Device) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback to be called when an audio device is removed.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForDeviceRemoved(callback: (audioDeviceId: number) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback to be called when the volume of an audio device changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForDeviceVolumeChanged(callback: (audioDeviceId: number, audioType: number, volume: number) => void): Unregisterable | any;
+
     RegisterForServiceConnectionStateChanges: Unregisterable | any;
-    RegisterForVolumeButtonPressed: Unregisterable | any;
-    SetAppVolume: any;
-    SetDefaultDeviceOverride: any;
-    SetDeviceVolume: any;
+
+    /**
+     * Registers a callback to be called when volume buttons are pressed.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForVolumeButtonPressed(callback: (volumeUpPressed: boolean) => void): Unregisterable | any;
+
+    /**
+     * Sets the volume of an audio application.
+     * @param {number} appAudioId - The ID of the audio application.
+     * @param {number} volume - The volume level (floating point value between 0 and 1).
+     * @returns {Promise<OperationResponse>} - A Promise indicating the result of the operation.
+     */
+    SetAppVolume(appAudioId: number, volume: number): Promise<OperationResponse>;
+
+    /**
+     * Sets the default device override for a specified audio type.
+     * @param {number} audioDeviceId - The ID of the audio device.
+     * @param {number} audioType - The audio type (0 for input, 1 for output).
+     * @returns {Promise<OperationResponse>} - A Promise indicating the result of the operation.
+     */
+    SetDefaultDeviceOverride(audioDeviceId: number, audioType: number): Promise<OperationResponse>;
+
+    /**
+     * Sets the volume of an audio device.
+     * @param {number} audioDeviceId - The ID of the audio device.
+     * @param {number} audioType - The audio type (0 for input, 1 for output).
+     * @param {number} volume - The volume level (floating point value between 0 and 1).
+     * @returns {Promise<OperationResponse>} - A Promise indicating the result of the operation.
+     */
+    SetDeviceVolume(audioDeviceId: number, audioType: number, volume: number): Promise<OperationResponse>;
 }
 
 export interface AudioDevice {
@@ -1790,33 +1887,33 @@ export interface Bluetooth {
      * Cancels an ongoing pairing request with a Bluetooth device.
      * @param {number} adapterId - The ID of the Bluetooth adapter.
      * @param {number} deviceId - The ID of the Bluetooth device to cancel pairing with.
-     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the cancellation.
+     * @returns {Promise<OperationResponse>} - A Promise that resolves with the result of the cancellation.
      */
-    CancelPairing(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+    CancelPairing(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
     /**
      * Connects to a paired Bluetooth device using the specified adapter.
      * @param {number} adapterId - The ID of the Bluetooth adapter.
      * @param {number} deviceId - The ID of the paired Bluetooth device to connect to.
-     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the connection attempt.
+     * @returns {Promise<OperationResponse>} - A Promise that resolves with the result of the connection attempt.
      */
-    Connect(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+    Connect(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
     /**
      * Disconnects from a currently connected Bluetooth device using the specified adapter.
      * @param {number} adapterId - The ID of the Bluetooth adapter.
      * @param {number} deviceId - The ID of the connected Bluetooth device to disconnect from.
-     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the disconnection.
+     * @returns {Promise<OperationResponse>} - A Promise that resolves with the result of the disconnection.
      */
-    Disconnect(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+    Disconnect(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
     /**
      * Initiates pairing with a Bluetooth device using the specified adapter.
      * @param {number} adapterId - The ID of the Bluetooth adapter.
      * @param {number} deviceId - The ID of the Bluetooth device to initiate pairing with.
-     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the pairing attempt.
+     * @returns {Promise<OperationResponse>} - A Promise that resolves with the result of the pairing attempt.
      */
-    Pair(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+    Pair(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
     /**
      * Registers a callback function to be called when the Bluetooth state changes.
@@ -1829,24 +1926,24 @@ export interface Bluetooth {
      * Sets whether the Bluetooth adapter should be in discovering mode.
      * @param {number} adapterId - The ID of the Bluetooth adapter.
      * @param {boolean} value - `true` to enable discovering mode, `false` to disable it.
-     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the operation.
+     * @returns {Promise<OperationResponse>} - A Promise that resolves with the result of the operation.
      */
-    SetAdapterDiscovering(adapterId: number, value: boolean): Promise<BluetoothOperationResponse>;
+    SetAdapterDiscovering(adapterId: number, value: boolean): Promise<OperationResponse>;
 
     /**
      * Enables or disables Bluetooth functionality.
      * @param {boolean} bluetooth - `true` to enable Bluetooth, `false` to disable it.
-     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the operation.
+     * @returns {Promise<OperationResponse>} - A Promise that resolves with the result of the operation.
      */
-    SetEnabled(bluetooth: boolean): Promise<BluetoothOperationResponse>;
+    SetEnabled(bluetooth: boolean): Promise<OperationResponse>;
 
     /**
      * Unpairs a Bluetooth device from the adapter.
      * @param {number} adapterId - The ID of the Bluetooth adapter.
      * @param {number} deviceId - The ID of the Bluetooth device to unpair with.
-     * @returns {Promise<BluetoothOperationResponse>} - A Promise that resolves with the result of the unpairing request.
+     * @returns {Promise<OperationResponse>} - A Promise that resolves with the result of the unpairing request.
      */
-    UnPair(adapterId: number, deviceId: number): Promise<BluetoothOperationResponse>;
+    UnPair(adapterId: number, deviceId: number): Promise<OperationResponse>;
 }
 
 export interface Devkit {
@@ -2819,7 +2916,7 @@ interface SteamSettings {
 
 export interface PrePurchaseApp {
     nAppID: number;
-    eState: number;
+    eState: number; // todo: 3 = Preload? 4 - Ready? I got 3 from Starfield preload and 4 with csgo
 }
 
 export interface PrePurchaseInfo {
@@ -3331,9 +3428,9 @@ export interface BluetoothStateChange {
 }
 
 /**
- * Represents the response of a Bluetooth operation.
+ * Represents the response of an operation. It appears to be not necessary to await for this operation response. It is only used to indicate the result of an operation.
  */
-export interface BluetoothOperationResponse {
+export interface OperationResponse {
     /**
      * The result code of the operation (1 for success, 2 for failure).
      */
@@ -3343,6 +3440,151 @@ export interface BluetoothOperationResponse {
      * A message describing the result of the operation.
      */
     message: string;
+}
+
+/**
+ * Represents details about a single screenshot upload.
+ */
+export interface DetailsForScreenshotUpload {
+    /**
+     * The size of the screenshot upload on disk (including thumbnail).
+     */
+    strSizeOnDisk: string;
+
+    /**
+     * The amount of cloud storage available.
+     */
+    strCloudAvailable: string;
+
+    /**
+     * The total cloud storage.
+     */
+    strCloudTotal: string;
+}
+
+/**
+ * Represents details about multiple screenshot uploads.
+ */
+export interface DetailsForScreenshotUploads {
+    /**
+     * The total size of all screenshot uploads on disk (sum of sizes including thumbnails).
+     */
+    unSizeOnDisk: number;
+
+    /**
+     * The amount of cloud storage available.
+     */
+    strCloudAvailable: string;
+
+    /**
+     * The total cloud storage.
+     */
+    strCloudTotal: string;
+}
+
+/**
+ * Represents details about an application audio session.
+ */
+export interface ApplicationAudio {
+    /**
+     * The ID of the application audio.
+     */
+    id: number;
+
+    /**
+     * The name of the application (e.g., Spotify, YouTube from a browser, etc.).
+     */
+    strName: string;
+
+    /**
+     * The volume level of the application (floating point value between 0 and 1).
+     */
+    flVolume: number;
+}
+
+/**
+ * Represents details about an array of application audio sessions.
+ */
+export interface ApplicationsAudio {
+    /**
+     * An array of application audio sessions.
+     */
+    apps: ApplicationAudio[];
+}
+
+/**
+ * Represents details about an audio device.
+ */
+export interface Device {
+    /**
+     * The identifier of the audio device.
+     */
+    id: number;
+
+    /**
+     * The name of the audio device.
+     */
+    sName: string;
+
+    /**
+     * Indicates if the device has audio output.
+     */
+    bHasOutput: boolean;
+
+    /**
+     * Indicates if the device is the default output device.
+     */
+    bIsDefaultOutputDevice: boolean;
+
+    /**
+     * The volume level of the audio output device (floating point value between 0 and 1).
+     */
+    flOutputVolume: number;
+
+    /**
+     * Indicates if the device has audio input.
+     */
+    bHasInput: boolean;
+
+    /**
+     * Indicates if the device is the default input device.
+     */
+    bIsDefaultInputDevice: boolean;
+
+    /**
+     * The volume level of the audio input device (floating point value between 0 and 1).
+     */
+    flInputVolume: number;
+}
+
+/**
+ * Represents details about audio devices and information about the active audio device.
+ */
+export interface AudioDeviceInfo {
+    /**
+     * The ID of the active output audio device.
+     */
+    activeOutputDeviceId: number;
+
+    /**
+     * The ID of the active input audio device.
+     */
+    activeInputDeviceId: number;
+
+    /**
+     * The ID of the overridden output audio device (-1 if not overridden).
+     */
+    overrideOutputDeviceId: number;
+
+    /**
+     * The ID of the overridden input audio device (-1 if not overridden).
+     */
+    overrideInputDeviceId: number;
+
+    /**
+     * An array of audio devices.
+     */
+    vecDevices: Device[];
 }
 
 
