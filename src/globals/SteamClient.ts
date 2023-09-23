@@ -122,7 +122,7 @@ export interface Apps {
      */
     GetBackupsInFolder(appBackupPath: string): Promise<string | undefined>;
 
-    GetCachedAppDetails(appId: number): Promise<string>; // todo: Parsing nightmare, returns a string like // [["achievements",{"version":2,"data":{"vecHighlight":[{"strID":"AchNyxChaosReunion","strName":"Night and Darkness","strDescription":"Fulfill the 'Night and Darkness' Prophecy","bAchieved":true,"rtUnlocked":1688769817,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/fa367c6ffb8495cdaac17bdfdccfe358e3a089fe.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":11.199999809265137},{"strID":"AchSilverSkellyTrophy","strName":"Skelly's Last Lamentations","strDescription":"Earn the second of Skelly's prizes","bAchieved":true,"rtUnlocked":1688769465,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/5cb095fe7abc9fdf7340bc25637e97fab4fa682d.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":7.599999904632568},{"strID":"AchBuffedButterfly","strName":"Thorn of Thanatos","strDescription":"Get 30% bonus damage with the Pierced Butterfly","bAchieved":true,"rtUnlocked":1686611642,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/97caa23cdfb43ae581ee56c0b3b4eaadd7eda49d.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":7.599999904632568},{"strID":"AchFoundAllSummons","strName":"Complete Set","strDescription":"Earn all Chthonic Companions","bAchieved":true,"rtUnlocked":1685708516,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/aa9c66d2af7aa367490f953e54829b9c95fef474.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":7},{"strID":"ActUnlockedAllAspects","strName":"Infernal Arms","strDescription":"Unlock all Weapon Aspects","bAchieved":true,"rtUnlocked":1685698220,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/35779dd3575af4fcc9b4aa9e42c5639dd4ff5ded.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":9.899999618530273},{"strID":"AchSisyphusLiberation","strName":"End to Torment","strDescription":"Fulfill the 'End to Torment' Prophecy","bAchieved":true,"rtUnlocked":1685698202,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/437398a6a89d53e5a114fb11bc2ee538e990349e.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":10.800000190734863},{"strID":"AchMyrmidonReunion","strName":"Divided by Death","strDescription":"Fulfill the 'Divided by Death' Prophecy","bAchieved":true,"rtUnlocked":1685240429,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/1136200c4e397c4ff3af5c97d3f0d16614dac1d7.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":9},{"strID":"AchReachedEpilogue","strName":"One for the Ages","strDescription":"Reach the epilogue of the story","bAchieved":true,"rtUnlocked":1685240411,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/6065e9fa889e953201201a062d0a8f8dd75e943e.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":8.699999809265137},{"strID":"AchPactUpgradesClears","strName":"Harsh Conditions","strDescription":"Fulfill the 'Harsh Conditions' Prophecy","bAchieved":true,"rtUnlocked":1685237824,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/40d01fbcb70ed7eeb41c98244683895f7b2befec.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":8.100000381469727},{"strID":"AchLeveledKeepsakes","strName":"Friends Forever","strDescription":"Max-rank each standard Keepsake","bAchieved":true,"rtUnlocked":1685090343,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/27423565bd81b365b8ec37462e44c6215df26beb.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":6.199999809265137},{"strID":"AchBronzeSkellyTrophy","strName":"The Useless Trinket","strDescription":"Earn the first of Skelly's prizes","bAchieved":true,"rtUnlocked":1684473962,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/4c4be2fc0e6f1c6906e41ac2aa3a9d87985e7a98.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":13.699999809265137},{"strID":"AchEliteAttributeKills","strName":"Slashed Benefits","strDescription":"Fulfill the 'Slashed Benefits' Prophecy","bAchieved":true,"rtUnlocked":1684473931,"strImage":"https://cdn.steamstatic.com/steamcommunity/public/images/apps/1145360/49532f6187591c23b3d39760c87e5ad82e7d37c1.jpg","bHidden":false,"flMinProgress":0,"flCurrentProgress":0,"flMaxProgress":0,"flAchieved":12.899999618530273}],"vecUnachieved":[],"vecAchievedHidden":[],"nTotal":49,"nAchieved":49}}]]
+    GetCachedAppDetails(appId: number): Promise<string>; // todo: Parsing nightmare
     GetCloudPendingRemoteOperations: any;
     GetConflictingFileTimestamps: any;
 
@@ -168,7 +168,7 @@ export interface Apps {
 
     GetGameActionDetails(appId: number, callback: (gameAction: GameAction) => void): void;
 
-    GetGameActionForApp: any;
+    GetGameActionForApp(appId: string, callback: (param0: number, param1: number | string /* string appears to be just the appid*/, param2: string /* "LaunchApp", need to look for more to document*/) => void): void;
 
     /**
      * Retrieves launch options for a specified application.
@@ -251,7 +251,7 @@ export interface Apps {
      */
     GetSubscribedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
-    InstallFlatpakAppAndCreateShortcut: any;
+    InstallFlatpakAppAndCreateShortcut(param0: string, param1: string): Promise<any>; // returns {"appid":0,"strInstallOutput":""}
     JoinAppContentBeta: any;
     JoinAppContentBetaByPassword: any;
 
@@ -509,7 +509,12 @@ export interface Apps {
      */
     ShowControllerConfigurator(appId: number): void;
 
-    ShowStore: any;
+    /**
+     * Opens the Steam store page for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @returns {void}
+     */
+    ShowStore(appId: number): void;
 
     /**
      * Specifies a compatibility tool by its name for a given application. If strToolName is an empty string, the specified application will no longer use a compatibility tool.
@@ -519,8 +524,16 @@ export interface Apps {
      */
     SpecifyCompatTool(appId: number, strToolName: string): void;
 
-    StreamGame: any;
-    SubscribeWorkshopItem: any;
+    StreamGame(param0: number, param1: string, param2: number): any;// todo: unknown
+
+    /**
+     * Subscribes or unsubscribes from a workshop item for a specific app.
+     * @param {number} appId - The ID of the application.
+     * @param {string} workshopId - The ID of the workshop item.
+     * @param {boolean} subscribed - True to subscribe, false to unsubscribe.
+     * @returns {void}
+     */
+    SubscribeWorkshopItem(appId: number, workshopId: string, subscribed: boolean): void;
 
     /**
      * Terminates a running application.
@@ -585,14 +598,36 @@ export interface Auth {
 
 // Broadcasting support hasn't been implemented on Linux yet
 export interface Broadcast {
-    ApproveViewerRequest: any;
-    InviteToWatch: any;
+    ApproveViewerRequest(param0: string, param1: number): void; //
 
+    /**
+     * Invites a user identified by their SteamID64 to watch the broadcast.
+     * @param {string} steamId64 - The SteamID64 of the user to invite.
+     * @returns {Promise<number>} - A Promise indicating the result of the invitation (1 for success, 2 for error).
+     */
+    InviteToWatch(steamId64: string): Promise<number>;
+
+    /**
+     * Registers a callback to be called when the broadcast status changes.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForBroadcastStatus(callback: (broadcastStatus: BroadcastStatus) => void): Unregisterable | any;
 
-    RegisterForViewerRequests: Unregisterable | any;
+    /**
+     * Registers a callback to be called when viewer requests are received.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForViewerRequests(callback: (viewerFriendCode: number, param1: number, param2: number) => void): Unregisterable | any;
+
     RejectViewerRequest: any;
-    StopBroadcasting: any;
+
+    /**
+     * Stops the broadcast.
+     * @returns {void}
+     */
+    StopBroadcasting(): void;
 }
 
 export interface Browser {
@@ -1729,7 +1764,6 @@ export interface Streaming {
      */
     RegisterForStreamingClientFinished(callback: (param0: number, description: string) => void): Unregisterable | any;
 
-
     /**
      * Registers a callback function to be called when there is progress in the launch of the streaming client.
      * @param {function} callback - The callback function to be called.
@@ -1966,7 +2000,7 @@ export interface DisplayManager {
 
 export interface Dock {
     DisarmSafetyNet: any;
-    RegisterForStateChanges: Unregisterable | any;
+    RegisterForStateChanges(callback: (param0: any) => void): Unregisterable | any;
     UpdateFirmware: any;
 }
 
@@ -2383,6 +2417,11 @@ export interface LogoPosition {
     nHeightPct: number;
 }
 
+export interface AppData {
+    details: AppDetails;
+    // more
+}
+
 export interface AppDetails {
     achievements: AppAchievements;
     bCanMoveInstallFolder: boolean;
@@ -2518,7 +2557,7 @@ export interface SteamAppOverview {
     review_percentage_with_bombs: number;
     review_score_without_bombs: number;
     review_percentage_without_bombs: number;
-    steam_deck_compat_category: number;
+    steam_deck_compat_category: number; // 0 Unknown, 1 Unsupported, 2 Playable, 3 Verified
     m_strPerClientData: Set<any> | undefined;
     m_strAssociations: Set<any> | undefined;
 
