@@ -1,5 +1,4 @@
 import {AppData, AppDetails, LogoPosition, SteamAppOverview, SteamClient} from './SteamClient';
-
 declare global {
   interface Window {
     LocalizationManager: {
