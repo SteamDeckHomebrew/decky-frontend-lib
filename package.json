@@ -78,5 +78,8 @@
       "style": "module",
       "parser": "typescript"
     }
+  },
+  "dependencies": {
+    "react-icons": "^4.11.0"
   }
 }
