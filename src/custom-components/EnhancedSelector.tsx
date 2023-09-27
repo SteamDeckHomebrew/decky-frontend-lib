@@ -1,6 +1,6 @@
 import { SingleDropdownOption, Focusable } from '../deck-components';
 import { Fragment, VFC, useEffect, useMemo, useState } from "react";
-import { BiChevronRight } from "react-icons/bi";
+import { FaChevronRight } from "react-icons/fa";
 import { CustomButton, CustomButtonFocusMode } from "./CustomButton";
 import { CustomDropdown, CustomDropdownProps } from './CustomDropdown';
 import { SoundFile } from '../utils/GamepadUIAudio';
@@ -199,8 +199,8 @@ export const EnhancedSelector: VFC<EnhancedSelectorProps> = ({
   };
 
   const buttonIconStyle = {
-    height: '1.5em',
-    width: '1.5em',
+    height: '.8em',
+    width: '.8em',
     display: 'block',
     margin: 'auto'
   };
@@ -222,7 +222,7 @@ export const EnhancedSelector: VFC<EnhancedSelectorProps> = ({
         disabled={disabled}
         focusable={!disabled}
       >
-        <BiChevronRight
+        <FaChevronRight
           style={Object.assign({ transform: 'rotate(180deg)' }, buttonIconStyle)}
           className={EnhancedSelectorClasses.dirIcon}
         />
@@ -253,7 +253,7 @@ export const EnhancedSelector: VFC<EnhancedSelectorProps> = ({
         disabled={disabled}
         focusable={!disabled}
       >
-        <BiChevronRight
+        <FaChevronRight
           style={buttonIconStyle}
           className={EnhancedSelectorClasses.dirIcon}
         />

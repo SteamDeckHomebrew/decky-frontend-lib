@@ -1,7 +1,7 @@
 import { SingleDropdownOption, quickAccessMenuClasses, ConfirmModal, Focusable } from '../deck-components';
 import { afterPatch } from '../utils';
 import { ReactElement, VFC, useMemo, useState, Fragment, useEffect } from 'react';
-import { TbCalendarEvent } from 'react-icons/tb';
+import { FaRegCalendarAlt } from 'react-icons/fa';
 import { EnhancedSelector, EnhancedSelectorFocusRingMode, EnhancedSelectorTransparencyMode } from './EnhancedSelector';
 import { CustomDropdown } from './CustomDropdown';
 import { CustomButton, CustomButtonFocusMode } from './CustomButton';
@@ -144,7 +144,7 @@ export const DatePicker: VFC<DatePickerProps> = ({
       rgOptions={options}
       strDefaultLabel={strDefaultLabel ?? 'Select Date...'}
       labelCenter={buttonLabelCenter}
-      customDropdownIcon={buttonIcon ?? <TbCalendarEvent style={{ margin: 'auto' }} />}
+      customDropdownIcon={buttonIcon ?? <FaRegCalendarAlt style={{ margin: 'auto' }} />}
       noDropdownIcon={noIcon ?? false}
       style={buttonStyle}
       containerStyle={buttonContainerStyle}

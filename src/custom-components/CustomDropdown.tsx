@@ -1,6 +1,6 @@
 import { SingleDropdownOption, DropdownProps, showContextMenu, Menu, MenuItem, showModal } from '../deck-components';
 import { ReactElement, VFC, useState, useEffect } from 'react';
-import { BsThreeDots } from 'react-icons/bs';
+import { FaEllipsis } from 'react-icons/fa6';
 import { CustomButtonProps, CustomButton } from './CustomButton';
 
 export type BaseModalProps = {
@@ -67,7 +67,7 @@ export const CustomDropdown: VFC<CustomDropdownProps> = ({
   onMenuOpened,
   ...buttonProps
 }) => {
-  const icon = customDropdownIcon ?? (CustomModal ? <BsThreeDots style={{ margin: 'auto' }} /> : <svg style={{ height: '1em', margin: 'auto' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none"><path d="M17.98 26.54L3.20996 11.77H32.75L17.98 26.54Z" fill="currentColor"></path></svg>);
+  const icon = customDropdownIcon ?? (CustomModal ? <FaEllipsis style={{ margin: 'auto' }} /> : <svg style={{ height: '1em', margin: 'auto' }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none"><path d="M17.98 26.54L3.20996 11.77H32.75L17.98 26.54Z" fill="currentColor"></path></svg>);
   const [selected, setSelected] = useState<SingleDropdownOption | undefined>(rgOptions?.find(option => option.data === selectedOptionData));
   const [changed, setChanged] = useState(false);
 
