@@ -504,6 +504,7 @@ const CalendarPanel: VFC<CalendarPanelProps> = ({ selectedDay, daysInMonth, disa
           transparent={true}
           disabled={disabled}
           focusable={!disabled}
+          audioSFX='deck_ui_switch_toggle_on.wav'
         >
           {day}
         </CustomButton>
