@@ -30,7 +30,7 @@ export interface CustomDropdownProps extends Omit<DropdownProps, 'rgOptions' | '
   customDropdownIcon?: ReactElement;
 
   /** A custom modal to use to select options instead of the default context menu */
-  useCustomModal?: VFC<BaseModalProps>;
+  customModal?: VFC<BaseModalProps>;
 
   /** CSS style for the selection label div */
   labelStyle?: React.CSSProperties;
@@ -63,7 +63,7 @@ export const CustomDropdown: VFC<CustomDropdownProps> = ({
   focusMode,
   transparent,
   onChange,
-  useCustomModal: CustomModal,
+  customModal: CustomModal,
   onMenuOpened,
   ...buttonProps
 }) => {

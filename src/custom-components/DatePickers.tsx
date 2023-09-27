@@ -149,7 +149,7 @@ export const DatePicker: VFC<DatePickerProps> = ({
       style={buttonStyle}
       containerStyle={buttonContainerStyle}
       containerClassName={DatePickerClasses.topLevel}
-      useCustomModal={({ onSelectOption, selectedOption, closeModal }: ModalWrapperProps) => {
+      customModal={({ onSelectOption, selectedOption, closeModal }: ModalWrapperProps) => {
         return <DatePickerModal
           onSelectDate={date => {
             onSelectOption(date);
