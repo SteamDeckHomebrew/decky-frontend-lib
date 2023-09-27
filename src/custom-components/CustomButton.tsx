@@ -1,6 +1,7 @@
 import { ReactNode, FC, useState } from "react";
 import { FocusableProps, Focusable, DialogButton } from '../deck-components';
 import { SoundFile, SFXPath, GamepadUIAudio } from '../utils/GamepadUIAudio';
+import { joinClassNames } from '../utils';
 
 export interface CustomButtonProps extends Omit<FocusableProps, 'focusWithinClassName' | 'flow-children' | 'onActivate' | 'onCancel' | 'onClick' | 'children' | 'noFocusRing' | 'onChange'> {
   /** The sound effect to use when clicking @default 'deck_ui_default_activation.wav' */
@@ -82,7 +83,7 @@ export const CustomButton: FC<CustomButtonProps> = ({
     <Focusable
       //@ts-ignore
       onClick={onClicked}
-      className={addClasses(CustomButtonClasses.buttonContainer, containerClassName)}
+      className={joinClassNames(CustomButtonClasses.buttonContainer, containerClassName)}
       style={containerStyle}
       onActivate={focusable ?? true ? onClicked : undefined}
       onFocus={(e) => { setFocused(true); onFocus?.(e); }}
@@ -92,7 +93,7 @@ export const CustomButton: FC<CustomButtonProps> = ({
       {...focusableProps}
     >
       <DialogButton
-        className={addClasses(CustomButtonClasses.button, className, focusStyle === CustomButtonFocusMode.highlight && focused && 'gpfocus', focused && focusClassName)}
+        className={joinClassNames(CustomButtonClasses.button, className, focusStyle === CustomButtonFocusMode.highlight && focused && 'gpfocus', focused && focusClassName)}
         style={Object.assign(transparent && (focusStyle === CustomButtonFocusMode.ring || !focused) ? { background: 'transparent' } : {}, style ?? {})}
         focusable={false}
         disabled={disabled}
@@ -102,8 +103,3 @@ export const CustomButton: FC<CustomButtonProps> = ({
     </Focusable>
   );
 };
-
-/** Utility function to join strings for CSS class names omitting invalid values */
-function addClasses(...strings: any[]) {
-  return strings.filter(string => string).join(' ');
-}

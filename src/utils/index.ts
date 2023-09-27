@@ -6,8 +6,11 @@ declare global {
   var GamepadNavTree: any;
 }
 
-export function joinClassNames(...classes: string[]): string {
-  return classes.join(' ');
+/**
+ * Join strings for CSS class names omitting falsy values
+ */
+export function joinClassNames(...classes: any[]): string {
+  return classes.filter(value => value).join(' ');
 }
 
 export function sleep(ms: number) {

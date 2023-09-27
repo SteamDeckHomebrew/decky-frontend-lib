@@ -1,5 +1,5 @@
 import { SingleDropdownOption, quickAccessMenuClasses, ConfirmModal, Focusable } from '../deck-components';
-import { afterPatch } from '../utils';
+import { afterPatch, joinClassNames } from '../utils';
 import { ReactElement, VFC, useMemo, useState, Fragment, useEffect } from 'react';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { EnhancedSelector, EnhancedSelectorFocusRingMode, EnhancedSelectorTransparencyMode } from './EnhancedSelector';
@@ -319,7 +319,7 @@ export const SimpleDatePickerModal: VFC<DatePickerModalProps> = ({
 
   const titleStyle = { justifyContent: 'center' };
   const sectionStyle = day ? {} : { flex: '1' };
-  const titleClass = addClasses(quickAccessMenuClasses.PanelSectionTitle, DatePickerModalClasses.title);
+  const titleClass = joinClassNames(quickAccessMenuClasses.PanelSectionTitle, DatePickerModalClasses.title);
 
   return (
     <Fragment>
@@ -426,7 +426,7 @@ export const PrettyDatePickerModal: VFC<DatePickerModalProps> = ({
   const daysInMonth = useMemo(() => getDaysInMonth(month ?? 1, year), [month, year]);
 
   const titleStyle = { justifyContent: 'center' };
-  const titleClass = addClasses(quickAccessMenuClasses.PanelSectionTitle, DatePickerModalClasses.title);
+  const titleClass = joinClassNames(quickAccessMenuClasses.PanelSectionTitle, DatePickerModalClasses.title);
 
   const focusable = <Focusable style={{ display: 'flex', justifyContent: 'space-between', ...(showDropdownIcons ? { margin: '0 -8px' } : {}) }}>
     <div>
@@ -473,7 +473,7 @@ export const PrettyDatePickerModal: VFC<DatePickerModalProps> = ({
         .${DatePickerModalClasses.topLevel}.${DatePickerModalClasses.pretty} .DialogFooter { padding-top: 0; }
         `}</style>
       <ConfirmModal
-        className={addClasses(DatePickerModalClasses.topLevel, DatePickerModalClasses.pretty)}
+        className={joinClassNames(DatePickerModalClasses.topLevel, DatePickerModalClasses.pretty)}
         closeModal={closeModal}
         onOK={onConfirm}
       >
@@ -622,7 +622,3 @@ function isValidDate(day?: number, month?: number, year?: number) {
   return true;
 }
 
-/** Utility function to join strings for CSS class names omitting invalid values */
-function addClasses(...strings: any[]) {
-  return strings.filter(string => string).join(' ');
-}

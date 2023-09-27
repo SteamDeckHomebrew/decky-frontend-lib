@@ -4,6 +4,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { CustomButton, CustomButtonFocusMode } from "./CustomButton";
 import { CustomDropdown, CustomDropdownProps } from './CustomDropdown';
 import { SoundFile } from '../utils/GamepadUIAudio';
+import { joinClassNames } from '../utils';
 
 const defaultSFX = 'deck_ui_tab_transition_01.wav';
 const defaultInvalidSFX = 'deck_ui_bumper_end_02.wav';
@@ -214,7 +215,7 @@ export const EnhancedSelector: VFC<EnhancedSelectorProps> = ({
       <CustomButton
         audioSFX={getSFX(-1)}
         onClick={() => shiftIndex(-1)}
-        className={addClasses(EnhancedSelectorClasses.dirButton, EnhancedSelectorClasses.left)}
+        className={joinClassNames(EnhancedSelectorClasses.dirButton, EnhancedSelectorClasses.left)}
         containerStyle={{ marginRight: buttonMargin }}
         transparent={transparentButtons}
         focusMode={buttonFocusMode}
@@ -245,7 +246,7 @@ export const EnhancedSelector: VFC<EnhancedSelectorProps> = ({
       <CustomButton
         audioSFX={getSFX(1)}
         onClick={() => shiftIndex(1)}
-        className={addClasses(EnhancedSelectorClasses.dirButton, EnhancedSelectorClasses.right)}
+        className={joinClassNames(EnhancedSelectorClasses.dirButton, EnhancedSelectorClasses.right)}
         containerStyle={{ marginLeft: buttonMargin }}
         transparent={transparentButtons}
         focusMode={buttonFocusMode}
@@ -261,8 +262,3 @@ export const EnhancedSelector: VFC<EnhancedSelectorProps> = ({
     </Focusable >
   </Fragment>);
 };
-
-/** Utility function to join strings for CSS class names omitting invalid values */
-function addClasses(...strings: any[]) {
-  return strings.filter(string => string).join(' ');
-}

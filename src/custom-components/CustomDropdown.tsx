@@ -2,6 +2,7 @@ import { SingleDropdownOption, DropdownProps, showContextMenu, Menu, MenuItem, s
 import { ReactElement, VFC, useState, useEffect } from 'react';
 import { FaEllipsis } from 'react-icons/fa6';
 import { CustomButtonProps, CustomButton } from './CustomButton';
+import { joinClassNames } from '../utils';
 
 export type BaseModalProps = {
   onSelectOption: (option: SingleDropdownOption) => void,
@@ -105,7 +106,7 @@ export const CustomDropdown: VFC<CustomDropdownProps> = ({
 
   return (
     <CustomButton
-      containerClassName={addClasses(CustomDropdownClasses.topLevel, containerClassName)}
+      containerClassName={joinClassNames(CustomDropdownClasses.topLevel, containerClassName)}
       style={{ padding: '10px 16px', ...style }}
       noAudio={true}
       focusMode={focusMode}
@@ -123,7 +124,7 @@ export const CustomDropdown: VFC<CustomDropdownProps> = ({
     >
       <div style={{ display: 'flex', overflow: 'hidden' }}>
         <div style={{ overflow: 'hidden', flex: 'auto' }}>
-          <div style={Object.assign({ textAlign: labelCenter ? 'center' : 'left', minHeight: '20px' }, changed ? labelChangedStyle : labelStyle)} className={addClasses(CustomDropdownClasses.label, changed && CustomDropdownClasses.selectionChanged)}>
+          <div style={Object.assign({ textAlign: labelCenter ? 'center' : 'left', minHeight: '20px' }, changed ? labelChangedStyle : labelStyle)} className={joinClassNames(CustomDropdownClasses.label, changed && CustomDropdownClasses.selectionChanged)}>
             {labelOverride ?? selected?.label ?? strDefaultLabel}
           </div>
         </div>
@@ -137,7 +138,3 @@ export const CustomDropdown: VFC<CustomDropdownProps> = ({
   );
 };
 
-/** Utility function to join strings for CSS class names omitting invalid values */
-function addClasses(...strings: any[]) {
-  return strings.filter(string => string).join(' ');
-}
