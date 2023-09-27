@@ -360,147 +360,162 @@ export const SimpleDatePickerModal: VFC<DatePickerModalProps> = ({
 
 /** A nice looking date picker modal that is configurable */
 export const PrettyDatePickerModal: VFC<DatePickerModalProps> = ({
-  onSelectDate,
-  selectedDate,
-  toLocaleStringOptions,
-  focusDropdowns,
-  showDropdownIcons,
-  centerSelectorLabels,
-  startYear,
-  endYear,
-  dateIncludes,
-  closeModal,
-  ...selectorProps
-}) => {
-  const thisYear = new Date().getUTCFullYear();
-
-  const { day: incomingDay, month: incomingMonth, year: incomingYear } = (selectedDate ?? {});
-
-  const include = dateIncludes ?? DateIncludes.dayMonthYear;
-
-  const [day, setDay] = useState(include === DateIncludes.dayMonthYear ? incomingDay ?? 1 : undefined);
-  const [month, setMonth] = useState(include >= DateIncludes.monthYear ? incomingMonth ?? 1 : undefined);
-  const [year, setYear] = useState(incomingYear ?? thisYear);
-
-  const start = startYear ?? 1970;
-  const end = endYear ?? thisYear;
-
-  const monthOptions = useMemo(() => getMonthOptions(), []);
-  const yearOptions = useMemo(() => getYearOptions(year < start ? year : start, year > end ? year : end), []);
-
-  const onConfirm = () => {
-    const label = dateToLabel(year, month, day, toLocaleStringOptions);
-    const date: DateObj = { year: year };
-    if (day) date.day = day;
-    if (month) date.month = month;
-    onSelectDate?.({ label: label, data: date });
-  };
-
-  const monthSelector = useMemo(() => {
-    return <EnhancedSelector
-      selectionBoxWidth={`${115 + (showDropdownIcons ? 25 : 0)}px`}
-      onChange={option => setMonth(option.data)}
-      focusDropdown={focusDropdowns ?? true}
-      showDropdownIcon={showDropdownIcons}
-      labelCenter={centerSelectorLabels ?? true}
-      {...selectorProps}
-      rgOptions={monthOptions}
-      selectedOption={month ?? 1}
-      disabled={!month}
-    />;
-  }, []);
-
-  const yearSelector = useMemo(() => {
-    return <EnhancedSelector
-      selectionBoxWidth={`${74 + (showDropdownIcons ? 28 : 0)}px`}
-      onChange={option => setYear(option.data)}
-      focusDropdown={focusDropdowns ?? true}
-      showDropdownIcon={showDropdownIcons}
-      labelCenter={centerSelectorLabels ?? true}
-      {...selectorProps}
-      rgOptions={yearOptions}
-      selectedOption={year}
-    />;
-  }, []);
-
-  const daysInMonth = useMemo(() => getDaysInMonth(month ?? 1, year), [month, year]);
-
-  const titleStyle = { justifyContent: 'center' };
-  const titleClass = addClasses(quickAccessMenuClasses.PanelSectionTitle, DatePickerModalClasses.title);
-
-  return (
-    <Fragment>
-      <style>{`.${DatePickerModalClasses.topLevel} .DialogHeader { display: none !important; }
-      .${DatePickerModalClasses.topLevel}.${DatePickerModalClasses.pretty} { width: ${showDropdownIcons ? 505 : 470}px; }
-      .${DatePickerModalClasses.topLevel}.${DatePickerModalClasses.pretty} .DialogFooter { padding-top: 0; }
-      `}</style>
-      <ConfirmModal
-        className={addClasses(DatePickerModalClasses.topLevel, DatePickerModalClasses.pretty)}
-        closeModal={closeModal}
-        onOK={onConfirm}
-
-      >
-        <Focusable style={{ display: 'flex', justifyContent: 'space-between', ...(showDropdownIcons ? { margin: '0 -8px' } : {}) }}>
-          <div>
-            <div style={titleStyle} className={titleClass}>
-              Month
-            </div>
-            {monthSelector}
-          </div>
-          <div>
-            <div style={titleStyle} className={titleClass}>
-              Year
-            </div>
-            {yearSelector}
-          </div>
-        </Focusable>
-        <CalendarPanel selectedDay={day} daysInMonth={daysInMonth} onChange={setDay} disabled={!day} />
-      </ConfirmModal>
-    </Fragment>
-  );
-};
-
-interface CalendarPanelProps {
-  selectedDay?: number;
-  daysInMonth: number;
-  disabled: boolean;
-  onChange: (day: number) => void;
-}
-const CalendarPanel: VFC<CalendarPanelProps> = ({ selectedDay, daysInMonth, disabled, onChange }) => {
-  const grid = useMemo(() => {
-    const dayElts = [];
-    for (let i = 0; i < daysInMonth; i++) {
-      const day = i + 1;
-      const selectedStyle = selectedDay === day ? { background: '#a8b4ee2e' } : {};
-      dayElts.push(
-        <CustomButton
-          onClick={() => onChange(day)}
-          style={{ minWidth: '40px', margin: 'auto', padding: '10px 0', fontSize: '13px', ...selectedStyle }}
-          focusMode={CustomButtonFocusMode.ring}
-          transparent={true}
-          disabled={disabled}
-          focusable={!disabled}
-        >
-          {day}
-        </CustomButton>
-      );
-    }
+    onSelectDate,
+    selectedDate,
+    toLocaleStringOptions,
+    focusDropdowns,
+    showDropdownIcons,
+    centerSelectorLabels,
+    startYear,
+    endYear,
+    dateIncludes,
+    closeModal,
+    ...selectorProps
+  }) => {
+    const thisYear = new Date().getUTCFullYear();
+  
+    const { day: incomingDay, month: incomingMonth, year: incomingYear } = (selectedDate ?? {});
+  
+    const include = dateIncludes ?? DateIncludes.dayMonthYear;
+  
+    const [day, setDay] = useState(include === DateIncludes.dayMonthYear ? incomingDay ?? 1 : undefined);
+    const [month, setMonth] = useState(include >= DateIncludes.monthYear ? incomingMonth ?? 1 : undefined);
+    const [year, setYear] = useState(incomingYear ?? thisYear);
+  
+    const start = startYear ?? 1970;
+    const end = endYear ?? thisYear;
+  
+    const monthOptions = useMemo(() => getMonthOptions(), []);
+    const yearOptions = useMemo(() => getYearOptions(year < start ? year : start, year > end ? year : end), []);
+  
+    const onConfirm = () => {
+      const label = dateToLabel(year, month, day, toLocaleStringOptions);
+      const date: DateObj = { year: year };
+      if (day) date.day = day;
+      if (month) date.month = month;
+      onSelectDate?.({ label: label, data: date });
+    };
+  
+    const monthSelector = useMemo(() => {
+      return <EnhancedSelector
+        selectionBoxWidth={`${115 + (showDropdownIcons ? 25 : 0)}px`}
+        onChange={option => setMonth(option.data)}
+        focusDropdown={focusDropdowns ?? true}
+        showDropdownIcon={showDropdownIcons}
+        labelCenter={centerSelectorLabels ?? true}
+        {...selectorProps}
+        rgOptions={monthOptions}
+        selectedOption={month ?? 1}
+        disabled={!month}
+      />;
+    }, []);
+  
+    const yearSelector = useMemo(() => {
+      return <EnhancedSelector
+        selectionBoxWidth={`${74 + (showDropdownIcons ? 28 : 0)}px`}
+        onChange={option => setYear(option.data)}
+        focusDropdown={focusDropdowns ?? true}
+        showDropdownIcon={showDropdownIcons}
+        labelCenter={centerSelectorLabels ?? true}
+        {...selectorProps}
+        rgOptions={yearOptions}
+        selectedOption={year}
+      />;
+    }, []);
+  
+    const daysInMonth = useMemo(() => getDaysInMonth(month ?? 1, year), [month, year]);
+  
+    const titleStyle = { justifyContent: 'center' };
+    const titleClass = addClasses(quickAccessMenuClasses.PanelSectionTitle, DatePickerModalClasses.title);
+  
+    const focusable = <Focusable style={{ display: 'flex', justifyContent: 'space-between', ...(showDropdownIcons ? { margin: '0 -8px' } : {}) }}>
+      <div>
+        <div style={titleStyle} className={titleClass}>
+          Month
+        </div>
+        {monthSelector}
+      </div>
+      <div>
+        <div style={titleStyle} className={titleClass}>
+          Year
+        </div>
+        {yearSelector}
+      </div>
+    </Focusable>;
+  
+    const ancestorNode = useMemo(() => {
+      const container: { navNode: any; } = { navNode: undefined };
+      afterPatch(focusable.type, 'render', (_: any, ret: any) => {
+        container.navNode = ret.props.value;
+        return ret;
+      }, { singleShot: true });
+      return container;
+    }, []);
+  
+    useEffect(() => {
+      const parentNavNode = ancestorNode.navNode?.m_rgChildren[0]?.m_rgChildren[0]?.m_rgChildren[0];
+      if (!parentNavNode || !parentNavNode.m_rgChildren[0] || !parentNavNode.m_rgChildren[1]) {
+        console.log('Date picker modal could not find focus nav nodes');
+      } else {
+        setTimeout(() => {
+          parentNavNode.m_rgChildren[0].SetProperties({ navEntryPreferPosition: 2 });
+          parentNavNode.m_rgChildren[1].SetProperties({ navEntryPreferPosition: 2 });
+        }, 10);
+      }
+    }, [day, daysInMonth, month, year]);
+    
     return (
-      <Focusable style={{ marginTop: '10px', display: 'grid', gridTemplateColumns: '40px 40px 40px 40px 40px 40px 40px', justifyContent: 'space-around' }}>
-        {dayElts}
-      </Focusable>
+      <Fragment>
+        <style>{`.${DatePickerModalClasses.topLevel} .DialogHeader { display: none !important; }
+        .${DatePickerModalClasses.topLevel}.${DatePickerModalClasses.pretty} { width: ${showDropdownIcons ? 505 : 470}px; }
+        .${DatePickerModalClasses.topLevel}.${DatePickerModalClasses.pretty} .DialogFooter { padding-top: 0; }
+        `}</style>
+        <ConfirmModal
+          className={addClasses(DatePickerModalClasses.topLevel, DatePickerModalClasses.pretty)}
+          closeModal={closeModal}
+          onOK={onConfirm}
+        >
+          {focusable}
+          <CalendarPanel selectedDay={day} daysInMonth={daysInMonth} onChange={setDay} disabled={!day} />
+        </ConfirmModal>
+      </Fragment>
     );
-  }, [daysInMonth, selectedDay]);
-
-  useMemo(() => {
-    afterPatch(grid.type, 'render', (_: any, ret: any) => {
-      ret.props.value.SetProperties({ layout: 5 });
-      return ret;
-    }, { singleShot: true });
-  }, [daysInMonth, selectedDay]);
-
-  return grid;
-};
+  };
+  
+  interface CalendarPanelProps {
+    selectedDay?: number;
+    daysInMonth: number;
+    disabled: boolean;
+    onChange: (day: number) => void;
+  }
+  const CalendarPanel: VFC<CalendarPanelProps> = ({ selectedDay, daysInMonth, disabled, onChange }) => {
+    const grid = useMemo(() => {
+      const dayElts = [];
+      for (let i = 0; i < daysInMonth; i++) {
+        const day = i + 1;
+        const selectedStyle = selectedDay === day ? { background: '#a8b4ee2e' } : {};
+        dayElts.push(
+          <CustomButton
+            onClick={() => onChange(day)}
+            style={{ minWidth: '40px', margin: 'auto', padding: '10px 0', fontSize: '13px', ...selectedStyle }}
+            focusMode={CustomButtonFocusMode.ring}
+            transparent={true}
+            disabled={disabled}
+            focusable={!disabled}
+          >
+            {day}
+          </CustomButton>
+        );
+      }
+      return (
+        <Focusable style={{ marginTop: '10px', display: 'grid', gridTemplateColumns: '40px 40px 40px 40px 40px 40px 40px', justifyContent: 'space-around' }}>
+          {dayElts}
+        </Focusable>
+      );
+    }, [daysInMonth, selectedDay]);
+  
+    return grid;
+  };
 
 const locales = window.LocalizationManager.m_rgLocalesToUse;
 
