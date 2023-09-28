@@ -1,11 +1,10 @@
 import { SingleDropdownOption, quickAccessMenuClasses, ConfirmModal, Focusable } from '../deck-components';
-import { afterPatch, joinClassNames } from '../utils';
+import { SoundFile, afterPatch, joinClassNames } from '../utils';
 import { ReactElement, VFC, useMemo, useState, Fragment, useEffect } from 'react';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { EnhancedSelector, EnhancedSelectorFocusRingMode, EnhancedSelectorTransparencyMode } from './EnhancedSelector';
 import { CustomDropdown } from './CustomDropdown';
 import { CustomButton, CustomButtonFocusMode } from './CustomButton';
-import { SoundFile } from '../utils/GamepadUIAudio';
 
 export type DatePickerModalType = 'simple' | 'pretty';
 export type DateObj = { day?: number, month?: number, year: number; };

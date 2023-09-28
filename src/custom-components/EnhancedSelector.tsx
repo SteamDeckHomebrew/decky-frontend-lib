@@ -3,8 +3,7 @@ import { Fragment, VFC, useEffect, useMemo, useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { CustomButton, CustomButtonFocusMode } from "./CustomButton";
 import { CustomDropdown, CustomDropdownProps } from './CustomDropdown';
-import { SoundFile } from '../utils/GamepadUIAudio';
-import { joinClassNames } from '../utils';
+import { SoundFile, joinClassNames } from '../utils';
 
 const defaultSFX = 'deck_ui_tab_transition_01.wav';
 const defaultInvalidSFX = 'deck_ui_bumper_end_02.wav';

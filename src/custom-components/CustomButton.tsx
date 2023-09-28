@@ -1,7 +1,6 @@
 import { ReactNode, FC, useState } from "react";
 import { FocusableProps, Focusable, DialogButton } from '../deck-components';
-import { SoundFile, SFXPath, GamepadUIAudio } from '../utils/GamepadUIAudio';
-import { joinClassNames } from '../utils';
+import { GamepadUIAudio, SFXPath, SoundFile, joinClassNames } from '../utils';
 
 export interface CustomButtonProps extends Omit<FocusableProps, 'focusWithinClassName' | 'flow-children' | 'onActivate' | 'onCancel' | 'onClick' | 'children' | 'noFocusRing' | 'onChange'> {
   /** The sound effect to use when clicking @default 'deck_ui_default_activation.wav' */
