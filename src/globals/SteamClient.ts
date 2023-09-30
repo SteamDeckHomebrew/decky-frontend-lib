@@ -598,7 +598,12 @@ export interface Auth {
 
 // Broadcasting support hasn't been implemented on Linux yet
 export interface Broadcast {
-    ApproveViewerRequest(param0: string, param1: number): void; //
+    /**
+     * Approves a viewer request for the broadcast.
+     * @param {string} steamId64 - The SteamID64 of the user whose request is to be approved.
+     * @param {number} param1 - Unknown parameter.
+     */
+    ApproveViewerRequest(steamId64: string, param1: number): void;
 
     /**
      * Invites a user identified by their SteamID64 to watch the broadcast.
@@ -621,7 +626,12 @@ export interface Broadcast {
      */
     RegisterForViewerRequests(callback: (viewerFriendCode: number, param1: number, param2: number) => void): Unregisterable | any;
 
-    RejectViewerRequest: any;
+    /**
+     * Rejects a viewer request for the broadcast.
+     * @param {string} steamId64 - The SteamID64 of the user whose request is to be rejected.
+     * @param {number} param1 - Unknown parameter.
+     */
+    RejectViewerRequest(steamId64: string, param1: number): void;
 
     /**
      * Stops the broadcast.
@@ -849,14 +859,16 @@ export interface FriendSettings {
 }
 
 export interface Friends {
-    AddFriend: any;
-    GetCoplayData: any;
+    AddFriend(steamId: string): Promise<boolean>; // Adds friend
+    GetCoplayData(): Promise<any>; // {"recentUsers":[], "currentUsers":[]}
     InviteUserToCurrentGame: any;
-    InviteUserToGame: any;
+
+    InviteUserToGame(steamId: string, appId: number, param2: string): Promise<boolean>; // Invites a user to a game
     InviteUserToLobby: any;
     InviteUserToRemotePlayTogetherCurrentGame: any;
     RegisterForVoiceChatStatus: any;
-    RemoveFriend: any;
+
+    RemoveFriend(steamId: string): Promise<boolean>; // Removes friend
 }
 
 export interface GameNotes {
@@ -936,16 +948,29 @@ export interface Input {
     PreviewConfiguForAppAndController: any;
     PreviewControllerLEDColor: any;
     QueryControllerConfigsForApp: any;
-    RegisterForActiveControllerChanges: Unregisterable | any;
-    RegisterForConfigSelectionChanges: Unregisterable | any;
+    RegisterForActiveControllerChanges: Unregisterable | any; // {"nActiveController":0}
+    RegisterForConfigSelectionChanges(callback: (param0: number, param1: number) => void): Unregisterable | any;
+
     RegisterForControllerAccountChanges: Unregisterable | any;
 
     RegisterForControllerAnalogInputMessages(callback: (controllerAnalogInputMessages: ControllerAnalogInputMessage[]) => void): Unregisterable | any;
 
     RegisterForControllerCommandMessages(callback: (controllerCommandMessage: ControllerCommandMessage) => void): Unregisterable | any;
 
-    RegisterForControllerConfigCloudStateChanges: Unregisterable | any;
-    RegisterForControllerConfigInfoMessages: Unregisterable | any;
+    /**
+     * Registers a callback for changes in controller configuration cloud state.
+     * @param {(controllerConfigCloudStateChange: ControllerConfigCloudStateChange) => void} callback - The callback function for config cloud state changes.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForControllerConfigCloudStateChanges(callback: (controllerConfigCloudStateChange: ControllerConfigCloudStateChange) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback for receiving controller configuration info messages (controller layouts query, personal controller layout query).
+     * @param {(controllerConfigInfoMessages: ControllerConfigInfoMessageList[] | ControllerConfigInfoMessageQuery[]) => void} callback - The callback function for controller config info messages.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @remarks Do Not Use, this will break the controller layout selection unless you know what you are doing.
+     */
+    RegisterForControllerConfigInfoMessages(callback: (controllerConfigInfoMessages: ControllerConfigInfoMessageList[] | ControllerConfigInfoMessageQuery[]) => void): Unregisterable | any;
 
     /**
      * Registers a callback function to be invoked when controller input messages are received.
@@ -957,11 +982,22 @@ export interface Input {
 
     RegisterForControllerListChanges(callback: (controllerListChanges: ControllerInfo[]) => void): Unregisterable | any;
 
-    // For controller input state changes
+    /**
+     * Registers a callback for changes in the controller state (buttons presses, triggers presses, joystick changes etc...).
+     * @param {(controllerStateChanges: ControllerStateChange[]) => void} callback - The callback function for controller state changes.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForControllerStateChanges(callback: (controllerStateChanges: ControllerStateChange[]) => void): Unregisterable | any;
 
     RegisterForDualSenseUpdateNotification: Unregisterable | any;
-    RegisterForGameKeyboardMessages: Unregisterable | any;
+
+    /**
+     * Registers a callback for receiving game keyboard messages (text field popup for inputting text for games when in character creation or etc...).
+     * @param {(gameKeyboardMessage: GameKeyboardMessage) => void} callback - The callback function for game keyboard messages.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForGameKeyboardMessages(callback: (gameKeyboardMessage: GameKeyboardMessage) => void): Unregisterable | any;
+
     RegisterForRemotePlayConfigChanges: Unregisterable | any;
     RegisterForShowControllerLayoutPreviewMessages: Unregisterable | any;
     RegisterForTouchMenuInputMessages: Unregisterable | any;
@@ -969,7 +1005,8 @@ export interface Input {
     RegisterForTouchMenuMessages(callback: (touchMenuMessage: TouchMenuMessage) => void): Unregisterable | any;
 
     RegisterForUIVisualization: Unregisterable | any;
-    RegisterForUnboundControllerListChanges: Unregisterable | any;
+
+    RegisterForUnboundControllerListChanges(callback: (param0: any) => void): Unregisterable | any; // param0 is an array
     RegisterForUserDismissKeyboardMessages: Unregisterable | any;
     RegisterForUserKeyboardMessages: Unregisterable | any;
     RequestGyroActive: any;
@@ -2000,7 +2037,9 @@ export interface DisplayManager {
 
 export interface Dock {
     DisarmSafetyNet: any;
+
     RegisterForStateChanges(callback: (param0: any) => void): Unregisterable | any;
+
     UpdateFirmware: any;
 }
 
@@ -3082,7 +3121,49 @@ export interface ConnectivityTestChange {
 export interface ControllerStateChange {
     unControllerIndex: number;
     unPacketNum: number;
+    /**
+     * Bitmask representing pressed upper buttons.
+     * - Bit 0-8: Unknown (@todo Please provide more details if known)
+     * - Bit 9: L4
+     * - Bit 10: R4
+     * - Bit 11-13: Unknown (@todo Please provide more details if known)
+     * - Bit 14: Left Joystick Touch
+     * - Bit 15: Right Joystick Touch
+     * - Bit 16-18: Unknown (@todo Please provide more details if known)
+     * - Bit 19: Quick Access Menu
+     */
     ulUpperButtons: number;
+    /**
+     * Bitmask representing pressed buttons.
+     * - Bit 0: R2
+     * - Bit 1: L2
+     * - Bit 2: R1
+     * - Bit 3: L1
+     * - Bit 4: Y
+     * - Bit 5: B
+     * - Bit 6: X
+     * - Bit 7: A
+     * - Bit 8: D-Pad Up
+     * - Bit 9: D-Pad Right
+     * - Bit 10: D-Pad Left
+     * - Bit 11: D-Pad Down
+     * - Bit 12: Select
+     * - Bit 13: Steam/Home
+     * - Bit 14: Start
+     * - Bit 15: L5
+     * - Bit 16: R5
+     * - Bit 17: Left Touchpad Click
+     * - Bit 18: Right Touchpad Click
+     * - Bit 19: Left Touchpad Touch
+     * - Bit 20: Right Touchpad Touch
+     * - Bit 21: Unknown (@todo Please provide more details if known)
+     * - Bit 22: L3
+     * - Bit 23-25: Unknown (@todo Please provide more details if known)
+     * - Bit 26: R3
+     * - Bit 27-28: Unknown (@todo Please provide more details if known)
+     * - Bit 29: Mute (Dualsense)
+     * - Bit 30-31: Unknown (@todo Please provide more details if known)
+     */
     ulButtons: number;
     sLeftPadX: number;
     sLeftPadY: number;
@@ -3646,6 +3727,53 @@ export interface SurveySection {
     vecEntries: SurveyEntry[];
 }
 
+export interface GameKeyboardMessage {
+    m_bOpen: boolean;
+    nAppID: number;
+    m_dwPID: number;
+    m_dwOverlayPID: number;
+    m_hPipe: number;
+    m_eInputMode: number;
+    m_eLineInputMode: number;
+    m_pchDescription: string;
+    m_unCharMax: number;
+    m_pchExistingText: string;
+}
+
+export interface ControllerConfigInfoMessage {
+    appID: number;
+}
+
+export interface ControllerConfigInfoMessageQuery extends ControllerConfigInfoMessage {
+    bPersonalQueryDone: boolean;
+}
+
+export interface ControllerConfigInfoMessageList extends ControllerConfigInfoMessage {
+    nControllerType: number;
+    publishedFileID: string;
+    accountID: number;
+    Title: string;
+    Description: string;
+    URL: string;
+    timeUpdated: string;
+    bOfficial: boolean;
+    bProgenitorOfficial: boolean;
+    bRecommended: boolean;
+    bProgenitorRecommended: boolean;
+    bUsesSIAPI: boolean;
+    bUsesMouse: boolean;
+    bUsesKeyboard: boolean;
+    bUsesGamepad: boolean;
+    eExportType: number;
+    playtime: string;
+    bSelected: boolean;
+}
+
+export interface ControllerConfigCloudStateChange {
+    bSyncDone: boolean;
+    bSyncConflict: boolean;
+    bSyncError: boolean;
+}
 
 export interface Unregisterable {
     /**
