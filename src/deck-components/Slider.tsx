@@ -1,5 +1,5 @@
 import { CSSProperties, VFC } from 'react';
-import { findModuleChild } from '../webpack';
+import { CommonUIModule } from '../webpack';
 import { NotchLabel } from './SliderField';
 
 export interface SliderProps {
@@ -26,7 +26,7 @@ export interface SliderProps {
   isKeyNavTarget?: boolean;
 }
 
-export const Slider: VFC<SliderProps> = findModuleChild((mod: any) => {
-  if (typeof mod !== 'object' || !mod.__esModule) return undefined;
-  return mod.GamepadSliderControl;
-});
+export const Slider: VFC<SliderProps> = CommonUIModule.GamepadSliderControl ||
+  Object.values(CommonUIModule).find(
+    (mod: any) => mod?.prototype?.UpdateSliderValueForPosition
+  );
