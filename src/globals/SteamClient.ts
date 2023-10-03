@@ -75,9 +75,9 @@ export interface Apps {
     /**
      * Clears the custom artwork for a given application.
      * @param {number} appId - The ID of the application to clear custom artwork for.
-     * @param {number} assetType - 0 = Grid, 1 = Hero, 2 = Logo
+     * @param {AppArtworkAssetType} assetType - The type of artwork to clear.
      */
-    ClearCustomArtworkForApp(appId: number, assetType: number): Promise<any>;
+    ClearCustomArtworkForApp(appId: number, assetType: AppArtworkAssetType): Promise<any>;
 
     ClearCustomLogoPositionForApp: any;
     ClearProton: any;
@@ -149,7 +149,7 @@ export interface Apps {
      */
     GetDownloadedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
-    GetDurationControlInfo: any;
+    GetDurationControlInfo(appId: number): Promise<any>; // {"bApplicable": true} - overlay usage?
 
     /**
      * Retrieves achievement information for a specific application for a given friend.
@@ -168,7 +168,7 @@ export interface Apps {
 
     GetGameActionDetails(appId: number, callback: (gameAction: GameAction) => void): void;
 
-    GetGameActionForApp(appId: string, callback: (param0: number, param1: number | string /* string appears to be just the appid*/, param2: string /* "LaunchApp", need to look for more to document*/) => void): void;
+    GetGameActionForApp(appId: string, callback: (param0: number /*flag check? for validity*/, param1: number | string /* string appears to be just the appid*/, param2: string /* "LaunchApp", need to look for more to document*/) => void): void;
 
     /**
      * Retrieves launch options for a specified application.
@@ -179,7 +179,7 @@ export interface Apps {
      */
     GetLaunchOptionsForApp(appId: number): Promise<LaunchOption[]>;
 
-    GetLibraryBootstrapData: any;
+    GetLibraryBootstrapData: any; // CLibraryBootstrapData - binary deserializer???
 
     /**
      * Retrieves achievement information for the authenticated user in a specific Steam application.
@@ -270,7 +270,7 @@ export interface Apps {
     OpenAppSettingsDialog(appId: number, param1: string): void;
 
     PromptToChangeShortcut(): Promise<any>; // todo: unknown, prompts file picker
-    RaiseWindowForGame: any;
+    RaiseWindowForGame(appId: number): any; // ResumeGameInProgress
 
     /**
      * Registers a callback function to be called when achievement changes occur.
@@ -289,8 +289,9 @@ export interface Apps {
      */
     RegisterForAppDetails(appId: number, callback: (appDetails: AppDetails) => void): Unregisterable | any;
 
-    RegisterForAppOverviewChanges: Unregisterable | any;
-    RegisterForDRMFailureResponse: Unregisterable | any;
+    RegisterForAppOverviewChanges: Unregisterable | any; // CAppOverview_Change - binary deserializer???
+
+    RegisterForDRMFailureResponse(callback: (appid: number, eResult: number, errorCode: number) => void): Unregisterable | any;
 
     /**
      * Registers a callback function to be called when a game action ends.
@@ -359,7 +360,7 @@ export interface Apps {
      */
     RemoveUserTagFromApps(appIds: number[], userTag: string): void;
 
-    ReportLibraryAssetCacheMiss: any;
+    ReportLibraryAssetCacheMiss(appId: number, assetType: AppArtworkAssetType): void;
     ReportMarketingMessageDialogShown: any;
     RequestIconDataForApp: any;
     RequestLegacyCDKeysForApp: any;
@@ -445,19 +446,18 @@ export interface Apps {
      * @param {number} appId - The ID of the application to set custom artwork for.
      * @param {string} base64Image - Base64 encoded image.
      * @param {string} imageType - "jpeg" or "png".
-     * @param {number} assetType - 0 = Grid, 1 = Hero, 2 = Logo.
+     * @param {AppArtworkAssetType} assetType - The type of artwork to set.
      * @returns {Promise<any>} A Promise that resolves after the custom artwork is set.
-     * @todo More missing assetTypes
      */
-    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: number): Promise<any>;
+    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: AppArtworkAssetType): Promise<any>;
 
-    SetCustomLogoPositionForApp: any;
+    SetCustomLogoPositionForApp(appId: number, param1: string): Promise<void>;
 
     SetDLCEnabled(appId: number, appDLCId: number, value: boolean): void;
 
-    SetLocalScreenshotCaption: any;
-    SetLocalScreenshotPrivacy: any;
-    SetLocalScreenshotSpoiler: any;
+    SetLocalScreenshotCaption(appId: string, param1: any, param2: any): void;
+    SetLocalScreenshotPrivacy(appId: string, param1: any, param2: any): void;
+    SetLocalScreenshotSpoiler(appId: string, param1: any, param2: any): void;
 
     /**
      * Sets the icon for a non-Steam application shortcut.
@@ -499,7 +499,8 @@ export interface Apps {
      */
     SetShortcutStartDir(appId: number, directory: string): void;
 
-    SetStreamingClientForApp: any;
+    // Sets the client ID for streaming for a specific application.
+    SetStreamingClientForApp(appId: number, clientId: string): void;
     SetThirdPartyControllerConfiguration: any;
 
     /**
@@ -524,7 +525,7 @@ export interface Apps {
      */
     SpecifyCompatTool(appId: number, strToolName: string): void;
 
-    StreamGame(param0: number, param1: string, param2: number): any;// todo: unknown
+    StreamGame(appId: number, clientId: string, param2: number): void;
 
     /**
      * Subscribes or unsubscribes from a workshop item for a specific app.
@@ -593,7 +594,7 @@ export interface Auth {
 
     SetLoginToken: any;
     SetSteamGuardData: any;
-    StartSignInFromCache: any;
+    StartSignInFromCache(param0: any, login: string): Promise<any>;
 }
 
 // Broadcasting support hasn't been implemented on Linux yet
@@ -652,9 +653,9 @@ export interface Browser {
     GetBrowserID(): Promise<number>;
 
     GetSteamBrowserID(): Promise<number>; // 16-bit unsigned integer?
-    HideCursorUntilMouseEvent: any;
+    HideCursorUntilMouseEvent(): any;
 
-    InspectElement(param0: any, param1: any): any;
+    InspectElement(clientY: any, clientX: any): any; // yup that's right, clientY and clientX are reversed
 
     NotifyUserActivation: any;
 
@@ -668,9 +669,18 @@ export interface Browser {
 }
 
 export interface BrowserView {
-    Create: any;
+    /*
+    param0 - {
+            parentPopupBrowserID: e.SteamClient.Browser.GetBrowserID(),
+            strUserAgentIdentifier: i,
+            strVROverlayKey: a,
+            strInitialURL: r,
+            bOnlyAllowTrustedPopups: o
+        }
+     */
+    Create(param0: any): any;
     CreatePopup: any;
-    Destroy: any;
+    Destroy(param0: any): any;
     PostMessageToParent: any;
 }
 
@@ -718,8 +728,8 @@ export interface Console {
 
 export interface Customization {
     GenerateLocalStartupMoviesThumbnails: any;
-    GetDownloadedStartupMovies: any;
-    GetLocalStartupMovies: any;
+    GetDownloadedStartupMovies(param0: any): Promise<any>;
+    GetLocalStartupMovies(): Promise<any>;
 }
 
 /**
@@ -872,18 +882,28 @@ export interface Friends {
 }
 
 export interface GameNotes {
-    DeleteImage: any;
+    DeleteImage(param0: any): any;
     DeleteNotes: any;
-    GetNotes: any;
+    /*
+        FilenameForNotes(e) {
+        return "appid" in e ? `notes_${Number(e.appid)}` : `notes_shortcut_${h(e.shortcut)}`
+    }
+    DirectoryForNoteImages(e) {
+        return "appid" in e ? `notes_${Number(e.appid)}_images/` : `notes_shortcut_${h(e.shortcut)}_images/`
+    }
+     */
+    // {"result":1,"notes":"<escaped json>"}
+    // <escaped json> example: {"notes":[{"id":"lmuudzqn","appid":1716740,"ordinal":0,"time_created":1695401684,"time_modified":1695403395,"title":"Old Earth Cuisine 1:","content":"[h1]Old Earth Cuisine 1:[/h1][list][*][p]Red Meat[/p][/*][/list][h1]Beverage Development 2:[/h1][list][*][p]Tranquilitea Sunray[/p][/*][/list][p][/p]"}]}
+    GetNotes(filenameForNotes: string, directoryForNoteImages: string): Promise<any>;
     GetNotesMetadata: any;
     GetNumNotes: any;
     GetQuota: any;
 
     IterateNotes(appId: number, length: number): any; // Results array of {"result":1,"filename":"","filesize":0,"timestamp":0}
     ResolveSyncConflicts: any;
-    SaveNotes: any;
-    SyncToClient: any;
-    SyncToServer: any;
+    SaveNotes(filenameForNotes: string, param1: string): Promise<any>; // param1 - notes like escaped json in GetNotes
+    SyncToClient(): Promise<any>;
+    SyncToServer(): Promise<any>;
     UploadImage: any;
 }
 
@@ -916,19 +936,19 @@ export interface GameSessions {
 export interface Input {
     BIsSteamController(callback: (steamController: boolean) => void): void; // Whether the specified controller is a Steam Controller
     BSupportsControllerLEDColor(callback: (supportControllerLEDColor: boolean) => void): void; // Whether the specified controller supports LED color
-    CalibrateControllerIMU: any;
-    CalibrateControllerJoystick: any;
-    CalibrateControllerTrackpads: any;
+    CalibrateControllerIMU(param0: any): any; // param0 - m_controllerStateDeviceIdx
+    CalibrateControllerJoystick(param0: any): any; // param0 - m_controllerStateDeviceIdx
+    CalibrateControllerTrackpads(param0: any): any; // param0 - m_controllerStateDeviceIdx
     CancelGyroSWCalibration: any;
-    ClearSelectedConfigForApp: any;
+    ClearSelectedConfigForApp(param0: any, param1: any): any; // param0 - appid, param1 - controllerIndex
     CloseDesktopConfigurator: any;
-    ControllerKeyboardSendText: any;
-    ControllerKeyboardSetKeyState: any;
+    ControllerKeyboardSendText(key: any): any; //???
+    ControllerKeyboardSetKeyState(key: number, state: boolean): any;
     DeauthorizeControllerAccount: any;
     DecrementCloudedControllerConfigsCounter: any;
     DeletePersonalControllerConfiguration: any;
     DuplicateControllerConfigurationSourceMode: any;
-    EndControllerDeviceSupportFlow: any;
+    EndControllerDeviceSupportFlow(): any;
     ExportCurrentControllerConfiguration: any;
     ForceConfiguratorFocus: any;
     ForceSimpleHapticEvent: any;
@@ -937,16 +957,16 @@ export interface Input {
     GetConfigForAppAndController(appId: number, unControllerIndex: number): any;
 
     GetControllerMappingString(unControllerIndex: number): Promise<string>;// returns mappings
-    GetSteamControllerDongleState: any;
-    GetTouchMenuIconsForApp: any;
-    GetXboxDriverInstallState: any;
+    GetSteamControllerDongleState(): Promise<boolean>;
+    GetTouchMenuIconsForApp(param0: any): Promise<any>;// param0 - app?
+    GetXboxDriverInstallState(): Promise<any>;
     IdentifyController: any;
     InitControllerSounds: any;
     InitializeControllerPersonalizationSettings: any;
-    ModalKeyboardDismissed: any;
+    ModalKeyboardDismissed(): void;
     OpenDesktopConfigurator: any;
     PreviewConfiguForAppAndController: any;
-    PreviewControllerLEDColor: any;
+    PreviewControllerLEDColor(flHue: number, flSaturation: number, flBrightness: number): any;
     QueryControllerConfigsForApp: any;
     RegisterForActiveControllerChanges: Unregisterable | any; // {"nActiveController":0}
     RegisterForConfigSelectionChanges(callback: (param0: number, param1: number) => void): Unregisterable | any;
@@ -1011,7 +1031,7 @@ export interface Input {
     RegisterForUserKeyboardMessages: Unregisterable | any;
     RequestGyroActive: any;
     RequestRemotePlayControllerConfigs: any;
-    ResetControllerBindings: any;
+    ResetControllerBindings(param0: any): any;
     ResolveCloudedControllerConfigConflict: any;
     RestoreControllerPersonalizationSettings: any;
     SaveControllerCalibration: any;
@@ -1021,11 +1041,13 @@ export interface Input {
     SetActiveControllerAccount: any;
     SetControllerConfigurationModeShiftBinding: any;
     SetControllerHapticSetting: any;
-    SetControllerMappingString: any;
+    SetControllerMappingString(mapping: string): void;
     SetControllerNintendoLayoutSetting: any;
     SetControllerPersonalizationName: any;
-    SetControllerPersonalizationSetting: any;
-    SetControllerPersonalizationSettingFloat: any;
+    //param0 - nLStickDeadzone, bSWAntiDrift, nRHapticStrength, flRPadPressureCurve
+    SetControllerPersonalizationSetting(param0: string, param1: number): any;
+    //param0 - flGyroStationaryTolerance, flAccelerometerStationaryTolerance
+    SetControllerPersonalizationSettingFloat(param0: string, param1: number): any;
     SetControllerRumbleSetting: any;
     SetCursorActionset: any;
     SetEditingControllerConfigurationActionSet: any;
@@ -1034,16 +1056,16 @@ export interface Input {
     SetEditingControllerConfigurationInputBinding: any;
     SetEditingControllerConfigurationMiscSetting: any;
     SetEditingControllerConfigurationSourceMode: any;
-    SetGamepadKeyboardText: any;
-    SetKeyboardActionset: any;
+    SetGamepadKeyboardText(param0: boolean, param1: string): any;
+    SetKeyboardActionset(param0: boolean): any;
 
     SetMousePosition: any;
 
     SetSelectedConfigForApp: any;
     SetSteamControllerDonglePairingMode: any;
-    SetVirtualMenuKeySelected: any;
+    SetVirtualMenuKeySelected(unControllerIndex: number, unMenuIndex: number, param2: number): any; //
     SetWebBrowserActionset: any;
-    SetXboxDriverInstallState: any;
+    SetXboxDriverInstallState(param0: any): any; // state
 
     /**
      * Opens the Steam Input controller settings.
@@ -1053,7 +1075,7 @@ export interface Input {
     ShowControllerSettings(): void;
 
     StandaloneKeyboardDismissed: any;
-    StartControllerDeviceSupportFlow: any;
+    StartControllerDeviceSupportFlow(param0: any, param1: any, callback: (param2: any) => void): any;
     StartEditingControllerConfigurationForAppIDAndControllerIndex: any;
     StartGyroSWCalibration: any;
     StopEditingControllerConfiguration: any;
@@ -1062,7 +1084,7 @@ export interface Input {
     SyncCloudedControllerConfigs: any;
     TriggerHapticPulse: any;
     TriggerSimpleHapticEvent: any;
-    UnregisterForControllerStateChanges: any;
+    UnregisterForControllerStateChanges(): void;
     UnregisterForUIVisualization: any;
     UploadChangesForCloudedControllerConfigs: any;
 }
@@ -1259,9 +1281,18 @@ export interface Installs {
 }
 
 export interface Messaging {
-    RegisterForMessages(accountName: string, callback: (param0: any) => void): Unregisterable | any;
+    // section - "ContentManagement", "JumpList", "PostToLibrary"
+    // seems multipurpose
+    RegisterForMessages(section: string, callback: (param0: any) => void): Unregisterable | any;
 
-    PostMessage(): void;
+    /*
+    function m(e) {
+        SteamClient.Messaging.PostMessage("LibraryCommands", "ShowFriendChatDialog", JSON.stringify({
+            steamid: e.persona.m_steamid.ConvertTo64BitString()
+        }))
+    }
+     */
+    PostMessage(section: string, param1: string, param2: string): void;
 }
 
 /**
@@ -1363,11 +1394,11 @@ export interface DeviceProperties {
 }
 
 export interface Keyboard {
-    Hide: any;
+    Hide(): any;
     RegisterForStatus: Unregisterable | any;
-    SendDone: any;
-    SendText: any;
-    Show: any;
+    SendDone(): any;
+    SendText(key: string): any; //???
+    Show(): any;
 }
 
 export interface PathProperties {
@@ -1456,8 +1487,7 @@ export interface Overlay {
      */
     RegisterOverlayBrowserInfoChanged(callback: () => void): Unregisterable | any;
 
-
-    SetOverlayState: any;
+    SetOverlayState(appId: number, uiComposition: UIComposition): any;
 }
 
 /**
@@ -1556,7 +1586,7 @@ export interface RemotePlay {
     SetPerUserMouseInputEnabled: any;
     SetPerUserMouseInputEnabledWithGuestID: any;
     SetRemoteDeviceAuthorized: any;
-    SetRemoteDevicePIN: any;
+    SetRemoteDevicePIN(pin: number): void;
     SetRemotePlayEnabled: any;
     SetStreamingClientConfig: any;
     SetStreamingClientConfigEnabled: any;
@@ -1666,10 +1696,10 @@ export interface Screenshots {
      * Uploads a local screenshot.
      * @param {string} appId - The ID of the application.
      * @param {number} localScreenshot_hHandle - The handle of the local screenshot.
-     * @param {number} param2 - Additional parameter. // Todo: Unknown at this time. My assumption is the visibility of the screenshot.
+     * @param {number} filePrivacyState - The privacy state of the screenshot file.
      * @returns {Promise<boolean>} - A Promise that resolves to a boolean value indicating whether the upload was successful.
      */
-    UploadLocalScreenshot(appId: string, localScreenshot_hHandle: number, param2: number): Promise<boolean>;
+    UploadLocalScreenshot(appId: string, localScreenshot_hHandle: number, filePrivacyState: FilePrivacyState): Promise<boolean>;
 }
 
 export interface ServerBrowser {
@@ -1733,8 +1763,9 @@ export interface Settings {
 
     RegisterForTimeZoneChange(callback: (timezoneId: string) => void): Unregisterable | any; // When timezone is changed from settings, callback will return new timezoneId
     ReinitMicSettings: any;
-    RequestDeviceAuthInfo: any;
-    SelectClientBeta: any;
+    RequestDeviceAuthInfo(): any;
+    //
+    SelectClientBeta(nBetaID: any): any;
 
     // Get from available languages
     SetCurrentLanguage(strShortName: string): void;
@@ -1774,7 +1805,12 @@ export interface SharedConnection {
 }
 
 export interface Stats {
-    RecordActivationEvent: any;
+    // param0 - AppDetailsReviewSection, Showcases, LibraryReviewSpotlight
+    // param1 -
+    // AppDetailsReviewSection: PositiveClicked, NegativeClicked, NeutralClicked, PositiveReviewPosted, NegativeReviewPosted, EditClicked, ReviewCanceled
+    // LibraryReviewSpotlight: ReviseClicked, PositiveClicked, ReviseCloseClicked, NegativeClicked, PositiveRevisePosted, NegativeRevisePosted, ReviseCanceled, ReviewCanceled, CloseClicked
+    // Showcases: Delete, Save-Modify, Save-New
+    RecordActivationEvent(param0: string, param1: string): any;
     RecordDisplayEvent: any;
 }
 
@@ -1792,7 +1828,7 @@ export interface Storage {
 
 export interface Streaming {
     AcceptStreamingEULA: any;
-    CancelStreamGame: any;
+    CancelStreamGame(): void; // existing stream
 
     /**
      * Registers a callback function to be called when the streaming client finishes.
@@ -1833,7 +1869,7 @@ export interface Streaming {
      */
     RegisterForStreamingShowLaunchOptions(callback: (appId: number, launchOptions: LaunchOption[]) => void): Unregisterable | any; // Callback when streaming client receives launch options from host
 
-    StreamingContinueStreamGame: any;
+    StreamingContinueStreamGame(): void; // existing game running on another streaming capable device
     StreamingSetLaunchOption: any;
 }
 
@@ -2017,30 +2053,32 @@ export interface Devkit {
 }
 
 export interface Display {
-    EnableUnderscan: any;
+    EnableUnderscan(param0: boolean): any;
 
     RegisterForBrightnessChanges(callback: (brightnessChanges: BrightnessChange) => void): Unregisterable | any;
 
     SetBrightness(brightness: number): any;
 
-    SetUnderscanLevel: any;
+    SetUnderscanLevel(param0: any): any;
 }
 
+// CMsgSystemDisplayManagerState, CMsgSystemDisplayManagerSetMode
 export interface DisplayManager {
-    ClearModeOverride: any;
+    ClearModeOverride(displayId: any): any;
     GetState: any;
-    RegisterForStateChanges: Unregisterable | any;
-    SetCompatibilityMode: any;
-    SetGamescopeInternalResolution: any;
-    SetMode: any;
+    RegisterForStateChanges(callback: () => void): Unregisterable | any;
+    SetCompatibilityMode(displayId: any): any;
+    SetGamescopeInternalResolution(width: number, height: number): any;
+    SetMode(base64: string): any; //
 }
 
+// CMsgSystemDockUpdateFirmware, CMsgSystemDockState
 export interface Dock {
-    DisarmSafetyNet: any;
+    DisarmSafetyNet(): void;
 
-    RegisterForStateChanges(callback: (param0: any) => void): Unregisterable | any;
+    RegisterForStateChanges(callback: (param0: any) => void): Unregisterable | any; // Deserialize binary
 
-    UpdateFirmware: any;
+    UpdateFirmware(base64String: string): any; // serialize base64 string
 }
 
 export interface WirelessNetwork {
@@ -2049,7 +2087,7 @@ export interface WirelessNetwork {
 }
 
 export interface NetworkDevice {
-    Connect: any;
+    Connect(param0: any): any; // some base64 serialized string
     Disconnect: any;
     WirelessNetwork: WirelessNetwork;
 }
@@ -2070,7 +2108,7 @@ export interface Network {
 
     RegisterForDeviceChanges(callback: (param0: any) => void): Unregisterable | any;
 
-    SetFakeLocalSystemState: any;
+    SetFakeLocalSystemState(param0: any): any; // enums
 
     SetProxyInfo(mode: number, address: string, port: number, excludeLocal: boolean): void;
 
@@ -2081,12 +2119,14 @@ export interface Network {
     StopScanningForNetworks(): Promise<OperationResponse>;
 }
 
+// CMsgSystemPerfUpdateSettings, CMsgSystemPerfState, CMsgSystemPerfSettings
 export interface Perf {
-    RegisterForDiagnosticInfoChanges: Unregisterable | any;
-    RegisterForStateChanges: Unregisterable | any;
-    UpdateSettings: any;
+    RegisterForDiagnosticInfoChanges(callback: (param0: any) => void): Unregisterable | any; // deserialize binary
+    RegisterForStateChanges(callback: (param0: any) => void): Unregisterable | any; // deserialize binary
+    UpdateSettings(base64: string): any; // serialize
 }
 
+// CMsgGenerateSystemReportReply
 export interface Report {
     GenerateSystemReport: any;
     SaveToDesktop: any;
@@ -2096,10 +2136,10 @@ export interface Report {
 export interface SystemUI {
     CloseGameWindow: any;
     GetGameWindowsInfo: any;
-    RegisterForFocusChangeEvents: Unregisterable | any;
+    RegisterForFocusChangeEvents(callback: (param0: any) => void): Unregisterable | any;
     RegisterForOverlayGameWindowFocusChanged: Unregisterable | any;
 
-    RegisterForSystemKeyEvents(callback: (event: any) => void): Unregisterable | any;
+    RegisterForSystemKeyEvents(callback: (event: any) => void): Unregisterable | any; // eKey
 }
 
 export interface System {
@@ -2115,16 +2155,26 @@ export interface System {
     FormatStorage: any;
 
     GetLegacyAmpControlEnabled(): Promise<any>; // {"bAvailable":true,"bEnabled":false}
-    GetOSType: any;
+
+
+    GetOSType(): Promise<OSType>;
 
     GetSystemInfo(): Promise<SystemInfo>;
 
     IsDeckFactoryImage(): Promise<boolean>;
 
     Network: Network;
-    NotifyGameOverlayStateChanged: any;
-    OpenFileDialog: any;
-    OpenLocalDirectoryInSystemExplorer: any;
+    NotifyGameOverlayStateChanged(param0: boolean, appId: number): any;
+
+    /*
+    {
+        strTitle: (0, o.Localize)("#AddNonSteam_PickAppTitle"),
+        rgFilters: y(),
+        strInitialFile: t
+    }
+     */
+    OpenFileDialog(param0: any): any;
+    OpenLocalDirectoryInSystemExplorer(directory: string): void; // Opens local directory in system explorer
     Perf: Perf;
     RebootToAlternateSystemPartition: any;
     RebootToFactoryTestImage: any;
@@ -2139,7 +2189,7 @@ export interface System {
 
     RegisterForOnSuspendRequest(callback: () => void): Unregisterable | any;
 
-    RegisterForSettingsChanges: Unregisterable | any;
+    RegisterForSettingsChanges: Unregisterable | any; // deserialize binary
     Report: Report;
 
     /**
@@ -2200,7 +2250,7 @@ export interface UI {
 }
 
 export interface URL {
-    ExecuteSteamURL: any;
+    ExecuteSteamURL(url: string): void;
     GetSteamURLList: any;
     GetWebSessionID: any;
     RegisterForRunSteamURL: Unregisterable | any;
@@ -2214,16 +2264,18 @@ export interface Updates {
     GetCurrentOSBranch(): Promise<OSBranch>;
 
     RegisterForUpdateStateChanges: Unregisterable | any;
-    SelectOSBranch: any;
+
+    // 1 - Stable, 2 - Beta, 3 - Preview
+    SelectOSBranch(branch: number): any; // enum?
 }
 
 export interface User {
-    AuthorizeMicrotxn: any;
+    AuthorizeMicrotxn(txnId: any): any;
     CancelLogin: any;
-    CancelMicrotxn: any;
+    CancelMicrotxn(txnId: any): any;
     CancelShutdown: any;
     ChangeUser: any;
-    Connect: any;
+    Connect(): any;
     FlipToLogin: any;
     ForceShutdown: any;
     ForgetPassword: any;
@@ -2271,13 +2323,13 @@ export interface User {
     RunSurvey(callback: (surveySections: SurveySection[]) => void): void;
 
     SendSurvey: any;
-    SetAsyncNotificationEnabled: any;
+    SetAsyncNotificationEnabled(appId: number, enable: boolean): any;
     SetLoginCredentials: any;
     SetOOBEComplete: any;
     ShouldShowUserChooser: any;
     SignOutAndRestart: any;
     StartLogin: any;
-    StartOffline: any;
+    StartOffline(param0: boolean): any;
 
     /**
      * Restarts the Steam client.
@@ -2298,7 +2350,7 @@ export interface WebChat {
     GetSignIntoFriendsOnStart: any;
     GetUIMode: any;
     OnGroupChatUserStateChange: any;
-    OpenURLInClient: any;
+    OpenURLInClient(url: string, param1: any, param2: any): any;
     RegisterForComputerActiveStateChange: Unregisterable | any;
     RegisterForFriendPostMessage: Unregisterable | any;
     RegisterForMouseXButtonDown: Unregisterable | any;
@@ -2321,41 +2373,42 @@ export interface WebChat {
 }
 
 export interface WebUITransport {
-    GetTransportInfo: any;
+    GetTransportInfo(): any;
 }
 
 export interface Window {
-    BringToFront: any;
-    Close: any;
+    BringToFront(param0: any): any; // param0 optional?
+    Close(): any;
     DefaultMonitorHasFullscreenWindow: any;
     FlashWindow: any;
     GamescopeBlur: any;
     GetDefaultMonitorDimensions: any;
     GetMousePositionDetails: any;
     GetWindowDimensions: any;
-    GetWindowRestoreDetails: any;
-    HideWindow: any;
+    GetWindowRestoreDetails(callback: (param0: any) => void): any;
+    HideWindow(): any;
     IsWindowMaximized: any;
     IsWindowMinimized: any;
     MarkLastFocused: any;
     Minimize: any;
-    MoveTo: any;
+    MoveTo(x: number, y: number, ratio: number): any;
     MoveToLocation: any;
-    PositionWindowRelative: any;
+    // Takes param0 from callback of GetWindowRestoreDetails
+    PositionWindowRelative(param0: any, x: number, y: number, width: number, height: number): any;
     ProcessShuttingDown: any;
-    ResizeTo: any;
+    ResizeTo(width: number, height: number, ratio: number): any;
     RestoreWindowSizeAndPosition: any;
-    SetAutoDisplayScale: any;
-    SetComposition: any;
-    SetHideOnClose: any;
+    SetAutoDisplayScale(param0: any): any;
+    SetComposition(uiComposition: UIComposition, appIds: number[], param2: number): any;
+    SetHideOnClose(param0: boolean): any;
     SetKeyFocus: any;
-    SetManualDisplayScaleFactor: any;
+    SetManualDisplayScaleFactor(param0: any): any;
     SetMaxSize: any;
     SetMinSize: any;
     SetModal: any;
-    SetResizeGrip: any;
+    SetResizeGrip(width: number, height: number): any;
     SetWindowIcon: any;
-    ShowWindow: any;
+    ShowWindow(): any;
     StopFlashWindow: any;
     ToggleFullscreen: any;
     ToggleMaximize: any;
@@ -3214,7 +3267,7 @@ export interface ActiveAccount {
 
 export interface ControllerInfo {
     strName: string;
-    eControllerType: number;
+    eControllerType: ControllerType;
     nXInputIndex: number;
     nControllerIndex: number;
     eRumblePreference: number;
@@ -3359,6 +3412,48 @@ export interface GameAction {
     nGameActionID: number;
     gameid: string;
     strActionName: string;
+    /*
+        None - 0
+        Completed - 1
+        Cancelled - 2
+        Failed - 3
+        Starting - 4
+        ConnectingToSteam - 5
+        RequestingLicense - 6
+        UpdatingAppInfo - 7
+        UpdatingAppTicket - 8
+        UnlockingH264 - 9
+        WaitingOnWideVineUpdate - 10
+        ShowCheckSystem - 11
+        CheckTimedTrial - 12
+        GetDurationControl - 13
+        ShowDurationControl - 14
+        ShowLaunchOption - 15
+        ShowEula - 16
+        ShowVR2DWarning - 17
+        ShowVROculusOnly - 18
+        ShowVRStreamingLaunch - 19
+        ShowGameArgs - 20
+        ShowCDKey - 21
+        WaitingPrevProcess - 22
+        DownloadingDepots - 23
+        DownloadingWorkshop - 24
+        UpdatingDRM - 25
+        GettingLegacyKey - 26
+        ProcessingInstallScript - 27
+        RunningInstallScript - 28
+        SynchronizingCloud - 29
+        SynchronizingControllerConfig - 30
+        ShowNoControllerConfig - 31
+        ProcessingShaderCache - 32
+        VerifyingFiles - 33
+        KickingOtherSession - 34
+        WaitingOpenVRAppQuit - 35
+        SiteLicenseSeatCheckout - 36
+        DelayLaunch - 37
+        CreatingProcess - 38
+        WaitingGameWindow - 39
+     */
     strTaskName: string;
     strTaskDetails: string;
     nSecondsRemaing: number; //fixme: not a typo, actually valve
@@ -3774,6 +3869,150 @@ export interface ControllerConfigCloudStateChange {
     bSyncConflict: boolean;
     bSyncError: boolean;
 }
+
+export enum AppArtworkAssetType {
+    Capsule,
+    Hero,
+    Logo,
+    Header,
+    Icon,
+    HeroBlur,
+}
+
+export enum UIComposition {
+    Hidden,
+    Notification,
+    Overlay,
+    Opaque,
+    OverlayKeyboard // Unverified
+}
+
+export enum OSType {
+    Web = -700,
+    Ios = -600,
+    Android = -500,
+    Android6 = -499,
+    Android7 = -498,
+    Android8 = -497,
+    Android9 = -496,
+    Ps3os = -300,
+    Linux = -203,
+    Linux22 = -202,
+    Linux24 = -201,
+    Linux26 = -200,
+    Linux32 = -199,
+    Linux35 = -198,
+    Linux36 = -197,
+    Linux310 = -196,
+    Linux316 = -195,
+    Linux318 = -194,
+    Linux3x = -193,
+    Linux4x = -192,
+    Linux41 = -191,
+    Linux44 = -190,
+    Linux49 = -189,
+    Linux414 = -188,
+    Linux419 = -187,
+    Linux5x = -186,
+    Linux54 = -185,
+    Linux6x = -184,
+    Linux7x = -183,
+    Linux510 = -182,
+    Macos = -102,
+    Macos104 = -101,
+    Macos105 = -100,
+    Macos1058 = -99,
+    Macos106_unused1 = -98,
+    Macos106_unused2 = -97,
+    Macos106_unused3 = -96,
+    Macos106 = -95,
+    Macos1063 = -94,
+    Macos1064_slgu = -93,
+    Macos1067 = -92,
+    Macos1067_unused = -91,
+    Macos107 = -90,
+    Macos108 = -89,
+    Macos109 = -88,
+    Macos1010 = -87,
+    Macos1011 = -86,
+    Macos1012 = -85,
+    Macos1013 = -84,
+    Macos1014 = -83,
+    Macos1015 = -82,
+    Macos1016 = -81,
+    Macos11 = -80,
+    Macos111 = -79,
+    Macos1017 = -78,
+    Macos12 = -77,
+    Macos1018 = -76,
+    Macos13 = -75,
+    Macos1019 = -74,
+    Macos14 = -73,
+    Macos1020 = -72,
+    Macos15 = -71,
+    Unknown = -1,
+    Windows = 0,
+    Win311 = 1,
+    Win95 = 2,
+    Win98 = 3,
+    WinME = 4,
+    WinNT = 5,
+    Win200 = 6,
+    WinXP = 7,
+    Win2003 = 8,
+    WinVista = 9,
+    Win7 = 10,
+    Win2008 = 11,
+    Win2012 = 12,
+    Win8 = 13,
+    Win81 = 14,
+    Win2012R2 = 15,
+    Win10 = 16,
+    Win2016 = 17,
+    Win2019 = 18,
+    Win2022 = 19,
+    Win11 = 20,
+}
+
+export enum ControllerType {
+    None = -1,
+    Unknown = 0,
+    UnknownSteamController = 1,
+    SteamController = 2, // Codename Gordon
+    SteamControllerV2 = 3, // Codename Headcrab
+    SteamControllerNeptune = 4,
+    FrontPanelBoard = 20,
+    Generic = 30,
+    XBox360Controller = 31,
+    XBoxOneController = 32,
+    PS3Controller = 33,
+    PS4Controller = 34,
+    WiiController = 35,
+    AppleController = 36,
+    AndroidController = 37,
+    SwitchProController = 38,
+    SwitchJoyConLeft = 39,
+    SwitchJoyConRight = 40,
+    SwitchJoyConPair = 41,
+    SwitchProGenericInputOnlyController = 42,
+    MobileTouch = 43,
+    SwitchProXInputSwitchController = 44,
+    PS5Controller = 45,
+    XboxEliteController = 46,
+    LastController = 47, // Unverified
+    PS5EdgeController = 48,
+    GenericKeyboard = 400,
+    GenericMouse = 800,
+}
+
+export enum FilePrivacyState {
+    Invalid = -1,
+    Private = 2,
+    FriendsOnly = 4,
+    Public = 8,
+    Unlisted = 16,
+}
+
 
 export interface Unregisterable {
     /**
