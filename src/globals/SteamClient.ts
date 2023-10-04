@@ -77,9 +77,15 @@ export interface Apps {
      * @param {number} appId - The ID of the application to clear custom artwork for.
      * @param {AppArtworkAssetType} assetType - The type of artwork to clear.
      */
-    ClearCustomArtworkForApp(appId: number, assetType: AppArtworkAssetType): Promise<any>;
+    ClearCustomArtworkForApp(appId: number, assetType: AppArtworkAssetType): Promise<void>;
 
-    ClearCustomLogoPositionForApp: any;
+    /**
+     * Clears the custom logo position for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @returns {Promise<void>} - A Promise that resolves once the custom logo position is cleared.
+     */
+    ClearCustomLogoPositionForApp(appId: number): Promise<void>;
+
     ClearProton: any;
 
     /**
@@ -100,7 +106,15 @@ export interface Apps {
     CreateDesktopShortcutForApp(appId: number): void;
 
     DownloadWorkshopItem: any;
-    GetAchievementsInTimeRange: any;
+
+    /**
+     * Retrieves achievements within a specified time range for a given app.
+     * @param {number} appId - The ID of the application.
+     * @param {number} start - The start of the time range as a Unix timestamp.
+     * @param {number} end - The end of the time range as a Unix timestamp.
+     * @returns {Promise<AppAchievement[]>} - A Promise that resolves to an array of AppAchievement objects.
+     */
+    GetAchievementsInTimeRange(appId: number, start: number, end: number): Promise<AppAchievement[]>;
 
     /**
      * Retrieves a list of active game actions, such as launching an application.
@@ -123,6 +137,7 @@ export interface Apps {
     GetBackupsInFolder(appBackupPath: string): Promise<string | undefined>;
 
     GetCachedAppDetails(appId: number): Promise<string>; // todo: Parsing nightmare
+
     GetCloudPendingRemoteOperations: any;
     GetConflictingFileTimestamps: any;
 
@@ -439,7 +454,7 @@ export interface Apps {
     SetAppResolutionOverride(appId: number, resolution: string): any;
 
     SetCachedAppDetails: any;
-    SetControllerRumblePreference: any;
+    SetControllerRumblePreference(appId: number, param1: number): any; // param1 - enum for preference
 
     /**
      * Sets the custom artwork for a given application.
@@ -451,7 +466,7 @@ export interface Apps {
      */
     SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: AppArtworkAssetType): Promise<any>;
 
-    SetCustomLogoPositionForApp(appId: number, param1: string): Promise<void>;
+    SetCustomLogoPositionForApp(appId: number, param1: string): Promise<void>; // I've tried sending escaped LogoPosition JSON, but it doesn't seem to work
 
     SetDLCEnabled(appId: number, appDLCId: number, value: boolean): void;
 
@@ -499,8 +514,13 @@ export interface Apps {
      */
     SetShortcutStartDir(appId: number, directory: string): void;
 
-    // Sets the client ID for streaming for a specific application.
+    /**
+     * Sets the client ID for streaming for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @param {string} clientId - The client ID for streaming.
+     */
     SetStreamingClientForApp(appId: number, clientId: string): void;
+
     SetThirdPartyControllerConfiguration: any;
 
     /**
@@ -736,7 +756,11 @@ export interface Customization {
  * Represents functions related to managing downloads in Steam.
  */
 export interface Downloads {
-    EnableAllDownloads(enable: boolean): void; // todo: Unknown usage
+    /**
+     * Enables or disables all downloads in Steam.
+     * @param {boolean} enable - True to enable downloads, false to disable.
+     */
+    EnableAllDownloads(enable: boolean): void;
 
     /**
      * Moves the update for a specific app down the download queue.
@@ -868,17 +892,38 @@ export interface FriendSettings {
     SetFriendSettings: any;
 }
 
+/**
+ * Represents functions related to managing friends in Steam.
+ */
 export interface Friends {
-    AddFriend(steamId: string): Promise<boolean>; // Adds friend
+    /**
+     * Adds a user to the friend list.
+     * @param {string} steamId - The Steam ID of the user to add as a friend.
+     * @returns {Promise<boolean>} A Promise that resolves to true if the friend was added successfully, false otherwise.
+     */
+    AddFriend(steamId: string): Promise<boolean>;
+
     GetCoplayData(): Promise<any>; // {"recentUsers":[], "currentUsers":[]}
     InviteUserToCurrentGame: any;
 
-    InviteUserToGame(steamId: string, appId: number, param2: string): Promise<boolean>; // Invites a user to a game
+    /**
+     * Invites a user to a specific game.
+     * @param {string} steamId - The Steam ID of the user to invite.
+     * @param {number} appId - The ID of the game to invite the user to.
+     * @param {string} param2 - Additional parameters for the invitation.
+     * @returns {Promise<boolean>} A Promise that resolves to true if the user was invited successfully, false otherwise.
+     */
+    InviteUserToGame(steamId: string, appId: number, param2: string): Promise<boolean>;
     InviteUserToLobby: any;
     InviteUserToRemotePlayTogetherCurrentGame: any;
     RegisterForVoiceChatStatus: any;
 
-    RemoveFriend(steamId: string): Promise<boolean>; // Removes friend
+    /**
+     * Removes a user from the friend list.
+     * @param {string} steamId - The Steam ID of the user to remove from the friend list.
+     * @returns {Promise<boolean>} A Promise that resolves to true if the friend was removed successfully, false otherwise.
+     */
+    RemoveFriend(steamId: string): Promise<boolean>;
 }
 
 export interface GameNotes {
@@ -933,9 +978,22 @@ export interface GameSessions {
     RegisterForScreenshotNotification(callback: (screenshotNotification: ScreenshotNotification) => void): Unregisterable | any;
 }
 
+/**
+ * Represents functions related to input and controllers in Steam.
+ */
 export interface Input {
-    BIsSteamController(callback: (steamController: boolean) => void): void; // Whether the specified controller is a Steam Controller
-    BSupportsControllerLEDColor(callback: (supportControllerLEDColor: boolean) => void): void; // Whether the specified controller supports LED color
+    /**
+     * Checks if the specified controller is a Steam Controller.
+     * @param {function} callback - The callback function to receive the result.
+     */
+    BIsSteamController(callback: (steamController: boolean) => void): void;
+
+    /**
+     * Checks if the specified controller supports LED color.
+     * @param {function} callback - The callback function to receive the result.
+     */
+    BSupportsControllerLEDColor(callback: (supportControllerLEDColor: boolean) => void): void;
+
     CalibrateControllerIMU(param0: any): any; // param0 - m_controllerStateDeviceIdx
     CalibrateControllerJoystick(param0: any): any; // param0 - m_controllerStateDeviceIdx
     CalibrateControllerTrackpads(param0: any): any; // param0 - m_controllerStateDeviceIdx
@@ -956,7 +1014,13 @@ export interface Input {
 
     GetConfigForAppAndController(appId: number, unControllerIndex: number): any;
 
-    GetControllerMappingString(unControllerIndex: number): Promise<string>;// returns mappings
+    /**
+     * Retrieves the controller mapping string for the specified controller index.
+     * @param {number} unControllerIndex - The controller index.
+     * @returns {Promise<string>} - A Promise that resolves to the controller mapping string.
+     */
+    GetControllerMappingString(unControllerIndex: number): Promise<string>;
+
     GetSteamControllerDongleState(): Promise<boolean>;
     GetTouchMenuIconsForApp(param0: any): Promise<any>;// param0 - app?
     GetXboxDriverInstallState(): Promise<any>;
@@ -1537,7 +1601,7 @@ export interface RemotePlay {
 
     GetClientStreamingBitrate(): Promise<number>; //todo: -1 not streaming??
     GetClientStreamingQuality(): Promise<number>; //todo: -1 not streaming??
-    GetControllerType(param0: number): Promise<number>; // todo: param0 with value 0 is host controller type - param0 is likely an index of clients or guestId?
+    GetControllerType(param0: number): Promise<ControllerType>; // todo: param0 with value 0 is host controller type - param0 is likely an index of clients or guestId?
     GetGameSystemVolume(): Promise<number>;
 
     GetPerUserInputSettings: any;
@@ -2539,12 +2603,12 @@ export interface AppDetails {
     bSupportsCDKeyCopyToClipboard: boolean;
     bVRGameTheatreEnabled: boolean;
     bWorkshopVisible: boolean;
-    eAppOwnershipFlags: number;
+    eAppOwnershipFlags: AppOwnershipFlags | number; // is this a bitmask?
     eAutoUpdateValue: number;
     eBackgroundDownloads: number;
     eCloudSync: number;
-    eControllerRumblePreference: number;
-    eDisplayStatus: number;
+    eControllerRumblePreference: number; // ControllerRumbleSetting?
+    eDisplayStatus: DisplayStatus;
     eEnableThirdPartyControllerConfiguration: number;
     eSteamInputControllerMask: number;
     iInstallFolder: number;
@@ -2594,144 +2658,93 @@ export interface AppDetails {
     };
 }
 
+// Appears to be all optional fields :disaster:
 export interface SteamAppOverview {
     appid: number;
     display_name: string;
+    visible_in_game_list: boolean;
+    sort_as: string;
 
-    /**
-     * Invalid = 0;
-     * Game = 1;
-     * Application = 2;
-     * Tool = 4;
-     * Demo = 8;
-     * Deprecated = 16;
-     * DLC = 32;
-     * Guide = 64;
-     * Driver = 128;
-     * Config = 256;
-     * Hardware = 512;
-     * Franchise = 1024;
-     * Video = 2048;
-     * Plugin = 4096;
-     * MusicAlbum = 8192;
-     * Series = 16384;
-     * Comic = 32768;
-     * Beta = 65536;
-     * Shortcut = 1073741824;
-     * DepotOnly = -2147483648;
+    /*
+     * Possible bitmask values, but I haven't spotted any of them being masked in the app_type field.
+     * Should be safe as an enum.
      */
-    app_type: number;
+    app_type: AppType;
     mru_index: number | undefined;
     rt_recent_activity_time: number;
     minutes_playtime_forever: number;
     minutes_playtime_last_two_weeks: number;
     rt_last_time_played_or_installed: number;
     rt_last_time_played: number;
-    rt_purchased_time: number;
+    store_tag?: number[];
+    association: SteamAppOverviewAssociation[];
+    store_category?: number[];
     rt_original_release_date: number;
     rt_steam_release_date: number;
     icon_hash: string;
+    controller_support?: AppControllerSupportLevel; // default none
+    vr_supported?: boolean;
     metacritic_score: number;
-    visible_in_game_list: boolean;
+    size_on_disk?: number;
+    third_party_mod?: boolean;
+    icon_data?: string;
+    icon_data_format?: string;
+    gameid: string;
+    library_capsule_filename?: string;
+    per_client_data: SteamAppOverviewClientData[];
     most_available_clientid: string;
     selected_clientid?: string;
     rt_store_asset_mtime: number;
-    sort_as: string;
-    association: SteamAppOverviewAssociation[];
-    m_setStoreCategories: Set<number>;
-    m_setStoreTags: Set<number>;
-    per_client_data: SteamAppOverviewClientData[];
-    canonicalAppType: number;
-    local_per_client_data: SteamAppOverviewClientData;
-    most_available_per_client_data: SteamAppOverviewClientData;
-    selected_per_client_data: SteamAppOverviewClientData;
+    rt_custom_image_mtime?: number;
+    optional_parent_app_id?: number;
+    owner_account_id?: number;
     review_score_with_bombs: number;
     review_percentage_with_bombs: number;
     review_score_without_bombs: number;
     review_percentage_without_bombs: number;
-    steam_deck_compat_category: number; // 0 Unknown, 1 Unsupported, 2 Playable, 3 Verified
+    library_id?: string;
+    vr_only?: boolean;
+    mastersub_appid?: number;
+    mastersub_includedwith_logo?: string;
+    site_license_site_name?: string;
+    shortcut_override_appid?: number;
+    steam_deck_compat_category: SteamDeckCompatibilityCategory; // Default should be Unknown
+    rt_last_time_locally_played?: number
+    rt_purchased_time: number;
+    header_filename?: string;
+
+    m_setStoreCategories: Set<number>;
+    m_setStoreTags: Set<number>;
+    canonicalAppType: number;
+    local_per_client_data: SteamAppOverviewClientData;
+    most_available_per_client_data: SteamAppOverviewClientData;
+    selected_per_client_data: SteamAppOverviewClientData;
     m_strPerClientData: Set<any> | undefined;
     m_strAssociations: Set<any> | undefined;
 
-
-    gameid: string;
-    third_party_mod?: boolean;
     BIsModOrShortcut: () => boolean;
     BIsShortcut: () => boolean;
 }
 
 export interface SteamAppOverviewAssociation {
-    /**
-     * Invalid = 0;
-     * Publisher = 1;
-     * Developer = 2;
-     * Franchise = 3;
-     */
-    type: number;
+    type: AppAssociationType; // Default should be Invalid
     name: string;
 }
 
 export interface SteamAppOverviewClientData {
     clientid: string;
     client_name: string;
-    /**
-     * Invalid = 0;
-     * Launching = 1;
-     * Uninstalling = 2;
-     * Installing = 3;
-     * Running = 4;
-     * Validating = 5;
-     * Updating = 6;
-     * Downloading = 7;
-     * Synchronizing = 8;
-     * ReadyToInstall = 9;
-     * ReadyToPreload = 10;
-     * ReadyToLaunch = 11;
-     * RegionRestricted = 12;
-     * PresaleOnly = 13;
-     * InvalidPlatform = 14;
-     * PreloadComplete = 16;
-     * BorrowerLocked = 17;
-     * UpdatePaused = 18;
-     * UpdateQueued = 19;
-     * UpdateRequired = 20;
-     * UpdateDisabled = 21;
-     * DownloadPaused = 22;
-     * DownloadQueued = 23;
-     * DownloadRequired = 24;
-     * DownloadDisabled = 25;
-     * LicensePending = 26;
-     * LicenseExpired = 27;
-     * AvailForFree = 28;
-     * AvailToBorrow = 29;
-     * AvailGuestPass = 30;
-     * Purchase = 31;
-     * Unavailable = 32;
-     * NotLaunchable = 33;
-     * CloudError = 34;
-     * CloudOutOfDate = 35;
-     * Terminating = 36;
-     */
-    display_status: number;
+    display_status: DisplayStatus; // Default should be Invalid
     status_percentage: number;
+    active_beta?: string;
+    installed?: boolean;
     bytes_downloaded: string;
     bytes_total: string;
+    streaming_to_local_client?: boolean;
     is_available_on_current_platform: boolean;
-
-    /**
-     * Invalid = 0;
-     * Disabled = 1;
-     * Unknown = 2;
-     * Synchronized = 3;
-     * Checking = 4;
-     * OutOfSync = 5;
-     * Uploading = 6;
-     * Downloading = 7;
-     * SyncFailed = 8;
-     * Conflict = 9;
-     * PendingElsewhere = 10;
-     */
-    cloud_status: number;
+    is_invalid_os_type?: boolean;
+    playtime_left?: number;
+    cloud_status: AppCloudStatus;
 }
 
 /**
@@ -2743,7 +2756,6 @@ export interface CompatibilityToolInfo {
     /** Display name of the compatibility tool. */
     strDisplayName: string;
 }
-
 
 /**
  * Represents information about an installed application.
@@ -2825,7 +2837,7 @@ export interface Screenshot {
     nWidth: number,
     nHeight: number,
     nCreated: number, // timestamp
-    ePrivacy: number,
+    ePrivacy: FilePrivacyState,
     strCaption: "",
     bSpoilers: boolean,
     strUrl: string,
@@ -2894,7 +2906,7 @@ export interface InstallInfo {
     iInstallFolder: number; // index of the install folder
     iUnmountedFolder: number;
     currentAppID: number;
-    eAppError: number;
+    eAppError: AppError;
     errorDetail: string;
     bSystemMenuShortcut: boolean;
     bDesktopShortcut: boolean;
@@ -3008,7 +3020,7 @@ interface DisplaySettings {
 interface SteamSettings {
     bIsInClientBeta: boolean;
     bIsSteamSideload: boolean;
-    eClientBetaState: number;
+    eClientBetaState: ClientBetaState;
     strSelectedBetaName: string;
     nAvailableBetas: number;
     bChangeBetaEnabled: boolean;
@@ -3166,7 +3178,7 @@ export interface ParentalSettings {
 }
 
 export interface ConnectivityTestChange {
-    eConnectivityTestResult: number;
+    eConnectivityTestResult: ConnectivityTestResult;
     eFakeState: number;
     bChecking: boolean;
 }
@@ -3270,7 +3282,7 @@ export interface ControllerInfo {
     eControllerType: ControllerType;
     nXInputIndex: number;
     nControllerIndex: number;
-    eRumblePreference: number;
+    eRumblePreference: number; // ControllerRumbleSetting
     bWireless: boolean;
     unUniqueID: number;
     unVendorID: number;
@@ -3581,9 +3593,8 @@ export interface BluetoothDevice {
 
     /**
      * The type of the Bluetooth device (e.g., headphones, mouse, keyboard).
-     * @remarks 2 - Smartphone, 5 - Wireless Handset, 10 - Wireless Controller, 11 - Keyboard
      */
-    eType: number;
+    eType: BluetoothDeviceType;
 
     /**
      * The MAC address of the Bluetooth device.
@@ -3793,15 +3804,15 @@ export interface AudioDeviceInfo {
 
 export interface BatteryStateChange {
     bHasBattery: boolean;
-    eACState: number; // 1 unplugged, 2 - plugged in normal, 3 - plugged in with slow charger
-    eBatteryState: number; // 1 - Using battery, 2 - Not using battery? 3 - hybrid?
+    eACState: ACState;
+    eBatteryState: BatteryState;
     flLevel: number; // Battery Percentage in floating point 0-1
     nSecondsRemaining: number; // Appears to be charge time remaining or time remaining on battery
     bShutdownRequested: boolean;
 }
 
 export interface OSBranch {
-    eBranch: number; // 1 - Stable
+    eBranch: OSBranchType; // 1 - Stable
     sRawName: string;
 }
 
@@ -3871,20 +3882,20 @@ export interface ControllerConfigCloudStateChange {
 }
 
 export enum AppArtworkAssetType {
-    Capsule,
-    Hero,
-    Logo,
-    Header,
-    Icon,
-    HeroBlur,
+    Capsule = 0,
+    Hero = 1,
+    Logo = 2,
+    Header = 3,
+    Icon = 4,
+    HeroBlur = 5,
 }
 
 export enum UIComposition {
-    Hidden,
-    Notification,
-    Overlay,
-    Opaque,
-    OverlayKeyboard // Unverified
+    Hidden = 0,
+    Notification = 1,
+    Overlay = 2,
+    Opaque = 3,
+    OverlayKeyboard = 4, // Unverified
 }
 
 export enum OSType {
@@ -3980,7 +3991,7 @@ export enum ControllerType {
     UnknownSteamController = 1,
     SteamController = 2, // Codename Gordon
     SteamControllerV2 = 3, // Codename Headcrab
-    SteamControllerNeptune = 4,
+    SteamControllerNeptune = 4, // Steam Deck
     FrontPanelBoard = 20,
     Generic = 30,
     XBox360Controller = 31,
@@ -4011,6 +4022,252 @@ export enum FilePrivacyState {
     FriendsOnly = 4,
     Public = 8,
     Unlisted = 16,
+}
+
+export enum BluetoothDeviceType {
+    Invalid = 0,
+    Unknown = 1,
+    Phone = 2,
+    Computer = 3,
+    Headset = 4,
+    Headphones = 5,
+    Speakers = 6,
+    OtherAudio = 7,
+    Mouse = 8,
+    Joystick = 9,
+    Gamepad = 10,
+    Keyboard = 11,
+}
+
+export enum AppAssociationType {
+    Invalid = 0,
+    Publisher = 1,
+    Developer = 2,
+    Franchise = 3,
+}
+
+export enum DisplayStatus {
+    Invalid = 0,
+    Launching = 1,
+    Uninstalling = 2,
+    Installing = 3,
+    Running = 4,
+    Validating = 5,
+    Updating = 6,
+    Downloading = 7,
+    Synchronizing = 8,
+    ReadyToInstall = 9,
+    ReadyToPreload = 10,
+    ReadyToLaunch = 11,
+    RegionRestricted = 12,
+    PresaleOnly = 13,
+    InvalidPlatform = 14,
+    PreloadComplete = 16,
+    BorrowerLocked = 17,
+    UpdatePaused = 18,
+    UpdateQueued = 19,
+    UpdateRequired = 20,
+    UpdateDisabled = 21,
+    DownloadPaused = 22,
+    DownloadQueued = 23,
+    DownloadRequired = 24,
+    DownloadDisabled = 25,
+    LicensePending = 26,
+    LicenseExpired = 27,
+    AvailForFree = 28,
+    AvailToBorrow = 29,
+    AvailGuestPass = 30,
+    Purchase = 31,
+    Unavailable = 32,
+    NotLaunchable = 33,
+    CloudError = 34,
+    CloudOutOfDate = 35,
+    Terminating = 36,
+}
+
+export enum AppCloudStatus {
+    Invalid = 0,
+    Disabled = 1,
+    Unknown = 2,
+    Synchronized = 3,
+    Checking = 4,
+    OutOfSync = 5,
+    Uploading = 6,
+    Downloading = 7,
+    SyncFailed = 8,
+    Conflict = 9,
+    PendingElsewhere = 10,
+}
+
+export enum SteamDeckCompatibilityCategory {
+    Unknown = 0,
+    Unsupported = 1,
+    Playable = 2,
+    Verified = 3,
+}
+
+export enum ACState {
+    Unknown = 0,
+    Disconnected = 1,
+    Connected = 2,
+    ConnectedSlow = 3,
+}
+
+export enum BatteryState {
+    Unknown = 0,
+    Discharging = 1,
+    Charging = 2,
+    Full = 3,
+}
+
+export enum OSBranchType {
+    Unknown = 0,
+    Release = 1,
+    ReleaseCandidate = 2,
+    Beta = 3,
+    BetaCandidate = 4,
+    Main = 5,
+    Staging = 6,
+}
+
+export enum AppOwnershipFlags {
+    None = 0,
+    Subscribed = 1,
+    Free = 2,
+    RegionRestricted = 4,
+    LowViolence = 8,
+    InvalidPlatform = 16,
+    Borrowed = 32,
+    FreeWeekend = 64,
+    Retail = 128,
+    Locked = 256,
+    Pending = 512,
+    Expired = 1024,
+    Permanent = 2048,
+    Recurring = 4096,
+    Canceled = 8192,
+    AutoGrant = 16384,
+    PendingGift = 32768,
+    RentalNotActivated = 65536,
+    Rental = 131072,
+    SiteLicense = 262144,
+    LegacyFreeSub = 524288,
+    InvalidOSType = 1048576,
+    TimedTrial = 2097152,
+}
+
+export enum AppError {
+    None = 0,
+    Unspecified = 1,
+    Paused = 2,
+    Canceled = 3,
+    Suspended = 4,
+    NoSubscription = 5,
+    NoConnection = 6,
+    Timeout = 7,
+    MissingKey = 8,
+    MissingConfig = 9,
+    DiskReadFailure = 10,
+    DiskWriteFailure = 11,
+    NotEnoughDiskSpace = 12,
+    CorruptGameFiles = 13,
+    WaitingForNextDisk = 14,
+    InvalidInstallPath = 15,
+    AppRunning = 16,
+    DependencyFailure = 17,
+    NotInstalled = 18,
+    UpdateRequired = 19,
+    Busy = 20,
+    NoDownloadSources = 21,
+    InvalidAppConfig = 22,
+    InvalidDepotConfig = 23,
+    MissingManifest = 24,
+    NotReleased = 25,
+    RegionRestricted = 26,
+    CorruptDepotCache = 27,
+    MissingExecutable = 28,
+    InvalidPlatform = 29,
+    InvalidFileSystem = 30,
+    CorruptUpdateFiles = 31,
+    DownloadDisabled = 32,
+    SharedLibraryLocked = 33,
+    PendingLicense = 34,
+    OtherSessionPlaying = 35,
+    CorruptDownload = 36,
+    CorruptDisk = 37,
+    FilePermissions = 38,
+    FileLocked = 39,
+    MissingContent = 40,
+    Requires64BitOS = 41,
+    MissingUpdateFiles = 42,
+    NotEnoughDiskQuota = 43,
+    LockedSiteLicense = 44,
+    ParentalBlocked = 45,
+    SpawnProcess = 46,
+    ClientOutOfDate = 47,
+    PlaytimeExceeded = 48,
+    CorruptFileSignature = 49,
+    MissingGameFiles = 50,
+    CompatToolFailed = 51,
+    RemovedInstallPath = 52,
+    InvalidBackupPath = 53,
+    InvalidPasscode = 54,
+    SelfUpdating = 55,
+    ParentalPlaytimeExceeded = 56,
+    Max = 57
+}
+
+export enum ClientBetaState {
+    None = 0,
+    NoneChosen = 1,
+    NoneChosenNonAdmin = 2,
+    InBeta = 3,
+    InBetaNonAdmin = 4,
+}
+
+export enum ConnectivityTestResult {
+    Unknown = 0,
+    Connected = 1,
+    CaptivePortal = 2,
+    TimedOut = 3,
+    Failed = 4,
+    WifiDisabled = 5,
+    NoLAN = 6,
+}
+
+export enum ControllerRumbleSetting {
+    ControllerPreference = 0,
+    Off = 1,
+    On = 2,
+}
+
+export enum AppControllerSupportLevel {
+    None = 0,
+    Partial = 1,
+    Full = 2,
+}
+
+export enum AppType {
+    DepotOnly = -2147483648,
+    Invalid = 0,
+    Game = 1,
+    Application = 2,
+    Tool = 4,
+    Demo = 8,
+    Deprecated = 16,
+    DLC = 32,
+    Guide = 64,
+    Driver = 128,
+    Config = 256,
+    Hardware = 512,
+    Franchise = 1024,
+    Video = 2048,
+    Plugin = 4096,
+    MusicAlbum = 8192,
+    Series = 16384,
+    Comic = 32768,
+    Beta = 65536,
+    Shortcut = 1073741824,
 }
 
 
