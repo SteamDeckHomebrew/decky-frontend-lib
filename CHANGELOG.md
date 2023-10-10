@@ -1,3 +1,10 @@
+## [3.22.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.22.0...v3.22.1) (2023-10-10)
+
+
+### Bug Fixes
+
+* **useQuickAccessVisible:** use the "Page Visibility API" instead of focus/blur ([4c4fda4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4c4fda47e3d9fd936b493c5965634a0ff443014f))
+
 # [3.22.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.21.8...v3.22.0) (2023-08-09)
 
 
