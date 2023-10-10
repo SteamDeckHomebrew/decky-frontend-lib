@@ -9,14 +9,7 @@ function getQuickAccessWindow(): Window | null {
 /**
  * Returns state indicating the visibility of quick access menu.
  *
- * @remarks
- * During development it is possible to open the quick access menu without giving it
- * focus in some cases. In such cases, the quick access menu state is invisible.
- *
- * This seems to be impossible to replicate when running the deck normally. Even in
- * the edge cases it always seems to have a focus.
- *
- * @returns `true` if quick access menu is visible (focused) and `false` otherwise.
+ * @returns `true` if quick access menu is visible and `false` otherwise.
  *
  * @example
  * import { VFC, useEffect } from "react";
@@ -44,7 +37,10 @@ function getQuickAccessWindow(): Window | null {
  * };
  */
 export function useQuickAccessVisible(): boolean {
-  const [isVisible, setIsVisible] = useState(getQuickAccessWindow()?.document.hasFocus() ?? true);
+  // By default we say that document is not hidden, unless we know otherwise.
+  // This would cover the cases when Valve breaks something and the quick access window
+  // cannot be accessed anymore - the plugins that use this would continue working somewhat.
+  const [isHidden, setIsHidden] = useState(getQuickAccessWindow()?.document.hidden ?? false);
 
   useEffect(() => {
     const quickAccessWindow = getQuickAccessWindow();
@@ -53,16 +49,12 @@ export function useQuickAccessVisible(): boolean {
       return;
     }
 
-    const onBlur = () => setIsVisible(false);
-    const onFocus = () => setIsVisible(true);
-
-    quickAccessWindow.addEventListener('blur', onBlur);
-    quickAccessWindow.addEventListener('focus', onFocus);
+    const onVisibilityChange = () => setIsHidden(quickAccessWindow.document.hidden);
+    quickAccessWindow.addEventListener('visibilitychange', onVisibilityChange);
     return () => {
-      quickAccessWindow.removeEventListener('blur', onBlur);
-      quickAccessWindow.removeEventListener('focus', onFocus);
+      quickAccessWindow.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, []);
 
-  return isVisible;
+  return !isHidden;
 }
