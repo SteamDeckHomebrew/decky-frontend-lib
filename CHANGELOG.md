@@ -1,3 +1,10 @@
+# [3.23.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.22.1...v3.23.0) (2023-10-11)
+
+
+### Features
+
+* **static-classes:** add more css classes ([#94](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/94)) ([30e3194](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/30e319425bd4b0ee481dd7bd3245dacd90806afb))
+
 ## [3.22.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.22.0...v3.22.1) (2023-10-10)
 
 
