@@ -504,6 +504,169 @@ type GamepadUIClasses = Record<
   string
 >;
 
+type GamepadTabbedPageClasses = Record<
+  | 'duration-app-launch'
+  | 'headerHeight'
+  | 'contentPadding'
+  | 'GamepadTabbedPage'
+  | 'TabHeaderRowWrapper'
+  | 'Floating'
+  | 'TabRow'
+  | 'TabRowTabs'
+  | 'BleedGlyphs'
+  | 'TabsRowScroll'
+  | 'FixCenterAlignScroll'
+  | 'Tab'
+  | 'Selected'
+  | 'HasAddon'
+  | 'RightAddon'
+  | 'TabTitle'
+  | 'LeftAddon'
+  | 'TabCount'
+  | 'Active'
+  | 'TabBadge'
+  | 'TabCountBadge'
+  | 'TabRowSpacer'
+  | 'Glyphs'
+  | 'Show'
+  | 'TabContents'
+  | 'ContentTransition'
+  | 'TabContentsScroll'
+  | 'Right'
+  | 'Enter'
+  | 'EnterActive'
+  | 'Exit'
+  | 'ExitActive'
+  | 'Left'
+  | 'TabIcon',
+  string
+>;
+
+type GamepadContextMenuClasses = Record<
+  | "duration-app-launch"
+  | "BasicContextMenuModal"
+  | "BasicContextMenuHeader"
+  | "BasicContextMenuHeaderShrinkableSpacing"
+  | "BasicContextMenuContainer"
+  | "slideInAnimation"
+  | "contextMenu"
+  | "contextMenuContents"
+  | "hasSubMenu"
+  | "contextMenuFade"
+  | "contextMenuItem"
+  | "active"
+  | "Selected"
+  | "Focused"
+  | "Positive"
+  | "Emphasis"
+  | "Destructive"
+  | "Capitalized"
+  | "MenuSectionHeader"
+  | "UpperCase"
+  | "SubMenu"
+  | "ContextMenuSeparator"
+  | "Label"
+  | "Arrow"
+  | "ItemFocusAnim-darkerGrey-nocolor"
+  | "ItemFocusAnim-darkerGrey"
+  | "ItemFocusAnim-darkGrey"
+  | "ItemFocusAnim-grey"
+  | "ItemFocusAnimBorder-darkGrey"
+  | "ItemFocusAnim-green"
+  | "focusAnimation"
+  | "hoverAnimation",
+  string
+>;
+
+type AchievementClasses = Record<
+  | "nAchievementHeight"
+  | "nGlobalAchievementHeight"
+  | "nAchievementsListTitleHeight"
+  | "nAchievementGap"
+  | "AchievementList"
+  | "ListTitle"
+  | "AchievementListItemBase"
+  | "Container"
+  | "Content"
+  | "Right"
+  | "Footer"
+  | "AchievementTitle"
+  | "AchievementDescription"
+  | "AchievementGlobalPercentage"
+  | "InBody"
+  | "VerticalContent"
+  | "UnlockDate"
+  | "AlignEnd"
+  | "ProgressBar"
+  | "ProgressCount"
+  | "AchievementContent"
+  | "HiddenAchievementContent"
+  | "FriendAchievementFooter"
+  | "GlobalPercentage"
+  | "UserUnlockDateTime"
+  | "GlobalAchievementsListHeader"
+  | "SearchField"
+  | "Avatar"
+  | "HeaderText"
+  | "GlobalAchievementListItem"
+  | "UnlockContainer"
+  | "Info"
+  | "Title"
+  | "Description"
+  | "Percent"
+  | "ImageContainer"
+  | "ProgressFill"
+  | "SpoilerWarning"
+  | "Hidden"
+  | "ComparisonAchieverColumn"
+  | "ComparisonAchieverInfo"
+  | "ProgressContainer"
+  | "ProgressLabel"
+  | "Secondary"
+  | "AvatarContainer"
+  | "Unachieved",
+  string
+>;
+
+type MainMenuAppRunningClasses = Record<
+  | "duration-app-launch"
+  | "ScrollMask"
+  | "HideMask"
+  | "MainMenuAppRunning"
+  | "MenuOpen"
+  | "NavigationColumn"
+  | "ControllerColumnFocused"
+  | "NavColumnFocused"
+  | "NavigationBox"
+  | "NavigationMenuItem"
+  | "ItemFocusAnim-darkerGrey"
+  | "Active"
+  | "Disabled"
+  | "SwitchAppsTitle"
+  | "SelectableAppWindow"
+  | "ActiveDot"
+  | "NavigationMenuItemSeparator"
+  | "AppColumn"
+  | "FocusedColumn"
+  | "AppColumnContent"
+  | "ActiveContent"
+  | "CurrentGameBackground"
+  | "CurrentGameLogo"
+  | "OverlayAchievements"
+  | "Container"
+  | "OverlayGuides"
+  | "OverlayNotes"
+  | "OverlayInplaceBrowser"
+  | "ItemFocusAnim-darkerGrey-nocolor"
+  | "ItemFocusAnim-darkGrey"
+  | "ItemFocusAnim-grey"
+  | "ItemFocusAnimBorder-darkGrey"
+  | "ItemFocusAnim-green"
+  | "focusAnimation"
+  | "hoverAnimation",
+  string
+>;
+
 export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'),
 );
@@ -541,4 +704,16 @@ export const appDetailsClasses: AppDetailsClasses = findModule(
 );
 export const gamepadUIClasses: GamepadUIClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.BasicUiRoot?.includes('gamepadui_'),
+);
+export const gamepadTabbedPageClasses: GamepadTabbedPageClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.GamepadTabbedPage?.includes('gamepadtabbedpage_')
+);
+export const gamepadContextMenuClasses: GamepadContextMenuClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.BasicContextMenuModal?.includes('gamepadcontextmenu')
+);
+export const achievementClasses: AchievementClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.AchievementListItemBase?.includes('achievementslist')
+);
+export const mainMenuAppRunningClasses: MainMenuAppRunningClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.MainMenuAppRunning?.includes('mainmenuapprunning')
 );
