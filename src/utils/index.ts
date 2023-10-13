@@ -1,13 +1,17 @@
 export * from './patcher';
 export * from './react';
+export * from './GamepadUIAudio';
 
 declare global {
   var FocusNavController: any;
   var GamepadNavTree: any;
 }
 
-export function joinClassNames(...classes: string[]): string {
-  return classes.join(' ');
+/**
+ * Join strings for CSS class names omitting falsy values
+ */
+export function joinClassNames(...classes: any[]): string {
+  return classes.filter(value => value).join(' ');
 }
 
 export function sleep(ms: number) {

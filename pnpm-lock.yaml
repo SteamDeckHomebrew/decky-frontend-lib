@@ -1,5 +1,10 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  react-icons:
+    specifier: ^4.11.0
+    version: 4.11.0
+
 devDependencies:
   '@commitlint/cli':
     specifier: ^17.0.2
@@ -4387,6 +4392,15 @@ packages:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
+
+  /react-icons@4.11.0:
+    resolution: {integrity: sha512-V+4khzYcE5EBk/BvcuYRq6V/osf11ODUM2J8hg2FDSswRrGvqiYUYPRy4OdrWaQOBj4NcpJfmHZLNaD+VH0TyA==}
+    peerDependencies:
+      react: '*'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dev: false
 
   /react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
