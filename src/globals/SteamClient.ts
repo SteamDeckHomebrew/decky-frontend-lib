@@ -403,22 +403,20 @@ export interface Apps {
     /**
      * Sets the automatic update behavior for a Steam application.
      * @param {number} appId - The ID of the application to set the update behavior for.
-     * @param {number} mode - The update behavior mode to set. Possible values: 0 (Always keep this game updated), 1 (Only update this game when I launch it), 2 (High priority).
+     * @param {AutoUpdateBehavior} mode - The update behavior mode to set.
      * @returns {void}
      * @remarks This function only works with installed Steam applications.
-     * @todo The 'mode' parameter is likely an enum with values that control the auto-update behavior of the specified application.
      */
-    SetAppAutoUpdateBehavior(appId: number, mode: number): void;
+    SetAppAutoUpdateBehavior(appId: number, mode: AutoUpdateBehavior): void;
 
     /**
      * Sets the background downloads behavior for a specific Steam application.
      * @param {number} appId - The ID of the application to set the background downloads behavior for.
-     * @param {number} mode - The background downloads mode to set. Possible values are: 0 (Pause), 1 (Always), 2 (Never).
+     * @param {BackgroundDownloadsBehavior} mode - The background downloads mode to set.
      * @returns {void}
      * @remarks This function only works with installed Steam applications.
-     * @todo The 'mode' parameter is likely an enum with values that control the background downloads behavior of the specified application.
      */
-    SetAppBackgroundDownloadsBehavior(appId: number, mode: number): void;
+    SetAppBackgroundDownloadsBehavior(appId: number, mode: BackgroundDownloadsBehavior): void;
 
     /**
      * Sets the current language for a specific Steam application.
@@ -3006,17 +3004,6 @@ interface AvailableClientBeta {
     strName: string;
 }
 
-interface DisplaySettings {
-    bDisplayIsExternal: boolean;
-    flAutoDisplayScaleFactor: number;
-    flCurrentDisplayScaleFactor: number;
-    bDisplayIsUsingAutoScale: boolean;
-    flMinDisplayScaleFactor: number;
-    flMaxDisplayScaleFactor: number;
-    flCurrentUnderscanLevel: number;
-    bUnderscanEnabled: boolean;
-}
-
 interface SteamSettings {
     bIsInClientBeta: boolean;
     bIsSteamSideload: boolean;
@@ -3034,15 +3021,15 @@ interface SteamSettings {
     bCompatEnabled: boolean;
     bCompatEnabledForOtherTitles: boolean;
     strCompatTool: string;
-    bShowMobxDevTools: boolean;
-    bForceOOBE: boolean;
-    bEnableTestUpdaters: boolean;
-    bOOBETestModeEnabled: boolean;
-    bEnableTabbedAppDetails: boolean;
-    eOverrideBrowserComposerMode: number;
-    bCefRemoteDebuggingEnabled: boolean;
     strDisplayName: string;
-    displaySettings: DisplaySettings;
+    bDisplayIsExternal: boolean;
+    flAutoDisplayScaleFactor: number;
+    flCurrentDisplayScaleFactor: number;
+    bDisplayIsUsingAutoScale: boolean;
+    flMinDisplayScaleFactor: number;
+    flMaxDisplayScaleFactor: number;
+    flCurrentUnderscanLevel: number;
+    bUnderscanEnabled: boolean;
     vecNightModeScheduledHours: Hour[];
 }
 
@@ -4268,6 +4255,18 @@ export enum AppType {
     Comic = 32768,
     Beta = 65536,
     Shortcut = 1073741824,
+}
+
+export enum AutoUpdateBehavior {
+    Always = 0, // (Always keep this game updated)
+    Launch = 1, // (Only update this game when I launch it)
+    HighPriority = 2, // (High priority)
+}
+
+export enum BackgroundDownloadsBehavior {
+    Pause = 0,
+    Always = 1,
+    Never = 2,
 }
 
 
