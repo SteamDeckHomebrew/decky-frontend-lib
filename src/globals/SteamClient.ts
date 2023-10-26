@@ -861,7 +861,7 @@ export interface FamilySharing {
 
     RegisterForKickedBorrower: any;
 
-    RequestFamilySharingAuthorization(param0: string): Promise<number>; // Unknown param0, my assumption is probably a steam64Id of the user sharing the library
+    RequestLocalDeviceAuthorization(param0: string): Promise<number>; // Unknown param0, my assumption is probably a steam64Id of the user sharing the library
     UpdateAuthorizedBorrower(param0: number, param1: boolean): Promise<number>; // Unknown
 }
 
@@ -1104,6 +1104,7 @@ export interface Input {
     SetControllerConfigurationModeShiftBinding: any;
     SetControllerHapticSetting: any;
     SetControllerMappingString(mapping: string): void;
+    SetControllerName: any;
     SetControllerNintendoLayoutSetting: any;
     SetControllerPersonalizationName: any;
     //param0 - nLStickDeadzone, bSWAntiDrift, nRHapticStrength, flRPadPressureCurve
@@ -1478,6 +1479,10 @@ export interface PathProperties {
 }
 
 export interface VROverlay {
+    HideDashboard: any;
+    RegisterForButtonPress: Unregisterable | any;
+    RegisterForCursorMovement: Unregisterable | any;
+    RegisterForVisibilityChanged: Unregisterable | any;
     ShowDashboard: any;
 }
 
@@ -1489,11 +1494,14 @@ export interface OpenVR {
     Keyboard: Keyboard;
     PathProperties: PathProperties;
     QuitAllVR: any;
+    RegisterForButtonPress: Unregisterable | any;
+    RegisterForHMDActivityLevelChanged: Unregisterable | any;
     RegisterForInstallDialog: Unregisterable | any;
     RegisterStartupErrors: Unregisterable | any;
     RegisterForVRHardwareDetected: Unregisterable | any;
     RegisterForVRModeChange: Unregisterable | any;
     SetOverlayInteractionAffordance: any;
+    ShowNotification: any;
     StartVR: any;
     TriggerOverlayHapticEffect: any;
     VROverlay: VROverlay;
@@ -1608,6 +1616,7 @@ export interface RemotePlay {
     InstallAudioDriver: any;
     InstallInputDriver: any;
     MoveControllerToSlot: any;
+    RegisterForAdditionalParentalBlocks: Unregisterable | any;
     RegisterForAudioDriverPrompt: Unregisterable | any;
     RegisterForBitrateOverride: Unregisterable | any;
     RegisterForControllerIndexSet: Unregisterable | any;
@@ -2225,6 +2234,8 @@ export interface System {
 
     IsDeckFactoryImage(): Promise<boolean>;
 
+    IsSteamInTournamentMode(): Promise<boolean>;
+
     Network: Network;
     NotifyGameOverlayStateChanged(param0: boolean, appId: number): any;
 
@@ -2418,7 +2429,6 @@ export interface WebChat {
     RegisterForMouseXButtonDown: Unregisterable | any;
     RegisterForPushToTalkStateChange: Unregisterable | any;
     RegisterForUIModeChange: Unregisterable | any;
-    RegisterForVRModeChange: Unregisterable | any;
     RegisterOverlayChatBrowserInfoChanged: Unregisterable | any;
     SetActiveClanChatIDs: any;
     SetNumChatsWithUnreadPriorityMessages: any;
@@ -2443,7 +2453,6 @@ export interface Window {
     Close(): any;
     DefaultMonitorHasFullscreenWindow: any;
     FlashWindow: any;
-    GamescopeBlur: any;
     GetDefaultMonitorDimensions: any;
     GetMousePositionDetails: any;
     GetWindowDimensions: any;
@@ -2504,7 +2513,6 @@ export interface SteamClient {
     OpenVR: OpenVR;
     Overlay: Overlay;
     Parental: Parental;
-    RegisterIFrameNavigatedCallback: any;
     RemotePlay: RemotePlay;
     RoamingStorage: Storage;
     Screenshots: Screenshots;
