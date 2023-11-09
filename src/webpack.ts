@@ -37,7 +37,11 @@ if (window.webpackJsonp && !window.webpackJsonp.deckyShimmed) {
     },
   ]);
   for (let i of Object.keys(initReq.m)) {
-    webpackCache[i] = initReq(i);
+    try {
+      webpackCache[i] = initReq(i);
+    } catch (e) {
+      console.debug("[DFL:Webpack]: Ignoring require error for module", i, e);
+    }
   }
 }
 
