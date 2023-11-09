@@ -1,3 +1,10 @@
+## [3.23.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.23.0...v3.23.1) (2023-11-09)
+
+
+### Bug Fixes
+
+* **webpack:** don't break if a module fails to load ([5203ce3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/5203ce348afd727da0c8c52f6d8f8a16712f88d2))
+
 # [3.23.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.22.1...v3.23.0) (2023-10-11)
 
 
