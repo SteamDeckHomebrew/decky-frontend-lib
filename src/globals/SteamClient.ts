@@ -215,9 +215,10 @@ export interface Apps {
     GetLaunchOptionsForApp(appId: number): Promise<LaunchOption[]>;
 
     /**
-     * @todo Returns an empty ArrayBuffer?
+     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link LibraryBootstrapData}.
+     * @todo Returns an empty {@link LibraryBootstrapData}?
      */
-    GetLibraryBootstrapData(): Promise<ArrayBuffer>; // CLibraryBootstrapData - binary deserializer???
+    GetLibraryBootstrapData(): Promise<ArrayBuffer>;
 
     /**
      * Retrieves achievement information for the authenticated user in a specific Steam application.
@@ -338,10 +339,10 @@ export interface Apps {
     RegisterForAppDetails(appId: number, callback: (appDetails: AppDetails) => void): Unregisterable | any;
 
     /**
-     * @todo Calls the callback on launching a game
-     * @todo Doesn't return anything?
+     * If `data` is deserialized, returns {@link AppOverview_Change}.
+     * @remarks This is not a mistake, it doesn't return anything.
      */
-    RegisterForAppOverviewChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any; // CAppOverview_Change - binary deserializer???
+    RegisterForAppOverviewChanges(callback: (data: ArrayBuffer) => void): void;
 
     RegisterForDRMFailureResponse(
         callback: (appid: number, eResult: number, errorCode: number) => void,
@@ -402,7 +403,10 @@ export interface Apps {
         ) => void,
     ): Unregisterable | any;
 
-    RegisterForLocalizationChanges(callback: (param0: ArrayBuffer) => void): Unregisterable | any;
+    /**
+     * @todo returns undefined (now)?
+     */
+    RegisterForLocalizationChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
     RegisterForPrePurchasedAppChanges(callback: () => void): Unregisterable | any; // Unknown, did have it show up a few times, but not callback parameters
     RegisterForShowMarketingMessageDialog: Unregisterable | any;
@@ -704,6 +708,9 @@ export interface Apps {
 export interface Auth {
     GetLocalHostname(): Promise<string>;
 
+    /**
+     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link Authentication_DeviceDetails}.
+     */
     GetMachineID(): Promise<ArrayBuffer>;
 
     GetRefreshInfo(): Promise<AuthRefreshInfo>;
@@ -1683,8 +1690,13 @@ export interface Music {
 }
 
 export interface Notifications {
+    /**
+     * If `data` is deserialized, returns {@link ClientNotificationFriendMessage},
+     * or {@link ClientNotificationGroupChatMessage}.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForNotifications(
-        callback: (notificationIndex: number, type: ClientUINotification, param2: ArrayBuffer) => void,
+        callback: (notificationIndex: number, type: ClientUINotification, data: ArrayBuffer) => void,
     ): Unregisterable | any;
 }
 
@@ -2315,6 +2327,9 @@ export interface Settings {
 
     GetGlobalCompatTools(): Promise<CompatibilityToolInfo[]>;
 
+    /**
+     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgMonitorInfo}.
+     */
     GetMonitorInfo(): Promise<ArrayBuffer>;
 
     GetOOBETestMode(): Promise<boolean>;
@@ -2336,6 +2351,10 @@ export interface Settings {
 
     RegisterForMicVolumeUpdates: Unregisterable | any;
 
+    /**
+     * If `data` is deserialized, returns {@link MsgClientSettings}.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
     RegisterForSettingsArrayChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
     RegisterForSettingsChanges(callback: (steamSettings: SteamSettings) => void): Unregisterable | any;
@@ -2423,11 +2442,17 @@ export interface SteamChina {
 }
 
 export interface Storage {
-    DeleteKey: any;
-    GetJSON: any;
-    GetString: any;
-    SetObject: any;
-    SetString: any;
+    DeleteKey: Promise<OperationResponse | void>;
+    /**
+     * @remarks Use {@link SetObject} to set.
+     */
+    GetJSON: Promise<OperationResponse | string>;
+    GetString: Promise<OperationResponse | string>;
+    /**
+     * @remarks Use {@link SetObject} to get.
+     */
+    SetObject: Promise<OperationResponse | void>;
+    SetString: Promise<OperationResponse | void>;
 }
 
 export interface Streaming {
@@ -2585,7 +2610,11 @@ export interface Audio {
 }
 
 export interface AudioDevice {
-    RegisterForStateChanges: Unregisterable | any;
+    /**
+     * If `data` is deserialized, returns {@link MsgSystemAudioManagerState}.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
     UpdateSomething: any;
 }
 
@@ -2692,7 +2721,11 @@ export interface DisplayManager {
 export interface Dock {
     DisarmSafetyNet(): void;
 
-    RegisterForStateChanges(callback: (param0: any) => void): Unregisterable | any; // Deserialize binary
+    /**
+     * If `data` is deserialized, returns {@link MsgSystemDockState}.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
     UpdateFirmware(base64String: string): any; // serialize base64 string
 }
@@ -2718,13 +2751,21 @@ export interface Network {
     GetProxyInfo(): Promise<ProxyInfo>;
 
     RegisterForAppSummaryUpdate: Unregisterable | any;
+
+    /**
+     * @todo {@link GameNetworkingUI_ConnectionState}, unconfirmed
+     */
     RegisterForConnectionStateUpdate: Unregisterable | any;
 
     RegisterForConnectivityTestChanges(
         callback: (connectivityTestChange: ConnectivityTestChange) => void,
     ): Unregisterable | any;
 
-    RegisterForDeviceChanges(callback: (param0: any) => void): Unregisterable | any;
+    /**
+     * If `data` is deserialized, returns {@link MsgNetworkDevicesData}.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForDeviceChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
     SetFakeLocalSystemState(param0: any): any; // enums
 
@@ -2739,16 +2780,38 @@ export interface Network {
 
 // CMsgSystemPerfUpdateSettings, CMsgSystemPerfState, CMsgSystemPerfSettings
 export interface Perf {
-    RegisterForDiagnosticInfoChanges(callback: (param0: any) => void): Unregisterable | any; // deserialize binary
-    RegisterForStateChanges(callback: (param0: any) => void): Unregisterable | any; // deserialize binary
+    /**
+     * If `data` is deserialized, returns {@link MsgSystemPerfDiagnosticInfo}.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForDiagnosticInfoChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+
+    /**
+     * If `data` is deserialized, returns {@link MsgSystemPerfState}.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+
     UpdateSettings(base64: string): any; // serialize
 }
 
-// CMsgGenerateSystemReportReply
 export interface Report {
-    GenerateSystemReport: any;
-    SaveToDesktop: any;
-    Submit: any;
+    /**
+     * Generates a system report located in /tmp/steamXXXXXX (https://steamloopback.host/systemreports).
+     */
+    GenerateSystemReport(): Promise<SystemReportReply>;
+
+    /**
+     * Saves a report in the Desktop directory.
+     * @param reportId The report ID (file name) to save.
+     */
+    SaveToDesktop(reportId: string): Promise<OperationResponse>;
+
+    /**
+     * @param reportId The report ID (file name) to submit.
+     * @todo times out ({@link Result.Timeout})
+     */
+    Submit(reportId: string): Promise<OperationResponse>;
 }
 
 export interface SystemUI {
@@ -2821,7 +2884,10 @@ export interface System {
 
     RegisterForOnSuspendRequest(callback: () => void): Unregisterable | any;
 
-    RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any; // deserialize binary
+    /**
+     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgSystemManagerSettings}.
+     */
+    RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
     Report: Report;
 
     /**
@@ -2922,6 +2988,10 @@ export interface Updates {
 
     GetCurrentOSBranch(): Promise<OSBranch>;
 
+    /**
+     * If `data` is deserialized, returns {@link MsgSystemUpdateState}.
+     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message.
+     */
     RegisterForUpdateStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
     // 1 - Stable, 2 - Beta, 3 - Preview
@@ -3683,9 +3753,9 @@ export interface SteamAppOverview {
     sort_as: string;
 
     /*
-   * Possible bitmask values, but I haven't spotted any of them being masked in the app_type field.
-   * Should be safe as an enum.
-   */
+     * Possible bitmask values, but I haven't spotted any of them being masked in the app_type field.
+     * Should be safe as an enum.
+     */
     app_type: AppType;
     mru_index: number | undefined;
     rt_recent_activity_time: number;
@@ -4676,14 +4746,21 @@ export interface BluetoothStateChange {
  */
 export interface OperationResponse {
     /**
-     * The result code of the operation (1 for success, 2 for failure).
+     * The result code of the operation.
      */
-    result: number;
+    result: Result;
 
     /**
      * A message describing the result of the operation.
      */
     message: string;
+}
+
+export interface SystemReportReply extends OperationResponse {
+    /**
+     * If deserialized, returns {@link MsgGenerateSystemReportReply}.
+     */
+    reply: ArrayBuffer;
 }
 
 /**
@@ -5164,7 +5241,13 @@ export interface BrowserViewPopup {
      */
     on(
         event: 'node-has-focus',
-        callback: (elementIdOrTagName: string, elementTag: string, param2: any, param3: string, param4: boolean) => void,
+        callback: (
+            elementIdOrTagName: string,
+            elementTag: string,
+            param2: any,
+            param3: string,
+            param4: boolean,
+        ) => void,
     ): void;
 
     on(event: 'page-security', callback: (url: string, pageSecurity: BrowserViewPageSecurity) => void): void;
@@ -5550,6 +5633,503 @@ export interface FocusedApp {
 export interface FocusChangeEvent {
     focusedApp: FocusedApp;
     rgFocusable: FocusedApp[];
+}
+
+export interface UpdateApplyResult {
+    type: UpdaterType;
+    eresult: Result;
+    requires_client_restart: boolean;
+    requires_system_restart: boolean;
+}
+
+export interface UpdateCheckResult {
+    type: UpdaterType;
+    eresult: Result;
+    rtime_checked: number;
+    available: boolean;
+}
+
+export interface NetworkDeviceIPv4Address {
+    ip: number;
+    netmask: number;
+}
+
+export interface NetworkDeviceIPv6Address {
+    ip: string;
+}
+
+export interface NetworkDeviceIP {
+    dns_ip: number[];
+    gateway_ip: number;
+    is_default_route: boolean;
+    is_dhcp_enabled: boolean;
+    is_enabled: boolean;
+}
+
+export interface NetworkDeviceIPv4 extends NetworkDeviceIP {
+    addresses: NetworkDeviceIPv4Address[];
+}
+
+export interface NetworkDeviceIPv6 extends NetworkDeviceIP {
+    addresses: NetworkDeviceIPv6Address[];
+}
+
+export interface WirelessAP {
+    esecurity: WirelessAPSecurity;
+    estrength: WirelessAPStrength;
+    id: number;
+    is_active: boolean;
+    is_autoconnect: boolean;
+    password: string;
+    ssid: string;
+    strength_raw: number;
+    user_name?: string;
+}
+
+export interface NetworkDevice_Wireless {
+    aps: WirelessAP[];
+    /**
+     * @remarks Not present if wired.
+     * @todo enum
+     */
+    esecurity_supported?: number;
+}
+
+export interface NetworkDevice_Wired {
+    friendly_name: string;
+    is_cable_present: boolean;
+    speed_mbit: number;
+}
+
+export interface NetworkDevice {
+    estate: NetworkDeviceState;
+    etype: NetworkDeviceType;
+    id: number;
+    ipv4: NetworkDeviceIPv4;
+    ipv6: NetworkDeviceIPv6;
+    mac: string;
+    product: string;
+    vendor: string;
+    /**
+     * @remarks Present only if wired.
+     */
+    wired?: NetworkDevice_Wired;
+    /**
+     * @remarks Present even if wired.
+     */
+    wireless: NetworkDevice_Wireless;
+}
+
+export interface Hotkey {
+    alt_key: boolean;
+    ctrl_key: boolean;
+    display_name: string;
+    key_code: number;
+    meta_key: boolean;
+    shift_key: boolean;
+}
+
+/**
+ * JsPb message class.
+ */
+export interface JsPbMessageClass {
+    /**
+     * @todo Returns {@link JsPbMessage}, but not sure how to do it for the messages.
+     */
+    deserializeBinary(data: ArrayBuffer): any;
+}
+
+/**
+ * Deserialized JsPb message.
+ */
+export interface JsPbMessage {
+    array: any[];
+    arrayIndexOffset_: number;
+    convertedPrimitiveFields_: any;
+    messageId_?: string;
+    pivot_: number;
+    wrappers_: any;
+
+    getClassName(): string;
+    serializeBase64String(): string;
+    serializeBinary(): Uint8Array;
+    /**
+     * Converts the message to an object.
+     */
+    toObject(includeJsPbInstance: boolean): any;
+}
+
+/**
+ * CLibraryBootstrapData
+ */
+export interface LibraryBootstrapData extends JsPbMessage {
+    app_data(): any[];
+
+    add_app_data(param0: any, param1: any): any;
+    set_app_data(param0: any): any;
+}
+
+/**
+ * CAppOverview_Change
+ */
+export interface AppOverview_Change extends JsPbMessage {
+    app_overview(): SteamAppOverview[];
+    full_update(): boolean;
+    removed_appid(): any[];
+    update_complete(): boolean;
+
+    add_app_overview(param0: any, param1: any): any;
+    add_removed_appid(param0: any, param1: any): any;
+    set_app_overview(param0: any): any;
+    set_full_update(param0: any): any;
+    set_removed_appid(param0: any): any;
+    set_update_complete(param0: any): any;
+}
+
+/**
+ * CAuthentication_DeviceDetails
+ *
+ * `deserializeBinary` argument:
+ * ```
+ * [
+ *     await SteamClient.System.GetOSType(),
+ *     await SteamClient.Auth.GetLocalHostname(),
+ *     await SteamClient.Auth.GetMachineID(),
+ * ];
+ * ```
+ */
+export interface Authentication_DeviceDetails extends JsPbMessage {
+    client_count(): any;
+    device_friendly_name(): any;
+    gaming_device_type(): any;
+    machine_id(): any;
+    os_type(): any;
+    platform_type(): any;
+
+    set_client_count(): any;
+    set_device_friendly_name(): any;
+    set_gaming_device_type(): any;
+    set_machine_id(): any;
+    set_os_type(): any;
+    set_platform_type(): any;
+}
+
+/**
+ * CMsgMonitorInfo
+ */
+export interface MsgMonitorInfo extends JsPbMessage {
+    monitors(): any[];
+    selected_display_name(): any;
+
+    add_monitors(param0: any, param1: any): any;
+    set_monitors(param0: any): any;
+    set_selected_display_name(param0: any): any;
+}
+
+/**
+ * CMsgSystemManagerSettings
+ */
+export interface MsgSystemManagerSettings extends JsPbMessage {
+    display_adaptive_brightness_enabled(): boolean;
+    display_colorgamut(): number;
+    display_colorgamut_labelset(): number;
+    display_colortemp(): number;
+    display_colortemp_default(): number;
+    display_colortemp_enabled(): boolean;
+    display_diagnostics_enabled(): boolean;
+    display_nightmode_blend(): number;
+    display_nightmode_enabled(): boolean;
+    display_nightmode_maxhue(): number;
+    display_nightmode_maxsat(): number;
+    display_nightmode_schedule_enabled(): boolean;
+    display_nightmode_schedule_endtime(): number;
+    display_nightmode_schedule_starttime(): number;
+    display_nightmode_tintstrength(): number;
+    display_nightmode_uiexp(): number;
+    fan_control_mode(): number;
+    idle_backlight_dim_ac_seconds(): number;
+    idle_backlight_dim_battery_seconds(): number;
+    idle_suspend_ac_seconds(): number;
+    idle_suspend_battery_seconds(): number;
+    idle_suspend_supressed(): boolean;
+    is_adaptive_brightness_available(): boolean;
+    is_display_brightness_available(): boolean;
+    is_display_colormanagement_available(): boolean;
+    is_display_colortemp_available(): boolean;
+    is_fan_control_available(): boolean;
+    is_wifi_powersave_enabled(): boolean;
+}
+
+/**
+ * CMsgSystemAudioManagerState
+ * @todo unconfirmed
+ */
+export interface MsgSystemAudioManagerState extends JsPbMessage {
+    counter(): number;
+    hw(): any;
+    rtime_filter(): any;
+}
+
+/**
+ * CMsgSystemUpdateState
+ */
+export interface MsgSystemUpdateState extends JsPbMessage {
+    state(): UpdaterState;
+    supports_os_updates(): boolean;
+    update_apply_results(): UpdateApplyResult[];
+    update_check_results(): UpdateCheckResult[];
+}
+
+/**
+ * CMsgSystemDockState
+ */
+export interface MsgSystemDockState extends JsPbMessage {
+    update_state(): any;
+}
+
+/**
+ * CMsgSystemPerfDiagnosticInfo
+ * @todo unconfirmed
+ */
+export interface MsgSystemPerfDiagnosticInfo extends JsPbMessage {
+    battery_temp_c(): number;
+    entries(): any;
+    interfaces(): any;
+}
+
+/**
+ * CMsgSystemPerfState
+ * @todo unconfirmed
+ */
+export interface MsgSystemPerfState extends JsPbMessage {
+    active_profile_game_id(): string;
+    current_game_id(): string;
+    limits(): any;
+    settings(): any;
+}
+
+/**
+ * CMsgGenerateSystemReportReply
+ */
+export interface MsgGenerateSystemReportReply extends JsPbMessage {
+    /**
+     * The report file name.
+     */
+    report_id(): string;
+    set_report_id(param0: any): any;
+}
+
+/**
+ * CMsgNetworkDevicesData
+ */
+export interface MsgNetworkDevicesData extends JsPbMessage {
+    devices(): NetworkDevice[];
+    is_wifi_enabled(): boolean;
+    is_wifi_scanning_enabled(): boolean;
+}
+
+/**
+ * CMsgClientSettings
+ */
+export interface MsgClientSettings extends JsPbMessage {
+    always_show_user_chooser(): boolean;
+    always_use_gamepadui_overlay(): boolean;
+    auto_scale_factor(): number;
+    bigpicture_windowed(): boolean;
+    broadcast_bitrate(): number;
+    broadcast_chat_corner(): number;
+    broadcast_encoding_option(): BroadcastEncoderSetting;
+    broadcast_output_height(): number;
+    broadcast_output_width(): number;
+    broadcast_permissions(): BroadcastPermission;
+    broadcast_record_all_audio(): boolean;
+    broadcast_record_all_video(): boolean;
+    broadcast_record_microphone(): boolean;
+    broadcast_show_live_reminder(): boolean;
+    broadcast_show_upload_stats(): boolean;
+    cef_remote_debugging_enabled(): boolean;
+    cloud_enabled(): boolean;
+    controller_combine_nintendo_joycons(): boolean;
+    controller_generic_support(): boolean;
+    controller_guide_button_focus_steam(): boolean;
+    controller_power_off_timeout(): number;
+    controller_ps_support(): number;
+    controller_switch_support(): boolean;
+    controller_xbox_driver(): boolean;
+    controller_xbox_support(): boolean;
+    default_ping_rate(): number;
+    disable_all_toasts(): boolean;
+    disable_toasts_in_game(): boolean;
+    display_name(): string;
+    download_peer_content(): number;
+    download_rate_bits_per_s(): boolean;
+    download_region(): number;
+    download_throttle_rate(): number;
+    download_throttle_while_streaming(): boolean;
+    download_while_app_running(): boolean;
+    enable_dpi_scaling(): boolean;
+    enable_gpu_accelerated_webviews(): boolean;
+    enable_hardware_video_decoding(): boolean;
+    enable_marketing_messages(): boolean;
+    enable_overlay(): boolean;
+    enable_screenshot_notification(): boolean;
+    enable_screenshot_sound(): boolean;
+    enable_shader_background_processing(): boolean;
+    enable_shader_precache(): boolean;
+    enable_ui_sounds(): boolean;
+    force_deck_perf_tab(): boolean;
+    force_fake_mandatory_update(): boolean;
+    force_oobe(): boolean;
+    g_background_mk(): Hotkey;
+    g_background_tg(): Hotkey;
+    game_notes_enable_spellcheck(): boolean;
+    gamescope_app_target_framerate(): number;
+    gamescope_disable_framelimit(): boolean;
+    gamescope_display_refresh_rate(): number;
+    gamescope_enable_app_target_framerate(): boolean;
+    gamescope_hdr_visualization(): HDRVisualization;
+    in_client_beta(): boolean;
+    is_external_display(): boolean;
+    is_steam_sideloaded(): boolean;
+    jumplist_flags(): number;
+    library_disable_community_content(): boolean;
+    library_display_icon_in_game_list(): boolean;
+    library_display_size(): number;
+    library_low_bandwidth_mode(): boolean;
+    library_low_perf_mode(): boolean;
+    library_whats_new_show_only_product_updates(): boolean;
+    max_scale_factor(): number;
+    min_scale_factor(): number;
+    music_download_high_quality(): boolean;
+    music_pause_on_app_start(): boolean;
+    music_pause_on_voice_chat(): boolean;
+    music_playlist_notification(): boolean;
+    music_volume(): number;
+    needs_steam_service_repair(): boolean;
+    no_save_personal_info(): boolean;
+    oobe_test_mode_enabled(): boolean;
+    overlay_fps_counter_corner(): number;
+    overlay_fps_counter_high_contrast(): boolean;
+    overlay_key(): Hotkey;
+    overlay_restore_browser_tabs(): boolean;
+    overlay_scale_interface(): boolean;
+    overlay_tabs(): string;
+    overlay_toolbar_list_view(): boolean;
+    override_browser_composer_mode(): number;
+    play_sound_on_toast(): boolean;
+    preferred_monitor(): string;
+    ready_to_play_includes_streaming(): boolean;
+    restrict_auto_updates(): boolean;
+    restrict_auto_updates_end(): number;
+    restrict_auto_updates_start(): number;
+    run_at_startup(): boolean;
+    save_uncompressed_screenshots(): boolean;
+    screenshot_items_per_row(): number;
+    screenshot_key(): Hotkey;
+    screenshots_path(): string;
+    server_ping_rate(): number;
+    shader_precached_size(): string;
+    show_family_sharing_notifications(): boolean;
+    show_screenshot_manager(): boolean;
+    show_steam_deck_info(): boolean;
+    show_store_content_on_home(): boolean;
+    show_timestamps_in_console(): boolean;
+    skip_steamvr_install_dialog(): boolean;
+    small_mode(): boolean;
+    smooth_scroll_webviews(): boolean;
+    start_in_big_picture_mode(): boolean;
+    start_page(): string;
+    startup_movie_id(): string;
+    startup_movie_local_path(): string;
+    startup_movie_shuffle(): boolean;
+    startup_movie_used_for_resume(): boolean;
+    steam_cef_gpu_blocklist_disabled(): boolean;
+    steam_input_configurator_error_msg_enable(): boolean;
+    steam_networking_share_ip(): number;
+    steam_os_underscan_enabled(): boolean;
+    steam_os_underscan_level(): number;
+    turn_off_controller_on_exit(): boolean;
+    voice_mic_device_name(): string;
+    voice_mic_input_gain(): number;
+    voice_push_to_talk_key(): Hotkey;
+    voice_push_to_talk_setting(): number;
+    voice_speaker_output_gain(): number;
+    web_browser_home(): string;
+}
+
+/**
+ * CGameNetworkingUI_ConnectionState
+ */
+export interface GameNetworkingUI_ConnectionState extends JsPbMessage {
+    connection_key(): string;
+    appid(): number;
+    connection_id_local(): number;
+    identity_local(): string;
+    identity_remote(): string;
+    connection_state(): number;
+    start_time(): number;
+    close_time(): number;
+    close_reason(): number;
+    close_message(): string;
+    status_loc_token(): string;
+    transport_kind(): number;
+    sdrpopid_local(): string;
+    sdrpopid_remote(): string;
+    address_remote(): string;
+    p2p_routing(): any;
+    ping_interior(): number;
+    ping_remote_front(): number;
+    ping_default_internet_route(): number;
+    e2e_quality_local(): any;
+    e2e_quality_remote(): any;
+    e2e_quality_remote_instantaneous_time(): string;
+    e2e_quality_remote_lifetime_time(): string;
+    front_quality_local(): any;
+    front_quality_remote(): any;
+    front_quality_remote_instantaneous_time(): string;
+    front_quality_remote_lifetime_time(): string;
+}
+
+/**
+ * CMsgHotkey
+ */
+export interface MsgHotkey extends JsPbMessage {
+    key_code(): number;
+    alt_key(): boolean;
+    shift_key(): boolean;
+    ctrl_key(): boolean;
+    meta_key(): boolean;
+    display_name(): string;
+}
+
+/**
+ * CClientNotificationGroupChatMessage
+ */
+export interface ClientNotificationGroupChatMessage extends JsPbMessage {
+    tag(): string;
+    /** A Steam64 ID. */
+    steamid_sender(): string;
+    chat_group_id(): string;
+    chat_id(): string;
+    title(): string;
+    body(): string;
+    rawbody(): string;
+    icon(): string;
+    notificationid(): number;
+}
+
+/**
+ * CClientNotificationFriendMessage
+ */
+export interface ClientNotificationFriendMessage extends JsPbMessage {
+    body(): string;
+    icon(): string;
+    notificationid(): number;
+    response_steamurl(): string;
+    /** A Steam64 ID. */
+    steamid(): string;
+    tag(): string;
+    title(): string;
 }
 
 export enum AppArtworkAssetType {
@@ -6190,6 +6770,48 @@ export enum BrowserViewContextMenuEditFlag {
     CanTranslate = 1 << 7,
 }
 
+export enum HDRVisualization {
+    None,
+    Heatmap,
+    Analysis,
+    HeatmapExtended,
+    HeatmapClassic,
+}
+
+export enum BroadcastPermission {
+    Disabled,
+    FriendsApprove,
+    FriendsAllowed,
+    Public,
+    Subscribers,
+}
+
+export enum BroadcastEncoderSetting {
+    BestQuality,
+    BestPerformance,
+}
+
+export enum UpdaterState {
+    Invalid = 0,
+    UpToDate = 2,
+    Checking = 3,
+    Available = 4,
+    Applying = 5,
+    ClientRestartPending = 6,
+    SystemRestartPending = 7,
+}
+
+export enum UpdaterType {
+    Invalid,
+    Client,
+    OS,
+    BIOS,
+    Aggregated,
+    Test1,
+    Test2,
+    Dummy,
+}
+
 export enum Result {
     OK = 1,
     Fail = 2,
@@ -6302,6 +6924,42 @@ export enum Result {
     WGNetworkSendExceeded = 110,
     AccountNotFriends = 111,
     LimitedUserAccount = 112,
+}
+
+export enum WirelessAPSecurity {
+    None = 0,
+    StaticWep = 1 << 0,
+    DynamicWep = 1 << 1,
+    Wpa = 1 << 2,
+    WpaEnterprise = 1 << 3,
+    Wpa2 = 1 << 4,
+    Wpa2Enterprise = 1 << 5,
+    Unsupported = 1 << 15,
+}
+
+export enum WirelessAPStrength {
+    None,
+    Weak,
+    Ok,
+    Good,
+    Excellent,
+}
+
+export enum NetworkDeviceState {
+    NotPresent,
+    Failed,
+    Disconnected,
+    Disconnecting,
+    Connecting,
+    Connected,
+    Retrying,
+}
+
+export enum NetworkDeviceType {
+    Unknown,
+    Wired,
+    Wireless,
+    Virtual,
 }
 
 /**
