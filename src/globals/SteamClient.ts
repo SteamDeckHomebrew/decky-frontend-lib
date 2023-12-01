@@ -5730,6 +5730,14 @@ export interface Hotkey {
 }
 
 /**
+ * @todo Doesn't work on Linux ?
+ */
+export interface Monitor {
+    monitor_device_name: string;
+    monitor_display_name: string;
+}
+
+/**
  * JsPb message class.
  */
 export interface JsPbMessageClass {
@@ -5818,8 +5826,8 @@ export interface Authentication_DeviceDetails extends JsPbMessage {
  * CMsgMonitorInfo
  */
 export interface MsgMonitorInfo extends JsPbMessage {
-    monitors(): any[];
-    selected_display_name(): any;
+    monitors(): Monitor[];
+    selected_display_name(): string;
 
     add_monitors(param0: any, param1: any): any;
     set_monitors(param0: any): any;
