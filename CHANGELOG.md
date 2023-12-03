@@ -1,3 +1,10 @@
+# [3.24.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.23.1...v3.24.0) (2023-12-03)
+
+
+### Features
+
+* **static-classes:** add BasicAppDetailsSectionStylerClasses ([#99](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/99)) ([e27b638](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e27b638d26e41332b1554dbd55ca0c55a1821138))
+
 ## [3.23.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.23.0...v3.23.1) (2023-11-09)
 
 
