@@ -667,6 +667,32 @@ type MainMenuAppRunningClasses = Record<
   string
 >;
 
+type BasicAppDetailsSectionStylerClasses = Record<
+  | "duration-app-launch"
+  | "headerPadding"
+  | "Header"
+  | "AppDetailsContent"
+  | "AppDetailsContainer"
+  | "AppDetailsRoot"
+  | "GameInfoContainer"
+  | "GameInfoQuickLinks"
+  | "GameInfoCollections"
+  | "CollectionsHeader"
+  | "PlaySection"
+  | "ActionRow"
+  | "AppDetailSectionList"
+  | "AppActionButton"
+  | "ActionButtonAndStatusPanel"
+  | "AppButtons"
+  | "InvertFocusedIcon"
+  | "DeckVerifiedFeedbackContainer"
+  | "DeckVerifiedFeedbackConfirmationContainer"
+  | "DeckVerifiedFeedbackButton"
+  | "DeckVerifiedFeedbackQuestion"
+  | "DeckVerifiedFeedbackConfirmation",
+  string
+>;
+
 export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'),
 );
@@ -716,4 +742,7 @@ export const achievementClasses: AchievementClasses = findModule(
 );
 export const mainMenuAppRunningClasses: MainMenuAppRunningClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.MainMenuAppRunning?.includes('mainmenuapprunning')
+);
+export const basicAppDetailsSectionStylerClasses: BasicAppDetailsSectionStylerClasses = findModule(
+  (mod) => typeof mod === 'object' && mod?.AppDetailsRoot?.includes('basicappdetailssectionstyler_')
 );
