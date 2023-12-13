@@ -1,3 +1,10 @@
+## [3.24.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.0...v3.24.1) (2023-12-13)
+
+
+### Bug Fixes
+
+* **utils/react:** support react 18, add getReactRoot ([11dd82b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/11dd82bbb1814ac4d2fa9d381372e325daba2558))
+
 # [3.24.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.23.1...v3.24.0) (2023-12-03)
 
 
