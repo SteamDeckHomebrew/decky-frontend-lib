@@ -58,13 +58,25 @@ export function wrapReactClass(node: any, prop: any = 'type') {
     return node[prop];
   } else {
     const cls = node[prop];
-    const wrappedCls = class extends cls { static __DECKY_WRAPPED = true; };
+    const wrappedCls = class extends cls {
+      static __DECKY_WRAPPED = true;
+    };
     return (node[prop] = wrappedCls);
   }
 }
 
+export function getReactRoot(o: HTMLElement | Element | Node) {
+  return (
+    o[Object.keys(o).find((k) => k.startsWith('__reactContainer$')) as string] ||
+    o['_reactRootContainer']?._internalRoot?.current
+  );
+}
+
 export function getReactInstance(o: HTMLElement | Element | Node) {
-  return o[Object.keys(o).find((k) => k.startsWith('__reactInternalInstance')) as string];
+  return (
+    o[Object.keys(o).find((k) => k.startsWith('__reactFiber')) as string] ||
+    o[Object.keys(o).find((k) => k.startsWith('__reactInternalInstance')) as string]
+  );
 }
 
 // Based on https://github.com/GooseMod/GooseMod/blob/9ef146515a9e59ed4e25665ed365fd72fc0dcf23/src/util/react.js#L20
