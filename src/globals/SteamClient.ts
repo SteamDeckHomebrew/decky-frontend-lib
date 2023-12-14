@@ -216,7 +216,6 @@ export interface Apps {
 
     /**
      * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link LibraryBootstrapData}.
-     * @todo Returns an empty {@link LibraryBootstrapData}?
      */
     GetLibraryBootstrapData(): Promise<ArrayBuffer>;
 
@@ -5635,6 +5634,12 @@ export interface FocusChangeEvent {
     rgFocusable: FocusedApp[];
 }
 
+export interface AppBootstrapData {
+    appid: number;
+    hidden: boolean;
+    user_tag: string[];
+}
+
 export interface UpdateApplyResult {
     type: UpdaterType;
     eresult: Result;
@@ -5647,6 +5652,26 @@ export interface UpdateCheckResult {
     eresult: Result;
     rtime_checked: number;
     available: boolean;
+}
+
+export interface UpdateProgress {
+    stage_progress: number | undefined;
+    stage_size_bytes: number | undefined;
+    rtime_estimated_completion: number | undefined;
+}
+
+export interface SystemPerfNetworkInterface {
+    name: string | undefined;
+    timestamp: number | undefined;
+    tx_bytes_total: number | undefined;
+    rx_bytes_total: number | undefined;
+    tx_bytes_per_sec: number | undefined;
+    rx_bytes_per_sec: number | undefined;
+}
+
+export interface SystemPerfDiagnosticEntry {
+    name: string | undefined;
+    value: string | undefined;
 }
 
 export interface NetworkDeviceIPv4Address {
@@ -5737,6 +5762,299 @@ export interface Monitor {
     monitor_display_name: string;
 }
 
+export interface SystemDockUpdateState {
+    state: UpdaterState | undefined;
+    rtime_last_checked: number | undefined;
+    version_current: string | undefined;
+    version_available: string | undefined;
+    stage_progress: number | undefined;
+    rtime_estimated_completion: number | undefined;
+    old_fw_workaround: number | undefined;
+}
+
+export interface SystemPerfLimits {
+    cpu_governor_manual_min_mhz: number | undefined;
+    cpu_governor_manual_max_mhz: number | undefined;
+    fsr_sharpness_min: number | undefined;
+    fsr_sharpness_max: number | undefined;
+    gpu_performance_manual_min_mhz: number | undefined;
+    gpu_performance_manual_max_mhz: number | undefined;
+    perf_overlay_is_standalone: boolean | undefined;
+    is_dynamic_vrs_available: boolean | undefined;
+    is_manual_display_refresh_rate_available: boolean | undefined;
+    gpu_performance_levels_available: GPUPerformanceLevel[];
+    display_refresh_manual_hz_min: number | undefined;
+    display_refresh_manual_hz_max: number | undefined;
+    fps_limit_options: number[] | undefined;
+    tdp_limit_min: number | undefined;
+    tdp_limit_max: number | undefined;
+    is_nis_supported: boolean | undefined;
+    nis_sharpness_min: number | undefined;
+    nis_sharpness_max: number | undefined;
+    display_external_refresh_manual_hz_min: number | undefined;
+    display_external_refresh_manual_hz_max: number | undefined;
+    fps_limit_options_external: number[] | undefined;
+    is_tearing_supported: boolean | undefined;
+    is_vrr_supported: boolean | undefined;
+    is_dynamic_refresh_rate_in_steam_supported: boolean | undefined;
+    is_split_scaling_and_filtering_supported: boolean | undefined;
+    split_scaling_filters_available: SplitScalingFilter[];
+    split_scaling_scalers_available: SplitScalingScaler[];
+    is_hdr_supported: boolean | undefined;
+    display_refresh_manual_hz_oc_max: number | undefined;
+    disable_refresh_rate_management: boolean | undefined;
+}
+
+export interface SystemPerfSettingsGlobal {
+    diagnostic_update_rate: number;
+    system_trace_service_state: SystemServiceState;
+    graphics_profiling_service_state: SystemServiceState;
+    perf_overlay_service_state: SystemServiceState;
+    perf_overlay_level: GraphicsPerfOverlayLevel;
+    is_show_perf_overlay_over_steam_enabled: boolean;
+    is_advanced_settings_enabled: boolean;
+    allow_external_display_refresh_control: boolean;
+    is_hdr_enabled: boolean;
+    hdr_on_sdr_tonemap_operator: HDRToneMapOperator;
+    is_hdr_debug_heatmap_enabled: boolean;
+    force_hdr_wide_gammut_for_sdr: boolean;
+    allow_experimental_hdr: boolean;
+    sdr_to_hdr_brightness: number;
+    debug_force_hdr_support: boolean;
+    force_hdr_10pq_output_debug: boolean;
+    is_display_oc_enabled: boolean;
+    is_color_management_enabled: boolean;
+}
+
+export interface SystemPerfSettingsPerApp {
+    gpu_performance_manual_mhz: number | undefined;
+    fps_limit: number | undefined;
+    is_variable_resolution_enabled: boolean | undefined;
+    is_dynamic_refresh_rate_enabled: boolean | undefined;
+    tdp_limit: number | undefined;
+    cpu_governor: CPUGovernor | undefined;
+    cpu_governor_manual_mhz: number | undefined;
+    scaling_filter: number | undefined;
+    fsr_sharpness: number | undefined;
+    is_fps_limit_enabled: boolean | undefined;
+    is_tdp_limit_enabled: boolean | undefined;
+    is_low_latency_mode_enabled: boolean | undefined;
+    display_refresh_manual_hz: number | undefined;
+    is_game_perf_profile_enabled: boolean | undefined;
+    gpu_performance_level: GPUPerformanceLevel | undefined;
+    nis_sharpness: number | undefined;
+    display_external_refresh_manual_hz: number | undefined;
+    fps_limit_external: number | undefined;
+    is_tearing_enabled: boolean | undefined;
+    is_vrr_enabled: boolean | undefined;
+    is_composite_debug_enabled: boolean | undefined;
+    force_composite: boolean | undefined;
+    use_dynamic_refresh_rate_in_steam: boolean | undefined;
+    split_scaling_filter: SplitScalingFilter | undefined;
+    split_scaling_scaler: SplitScalingScaler | undefined;
+}
+
+export interface SystemPerfSettings {
+    global: SystemPerfSettingsGlobal | undefined;
+    per_app: SystemPerfSettingsPerApp | undefined;
+}
+
+export interface SteamDatagramLinkInstantaneousStats {
+    out_packets_per_sec_x10: number | undefined;
+    out_bytes_per_sec: number | undefined;
+    in_packets_per_sec_x10: number | undefined;
+    in_bytes_per_sec: number | undefined;
+    ping_ms: number | undefined;
+    packets_dropped_pct: number | undefined;
+    packets_weird_sequence_pct: number | undefined;
+    peak_jitter_usec: number | undefined;
+}
+
+export interface SteamDatagramLinkLifetimeStats {
+    connected_seconds: number | undefined;
+    packets_sent: number | undefined;
+    kb_sent: number | undefined;
+    packets_recv: number | undefined;
+    kb_recv: number | undefined;
+    packets_recv_sequenced: number | undefined;
+    packets_recv_dropped: number | undefined;
+    packets_recv_out_of_order: number | undefined;
+    packets_recv_out_of_order_corrected: number | undefined;
+    packets_recv_duplicate: number | undefined;
+    packets_recv_lurch: number | undefined;
+    multipath_packets_recv_sequenced: number[];
+    multipath_packets_recv_later: number[];
+    multipath_send_enabled: number | undefined;
+    quality_histogram_100: number | undefined;
+    quality_histogram_99: number | undefined;
+    quality_histogram_97: number | undefined;
+    quality_histogram_95: number | undefined;
+    quality_histogram_90: number | undefined;
+    quality_histogram_75: number | undefined;
+    quality_histogram_50: number | undefined;
+    quality_histogram_1: number | undefined;
+    quality_histogram_dead: number | undefined;
+    quality_ntile_2nd: number | undefined;
+    quality_ntile_5th: number | undefined;
+    quality_ntile_25th: number | undefined;
+    quality_ntile_50th: number | undefined;
+    ping_histogram_25: number | undefined;
+    ping_histogram_50: number | undefined;
+    ping_histogram_75: number | undefined;
+    ping_histogram_100: number | undefined;
+    ping_histogram_125: number | undefined;
+    ping_histogram_150: number | undefined;
+    ping_histogram_200: number | undefined;
+    ping_histogram_300: number | undefined;
+    ping_histogram_max: number | undefined;
+    ping_ntile_5th: number | undefined;
+    ping_ntile_50th: number | undefined;
+    ping_ntile_75th: number | undefined;
+    ping_ntile_95th: number | undefined;
+    ping_ntile_98th: number | undefined;
+    jitter_histogram_negligible: number | undefined;
+    jitter_histogram_1: number | undefined;
+    jitter_histogram_2: number | undefined;
+    jitter_histogram_5: number | undefined;
+    jitter_histogram_10: number | undefined;
+    jitter_histogram_20: number | undefined;
+    txspeed_max: number | undefined;
+    txspeed_histogram_16: number | undefined;
+    txspeed_histogram_32: number | undefined;
+    txspeed_histogram_64: number | undefined;
+    txspeed_histogram_128: number | undefined;
+    txspeed_histogram_256: number | undefined;
+    txspeed_histogram_512: number | undefined;
+    txspeed_histogram_1024: number | undefined;
+    txspeed_histogram_max: number | undefined;
+    txspeed_ntile_5th: number | undefined;
+    txspeed_ntile_50th: number | undefined;
+    txspeed_ntile_75th: number | undefined;
+    txspeed_ntile_95th: number | undefined;
+    txspeed_ntile_98th: number | undefined;
+    rxspeed_max: number | undefined;
+    rxspeed_histogram_16: number | undefined;
+    rxspeed_histogram_32: number | undefined;
+    rxspeed_histogram_64: number | undefined;
+    rxspeed_histogram_128: number | undefined;
+    rxspeed_histogram_256: number | undefined;
+    rxspeed_histogram_512: number | undefined;
+    rxspeed_histogram_1024: number | undefined;
+    rxspeed_histogram_max: number | undefined;
+    rxspeed_ntile_5th: number | undefined;
+    rxspeed_ntile_50th: number | undefined;
+    rxspeed_ntile_75th: number | undefined;
+    rxspeed_ntile_95th: number | undefined;
+    rxspeed_ntile_98th: number | undefined;
+}
+
+export interface SteamDatagramConnectionQuality {
+    instantaneous: SteamDatagramLinkInstantaneousStats | undefined;
+    lifetime: SteamDatagramLinkLifetimeStats | undefined;
+}
+
+export interface SteamNetworkingICESessionSummary {
+    failure_reason_code: number | undefined;
+    local_candidate_types: number | undefined;
+    remote_candidate_types: number | undefined;
+    initial_route_kind: number | undefined;
+    initial_ping: number | undefined;
+    initial_score: number | undefined;
+    negotiation_ms: number | undefined;
+    best_route_kind: number | undefined;
+    best_ping: number | undefined;
+    best_score: number | undefined;
+    best_time: number | undefined;
+    selected_seconds: number | undefined;
+    user_settings: number | undefined;
+    ice_enable_var: number | undefined;
+    local_candidate_types_allowed: number | undefined;
+}
+
+export interface SteamNetworkingP2PSDRRoutingSummary {
+    initial_ping: number | undefined;
+    initial_ping_front_local: number | undefined;
+    initial_ping_front_remote: number | undefined;
+    initial_score: number | undefined;
+    initial_pop_local: number | undefined;
+    initial_pop_remote: number | undefined;
+    best_ping: number | undefined;
+    best_ping_front_local: number | undefined;
+    best_ping_front_remote: number | undefined;
+    best_score: number | undefined;
+    best_pop_local: number | undefined;
+    best_pop_remote: number | undefined;
+    best_time: number | undefined;
+    negotiation_ms: number | undefined;
+    selected_seconds: number | undefined;
+}
+
+export interface SteamDatagramP2PRoutingSummary {
+    ice: SteamNetworkingICESessionSummary | undefined;
+    sdr: SteamNetworkingP2PSDRRoutingSummary | undefined;
+}
+
+export interface MsgSystemAudioVolumeChannelEntry {
+    echannel: SystemAudioChannel | undefined;
+    volume: number | undefined;
+}
+
+export interface MsgSystemAudioVolume {
+    entries: MsgSystemAudioVolumeChannelEntry[] | undefined;
+    is_muted: boolean | undefined;
+}
+
+export interface MsgSystemAudioManagerObject {
+    id: number | undefined;
+    rtime_last_update: number | undefined;
+}
+
+export interface MsgSystemAudioManagerDevice {
+    base: MsgSystemAudioManagerObject | undefined;
+    name: string | undefined;
+    nick: string | undefined;
+    description: string | undefined;
+    api: string | undefined;
+}
+
+export interface MsgSystemAudioManagerNode {
+    base: MsgSystemAudioManagerObject | undefined;
+    device_id: number | undefined;
+    name: string | undefined;
+    nick: string | undefined;
+    description: string | undefined;
+    edirection: SystemAudioDirection | undefined;
+    volume: MsgSystemAudioVolume | undefined;
+}
+
+export interface MsgSystemAudioManagerPort {
+    base: MsgSystemAudioManagerObject | undefined;
+    node_id: number | undefined;
+    name: string | undefined;
+    alias: string | undefined;
+    etype: SystemAudioPortType | undefined;
+    edirection: SystemAudioPortDirection | undefined;
+    is_physical: boolean | undefined;
+    is_terminal: boolean | undefined;
+    is_control: boolean | undefined;
+    is_monitor: boolean | undefined;
+}
+
+export interface MsgSystemAudioManagerLink {
+    base: MsgSystemAudioManagerObject | undefined;
+    output_node_id: number | undefined;
+    output_port_id: number | undefined;
+    input_node_id: number | undefined;
+    input_port_id: number | undefined;
+}
+
+export interface MsgSystemAudioManagerStateHW {
+    devices: MsgSystemAudioManagerDevice[];
+    nodes: MsgSystemAudioManagerNode[];
+    ports: MsgSystemAudioManagerPort[];
+    links: MsgSystemAudioManagerLink[];
+}
+
 /**
  * JsPb message class.
  */
@@ -5771,7 +6089,7 @@ export interface JsPbMessage {
  * CLibraryBootstrapData
  */
 export interface LibraryBootstrapData extends JsPbMessage {
-    app_data(): any[];
+    app_data(): AppBootstrapData[];
 
     add_app_data(param0: any, param1: any): any;
     set_app_data(param0: any): any;
@@ -5783,7 +6101,7 @@ export interface LibraryBootstrapData extends JsPbMessage {
 export interface AppOverview_Change extends JsPbMessage {
     app_overview(): SteamAppOverview[];
     full_update(): boolean;
-    removed_appid(): any[];
+    removed_appid(): number[];
     update_complete(): boolean;
 
     add_app_overview(param0: any, param1: any): any;
@@ -5807,12 +6125,12 @@ export interface AppOverview_Change extends JsPbMessage {
  * ```
  */
 export interface Authentication_DeviceDetails extends JsPbMessage {
-    client_count(): any;
-    device_friendly_name(): any;
-    gaming_device_type(): any;
-    machine_id(): any;
-    os_type(): any;
-    platform_type(): any;
+    client_count(): number | undefined;
+    device_friendly_name(): string | undefined;
+    gaming_device_type(): GamingDeviceType | undefined;
+    machine_id(): Uint8Array | string;
+    os_type(): OSType | undefined;
+    platform_type(): AuthTokenPlatformType | undefined;
 
     set_client_count(): any;
     set_device_friendly_name(): any;
@@ -5870,20 +6188,20 @@ export interface MsgSystemManagerSettings extends JsPbMessage {
 
 /**
  * CMsgSystemAudioManagerState
- * @todo unconfirmed
  */
 export interface MsgSystemAudioManagerState extends JsPbMessage {
-    counter(): number;
-    hw(): any;
-    rtime_filter(): any;
+    counter(): number | undefined;
+    hw(): MsgSystemAudioManagerStateHW | undefined;
+    rtime_filter(): number | undefined;
 }
 
 /**
  * CMsgSystemUpdateState
  */
 export interface MsgSystemUpdateState extends JsPbMessage {
-    state(): UpdaterState;
-    supports_os_updates(): boolean;
+    state(): UpdaterState | undefined;
+    progress(): UpdateProgress | undefined;
+    supports_os_updates(): boolean | undefined;
     update_apply_results(): UpdateApplyResult[];
     update_check_results(): UpdateCheckResult[];
 }
@@ -5892,28 +6210,26 @@ export interface MsgSystemUpdateState extends JsPbMessage {
  * CMsgSystemDockState
  */
 export interface MsgSystemDockState extends JsPbMessage {
-    update_state(): any;
+    update_state(): SystemDockUpdateState | undefined;
 }
 
 /**
  * CMsgSystemPerfDiagnosticInfo
- * @todo unconfirmed
  */
 export interface MsgSystemPerfDiagnosticInfo extends JsPbMessage {
-    battery_temp_c(): number;
-    entries(): any;
-    interfaces(): any;
+    battery_temp_c(): number | undefined;
+    entries(): SystemPerfDiagnosticEntry[] | undefined;
+    interfaces(): SystemPerfNetworkInterface[] | undefined;
 }
 
 /**
  * CMsgSystemPerfState
- * @todo unconfirmed
  */
 export interface MsgSystemPerfState extends JsPbMessage {
-    active_profile_game_id(): string;
-    current_game_id(): string;
-    limits(): any;
-    settings(): any;
+    active_profile_game_id(): string | undefined;
+    current_game_id(): string | undefined;
+    limits(): SystemPerfLimits | undefined;
+    settings(): SystemPerfSettings | undefined;
 }
 
 /**
@@ -5923,7 +6239,7 @@ export interface MsgGenerateSystemReportReply extends JsPbMessage {
     /**
      * The report file name.
      */
-    report_id(): string;
+    report_id(): string | undefined;
     set_report_id(param0: any): any;
 }
 
@@ -6084,16 +6400,16 @@ export interface GameNetworkingUI_ConnectionState extends JsPbMessage {
     sdrpopid_local(): string;
     sdrpopid_remote(): string;
     address_remote(): string;
-    p2p_routing(): any;
+    p2p_routing(): SteamDatagramP2PRoutingSummary;
     ping_interior(): number;
     ping_remote_front(): number;
     ping_default_internet_route(): number;
-    e2e_quality_local(): any;
-    e2e_quality_remote(): any;
+    e2e_quality_local(): SteamDatagramConnectionQuality;
+    e2e_quality_remote(): SteamDatagramConnectionQuality;
     e2e_quality_remote_instantaneous_time(): string;
     e2e_quality_remote_lifetime_time(): string;
-    front_quality_local(): any;
-    front_quality_remote(): any;
+    front_quality_local(): SteamDatagramConnectionQuality;
+    front_quality_remote(): SteamDatagramConnectionQuality;
     front_quality_remote_instantaneous_time(): string;
     front_quality_remote_lifetime_time(): string;
 }
@@ -6932,6 +7248,110 @@ export enum Result {
     WGNetworkSendExceeded = 110,
     AccountNotFriends = 111,
     LimitedUserAccount = 112,
+}
+
+export enum AuthTokenPlatformType {
+    Unknown,
+    SteamClient,
+    WebBrowser,
+    MobileApp,
+}
+
+export enum SystemAudioDirection {
+    Invalid,
+    Input,
+    Output,
+}
+
+export enum SystemAudioChannel {
+    Invalid,
+    Aggregated,
+    FrontLeft,
+    FrontRight,
+    LFE,
+    BackLeft,
+    BackRight,
+    FrontCenter,
+    Unknown,
+    Mono,
+}
+
+export enum SystemAudioPortType {
+    Invalid,
+    Unknown,
+    Audio32f,
+    Midi8b,
+    Video32RGBA,
+}
+
+export enum SystemAudioPortDirection {
+    Invalid,
+    Input,
+    Output,
+}
+
+export enum CPUGovernor {
+    Invalid,
+    Perf,
+    Powersave,
+    Manual,
+}
+
+export enum GPUPerformanceLevel {
+    Invalid,
+    Auto,
+    Manual,
+    Low,
+    High,
+    Profiling,
+}
+
+export enum SplitScalingFilter {
+    Invalid,
+    Linear,
+    Nearest,
+    FSR,
+    NIS,
+}
+
+export enum SplitScalingScaler {
+    Invalid,
+    Auto,
+    Integer,
+    Fit,
+    Fill,
+    Stretch,
+}
+
+export enum SystemServiceState {
+    Unavailable,
+    Disabled,
+    Enabled,
+}
+
+export enum GraphicsPerfOverlayLevel {
+    Hidden,
+    Basic,
+    Medium,
+    Full,
+    Minimal,
+}
+
+export enum HDRToneMapOperator {
+    Invalid,
+    Uncharted,
+    Reinhard,
+}
+
+export enum GamingDeviceType {
+    Unknown = 0,
+    StandardPC = 1,
+    Console = 256,
+    PS3 = 272,
+    Steambox = 288,
+    Handheld = 512,
+    Phone = 528,
+    SteamDeck = 544,
 }
 
 export enum WirelessAPSecurity {
