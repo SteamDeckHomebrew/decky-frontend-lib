@@ -285,6 +285,15 @@ export interface Apps {
     GetStoreTagLocalization(tags: number[]): Promise<StoreTagLocalization[]>;
 
     /**
+     * Retrieves a list of subscribed workshop item details for a specific application.
+     * @param {number} appId - The ID of the application to retrieve subscribed workshop item details for.
+     * @param {string[]} itemIds - Workshop item IDs to retrieve details for.
+     * @returns {Promise<WorkshopItemDetails[] | OperationResponse>} - A Promise that resolves to an array of subscribed workshop item details for the specified application.
+     * @throws Throws if the query failed.
+     */
+    GetSubscribedWorkshopItemDetails(appId: number, itemIds: string[]): Promise<WorkshopItemDetails[] | OperationResponse>;
+
+    /**
      * Retrieves a list of subscribed workshop items for a specific application.
      * @param {number} appId - The ID of the application to retrieve subscribed workshop items for.
      * @returns {Promise<WorkshopItem[]>} - A Promise that resolves to an array of subscribed workshop items for the specified application.
@@ -301,6 +310,16 @@ export interface Apps {
     LoadEula(appId: number): Promise<EndUserLicenseAgreement[]>; // Doesn't bring up the EULA dialog, just returns the eula data
     MarkEulaAccepted: any;
     MarkEulaRejected: any;
+
+    /**
+     * Move specified workshop item load order.
+     * @param appId - The ID of the application.
+     * @param oldOrder - The item to move, referenced by its position number.
+     * @param newOrder - The position number to move the item to.
+     * @returns {void}
+     * @remarks Orders are zero-indexed.
+     */
+    MoveWorkshopItemLoadOrder(appId: number, oldOrder: number, newOrder: number): void;
 
     /**
      * Opens the settings dialog for a specific application.
@@ -627,6 +646,24 @@ export interface Apps {
     SetStreamingClientForApp(appId: number, clientId: string): void;
 
     SetThirdPartyControllerConfiguration: any;
+
+    /**
+     * Sets the workshop items disabled state.
+     * @param {number} appId - The ID of the application.
+     * @param {string[]} itemIds - Workshop item IDs to change the state for.
+     * @param {boolean} value - `true` to disable, `false` otherwise.
+     * @returns {void}
+     */
+    SetWorkshopItemsDisabledLocally(appId: number, itemIds: string[], value: boolean): void;
+
+    /**
+     * Sets the workshop items load order for a specified application.
+     * @param {number} appId - The ID of the application.
+     * @param {string[]} itemIds - Workshop item IDs.
+     * @returns {void}
+     * @remarks `itemIds` has to be the full list of subscribed items, otherwise the specified items get moved to the last position.
+     */
+    SetWorkshopItemsLoadOrder(appId: number, itemIds: string[]): void;
 
     /**
      * Opens the controller configurator for a specific application.
@@ -1001,6 +1038,8 @@ export interface FamilySharing {
      */
     DeauthorizeLocalDevice(): Promise<number>;
 
+    GetFamilyGroupInfo(): Promise<string>;
+
     RegisterForKickedBorrower: any;
 
     RequestLocalDeviceAuthorization(steam64Id: string): Promise<number>;
@@ -1136,18 +1175,6 @@ export interface GameSessions {
  * Represents functions related to input and controllers in Steam.
  */
 export interface Input {
-    /**
-     * Checks if the specified controller is a Steam Controller.
-     * @param {function} callback - The callback function to receive the result.
-     */
-    BIsSteamController(callback: (steamController: boolean) => void): void;
-
-    /**
-     * Checks if the specified controller supports LED color.
-     * @param {function} callback - The callback function to receive the result.
-     */
-    BSupportsControllerLEDColor(callback: (supportControllerLEDColor: boolean) => void): void;
-
     CalibrateControllerIMU(param0: any): any; // param0 - m_controllerStateDeviceIdx
     CalibrateControllerJoystick(param0: any): any; // param0 - m_controllerStateDeviceIdx
     CalibrateControllerTrackpads(param0: any): any; // param0 - m_controllerStateDeviceIdx
@@ -1701,8 +1728,8 @@ export interface Notifications {
 
 export interface VRDevice {
     BIsConnected: any;
-    BVRDeviceSeenRecently: any;
     RegisterForDeviceConnectivityChange: Unregisterable | any;
+    RegisterForVRDeviceSeenRecently: Unregisterable | any;
 }
 
 export interface DeviceProperties {
@@ -4033,6 +4060,42 @@ export interface AuthRefreshInfo {
     reason: number;
     account_name: string;
     login_id_token: string;
+}
+
+export interface WorkshopItemDetails {
+    /**
+     * Required items' IDs.
+     */
+    children: string[];
+    eresult: Result;
+    /**
+     * Item size, in byts.
+     */
+    file_size: string;
+    /**
+     * @todo enum?
+     */
+    file_type: number;
+    /**
+     * Item preview image URL.
+     */
+    preview_url: string;
+    /**
+     * Item ID.
+     */
+    publishedfileid: string;
+    /**
+     * Item description.
+     */
+    short_description: string;
+    /**
+     * Item tags.
+     */
+    tags: string[];
+    /**
+     * Item title.
+     */
+    title: string;
 }
 
 export interface WorkshopItem {
