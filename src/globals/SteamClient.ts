@@ -1048,10 +1048,6 @@ export interface FamilySharing {
     UpdateAuthorizedBorrower(param0: number, param1: boolean): Promise<number>;
 }
 
-export interface Features {
-    SteamInitsPopups(): boolean;
-}
-
 /**
  * Represents friend settings and configuration.
  */
@@ -3488,7 +3484,6 @@ export interface SteamClient {
     Customization: Customization;
     Downloads: Downloads;
     FamilySharing: FamilySharing;
-    Features: Features;
     FriendSettings: FriendSettings;
     Friends: Friends;
     GameNotes: GameNotes;
@@ -6435,6 +6430,7 @@ export interface MsgClientSettings extends JsPbMessage {
     steam_networking_share_ip(): number;
     steam_os_underscan_enabled(): boolean;
     steam_os_underscan_level(): number;
+    steamos_status_led_brightness(): number;
     turn_off_controller_on_exit(): boolean;
     voice_mic_device_name(): string;
     voice_mic_input_gain(): number;
