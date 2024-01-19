@@ -21,6 +21,8 @@ export interface Apps {
      */
     AddUserTagToApps(appIds: number[], userTag: string): void;
 
+    ArePrivateAppsEnabled(): Promise<boolean>;
+
     /**
      * Backups an app to the specified path.
      * @param {number} appId - The ID of the application to back up.
@@ -837,6 +839,12 @@ export interface Browser {
     RegisterForGestureEvents(callback: (gesture: TouchGesture) => void): Unregisterable | any;
 
     RegisterForOpenNewTab: Unregisterable | any;
+
+    /**
+     * Restarts the browser.
+     * @returns {void}
+     */
+    RestartJSContext(): void;
 
     SetShouldExitSteamOnBrowserClosed(value: boolean): any;
 
@@ -1764,6 +1772,7 @@ export interface VROverlay {
     RegisterForCursorMovement: Unregisterable | any;
     RegisterForVisibilityChanged: Unregisterable | any;
     ShowDashboard: any;
+    SwitchToDashboardOverlay(param0: string): void;
 }
 
 export interface OpenVR {
