@@ -1,3 +1,10 @@
+## [3.24.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.2...v3.24.3) (2024-01-20)
+
+
+### Bug Fixes
+
+* **router:** wait 2s if internal navigators init fails ([95d977d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/95d977df452d3b73b007c98854deab1842fa6fbf))
+
 ## [3.24.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.1...v3.24.2) (2024-01-20)
 
 
