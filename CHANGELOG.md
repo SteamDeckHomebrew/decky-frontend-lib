@@ -1,3 +1,10 @@
+## [3.24.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.1...v3.24.2) (2024-01-20)
+
+
+### Bug Fixes
+
+* **navigation:** Fix on chromium 109 ([#100](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/100)) ([ebf496b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ebf496bf61cffa1a5205b4a094fd2279011bffa9))
+
 ## [3.24.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.0...v3.24.1) (2023-12-13)
 
 
