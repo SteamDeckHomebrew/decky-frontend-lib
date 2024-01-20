@@ -136,7 +136,7 @@ try {
           InternalNavigators = findModuleChild((m: any) => {
             if (typeof m !== 'object') return undefined;
             for (let prop in m) {
-              if (m[prop]?.GetNavigator) {
+              if (m[prop]?.GetNavigator && m[prop]?.SetNavigator) {
                 return m[prop];
               }
             }
@@ -160,7 +160,7 @@ try {
       NavigateToAppProperties: InternalNavigators?.AppProperties || Router.NavigateToAppProperties?.bind(Router),
       NavigateToExternalWeb: InternalNavigators?.ExternalWeb || Router.NavigateToExternalWeb?.bind(Router),
       NavigateToInvites: InternalNavigators?.Invites || Router.NavigateToInvites?.bind(Router),
-      NavigateToChat: Router.NavigateToChat?.bind(Router),
+      NavigateToChat: InternalNavigators?.Chat || Router.NavigateToChat?.bind(Router),
       NavigateToLibraryTab: InternalNavigators?.LibraryTab || Router.NavigateToLibraryTab?.bind(Router),
       NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
       NavigateToSteamWeb: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToSteamWeb?.bind(
