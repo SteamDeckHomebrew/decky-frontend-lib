@@ -148,7 +148,7 @@ try {
       initInternalNavigators();
       while (!InternalNavigators?.AppProperties) {
         console.log('[DFL:Router]: Trying to init internal navigators again');
-        await sleep(100);
+        await sleep(2000);
         initInternalNavigators();
       }
     }
