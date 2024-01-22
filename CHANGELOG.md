@@ -1,3 +1,10 @@
+## [3.24.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.3...v3.24.4) (2024-01-22)
+
+
+### Bug Fixes
+
+* **types:** fix incorrect `as` on many components leading to any types ([bb12921](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bb129218634b77ddb1d73b0fe38a91898073707c))
+
 ## [3.24.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.2...v3.24.3) (2024-01-20)
 
 
