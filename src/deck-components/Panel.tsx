@@ -29,5 +29,5 @@ export interface PanelSectionRowProps {
 }
 // New as of Feb 22 2023 Beta || Old
 export const PanelSectionRow =
-  mod.PanelSectionRow ||
-  (Object.values(mod).filter((exp: any) => !exp?.toString()?.includes('.PanelSection'))[0] as FC<PanelSectionRowProps>);
+  (mod.PanelSectionRow ||
+  Object.values(mod).filter((exp: any) => !exp?.toString()?.includes('.PanelSection'))[0]) as FC<PanelSectionRowProps>;

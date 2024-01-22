@@ -112,12 +112,12 @@ try {
 }
 
 /**
- * Tabs component as used in the library and media tabs. See {@link TabsProps}
+ * Tabs component as used in the library and media tabs. See {@link TabsProps}.
  * Unlike other components in `decky-frontend-lib`, this requires Decky Loader to be running.
  */
 export const Tabs =
-  oldTabs ||
-  (((props: TabsProps) => {
+  (oldTabs ||
+  ((props: TabsProps) => {
     const found = tabsComponent;
     const [tc, setTC] = useState<FC<TabsProps>>(found);
     useEffect(() => {
@@ -131,4 +131,4 @@ export const Tabs =
     }, []);
     console.log('tc', tc);
     return tc ? createElement(tc, props) : <SteamSpinner />;
-  }) as FC<TabsProps>);
+  })) as FC<TabsProps>;

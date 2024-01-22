@@ -165,5 +165,5 @@ const ModalModule = findModule((mod) => {
   if (mod.SimpleModal && mod.ModalPosition) return mod;
 })
 
-export const SimpleModal = ModalModule.SimpleModal  as FC<SimpleModalProps>
-export const ModalPosition = ModalModule.ModalPosition  as FC<SimpleModalProps>
+export const SimpleModal = ModalModule.SimpleModal as FC<SimpleModalProps>
+export const ModalPosition = ModalModule.ModalPosition as FC<SimpleModalProps>
