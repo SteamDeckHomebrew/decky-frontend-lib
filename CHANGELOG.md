@@ -1,3 +1,10 @@
+## [3.24.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.4...v3.24.5) (2024-02-03)
+
+
+### Bug Fixes
+
+* **finds:** make modal and scroll components work on latest betaa ([c2b0fad](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c2b0fad298512aa8778c677275bd497bd8f7b00e))
+
 ## [3.24.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.3...v3.24.4) (2024-01-22)
 
 
