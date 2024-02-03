@@ -850,6 +850,8 @@ export interface Browser {
      */
     RestartJSContext(): void;
 
+    SetBackgroundThrottlingDisabled(value: boolean): void;
+
     SetShouldExitSteamOnBrowserClosed(value: boolean): any;
 
     SetTouchGesturesToCancel(gestures: TouchGestureType[]): void;
@@ -1770,8 +1772,15 @@ export interface PathProperties {
     SetStringPathProperty: any;
 }
 
+export interface VRNotifications {
+    HideCustomNotification: any;
+    RegisterForNotificationEvent: Unregisterable | any;
+    ShowCustomNotification: any;
+}
+
 export interface VROverlay {
     HideDashboard: any;
+    IsDashboardVisible(): Promise<boolean>;
     RegisterForButtonPress: Unregisterable | any;
     RegisterForCursorMovement: Unregisterable | any;
     RegisterForVisibilityChanged: Unregisterable | any;
@@ -1799,10 +1808,9 @@ export interface OpenVR {
     RegisterForVRHardwareDetected: Unregisterable | any;
     SetOverlayInteractionAffordance: any;
 
-    ShowNotification(title: string, description: string): any;
-
     StartVR: any;
     TriggerOverlayHapticEffect: any;
+    VRNotifications: VRNotifications;
     VROverlay: VROverlay;
 }
 
