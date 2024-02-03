@@ -155,15 +155,32 @@ export const ModalRoot = (Object.values(
     }
   })) as FC<ModalRootProps>;
 
-interface SimpleModalProps{
-  active?: boolean,
-  children: ReactNode
+interface SimpleModalProps {
+  active?: boolean;
+  children: ReactNode;
 }
 
-const ModalModule = findModule((mod) => {
-  if (typeof mod !== 'object' || !mod.__esModule) return undefined;
-  if (mod.SimpleModal && mod.ModalPosition) return mod;
-})
+const ModalModule = findModule((mod: any) => {
+  if (typeof mod !== 'object') return false;
+  for (let prop in mod) {
+    if (Object.keys(mod).length > 4 && mod[prop]?.toString().includes('.ModalPosition,fallback:')) return true;
+  }
+  return false;
+});
+// findModule((mod) => {
+// if (typeof mod !== 'object' || !mod.__esModule) return undefined;
+// if (mod.SimpleModal && mod.ModalPosition) return mod;
+// })
 
-export const SimpleModal = ModalModule.SimpleModal as FC<SimpleModalProps>
-export const ModalPosition = ModalModule.ModalPosition as FC<SimpleModalProps>
+const ModalModuleProps = ModalModule ? Object.values(ModalModule) : [];
+
+
+// export const SimpleModal = ModalModule.SimpleModal as FC<SimpleModalProps>;
+// export const ModalPosition = ModalModule.ModalPosition as FC<SimpleModalProps>;
+
+export const SimpleModal = ModalModuleProps.find(prop => {
+  const string = prop?.toString()
+  return string?.includes(".ShowPortalModal()") && string?.includes(".OnElementReadyCallbacks.Register(")
+}) as FC<SimpleModalProps>;
+
+export const ModalPosition = ModalModuleProps.find(prop => prop?.toString().includes(".ModalPosition,fallback:")) as FC<SimpleModalProps>;
