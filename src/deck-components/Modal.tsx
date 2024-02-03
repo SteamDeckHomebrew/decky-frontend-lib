@@ -167,16 +167,8 @@ const ModalModule = findModule((mod: any) => {
   }
   return false;
 });
-// findModule((mod) => {
-// if (typeof mod !== 'object' || !mod.__esModule) return undefined;
-// if (mod.SimpleModal && mod.ModalPosition) return mod;
-// })
 
 const ModalModuleProps = ModalModule ? Object.values(ModalModule) : [];
-
-
-// export const SimpleModal = ModalModule.SimpleModal as FC<SimpleModalProps>;
-// export const ModalPosition = ModalModule.ModalPosition as FC<SimpleModalProps>;
 
 export const SimpleModal = ModalModuleProps.find(prop => {
   const string = prop?.toString()
