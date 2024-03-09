@@ -1048,11 +1048,13 @@ export interface FamilySharing {
      */
     DeauthorizeLocalDevice(): Promise<number>;
 
+    GetAvailableLenders(appId: number): Promise<Lender[]>;
     GetFamilyGroupInfo(): Promise<string>;
 
     RegisterForKickedBorrower: any;
 
     RequestLocalDeviceAuthorization(steam64Id: string): Promise<number>;
+    SetPreferredLender(appId: number, param1: number): Promise<number>;
 
     // param0 - account id?
     UpdateAuthorizedBorrower(param0: number, param1: boolean): Promise<number>;
@@ -1783,6 +1785,7 @@ export interface VROverlay {
     IsDashboardVisible(): Promise<boolean>;
     RegisterForButtonPress: Unregisterable | any;
     RegisterForCursorMovement: Unregisterable | any;
+    RegisterForThumbnailChanged: Unregisterable | any;
     RegisterForVisibilityChanged: Unregisterable | any;
     ShowDashboard: any;
     SwitchToDashboardOverlay(param0: string): void;
@@ -1792,6 +1795,10 @@ export interface OpenVR {
     Device: VRDevice;
     DeviceProperties: DeviceProperties;
 
+    /**
+     * @throws OperationResponse if mutual capabilities haven't been loaded.
+     */
+    GetMutualCapabilities(): Promise<any>;
     GetWebSecret(): Promise<string>;
 
     InstallVR(): any;
@@ -1804,8 +1811,10 @@ export interface OpenVR {
     RegisterForButtonPress: Unregisterable | any;
     RegisterForHMDActivityLevelChanged: Unregisterable | any;
     RegisterForInstallDialog: Unregisterable | any;
-    RegisterStartupErrors: Unregisterable | any;
+    RegisterForStartupErrors: Unregisterable | any;
     RegisterForVRHardwareDetected: Unregisterable | any;
+    RegisterForVRModeChange(callback: (param0: boolean) => void): Unregisterable | any;
+    RegisterForVRSceneAppChange(callback: (param0: number) => void): Unregisterable | any;
     SetOverlayInteractionAffordance: any;
 
     StartVR: any;
@@ -2869,6 +2878,13 @@ export interface System {
     Audio: Audio;
     AudioDevice: AudioDevice;
     Bluetooth: Bluetooth;
+    /**
+     * Creates a temporary folder.
+     * @param path The folder to create.
+     * @returns The created path.
+     * @todo Does this support relative paths ? this has some weird behavior
+     */
+    CreateTempPath(path: string): Promise<string>;
     Devkit: Devkit;
     Display: Display;
     DisplayManager: DisplayManager;
@@ -2889,6 +2905,14 @@ export interface System {
     IsDeckFactoryImage(): Promise<boolean>;
 
     IsSteamInTournamentMode(): Promise<boolean>;
+
+    /**
+     * Moves a file.
+     * @param target Target file/folder.
+     * @param destination Destination path.
+     * @remarks Does not throw on error.
+     */
+    MoveFile(target: string, destination: string): void;
 
     Network: Network;
 
@@ -4022,6 +4046,17 @@ export interface DownloadOverview {
     update_seconds_remaining: number;
     update_start_time: number;
     update_state: 'None' | 'Starting' | 'Updating' | 'Stopping';
+}
+
+export interface Lender {
+    /**
+     * A Steam64 ID.
+     */
+    steamid: string;
+    appid: number;
+    numDlc: number;
+    bPreferred: boolean;
+    vecDLC: any[];
 }
 
 export interface InstallInfo {
@@ -6357,6 +6392,7 @@ export interface MsgClientSettings extends JsPbMessage {
     controller_xbox_driver(): boolean;
     controller_xbox_support(): boolean;
     default_ping_rate(): number;
+    developer_dummy_setting(): boolean;
     disable_all_toasts(): boolean;
     disable_toasts_in_game(): boolean;
     display_name(): string;
@@ -6366,6 +6402,7 @@ export interface MsgClientSettings extends JsPbMessage {
     download_throttle_rate(): number;
     download_throttle_while_streaming(): boolean;
     download_while_app_running(): boolean;
+    enable_avif_screenshots(): boolean;
     enable_dpi_scaling(): boolean;
     enable_gpu_accelerated_webviews(): boolean;
     enable_hardware_video_decoding(): boolean;
@@ -6384,9 +6421,13 @@ export interface MsgClientSettings extends JsPbMessage {
     game_notes_enable_spellcheck(): boolean;
     gamescope_app_target_framerate(): number;
     gamescope_disable_framelimit(): boolean;
+    gamescope_disable_mura_correction(): boolean;
     gamescope_display_refresh_rate(): number;
     gamescope_enable_app_target_framerate(): boolean;
     gamescope_hdr_visualization(): HDRVisualization;
+    gamescope_include_steamui_in_screenshots(): boolean;
+    gamescope_use_game_refresh_rate_in_steam(): boolean;
+    hdr_compat_testing(): boolean;
     in_client_beta(): boolean;
     is_external_display(): boolean;
     is_steam_sideloaded(): boolean;
@@ -6734,6 +6775,9 @@ export enum DisplayStatus {
     CloudError = 34,
     CloudOutOfDate = 35,
     Terminating = 36,
+    OwnerLocked,
+    DownloadFailed,
+    UpdateFailed,
 }
 
 export enum AppCloudStatus {
