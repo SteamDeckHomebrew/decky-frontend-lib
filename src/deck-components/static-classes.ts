@@ -694,55 +694,56 @@ type BasicAppDetailsSectionStylerClasses = Record<
 >;
 
 export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.Title?.includes('quickaccessmenu'),
+  (mod) => typeof mod === 'object' && mod?.Title && mod?.QuickAccessMenu && mod?.BatteryDetailsLabels,
 );
 /**
  * @depreciated please use quickAccessMenuClasses instead
  */
 export const staticClasses = quickAccessMenuClasses;
 export const scrollPanelClasses: ScrollPanelClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.ScrollPanel?.includes('scrollpanel'),
+  (mod) => typeof mod === 'object' && mod?.ScrollPanel,
 );
 /**
  * @depreciated please use scrollPanelClasses instead
  */
 export const scrollClasses = scrollPanelClasses;
+// TODO refactor to use class mapper
 export const gamepadDialogClasses: GamepadDialogClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.GamepadDialogContent?.includes('gamepaddialog'),
+  (mod) => typeof mod === 'object' && mod?.GamepadDialogContent,
 );
 export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule(
-  (mod) => typeof mod === 'object' && typeof mod?.PanelSection === 'string' && mod?.PanelSection?.includes('quickaccesscontrols'),
+  (mod) => typeof mod === 'object' && typeof mod?.PanelSection === 'string' && mod?.PanelSection,
 );
 export const updaterFieldClasses: UpdaterFieldClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer?.includes('updaterfield'),
+  (mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer,
 );
 export const playSectionClasses: PlaySectionClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.Container?.includes('appdetailsplaysection'),
+  (mod) => typeof mod === 'object' && mod?.Container,
 );
 export const gamepadSliderClasses: GamepadSliderClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.SliderControlPanelGroup?.includes('gamepadslider'),
+  (mod) => typeof mod === 'object' && mod?.SliderControlPanelGroup,
 );
 export const appDetailsHeaderClasses: AppDetailsHeaderClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.TopCapsule?.includes('sharedappdetailsheader'),
+  (mod) => typeof mod === 'object' && mod?.TopCapsule,
 );
 export const appDetailsClasses: AppDetailsClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.HeaderLoaded?.includes('appdetails_'),
+  (mod) => typeof mod === 'object' && mod?.HeaderLoaded,
 );
 export const gamepadUIClasses: GamepadUIClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.BasicUiRoot?.includes('gamepadui_'),
+  (mod) => typeof mod === 'object' && mod?.BasicUiRoot,
 );
 export const gamepadTabbedPageClasses: GamepadTabbedPageClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.GamepadTabbedPage?.includes('gamepadtabbedpage_')
+  (mod) => typeof mod === 'object' && mod?.GamepadTabbedPage
 );
 export const gamepadContextMenuClasses: GamepadContextMenuClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.BasicContextMenuModal?.includes('gamepadcontextmenu')
+  (mod) => typeof mod === 'object' && mod?.BasicContextMenuModal
 );
 export const achievementClasses: AchievementClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.AchievementListItemBase?.includes('achievementslist')
+  (mod) => typeof mod === 'object' && mod?.AchievementListItemBase
 );
 export const mainMenuAppRunningClasses: MainMenuAppRunningClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.MainMenuAppRunning?.includes('mainmenuapprunning')
+  (mod) => typeof mod === 'object' && mod?.MainMenuAppRunning
 );
 export const basicAppDetailsSectionStylerClasses: BasicAppDetailsSectionStylerClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.AppDetailsRoot?.includes('basicappdetailssectionstyler_')
+  (mod) => typeof mod === 'object' && mod?.AppDetailsRoot
 );
