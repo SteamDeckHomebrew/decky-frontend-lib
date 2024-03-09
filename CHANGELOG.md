@@ -1,3 +1,15 @@
+# [3.25.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.5...v3.25.0) (2024-03-09)
+
+
+### Bug Fixes
+
+* **staticclasses:** unbreak on latest beta ([17b99df](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/17b99dfed8e4e146d0f4f5e78a950db5b10ae2b4))
+
+
+### Features
+
+* **classMapper:** add class mapper ([a8eeb91](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a8eeb917e22ef72905d448e159d70375ebf77ba6))
+
 ## [3.24.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.4...v3.24.5) (2024-02-03)
 
 
