@@ -21,8 +21,6 @@ export interface Apps {
      */
     AddUserTagToApps(appIds: number[], userTag: string): void;
 
-    ArePrivateAppsEnabled(): Promise<boolean>;
-
     /**
      * Backups an app to the specified path.
      * @param {number} appId - The ID of the application to back up.
@@ -807,10 +805,7 @@ export interface Broadcast {
 }
 
 export interface Browser {
-    BIsDirectHWNDBrowser: any;
-    BIsPopupWindow: any;
-    BIsVROverlayBrowser: any;
-
+    AddWordToDictionary(word: string): void;
     ClearAllBrowsingData(): void;
 
     ClearHistory(): void;
@@ -818,6 +813,8 @@ export interface Browser {
     CloseDevTools(): void;
 
     GetBrowserID(): Promise<number>;
+
+    GetSpellingSuggestions(word: string): string[];
 
     GetSteamBrowserID(): Promise<number>; // 16-bit unsigned integer?
 
@@ -834,11 +831,18 @@ export interface Browser {
     OpenDevTools(): void;
 
     /**
+     * Pastes the clipboard contents.
+     */
+    Paste(): void;
+
+    /**
      * @todo unconfirmed
      */
     RegisterForGestureEvents(callback: (gesture: TouchGesture) => void): Unregisterable | any;
 
     RegisterForOpenNewTab: Unregisterable | any;
+
+    ReplaceMisspelling: any;
 
     /**
      * Restarts the browser.
@@ -847,6 +851,8 @@ export interface Browser {
     RestartJSContext(): void;
 
     SetBackgroundThrottlingDisabled(value: boolean): void;
+
+    SetPendingFilePath(path: string): Promise<boolean>;
 
     SetShouldExitSteamOnBrowserClosed(value: boolean): any;
 
@@ -2086,7 +2092,7 @@ export interface Screenshots {
      * @param {number} screenshotIndex - The index of the local screenshot.
      * @returns {Promise<Screenshot>} - A Promise that resolves to the requested local screenshot.
      */
-    GetLocalScreenshot(appId: string, screenshotIndex: number): Promise<Screenshot>;
+    GetLocalScreenshotByHandle(appId: string, screenshotIndex: number): Promise<Screenshot>;
 
     /**
      * Retrieves the count of local screenshots for a specific application.
@@ -2100,6 +2106,13 @@ export interface Screenshots {
      * @returns {Promise<number>} - A Promise that resolves to the number of games with local screenshots.
      */
     GetNumGamesWithLocalScreenshots(): Promise<number>;
+
+    /**
+     * Gets total screenshot usage in the specified library folder.
+     * @param path Library folder path.
+     * @returns {Promise<number>} A Promise that resolves to the number of taken space in bytes.
+     */
+    GetTotalDiskSpaceUsage(path: string): Promise<number>;
 
     /**
      * Opens a local screenshot in the system image viewer.
@@ -2874,6 +2887,12 @@ export interface System {
     Audio: Audio;
     AudioDevice: AudioDevice;
     Bluetooth: Bluetooth;
+    /**
+     * Copies specified files to clipboard.
+     * Does not throw if not found.
+     * @param paths File paths to copy.
+     */
+    CopyFilesToClipboard(paths: string[]): void;
     /**
      * Creates a temporary folder.
      * @param path The folder to create.
@@ -6388,7 +6407,6 @@ export interface MsgClientSettings extends JsPbMessage {
     controller_xbox_driver(): boolean;
     controller_xbox_support(): boolean;
     default_ping_rate(): number;
-    developer_dummy_setting(): boolean;
     disable_all_toasts(): boolean;
     disable_toasts_in_game(): boolean;
     display_name(): string;
@@ -6423,6 +6441,7 @@ export interface MsgClientSettings extends JsPbMessage {
     gamescope_hdr_visualization(): HDRVisualization;
     gamescope_include_steamui_in_screenshots(): boolean;
     gamescope_use_game_refresh_rate_in_steam(): boolean;
+    gamestream_hardware_video_encode(): boolean;
     hdr_compat_testing(): boolean;
     in_client_beta(): boolean;
     is_external_display(): boolean;
@@ -6464,6 +6483,13 @@ export interface MsgClientSettings extends JsPbMessage {
     screenshot_key(): Hotkey;
     screenshots_path(): string;
     server_ping_rate(): number;
+    setting_validation_bool(): boolean;
+    setting_validation_enum(): HDRVisualization;
+    setting_validation_int32(): number;
+    setting_validation_uint32(): number;
+    setting_validation_uint64(): number;
+    setting_validation_float(): number;
+    setting_validation_string(): string;
     shader_precached_size(): string;
     show_family_sharing_notifications(): boolean;
     show_screenshot_manager(): boolean;
