@@ -199,9 +199,12 @@ export interface Apps {
     GetGameActionForApp(
         appId: string,
         callback: (
-            param0: number /*flag check? for validity*/,
+            gameActionId: number,
+            /**
+             * This parameter is a number only with the value `0`.
+             */
             appId: number | string,
-            param2: string /* "LaunchApp", need to look for more to document*/,
+            taskName: AppAction,
         ) => void,
     ): void;
 
@@ -307,6 +310,9 @@ export interface Apps {
 
     ListFlatpakApps(): Promise<any>;
 
+    /**
+     * @throws if the user does not own the app or no EULA.
+     */
     LoadEula(appId: number): Promise<EndUserLicenseAgreement[]>; // Doesn't bring up the EULA dialog, just returns the eula data
     MarkEulaAccepted: any;
     MarkEulaRejected: any;
@@ -373,7 +379,8 @@ export interface Apps {
      */
     RegisterForGameActionEnd(callback: (gameActionIdentifier: number) => void): Unregisterable | any;
 
-    RegisterForGameActionShowError: Unregisterable | any;
+    // "error" is a localization token
+    RegisterForGameActionShowError(callback: (gameActionId: number, appId: string, actionName: string, error: string, param4: string) => void): Unregisterable | any;
 
     /**
      * Registers a callback function to be called when a game action UI is shown.
@@ -388,7 +395,7 @@ export interface Apps {
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForGameActionStart(
-        callback: (gameActionIdentifier: number, appId: string, action: string, param3: number) => void,
+        callback: (gameActionIdentifier: number, appId: string, action: string, param3: AppLaunchSource) => void,
     ): Unregisterable | any;
 
     /**
@@ -470,7 +477,7 @@ export interface Apps {
     ResetHiddenState(appIds: number[]): Promise<void>;
 
     /**
-     * Runs a game with specified parameters.
+     * Runs a game with specified parameters. Focuses the game if already launched.
      * @param {string} appId - The ID of the application to run.
      * @param {string} launchOptions - Additional launch options for the application.
      * @param {number} param2 - Additional parameter (exact usage may vary).
@@ -871,9 +878,12 @@ export interface Browser {
 }
 
 export interface BrowserView {
-    Create(browser: BrowserViewInit | undefined): BrowserViewPopup;
+    Create(browser?: BrowserViewInit): BrowserViewPopup;
 
-    CreatePopup(browser: BrowserViewInit | undefined): {
+    CreatePopup(browser?: BrowserViewInit): {
+        /**
+         * URL for usage with `window.open()`.
+         */
         strCreateURL: string;
         browserView: BrowserViewPopup;
     };
@@ -892,7 +902,11 @@ export interface ClientNotifications {
      */
     DisplayClientNotification(notification: ClientUINotification, options: string, callback: any): void;
 
-    OnRespondToClientNotification: any;
+    /**
+     * @param notificationId The ID of the notification to handle.
+     * @param handleAction `true` to habdle the associated notification action, `false` otherwise.
+     */
+    OnRespondToClientNotification(notificationId: number, handleAction: boolean): void;
 }
 
 export interface Cloud {
@@ -1098,7 +1112,10 @@ export interface Friends {
      */
     AddFriend(steamId: string): Promise<boolean>;
 
-    GetCoplayData(): Promise<any>; // {"recentUsers":[], "currentUsers":[]}
+    GetCoplayData(): Promise<{
+        currentUsers: CoplayUser[];
+        recentUsers: CoplayUser[];
+    }>;
     InviteUserToCurrentGame: any;
 
     /**
@@ -1207,7 +1224,7 @@ export interface Input {
 
     /**
      * Sets a specified key's pressed state.
-     * @param {number} keyIndex - The key index to set the state for.
+     * @param {EHIDKeyboardKey} keyIndex - The key index to set the state for.
      * @param {boolean} state - true for pressed, false otherwise.
      * @returns {void}
      * @example
@@ -1219,7 +1236,7 @@ export interface Input {
      * SteamClient.Input.ControllerKeyboardSetKeyState(103, false);
      * ```
      */
-    ControllerKeyboardSetKeyState(keyIndex: number, state: boolean): void;
+    ControllerKeyboardSetKeyState(keyIndex: EHIDKeyboardKey, state: boolean): void;
 
     DeauthorizeControllerAccount: any;
 
@@ -1836,7 +1853,7 @@ export interface Overlay {
      */
     DestroyGamePadUIDesktopConfiguratorWindow(): void;
 
-    GetOverlayBrowserInfo(): any;
+    GetOverlayBrowserInfo(): Promise<OverlayBrowserInfo[]>;
 
     HandleGameWebCallback(url: string): any;
 
@@ -1861,7 +1878,7 @@ export interface Overlay {
     RegisterForMicroTxnAuthDismiss(callback: (appId: number, microTxnId: string) => void): Unregisterable | any;
 
     RegisterForNotificationPositionChanged(
-        callback: (appId: any, position: any, horizontalInset: number, verticalInset: number) => void,
+        callback: (appId: any, position: NotificationPosition, horizontalInset: number, verticalInset: number) => void,
     ): Unregisterable | any;
 
     /**
@@ -1870,7 +1887,7 @@ export interface Overlay {
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForOverlayActivated(
-        callback: (popUpContextId: number, appId: number, active: boolean, param3: boolean) => void,
+        callback: (overlayProcessPid: number, appId: number, active: boolean, param3: boolean) => void,
     ): Unregisterable | any;
 
     /**
@@ -2361,10 +2378,10 @@ export interface ServerBrowser {
 }
 
 export interface Settings {
-    AddClientBeta(param0: any, name: string): any;
+    AddClientBeta(name: string, password: string): void;
 
     /**
-     * Clears HTTP cache in `<STEAMPATH>/appcache/httpcache`.
+     * Clears HTTP cache located in `<STEAMPATH>/appcache/httpcache`.
      * @returns {void}
      */
     ClearAllHTTPCaches(): void;
@@ -2473,7 +2490,7 @@ export interface SharedConnection {
     // src\clientdll\clientsharedconnection.cpp (154) : m_mapSharedConnections.HasElement( hSharedConnection )
     Close(hSharedConnection: number): void;
 
-    RegisterOnBinaryMessageReceived(hSharedConnection: number, callback: (param0: any) => void): Unregisterable | any;
+    RegisterOnBinaryMessageReceived(hSharedConnection: number, callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
     RegisterOnLogonInfoChanged(hSharedConnection: number, callback: (info: LogonInfo) => void): Unregisterable | any;
 
@@ -2499,21 +2516,26 @@ export interface Stats {
 }
 
 export interface SteamChina {
-    GetCustomLauncherAppID: any;
+    GetCustomLauncherAppID(): Promise<number>;
 }
 
+/**
+ * SteamClient.MachineStorage affects the "STEAMPATH/config/config.vdf" file.
+ * SteamClient.RoamingStorage affects the "STEAMPATH/userdata/STEAMID3/7/remote/sharedconfig.vdf" file.
+ * SteamClient.Storage affects the "STEAMPATH/userdata/STEAMID3/config/localconfig.vdf" file.
+ */
 export interface Storage {
-    DeleteKey: Promise<OperationResponse | void>;
+    DeleteKey(key: string): Promise<OperationResponse | void>;
     /**
      * @remarks Use {@link SetObject} to set.
      */
-    GetJSON: Promise<OperationResponse | string>;
-    GetString: Promise<OperationResponse | string>;
+    GetJSON(key: string): Promise<OperationResponse | string>;
+    GetString(key: string): Promise<OperationResponse | string>;
     /**
      * @remarks Use {@link SetObject} to get.
      */
-    SetObject: Promise<OperationResponse | void>;
-    SetString: Promise<OperationResponse | void>;
+    SetObject(key: string, value: any): Promise<OperationResponse | void>;
+    SetString(key: string, value: string): Promise<OperationResponse | void>;
 }
 
 export interface Streaming {
@@ -2828,7 +2850,7 @@ export interface Network {
      */
     RegisterForDeviceChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
-    SetFakeLocalSystemState(param0: any): any; // enums
+    SetFakeLocalSystemState(state: ENetFakeLocalSystemState): void;
 
     SetProxyInfo(mode: number, address: string, port: number, excludeLocal: boolean): void;
 
@@ -2859,8 +2881,9 @@ export interface Perf {
 export interface Report {
     /**
      * Generates a system report located in /tmp/steamXXXXXX (https://steamloopback.host/systemreports).
+     * @throws OperationResponse
      */
-    GenerateSystemReport(): Promise<SystemReportReply>;
+    GenerateSystemReport(): Promise<SystemReportReply | OperationResponse>;
 
     /**
      * Saves a report in the Desktop directory.
@@ -2882,7 +2905,8 @@ export interface SystemUI {
 
     RegisterForFocusChangeEvents(callback: (event: FocusChangeEvent) => void): Unregisterable | any;
 
-    RegisterForOverlayGameWindowFocusChanged(callback: (param0: number, param1: number) => void): Unregisterable | any;
+    // appId is 0 if unknown app is focused
+    RegisterForOverlayGameWindowFocusChanged(callback: (appId: number, param1: number) => void): Unregisterable | any;
 
     RegisterForSystemKeyEvents(callback: (event: any) => void): Unregisterable | any; // eKey
 }
@@ -3138,11 +3162,11 @@ export interface User {
 
     Reconnect(): void;
 
-    RegisterForConnectionAttemptsThrottled(callback: (param0: any) => void): Unregisterable | any;
+    RegisterForConnectionAttemptsThrottled(callback: (data: ConnectionAttempt) => void): Unregisterable | any;
 
-    RegisterForCurrentUserChanges(callback: (data: any) => void): Unregisterable | any;
+    RegisterForCurrentUserChanges(callback: (user: CurrentUser) => void): void;
 
-    RegisterForLoginStateChange(callback: (username: string) => void): Unregisterable | any;
+    RegisterForLoginStateChange(callback: (accountName: string, loginState: ELoginState, loginResult: number, loginPercentage: number, param4: number) => void): Unregisterable | any;
 
     RegisterForPrepareForSystemSuspendProgress(callback: (data: any) => void): Unregisterable | any;
 
@@ -3167,7 +3191,9 @@ export interface User {
      */
     RemoveUser(accountName: string): void;
 
-    RequestSupportSystemReport: any;
+    RequestSupportSystemReport(reportId: string): Promise<{
+        bSuccess: boolean;
+    }>;
 
     ResumeSuspendedGames(param0: boolean): any;
 
@@ -3231,7 +3257,7 @@ export interface WebChat {
      */
     GetLocalPersonaName(): Promise<string>;
 
-    GetOverlayChatBrowserInfo(): Promise<any[]>;
+    GetOverlayChatBrowserInfo(): Promise<OverlayBrowserInfo[]>;
 
     // param0 - appid ?
     GetPrivateConnectString(param0: number): Promise<string>;
@@ -3338,9 +3364,10 @@ export interface WebUITransport {
 
 /**
  * Represents functionality for managing Steam's windows.
+ * Note that methods here have to be called from the window you want to use.
  */
 export interface Window {
-    BringToFront(forceOS: WindowBringToFront | undefined): any;
+    BringToFront(forceOS?: WindowBringToFront): any;
 
     /**
      * @todo Shuts down Steam too?
@@ -3444,6 +3471,7 @@ export interface Window {
 
     /**
      * Resizes the window to given dimension.
+     * The window has to be created with the resizable flag.
      * @param {number} width - Window width.
      * @param {number} height - Window height.
      * @param {boolean | number} applyBrowserScaleOrDPIValue
@@ -3493,6 +3521,7 @@ export interface Window {
 
     /**
      * Sets the window's resize grip size.
+     * The window has to be created with the resize grip flag.
      * @param {number} width - Resize grip width.
      * @param {number} height - Resize grip height.
      * @returns {void}
@@ -3616,6 +3645,50 @@ export type AppLanguage = {
     /** A localization string for the language. */
     strShortName: string;
 };
+
+export type AppAction = "LaunchApp" | "VerifyApp";
+
+export type LaunchAppTask =
+    | "None"
+    | "Completed"
+    | "Cancelled"
+    | "Failed"
+    | "Starting"
+    | "ConnectingToSteam"
+    | "RequestingLicense"
+    | "UpdatingAppInfo"
+    | "UpdatingAppTicket"
+    | "UnlockingH264"
+    | "WaitingOnWideVineUpdate"
+    | "ShowCheckSystem"
+    | "CheckTimedTrial"
+    | "GetDurationControl"
+    | "ShowDurationControl"
+    | "ShowLaunchOption"
+    | "ShowEula"
+    | "ShowVR2DWarning"
+    | "ShowVROculusOnly"
+    | "ShowVRStreamingLaunch"
+    | "ShowGameArgs"
+    | "ShowCDKey"
+    | "WaitingPrevProcess"
+    | "DownloadingDepots"
+    | "DownloadingWorkshop"
+    | "UpdatingDRM"
+    | "GettingLegacyKey"
+    | "ProcessingInstallScript"
+    | "RunningInstallScript"
+    | "SynchronizingCloud"
+    | "SynchronizingControllerConfig"
+    | "ShowNoControllerConfig"
+    | "ProcessingShaderCache"
+    | "VerifyingFiles"
+    | "KickingOtherSession"
+    | "WaitingOpenVRAppQuit"
+    | "SiteLicenseSeatCheckout"
+    | "DelayLaunch"
+    | "CreatingProcess"
+    | "WaitingGameWindow"
 
 export type LogoPinPositions = 'BottomLeft' | 'UpperLeft' | 'CenterCenter' | 'UpperCenter' | 'BottomCenter';
 
@@ -3764,10 +3837,22 @@ export interface AppDetails {
     eAppOwnershipFlags: AppOwnershipFlags | number; // is this a bitmask?
     eAutoUpdateValue: AutoUpdateBehavior;
     eBackgroundDownloads: BackgroundDownloadsBehavior;
+    /**
+     * @todo enum
+     */
     eCloudSync: number;
+    /**
+     * @todo enum
+     */
     eControllerRumblePreference: number; // ControllerRumbleSetting?
     eDisplayStatus: DisplayStatus;
+    /**
+     * @todo enum
+     */
     eEnableThirdPartyControllerConfiguration: number;
+    /**
+     * @todo enum
+     */
     eSteamInputControllerMask: number;
     /**
      * Index of the install folder. -1 if not installed.
@@ -3999,7 +4084,7 @@ export interface AchievementNotification {
 export interface ScreenshotNotification {
     details: Screenshot;
     hScreenshot: number;
-    strOperation: string;
+    strOperation: "deleted" | "written";
     unAppID: number;
 }
 
@@ -4019,50 +4104,89 @@ export interface Screenshot {
 }
 
 export interface DownloadItem {
+    /** True if this app is currently downloading */
     active: boolean;
+    /** Appid of app */
     appid: number;
+    /** Current build ID for the installed app, zero if the app isn't installed yet */
     buildid: number;
+    /** True if this update has been completed */
     completed: boolean;
+    /** For completed downloads, time of completion, 0 if not completed */
     completed_time: number;
     deferred_time: number;
+    /** Bytes already downloaded, sum across all content types */
     downloaded_bytes: number;
+    /** If true, game will launch when its download completes successfully */
     launch_on_completion: boolean;
+    /** True if this app has been paused by the user or the system */
     paused: boolean;
+    /** Queue index, -1 if the item is unqueued */
     queue_index: number;
+    /** Build ID that this download is moving towards. This can be the same as buildid.*/
     target_buildid: number;
+    /** Total bytes to download, sum across all content types */
     total_bytes: number;
+    /**
+     * Update error description, when paused and there has been an error.
+     * Unlocalized and shouldn't be displayed to the user.
+     */
     update_error: string;
-    update_result: number;
+    update_result: AppUpdateError;
     update_type_info: UpdateTypeInfo[];
 }
 
 export interface UpdateTypeInfo {
+    /** True if this content type had an update and it has completed */
     completed_update: boolean;
+    /** Bytes already downloaded for this content type */
     downloaded_bytes: number;
+    /** True if this content type has or had an update */
     has_update: boolean;
+    /** Total bytes to download for this content type */
     total_bytes: number;
 }
 
 export interface DownloadOverview {
+    /** Set if we are downloading from LAN peer content server */
     lan_peer_hostname: string;
+    /** True if all downloads are paused */
     paused: boolean;
+    /** True if download throttling has been temporarily suspended for the current download */
     throttling_suspended: boolean;
+    /** Appid of currently updating app */
     update_appid: number;
+    /** Bytes already downloaded */
     update_bytes_downloaded: number;
+    /** Bytes already processed in current phase - resets to zero when update stage changes */
     update_bytes_processed: number;
+    /** Bytes already staged */
     update_bytes_staged: number;
+    /** Total bytes to download */
     update_bytes_to_download: number;
+    /** Total bytes to process in current phase - resets to zero when update stage changes */
     update_bytes_to_process: number;
+    /** Total bytes to be staged */
     update_bytes_to_stage: number;
+    /** Current disk throughput estimate */
     update_disc_bytes_per_second: number;
+    /** True if the current update is an initial install */
     update_is_install: boolean;
+    /** True if download and staging sizes are prefetch estimates */
     update_is_prefetch_estimate: boolean;
+    /** True if the current update is for shader update */
     update_is_shader: boolean;
+    /** True if the client is running in peer content server mode serving other peers */
     update_is_upload: boolean;
+    /** True if the current update is for workshop content */
     update_is_workshop: boolean;
+    /** Current bandwidth estimate for download */
     update_network_bytes_per_second: number;
+    /** Peak bandwidth estimate for download */
     update_peak_network_bytes_per_second: number;
+    /** Estimate of remaining time (in seconds) until download completes (not including staging) */
     update_seconds_remaining: number;
+    /** Time current update started */
     update_start_time: number;
     update_state: 'None' | 'Starting' | 'Updating' | 'Stopping';
 }
@@ -4080,7 +4204,7 @@ export interface Lender {
 
 export interface InstallInfo {
     rgAppIDs: InstallInfoApps[];
-    eInstallState: number;
+    eInstallState: EInstallManagerState;
     nDiskSpaceRequired: number;
     nDiskSpaceAvailable: number;
     nCurrentDisk: number;
@@ -4119,7 +4243,7 @@ export interface SpewOutput {
     /**
      * The type or category of the spew output.
      */
-    spew_type: string;
+    spew_type: "error" | "info" | "input";
 }
 
 export interface AuthRefreshInfo {
@@ -4139,9 +4263,9 @@ export interface WorkshopItemDetails {
      */
     file_size: string;
     /**
-     * @todo enum?
+     * Workshop file type.
      */
-    file_type: number;
+    file_type: WorkshopFileType;
     /**
      * Item preview image URL.
      */
@@ -4259,7 +4383,7 @@ interface SteamSettings {
 
 export interface PrePurchaseApp {
     nAppID: number;
-    eState: number; // todo: 3 = Preload? 4 - Ready? I got 3 from Starfield preload and 4 with csgo
+    eState: EAppReleaseState;
 }
 
 export interface PrePurchaseInfo {
@@ -4317,13 +4441,13 @@ export interface AccountSettings {
     bEmailValidated: boolean;
     bHasAnyVACBans: boolean;
     bHasTwoFactor: boolean;
-    eSteamGuardState: number;
+    eSteamGuardState: ESteamGuardState;
     rtSteamGuardEnableTime: number;
     bSaveAccountCredentials: boolean;
 }
 
 export interface Language {
-    language: number;
+    language: ELanguage;
     strShortName: string;
 }
 
@@ -4336,7 +4460,7 @@ export interface TimeZone {
 
 export interface AppBackupStatus {
     appid: number;
-    eError: number; // Without confirmation  20 - In progress, 3 - Cancelled?
+    eError: AppUpdateError;
     strBytesToProcess: string;
     strBytesProcessed: string;
     strTotalBytesWritten: string;
@@ -4396,7 +4520,7 @@ export interface ParentalSettings {
 
 export interface ConnectivityTestChange {
     eConnectivityTestResult: ConnectivityTestResult;
-    eFakeState: number;
+    eFakeState: ENetFakeLocalSystemState;
     bChecking: boolean;
 }
 
@@ -4539,6 +4663,9 @@ export interface TouchMenuMessage {
 }
 
 export interface ControllerCommandMessage {
+    /**
+     * @todo enum
+     */
     eAction: number;
     nControllerIndex: number;
 }
@@ -4554,6 +4681,12 @@ export interface ControllerAnalogInputMessage {
     x: number;
     y: number;
     nC: number;
+}
+
+export interface CoplayUser {
+    accountid: number;
+    rtTimePlayed: number;
+    appid: number;
 }
 
 export interface FriendSettingsFeature {
@@ -4621,7 +4754,7 @@ export interface RemotePlayDevice {
 export interface RemotePlaySettings {
     bRemotePlaySupported: boolean;
     bRemotePlayEnabled: boolean;
-    eRemotePlayP2PScope: number;
+    eRemotePlayP2PScope: EStreamP2PScope;
     bRemotePlayServerConfigAvailable: boolean;
     bRemotePlayServerConfigEnabled: boolean;
     RemotePlayServerConfig: any; // todo: document {}
@@ -4640,51 +4773,10 @@ export interface RemotePlaySettings {
 export interface GameAction {
     nGameActionID: number;
     gameid: string;
-    strActionName: string;
-    /*
-        None - 0
-        Completed - 1
-        Cancelled - 2
-        Failed - 3
-        Starting - 4
-        ConnectingToSteam - 5
-        RequestingLicense - 6
-        UpdatingAppInfo - 7
-        UpdatingAppTicket - 8
-        UnlockingH264 - 9
-        WaitingOnWideVineUpdate - 10
-        ShowCheckSystem - 11
-        CheckTimedTrial - 12
-        GetDurationControl - 13
-        ShowDurationControl - 14
-        ShowLaunchOption - 15
-        ShowEula - 16
-        ShowVR2DWarning - 17
-        ShowVROculusOnly - 18
-        ShowVRStreamingLaunch - 19
-        ShowGameArgs - 20
-        ShowCDKey - 21
-        WaitingPrevProcess - 22
-        DownloadingDepots - 23
-        DownloadingWorkshop - 24
-        UpdatingDRM - 25
-        GettingLegacyKey - 26
-        ProcessingInstallScript - 27
-        RunningInstallScript - 28
-        SynchronizingCloud - 29
-        SynchronizingControllerConfig - 30
-        ShowNoControllerConfig - 31
-        ProcessingShaderCache - 32
-        VerifyingFiles - 33
-        KickingOtherSession - 34
-        WaitingOpenVRAppQuit - 35
-        SiteLicenseSeatCheckout - 36
-        DelayLaunch - 37
-        CreatingProcess - 38
-        WaitingGameWindow - 39
-     */
-    strTaskName: string;
+    strActionName: AppAction;
+    strTaskName: LaunchAppTask;
     strTaskDetails: string;
+    nLaunchOption: number;
     nSecondsRemaing: number; //fixme: not a typo, actually valve
     strNumDone: string;
     strNumTotal: string;
@@ -4693,7 +4785,7 @@ export interface GameAction {
 
 export interface MoveContentProgress {
     appid: number;
-    eError: number; // 0 - appear when you open the move dialog and when it's done, 3 - cancelled? but appid is 0?, 20 - in progress
+    eError: AppUpdateError;
     flProgress: number;
     strBytesMoved: string;
     strTotalBytesToMove: string;
@@ -4706,8 +4798,8 @@ export interface FolderChange {
 
 export interface MusicTrack {
     uSoundtrackAppId: number;
-    ePlaybackStatus: number; // 1 - playing, 2 - paused
-    eRepeatStatus: number;
+    ePlaybackStatus: EMusicPlaybackStatus;
+    eRepeatStatus: EMusicRepeatStatus;
     bShuffle: boolean;
     nVolume: number;
     nActiveTrack: number;
@@ -4749,7 +4841,7 @@ export interface BroadcastStatus {
     nRequests: number;
     bIsBroadcasting: boolean;
     bIsRecordingDesktop: boolean;
-    eBroadcastReady: number;
+    eBroadcastReady: Result;
     bBroadcastCapable: boolean;
     bMicrophoneEnabled: boolean;
     bMicrophoneActive: boolean;
@@ -4765,11 +4857,18 @@ export interface OverlayBrowserProtocols {
 
 export interface LaunchOption {
     /**
-     * @remarks This is an integer, despite the prefix.
+     * @remarks This is an integer, despite the prefix. 0 if false, 1 if true.
+     */
+    bIsLaunchOptionTypeExemptFromGameTheater: number;
+    /**
+     * @remarks This is an integer, despite the prefix. 0 if false, 1 if true.
      */
     bIsVRLaunchOption: number;
     eType: AppLaunchOptionType;
     nIndex: number;
+    /**
+     * Label localization string.
+     */
     strDescription: string;
     strGameName: string;
 }
@@ -5057,6 +5156,37 @@ export interface LoginUser {
     avatarUrl: string;
 }
 
+export interface ConnectionAttempt {
+    rtCooldownExpiration: number;
+}
+
+export interface CurrentUser {
+    NotificationCounts: {
+        async_game_updates: number;
+        comments: number;
+        gifts: number;
+        help_request_replies: number;
+        inventory_items: number;
+        invites: number;
+        moderator_messages: number;
+        offline_messages: number;
+        trade_offers: number;
+    };
+    bHWSurveyPending: boolean;
+    bIsLimited: boolean;
+    bIsOfflineMode: boolean;
+    bPromptToChangePassword: boolean;
+    bSupportAckOnlyMessages: boolean;
+    bSupportAlertActive: boolean;
+    bSupportPopupMessage: boolean;
+    clientinstanceid: string;
+    strAccountBalance: string;
+    strAccountBalancePending: string;
+    strAccountName: string;
+    strFamilyGroupID: string;
+    strSteamID: string;
+}
+
 export interface SurveyEntry {
     strName: string;
     vecArgs: string[];
@@ -5104,7 +5234,10 @@ export interface ControllerConfigInfoMessageList extends ControllerConfigInfoMes
     bUsesMouse: boolean;
     bUsesKeyboard: boolean;
     bUsesGamepad: boolean;
-    eExportType: number;
+    /**
+     * @todo unconfirmed
+     */
+    eExportType: EControllerConfigExportType;
     playtime: string;
     bSelected: boolean;
 }
@@ -5683,6 +5816,9 @@ export interface SteamWindow {
     strAppName: string;
     unID: number;
     unPID: number;
+    /**
+     * @todo enum
+     */
     windowType: number;
     x: number;
     y: number;
@@ -5743,6 +5879,21 @@ export interface LogonInfo {
     strSteamid: string;
     /** Country code. */
     strUserCountry: string;
+}
+
+export interface OverlayBrowserInfo {
+    appID: number;
+    eBrowserType: BrowserType;
+    eUIMode: UIMode;
+    flDisplayScale?: number;
+    gameID: string;
+    nBrowserID: number;
+    nScreenHeight: number;
+    nScreenWidth: number;
+    /**
+     * The PID of the overlay process.
+     */
+    unPID: number;
 }
 
 export interface GameWindowInfo {
@@ -5829,7 +5980,7 @@ export interface NetworkDeviceIPv6 extends NetworkDeviceIP {
 }
 
 export interface WirelessAP {
-    esecurity: WirelessAPSecurity;
+    esecurity: WirelessAPSecurityFlags;
     estrength: WirelessAPStrength;
     id: number;
     is_active: boolean;
@@ -6198,13 +6349,6 @@ export interface JsPbMessageClass {
  * Deserialized JsPb message.
  */
 export interface JsPbMessage {
-    array: any[];
-    arrayIndexOffset_: number;
-    convertedPrimitiveFields_: any;
-    messageId_?: string;
-    pivot_: number;
-    wrappers_: any;
-
     getClassName(): string;
     serializeBase64String(): string;
     serializeBinary(): Uint8Array;
@@ -6608,12 +6752,29 @@ export enum AppArtworkAssetType {
     HeroBlur = 5,
 }
 
+/**
+ * Controls how Gamescope renders the GamepadUI window when a game is running.
+ */
 export enum UIComposition {
+    /** Steam is not rendered on the screen. */
     Hidden = 0,
+    /**
+     * Transparent divs will allow pixels from the app behind Steam to penetrate.
+     * Input goes to **the app**.
+     */
     Notification = 1,
+    /**
+     * Transparent divs will allow pixels from the app behind Steam to penetrate.
+     * Input goes to **Steam**.
+     */
     Overlay = 2,
+    /** Take all of the pixels on the screen, nothing "behind" Steam is shown. */
     Opaque = 3,
-    OverlayKeyboard = 4, // Unverified
+    /**
+     * Special composition mode that matches Overlay, but forwards synthetic keyboard
+     * events to the Gamescope foreground app (game) instead of Steam.
+     */
+    OverlayKeyboard = 4,
 }
 
 export enum OSType {
@@ -6936,6 +7097,294 @@ export enum AppError {
     SelfUpdating = 55,
     ParentalPlaytimeExceeded = 56,
     Max = 57,
+}
+
+export enum BrowserType {
+    OffScreen,
+    OpenVROverlay,
+    OpenVROverlay_Dashboard,
+    DirectHWND,
+    DirectHWND_Borderless,
+    DirectHWND_Hidden,
+    ChildHWNDNative,
+    Transparent_Toplevel,
+    OffScreen_SharedTexture,
+    OffScreen_GameOverlay,
+    OffScreen_GameOverlay_SharedTexture,
+    Offscreen_FriendsUI,
+    Offscreen_SteamUI,
+    OpenVROverlay_Subview,
+}
+
+export enum NotificationPosition {
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
+}
+
+export enum WorkshopFileType {
+    Community,
+    Microtransaction,
+    Collection,
+    Art,
+    Video,
+    Screenshot,
+    Game,
+    Software,
+    Concept,
+    WebGuide,
+    IntegratedGuide,
+    Merch,
+    ControllerBinding,
+    SteamworksAccessInvite,
+    SteamVideo,
+    GameManagedItem,
+}
+
+export enum EInstallManagerState {
+    None,
+    Setup,
+    WaitLicense,
+    FreeLicense,
+    ShowCDKey,
+    WaitAppInfo,
+    ShowPassword,
+    ShowConfig,
+    ShowEULAs,
+    CreateApps,
+    ReadFromMedia,
+    ShowChangeMedia,
+    WaitLegacyCDKeys,
+    ShowSignup,
+    Complete,
+    Failed,
+    Canceled,
+}
+
+export enum EAppReleaseState {
+    Unknown,
+    Unavailable,
+    Prerelease,
+    PreloadOnly,
+    Released,
+    Disabled,
+}
+
+export enum EControllerConfigExportType {
+    Unknown,
+    PersonalLocal,
+    PersonalCloud,
+    Community,
+    Template,
+    Official,
+    OfficialDefault,
+}
+
+export enum EMusicPlaybackStatus {
+    Undefined,
+    Playing,
+    Paused,
+    Idle,
+}
+
+export enum EMusicRepeatStatus {
+    None,
+    All,
+    Once,
+    Max,
+}
+
+export enum EStreamP2PScope {
+    Automatic,
+    Disabled,
+    OnlyMe,
+    Friends,
+    Everyone,
+}
+
+/**
+ * @todo unconfirmed, taken from localization strings
+ */
+export enum ESteamGuardState {
+    EmailUnverified,
+    Protected,
+    Disabled,
+    Offline,
+    NotEnabled,
+}
+
+export enum ENetFakeLocalSystemState {
+    Normal,
+    NoLAN,
+    CaptivePortal_Redirected,
+    CaptivePortal_InPlace,
+    NoInternet,
+    NoSteam,
+}
+
+export enum ELanguage {
+    None = -1,
+    English,
+    German,
+    French,
+    Italian,
+    Korean,
+    Spanish,
+    SimplifiedChinese,
+    TraditionalChinese,
+    Russian,
+    Thai,
+    Japanese,
+    Portuguese,
+    Polish,
+    Danish,
+    Dutch,
+    Finnish,
+    Norwegian,
+    Swedish,
+    Hungarian,
+    Czech,
+    Romanian,
+    Turkish,
+    Brazilian,
+    Bulgarian,
+    Greek,
+    Arabic,
+    Ukrainian,
+    LatamSpanish,
+    Vietnamese,
+    SteamChina_SChinese,
+    Max,
+}
+
+export enum EHIDKeyboardKey {
+    Invalid,
+    BeforeFirst = 3,
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+    I,
+    J,
+    K,
+    L,
+    M,
+    N,
+    O,
+    P,
+    Q,
+    R,
+    S,
+    T,
+    U,
+    V,
+    W,
+    X,
+    Y,
+    Z,
+    Key_1,
+    Key_2,
+    Key_3,
+    Key_4,
+    Key_5,
+    Key_6,
+    Key_7,
+    Key_8,
+    Key_9,
+    Key_0,
+    Return,
+    Escape,
+    Backspace,
+    Tab,
+    Space,
+    Dash,
+    Equals,
+    LeftBracket,
+    RightBracket,
+    Backslash,
+    Unused1,
+    Semicolon,
+    SingleQuote,
+    Backtick,
+    Comma,
+    Period,
+    ForwardSlash,
+    CapsLock,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
+    PrintScreen,
+    ScrollLock,
+    Break,
+    Insert,
+    Home,
+    PageUp,
+    Delete,
+    End,
+    PageDown,
+    RightArrow,
+    LeftArrow,
+    DownArrow,
+    UpArrow,
+    NumLock,
+    KeypadForwardSlash,
+    KeypadAsterisk,
+    KeypadDash,
+    KeypadPlus,
+    KeypadEnter,
+    Keypad_1,
+    Keypad_2,
+    Keypad_3,
+    Keypad_4,
+    Keypad_5,
+    Keypad_6,
+    Keypad_7,
+    Keypad_8,
+    Keypad_9,
+    Keypad_0,
+    KeypadPeriod,
+    LAlt,
+    LShift,
+    LWin,
+    LControl,
+    RAlt,
+    RShift,
+    RWin,
+    RControl,
+    VolUp,
+    VolDown,
+    Mute,
+    Play,
+    Stop,
+    Next,
+    Prev,
+    AfterLast,
+}
+
+export enum ELoginState {
+    None,
+    WelcomeDialog,
+    WaitingForCreateUser,
+    WaitingForCredentials,
+    WaitingForNetwork,
+    WaitingForServerResponse,
+    WaitingForLibraryReady,
+    Success,
+    Quit,
 }
 
 export enum ClientBetaState {
@@ -7500,7 +7949,7 @@ export enum GamingDeviceType {
     SteamDeck = 544,
 }
 
-export enum WirelessAPSecurity {
+export enum WirelessAPSecurityFlags {
     None = 0,
     StaticWep = 1 << 0,
     DynamicWep = 1 << 1,
@@ -7508,6 +7957,10 @@ export enum WirelessAPSecurity {
     WpaEnterprise = 1 << 3,
     Wpa2 = 1 << 4,
     Wpa2Enterprise = 1 << 5,
+    /**
+     * Special value to indicate that this platform does not support
+     * the security methods required to connect to an access point
+     */
     Unsupported = 1 << 15,
 }
 
