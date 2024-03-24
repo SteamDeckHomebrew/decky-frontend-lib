@@ -485,7 +485,7 @@ export interface Apps {
      * @remarks `launchOptions` is appended before the ones specified in the application's settings.
      * @returns {void}
      */
-    RunGame(appId: string, launchOptions: string, param2: number, param3: AppLaunchSource): void;
+    RunGame(appId: string, launchOptions: string, param2: number, launchSource: AppLaunchSource): void;
 
     /*
       function u(e, t) {
@@ -817,6 +817,7 @@ export interface Broadcast {
 
 export interface Browser {
     AddWordToDictionary(word: string): void;
+
     ClearAllBrowsingData(): void;
 
     ClearHistory(): void;
@@ -1069,11 +1070,13 @@ export interface FamilySharing {
     DeauthorizeLocalDevice(): Promise<number>;
 
     GetAvailableLenders(appId: number): Promise<Lender[]>;
+
     GetFamilyGroupInfo(): Promise<string>;
 
     RegisterForKickedBorrower: any;
 
     RequestLocalDeviceAuthorization(steam64Id: string): Promise<number>;
+
     SetPreferredLender(appId: number, param1: number): Promise<number>;
 
     // param0 - account id?
@@ -1116,6 +1119,7 @@ export interface Friends {
         currentUsers: CoplayUser[];
         recentUsers: CoplayUser[];
     }>;
+
     InviteUserToCurrentGame: any;
 
     /**
@@ -1206,9 +1210,12 @@ export interface GameSessions {
  * Represents functions related to input and controllers in Steam.
  */
 export interface Input {
-    CalibrateControllerIMU(param0: any): any; // param0 - m_controllerStateDeviceIdx
-    CalibrateControllerJoystick(param0: any): any; // param0 - m_controllerStateDeviceIdx
-    CalibrateControllerTrackpads(param0: any): any; // param0 - m_controllerStateDeviceIdx
+    CalibrateControllerIMU(controllerIndex: any): any;
+
+    CalibrateControllerJoystick(controllerIndex: any): any;
+
+    CalibrateControllerTrackpads(controllerIndex: any): any;
+
     CancelGyroSWCalibration(): any;
 
     ClearSelectedConfigForApp(appId: number, controllerIndex: number): any;
@@ -1230,10 +1237,10 @@ export interface Input {
      * @example
      * Send paste command:
      * ```
-     * SteamClient.Input.ControllerKeyboardSetKeyState(103, true);
-     * SteamClient.Input.ControllerKeyboardSetKeyState(25, true);
-     * SteamClient.Input.ControllerKeyboardSetKeyState(25, false);
-     * SteamClient.Input.ControllerKeyboardSetKeyState(103, false);
+     * SteamClient.Input.ControllerKeyboardSetKeyState(EHIDKeyboardKey.LControl, true);
+     * SteamClient.Input.ControllerKeyboardSetKeyState(EHIDKeyboardKey.V, true);
+     * SteamClient.Input.ControllerKeyboardSetKeyState(EHIDKeyboardKey.V, false);
+     * SteamClient.Input.ControllerKeyboardSetKeyState(EHIDKeyboardKey.LControl, false);
      * ```
      */
     ControllerKeyboardSetKeyState(keyIndex: EHIDKeyboardKey, state: boolean): void;
@@ -1249,7 +1256,9 @@ export interface Input {
 
     ExportCurrentControllerConfiguration: any;
     ForceConfiguratorFocus: any;
-    ForceSimpleHapticEvent: any;
+
+    ForceSimpleHapticEvent(param0: number, param1: number, param2: number, param3: number, param4: number): any;
+
     FreeControllerConfig: any;
 
     GetConfigForAppAndController(appId: number, unControllerIndex: number): any;
@@ -1261,7 +1270,7 @@ export interface Input {
      */
     GetControllerMappingString(unControllerIndex: number): Promise<string>;
 
-    GetControllerPreviouslySeen: any;
+    GetControllerPreviouslySeen(): Promise<number[]>;
 
     GetSteamControllerDongleState(): Promise<boolean>;
 
@@ -1272,7 +1281,7 @@ export interface Input {
 
     InitControllerSounds(): any;
 
-    InitializeControllerPersonalizationSettings: any;
+    InitializeControllerPersonalizationSettings(controllerIndex: number): any;
 
     ModalKeyboardDismissed(): void;
 
@@ -1338,7 +1347,7 @@ export interface Input {
         callback: (controllerStateChanges: ControllerStateChange[]) => void,
     ): Unregisterable | any;
 
-    RegisterForDualSenseUpdateNotification: Unregisterable | any;
+    RegisterForDualSenseUpdateNotification(callback: (m_strDualSenseUpdateProduct: string) => void): Unregisterable | any;
 
     /**
      * Registers a callback for receiving game keyboard messages (text field popup for inputting text for games when in character creation or etc...).
@@ -1355,7 +1364,7 @@ export interface Input {
 
     RegisterForUIVisualization: Unregisterable | any;
 
-    RegisterForUnboundControllerListChanges(callback: (param0: any) => void): Unregisterable | any; // param0 is an array
+    RegisterForUnboundControllerListChanges(callback: (m_unboundControllerList: any) => void): Unregisterable | any; // param0 is an array
     RegisterForUserDismissKeyboardMessages: Unregisterable | any;
     RegisterForUserKeyboardMessages: Unregisterable | any;
     RequestGyroActive: any;
@@ -1367,7 +1376,8 @@ export interface Input {
 
     RestoreControllerPersonalizationSettings(controllerIndex: number): any;
 
-    SaveControllerCalibration: any;
+    SaveControllerCalibration(controllerIndex: number): any;
+
     SaveControllerPersonalizationSettings: any;
     SaveControllerSounds: any;
 
@@ -1375,21 +1385,54 @@ export interface Input {
 
     SetActiveControllerAccount: any;
     SetControllerConfigurationModeShiftBinding: any;
-    SetControllerHapticSetting: any;
+
+    SetControllerHapticSetting(controllerIndex: number, eHapticSetting: any): any;
 
     SetControllerMappingString(mapping: string): void;
 
-    SetControllerName: any;
+    SetControllerName(controllerIndex: number, controllerName: string): any;
+
     SetControllerNintendoLayoutSetting: any;
     SetControllerPersonalizationName: any;
 
     //param0 - nLStickDeadzone, bSWAntiDrift, nRHapticStrength, flRPadPressureCurve
+    /*
+                SteamClient.Input.SetControllerPersonalizationSetting("nLStickDeadzone", e.nLStickDeadzone),
+                SteamClient.Input.SetControllerPersonalizationSetting("nRStickDeadzone", e.nRStickDeadzone),
+                SteamClient.Input.SetControllerPersonalizationSetting("bSWAntiDrift", e.bSWAntiDrift ? 1 : 0),
+                SteamClient.Input.SetControllerPersonalizationSetting("nLHapticStrength", e.nLHapticStrength),
+                SteamClient.Input.SetControllerPersonalizationSetting("nRHapticStrength", e.nRHapticStrength),
+                SteamClient.Input.SetControllerPersonalizationSetting("flLPadPressureCurve", 100 * e.flLPadPressureCurve),
+                SteamClient.Input.SetControllerPersonalizationSetting("flRPadPressureCurve", 100 * e.flRPadPressureCurve),
+                SteamClient.Input.SetControllerPersonalizationSetting("ePlayerSlotLEDSetting", e),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nGyroSampleAngleOffsetX", e.nGyroSampleAngleOffsetX),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.bMomentumEnabled", e.bMomentumEnabled ? 1 : 0),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nMomentumFrictionX", e.nMomentumFrictionX),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nMomentumFrictionY", e.nMomentumFrictionY),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nAccerationLevel", e.nAccerationLevel),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.bInvertX", e.bInvertX ? 1 : 0),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.bInvertY", e.bInvertY ? 1 : 0),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nRotationAngle", e.nRotationAngle),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nTriggerClamping", e.nTriggerClamping),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nTriggerClampingAmount", e.nTriggerClampingAmount),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nGyroEnableButton", e.nGyroEnableButton),
+                SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nGyroEnableButtonBehavior", e.nGyroEnableButtonBehavior),
+     */
     SetControllerPersonalizationSetting(param0: string, param1: number): any;
 
-    //param0 - flGyroStationaryTolerance, flAccelerometerStationaryTolerance
+    //param0 - flGyroStationaryTolerance, flAccelerometerStationaryTolerance,
+    /*
+                    SteamClient.Input.SetControllerPersonalizationSettingFloat("GyroPreferenceData.flGyroNaturalSensitivity", e.flGyroNaturalSensitivity),
+                    SteamClient.Input.SetControllerPersonalizationSettingFloat("GyroPreferenceData.flGyroXYRatio", e.flGyroXYRatio),
+                    SteamClient.Input.SetControllerPersonalizationSettingFloat("GyroPreferenceData.flGyroSpeedDeadzone", e.flGyroSpeedDeadzone),
+                    SteamClient.Input.SetControllerPersonalizationSettingFloat("GyroPreferenceData.flGyroPrecisionSpeed", e.flGyroPrecisionSpeed),
+                SteamClient.Input.SetControllerPersonalizationSettingFloat("flGyroStationaryTolerance", e.flGyroStationaryTolerance),
+                SteamClient.Input.SetControllerPersonalizationSettingFloat("flAccelerometerStationaryTolerance", e.flAccelerometerStationaryTolerance),
+     */
     SetControllerPersonalizationSettingFloat(param0: string, param1: number): any;
 
-    SetControllerRumbleSetting: any;
+    SetControllerRumbleSetting(controllerIndex: number, rumblePreference: any): any;
+
     SetCursorActionset: any;
     SetEditingControllerConfigurationActionSet: any;
     SetEditingControllerConfigurationInputActivator: any;
@@ -1413,7 +1456,7 @@ export interface Input {
 
     SetSelectedConfigForApp(): any;
 
-    SetSteamControllerDonglePairingMode: any;
+    SetSteamControllerDonglePairingMode(bEnable: boolean, bSilent: boolean): any;
 
     SetVirtualMenuKeySelected(unControllerIndex: number, unMenuIndex: number, param2: number): any; //
     SetWebBrowserActionset: any;
@@ -1431,8 +1474,24 @@ export interface Input {
 
     StartControllerDeviceSupportFlow(param0: any, param1: any, callback: (param2: any) => void): any;
 
-    StartEditingControllerConfigurationForAppIDAndControllerIndex: any;
-    StartGyroSWCalibration: any;
+    /*
+    this.m_updatingEditingConfigurationPromise = SteamClient.Input.StartEditingControllerConfigurationForAppIDAndControllerIndex(e, t).then((n=>{
+                                const o = c.bE.deserializeBinary(n).toObject();
+                                f.Debug("Loaded controller config for appid", e, n, o),
+                                    (0,
+                                        i.z)((()=>this.UpdateEditingConfiguration(e, t, o)))
+                            }
+                        )).catch((n=>{
+                                f.Debug("Loading controller config for appid rejected", e, n),
+                                    (0,
+                                        i.z)((()=>this.UpdateEditingConfiguration(e, t, null)))
+                            }
+                        ))
+     */
+    StartEditingControllerConfigurationForAppIDAndControllerIndex(m_appId: number, m_unControllerIndex: number): Promise<any>;
+
+    StartGyroSWCalibration(callback: () => void): any;
+
     StopEditingControllerConfiguration: any;
     SwapControllerModeInputBindings: any;
     SwapControllerOrder: any;
@@ -1760,7 +1819,8 @@ export interface Notifications {
 export interface VRDevice {
     BIsConnected: any;
     RegisterForDeviceConnectivityChange: Unregisterable | any;
-    RegisterForVRDeviceSeenRecently: Unregisterable | any;
+
+    RegisterForVRDeviceSeenRecently(callback: (m_bVRDeviceSeenRecently: any) => void): Unregisterable | any;
 }
 
 export interface DeviceProperties {
@@ -1775,7 +1835,7 @@ export interface DeviceProperties {
 export interface Keyboard {
     Hide(): any;
 
-    RegisterForStatus: Unregisterable | any;
+    RegisterForStatus(callback: (m_bIsKeyboardOpen: boolean, m_eKeyboardFlags: any, m_sInitialKeyboardText: string) => void): Unregisterable | any;
 
     SendDone(): any;
 
@@ -1805,12 +1865,15 @@ export interface VRNotifications {
 
 export interface VROverlay {
     HideDashboard: any;
+
     IsDashboardVisible(): Promise<boolean>;
+
     RegisterForButtonPress: Unregisterable | any;
     RegisterForCursorMovement: Unregisterable | any;
     RegisterForThumbnailChanged: Unregisterable | any;
     RegisterForVisibilityChanged: Unregisterable | any;
     ShowDashboard: any;
+
     SwitchToDashboardOverlay(param0: string): void;
 }
 
@@ -1822,6 +1885,7 @@ export interface OpenVR {
      * @throws OperationResponse if mutual capabilities haven't been loaded.
      */
     GetMutualCapabilities(): Promise<any>;
+
     GetWebSecret(): Promise<string>;
 
     InstallVR(): any;
@@ -1832,12 +1896,19 @@ export interface OpenVR {
     QuitAllVR(): any;
 
     RegisterForButtonPress: Unregisterable | any;
-    RegisterForHMDActivityLevelChanged: Unregisterable | any;
+
+    RegisterForHMDActivityLevelChanged(callback: (m_eHMDActivityLevel: any) => void): Unregisterable | any;
+
     RegisterForInstallDialog: Unregisterable | any;
-    RegisterForStartupErrors: Unregisterable | any;
-    RegisterForVRHardwareDetected: Unregisterable | any;
-    RegisterForVRModeChange(callback: (param0: boolean) => void): Unregisterable | any;
+
+    RegisterForStartupErrors(callback: (clientError: any, initError: any, initErrorString: string) => void): Unregisterable | any;
+
+    RegisterForVRHardwareDetected(callback: (m_bHMDPresent: any, m_bHMDHardwareDetected: any, m_strHMDName: any) => void): Unregisterable | any;
+
+    RegisterForVRModeChange(callback: (m_bIsVRRunning: boolean) => void): Unregisterable | any;
+
     RegisterForVRSceneAppChange(callback: (param0: number) => void): Unregisterable | any;
+
     SetOverlayInteractionAffordance: any;
 
     StartVR: any;
@@ -2526,15 +2597,19 @@ export interface SteamChina {
  */
 export interface Storage {
     DeleteKey(key: string): Promise<OperationResponse | void>;
+
     /**
      * @remarks Use {@link SetObject} to set.
      */
     GetJSON(key: string): Promise<OperationResponse | string>;
+
     GetString(key: string): Promise<OperationResponse | string>;
+
     /**
      * @remarks Use {@link SetObject} to get.
      */
     SetObject(key: string, value: any): Promise<OperationResponse | void>;
+
     SetString(key: string, value: string): Promise<OperationResponse | void>;
 }
 
@@ -2698,6 +2773,7 @@ export interface AudioDevice {
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
     RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+
     UpdateSomething: any;
 }
 
@@ -2915,12 +2991,14 @@ export interface System {
     Audio: Audio;
     AudioDevice: AudioDevice;
     Bluetooth: Bluetooth;
+
     /**
      * Copies specified files to clipboard.
      * Does not throw if not found.
      * @param paths File paths to copy.
      */
     CopyFilesToClipboard(paths: string[]): void;
+
     /**
      * Creates a temporary folder.
      * @param path The folder to create.
@@ -2928,6 +3006,7 @@ export interface System {
      * @todo Does this support relative paths ? this has some weird behavior
      */
     CreateTempPath(path: string): Promise<string>;
+
     Devkit: Devkit;
     Display: Display;
     DisplayManager: DisplayManager;
@@ -2994,6 +3073,7 @@ export interface System {
      * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgSystemManagerSettings}.
      */
     RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+
     Report: Report;
 
     /**
@@ -6350,8 +6430,11 @@ export interface JsPbMessageClass {
  */
 export interface JsPbMessage {
     getClassName(): string;
+
     serializeBase64String(): string;
+
     serializeBinary(): Uint8Array;
+
     /**
      * Converts the message to an object.
      */
@@ -6365,6 +6448,7 @@ export interface LibraryBootstrapData extends JsPbMessage {
     app_data(): AppBootstrapData[];
 
     add_app_data(param0: any, param1: any): any;
+
     set_app_data(param0: any): any;
 }
 
@@ -6373,15 +6457,23 @@ export interface LibraryBootstrapData extends JsPbMessage {
  */
 export interface AppOverview_Change extends JsPbMessage {
     app_overview(): SteamAppOverview[];
+
     full_update(): boolean;
+
     removed_appid(): number[];
+
     update_complete(): boolean;
 
     add_app_overview(param0: any, param1: any): any;
+
     add_removed_appid(param0: any, param1: any): any;
+
     set_app_overview(param0: any): any;
+
     set_full_update(param0: any): any;
+
     set_removed_appid(param0: any): any;
+
     set_update_complete(param0: any): any;
 }
 
@@ -6399,17 +6491,27 @@ export interface AppOverview_Change extends JsPbMessage {
  */
 export interface Authentication_DeviceDetails extends JsPbMessage {
     client_count(): number | undefined;
+
     device_friendly_name(): string | undefined;
+
     gaming_device_type(): GamingDeviceType | undefined;
+
     machine_id(): Uint8Array | string;
+
     os_type(): OSType | undefined;
+
     platform_type(): AuthTokenPlatformType | undefined;
 
     set_client_count(): any;
+
     set_device_friendly_name(): any;
+
     set_gaming_device_type(): any;
+
     set_machine_id(): any;
+
     set_os_type(): any;
+
     set_platform_type(): any;
 }
 
@@ -6418,10 +6520,13 @@ export interface Authentication_DeviceDetails extends JsPbMessage {
  */
 export interface MsgMonitorInfo extends JsPbMessage {
     monitors(): Monitor[];
+
     selected_display_name(): string;
 
     add_monitors(param0: any, param1: any): any;
+
     set_monitors(param0: any): any;
+
     set_selected_display_name(param0: any): any;
 }
 
@@ -6430,32 +6535,59 @@ export interface MsgMonitorInfo extends JsPbMessage {
  */
 export interface MsgSystemManagerSettings extends JsPbMessage {
     display_adaptive_brightness_enabled(): boolean;
+
     display_colorgamut(): number;
+
     display_colorgamut_labelset(): number;
+
     display_colortemp(): number;
+
     display_colortemp_default(): number;
+
     display_colortemp_enabled(): boolean;
+
     display_diagnostics_enabled(): boolean;
+
     display_nightmode_blend(): number;
+
     display_nightmode_enabled(): boolean;
+
     display_nightmode_maxhue(): number;
+
     display_nightmode_maxsat(): number;
+
     display_nightmode_schedule_enabled(): boolean;
+
     display_nightmode_schedule_endtime(): number;
+
     display_nightmode_schedule_starttime(): number;
+
     display_nightmode_tintstrength(): number;
+
     display_nightmode_uiexp(): number;
+
     fan_control_mode(): number;
+
     idle_backlight_dim_ac_seconds(): number;
+
     idle_backlight_dim_battery_seconds(): number;
+
     idle_suspend_ac_seconds(): number;
+
     idle_suspend_battery_seconds(): number;
+
     idle_suspend_supressed(): boolean;
+
     is_adaptive_brightness_available(): boolean;
+
     is_display_brightness_available(): boolean;
+
     is_display_colormanagement_available(): boolean;
+
     is_display_colortemp_available(): boolean;
+
     is_fan_control_available(): boolean;
+
     is_wifi_powersave_enabled(): boolean;
 }
 
@@ -6464,7 +6596,9 @@ export interface MsgSystemManagerSettings extends JsPbMessage {
  */
 export interface MsgSystemAudioManagerState extends JsPbMessage {
     counter(): number | undefined;
+
     hw(): MsgSystemAudioManagerStateHW | undefined;
+
     rtime_filter(): number | undefined;
 }
 
@@ -6473,9 +6607,13 @@ export interface MsgSystemAudioManagerState extends JsPbMessage {
  */
 export interface MsgSystemUpdateState extends JsPbMessage {
     state(): UpdaterState | undefined;
+
     progress(): UpdateProgress | undefined;
+
     supports_os_updates(): boolean | undefined;
+
     update_apply_results(): UpdateApplyResult[];
+
     update_check_results(): UpdateCheckResult[];
 }
 
@@ -6491,7 +6629,9 @@ export interface MsgSystemDockState extends JsPbMessage {
  */
 export interface MsgSystemPerfDiagnosticInfo extends JsPbMessage {
     battery_temp_c(): number | undefined;
+
     entries(): SystemPerfDiagnosticEntry[] | undefined;
+
     interfaces(): SystemPerfNetworkInterface[] | undefined;
 }
 
@@ -6500,8 +6640,11 @@ export interface MsgSystemPerfDiagnosticInfo extends JsPbMessage {
  */
 export interface MsgSystemPerfState extends JsPbMessage {
     active_profile_game_id(): string | undefined;
+
     current_game_id(): string | undefined;
+
     limits(): SystemPerfLimits | undefined;
+
     settings(): SystemPerfSettings | undefined;
 }
 
@@ -6513,6 +6656,7 @@ export interface MsgGenerateSystemReportReply extends JsPbMessage {
      * The report file name.
      */
     report_id(): string | undefined;
+
     set_report_id(param0: any): any;
 }
 
@@ -6521,7 +6665,9 @@ export interface MsgGenerateSystemReportReply extends JsPbMessage {
  */
 export interface MsgNetworkDevicesData extends JsPbMessage {
     devices(): NetworkDevice[];
+
     is_wifi_enabled(): boolean;
+
     is_wifi_scanning_enabled(): boolean;
 }
 
@@ -6530,141 +6676,277 @@ export interface MsgNetworkDevicesData extends JsPbMessage {
  */
 export interface MsgClientSettings extends JsPbMessage {
     always_show_user_chooser(): boolean;
+
     always_use_gamepadui_overlay(): boolean;
+
     auto_scale_factor(): number;
+
     bigpicture_windowed(): boolean;
+
     broadcast_bitrate(): number;
+
     broadcast_chat_corner(): number;
+
     broadcast_encoding_option(): BroadcastEncoderSetting;
+
     broadcast_output_height(): number;
+
     broadcast_output_width(): number;
+
     broadcast_permissions(): BroadcastPermission;
+
     broadcast_record_all_audio(): boolean;
+
     broadcast_record_all_video(): boolean;
+
     broadcast_record_microphone(): boolean;
+
     broadcast_show_live_reminder(): boolean;
+
     broadcast_show_upload_stats(): boolean;
+
     cef_remote_debugging_enabled(): boolean;
+
     cloud_enabled(): boolean;
+
     controller_combine_nintendo_joycons(): boolean;
+
     controller_generic_support(): boolean;
+
     controller_guide_button_focus_steam(): boolean;
+
     controller_power_off_timeout(): number;
+
     controller_ps_support(): number;
+
     controller_switch_support(): boolean;
+
     controller_xbox_driver(): boolean;
+
     controller_xbox_support(): boolean;
+
     default_ping_rate(): number;
+
     disable_all_toasts(): boolean;
+
     disable_toasts_in_game(): boolean;
+
     display_name(): string;
+
     download_peer_content(): number;
+
     download_rate_bits_per_s(): boolean;
+
     download_region(): number;
+
     download_throttle_rate(): number;
+
     download_throttle_while_streaming(): boolean;
+
     download_while_app_running(): boolean;
+
     enable_avif_screenshots(): boolean;
+
     enable_dpi_scaling(): boolean;
+
     enable_gpu_accelerated_webviews(): boolean;
+
     enable_hardware_video_decoding(): boolean;
+
     enable_marketing_messages(): boolean;
+
     enable_overlay(): boolean;
+
     enable_screenshot_notification(): boolean;
+
     enable_screenshot_sound(): boolean;
+
     enable_shader_background_processing(): boolean;
+
     enable_shader_precache(): boolean;
+
     enable_ui_sounds(): boolean;
+
     force_deck_perf_tab(): boolean;
+
     force_fake_mandatory_update(): boolean;
+
     force_oobe(): boolean;
+
     g_background_mk(): Hotkey;
+
     g_background_tg(): Hotkey;
+
     game_notes_enable_spellcheck(): boolean;
+
     gamescope_app_target_framerate(): number;
+
     gamescope_disable_framelimit(): boolean;
+
     gamescope_disable_mura_correction(): boolean;
+
     gamescope_display_refresh_rate(): number;
+
     gamescope_enable_app_target_framerate(): boolean;
+
     gamescope_hdr_visualization(): HDRVisualization;
+
     gamescope_include_steamui_in_screenshots(): boolean;
+
     gamescope_use_game_refresh_rate_in_steam(): boolean;
+
     gamestream_hardware_video_encode(): boolean;
+
     hdr_compat_testing(): boolean;
+
     in_client_beta(): boolean;
+
     is_external_display(): boolean;
+
     is_steam_sideloaded(): boolean;
+
     jumplist_flags(): number;
+
     library_disable_community_content(): boolean;
+
     library_display_icon_in_game_list(): boolean;
+
     library_display_size(): number;
+
     library_low_bandwidth_mode(): boolean;
+
     library_low_perf_mode(): boolean;
+
     library_whats_new_show_only_product_updates(): boolean;
+
     max_scale_factor(): number;
+
     min_scale_factor(): number;
+
     music_download_high_quality(): boolean;
+
     music_pause_on_app_start(): boolean;
+
     music_pause_on_voice_chat(): boolean;
+
     music_playlist_notification(): boolean;
+
     music_volume(): number;
+
     needs_steam_service_repair(): boolean;
+
     no_save_personal_info(): boolean;
+
     oobe_test_mode_enabled(): boolean;
+
     overlay_fps_counter_corner(): number;
+
     overlay_fps_counter_high_contrast(): boolean;
+
     overlay_key(): Hotkey;
+
     overlay_restore_browser_tabs(): boolean;
+
     overlay_scale_interface(): boolean;
+
     overlay_tabs(): string;
+
     overlay_toolbar_list_view(): boolean;
+
     override_browser_composer_mode(): number;
+
     play_sound_on_toast(): boolean;
+
     preferred_monitor(): string;
+
     ready_to_play_includes_streaming(): boolean;
+
     restrict_auto_updates(): boolean;
+
     restrict_auto_updates_end(): number;
+
     restrict_auto_updates_start(): number;
+
     run_at_startup(): boolean;
+
     save_uncompressed_screenshots(): boolean;
+
     screenshot_items_per_row(): number;
+
     screenshot_key(): Hotkey;
+
     screenshots_path(): string;
+
     server_ping_rate(): number;
+
     setting_validation_bool(): boolean;
+
     setting_validation_enum(): HDRVisualization;
+
     setting_validation_int32(): number;
+
     setting_validation_uint32(): number;
+
     setting_validation_uint64(): number;
+
     setting_validation_float(): number;
+
     setting_validation_string(): string;
+
     shader_precached_size(): string;
+
     show_family_sharing_notifications(): boolean;
+
     show_screenshot_manager(): boolean;
+
     show_steam_deck_info(): boolean;
+
     show_store_content_on_home(): boolean;
+
     show_timestamps_in_console(): boolean;
+
     skip_steamvr_install_dialog(): boolean;
+
     small_mode(): boolean;
+
     smooth_scroll_webviews(): boolean;
+
     start_in_big_picture_mode(): boolean;
+
     start_page(): string;
+
     startup_movie_id(): string;
+
     startup_movie_local_path(): string;
+
     startup_movie_shuffle(): boolean;
+
     startup_movie_used_for_resume(): boolean;
+
     steam_cef_gpu_blocklist_disabled(): boolean;
+
     steam_input_configurator_error_msg_enable(): boolean;
+
     steam_networking_share_ip(): number;
+
     steam_os_underscan_enabled(): boolean;
+
     steam_os_underscan_level(): number;
+
     steamos_status_led_brightness(): number;
+
     turn_off_controller_on_exit(): boolean;
+
     voice_mic_device_name(): string;
+
     voice_mic_input_gain(): number;
+
     voice_push_to_talk_key(): Hotkey;
+
     voice_push_to_talk_setting(): number;
+
     voice_speaker_output_gain(): number;
+
     web_browser_home(): string;
 }
 
@@ -6673,31 +6955,57 @@ export interface MsgClientSettings extends JsPbMessage {
  */
 export interface GameNetworkingUI_ConnectionState extends JsPbMessage {
     connection_key(): string;
+
     appid(): number;
+
     connection_id_local(): number;
+
     identity_local(): string;
+
     identity_remote(): string;
+
     connection_state(): number;
+
     start_time(): number;
+
     close_time(): number;
+
     close_reason(): number;
+
     close_message(): string;
+
     status_loc_token(): string;
+
     transport_kind(): number;
+
     sdrpopid_local(): string;
+
     sdrpopid_remote(): string;
+
     address_remote(): string;
+
     p2p_routing(): SteamDatagramP2PRoutingSummary;
+
     ping_interior(): number;
+
     ping_remote_front(): number;
+
     ping_default_internet_route(): number;
+
     e2e_quality_local(): SteamDatagramConnectionQuality;
+
     e2e_quality_remote(): SteamDatagramConnectionQuality;
+
     e2e_quality_remote_instantaneous_time(): string;
+
     e2e_quality_remote_lifetime_time(): string;
+
     front_quality_local(): SteamDatagramConnectionQuality;
+
     front_quality_remote(): SteamDatagramConnectionQuality;
+
     front_quality_remote_instantaneous_time(): string;
+
     front_quality_remote_lifetime_time(): string;
 }
 
@@ -6706,10 +7014,15 @@ export interface GameNetworkingUI_ConnectionState extends JsPbMessage {
  */
 export interface MsgHotkey extends JsPbMessage {
     key_code(): number;
+
     alt_key(): boolean;
+
     shift_key(): boolean;
+
     ctrl_key(): boolean;
+
     meta_key(): boolean;
+
     display_name(): string;
 }
 
@@ -6718,14 +7031,22 @@ export interface MsgHotkey extends JsPbMessage {
  */
 export interface ClientNotificationGroupChatMessage extends JsPbMessage {
     tag(): string;
+
     /** A Steam64 ID. */
     steamid_sender(): string;
+
     chat_group_id(): string;
+
     chat_id(): string;
+
     title(): string;
+
     body(): string;
+
     rawbody(): string;
+
     icon(): string;
+
     notificationid(): number;
 }
 
@@ -6734,12 +7055,18 @@ export interface ClientNotificationGroupChatMessage extends JsPbMessage {
  */
 export interface ClientNotificationFriendMessage extends JsPbMessage {
     body(): string;
+
     icon(): string;
+
     notificationid(): number;
+
     response_steamurl(): string;
+
     /** A Steam64 ID. */
     steamid(): string;
+
     tag(): string;
+
     title(): string;
 }
 
