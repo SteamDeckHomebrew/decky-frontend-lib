@@ -27,7 +27,7 @@ export * from './ToggleField';
 export * from './SteamClient';
 export * from './Scroll';
 
-import { AppDetails, LogoPosition, SteamAppOverview, SteamClient } from './SteamClient';
+import {AppData, AppDetails, LogoPosition, SteamAppOverview, SteamClient} from './SteamClient';
 
 declare global {
   var SteamClient: SteamClient;
@@ -74,6 +74,7 @@ declare global {
       GetIconURLForApp: (app: SteamAppOverview) => string;
     };
     appDetailsStore: {
+      GetAppData: (appId: number) => AppData | null;
       GetAppDetails: (appId: number) => AppDetails | null;
       GetCustomLogoPosition: (app: SteamAppOverview) => LogoPosition | null;
       SaveCustomLogoPosition: (app: SteamAppOverview, logoPositions: LogoPosition) => any;
