@@ -4615,8 +4615,8 @@ export interface ControllerStateChange {
      * - Bit 11-13: Unknown (@todo Please provide more details if known)
      * - Bit 14: Left Joystick Touch
      * - Bit 15: Right Joystick Touch
-     * - Bit 16-18: Unknown (@todo Please provide more details if known)
-     * - Bit 19: Quick Access Menu
+     * - Bit 16-17: Unknown (@todo Please provide more details if known)
+     * - Bit 18: Quick Access Menu
      */
     ulUpperButtons: number;
     /**
