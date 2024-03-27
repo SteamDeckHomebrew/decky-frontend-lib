@@ -1,4 +1,4 @@
-import { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, ReactNode } from 'react';
 
 import { findModuleChild } from '../webpack';
 
@@ -12,7 +12,7 @@ export interface MarqueeProps {
   resetOnPause?: boolean;
   style?: CSSProperties;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const Marquee: FC<MarqueeProps> = findModuleChild((m) => {
