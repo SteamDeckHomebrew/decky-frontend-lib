@@ -26,6 +26,12 @@ export interface Apps {
     AddUserTagToApps(appIds: number[], userTag: string): void;
 
     /**
+     * Retrieves whether private apps are enabled.
+     * @returns {Promise<boolean>} - A Promise that resolves to true if private applications are enabled, otherwise false.
+     */
+    ArePrivateAppsEnabled(): Promise<boolean>;
+
+    /**
      * Backups an app to the specified path.
      * @param {number} appId - The ID of the application to back up.
      * @param {string} backupToPath - The path to store the backup.
@@ -54,7 +60,12 @@ export interface Apps {
      */
     CancelBackup(): void;
 
-    CancelGameAction: any;
+    /**
+     * Cancels a specific game action.
+     * @param {number} gameActionId - The ID of the game action to cancel.
+     * @returns {void}
+     */
+    CancelGameAction(gameActionId: number): void;
 
     /**
      * Cancels the launch of an application with the specified ID.
@@ -86,7 +97,7 @@ export interface Apps {
      */
     ClearCustomLogoPositionForApp(appId: number): Promise<void>;
 
-    ClearProton: any;
+    ClearProton(appId: number): Promise<any>;
 
     /**
      * Clears user tags on a list of specified applications.
@@ -96,7 +107,14 @@ export interface Apps {
      */
     ClearUserTagsOnApps(appIds: number[]): void;
 
-    ContinueGameAction: any;
+    /**
+     * Continues a specific game action.
+     * @param {number} gameActionId - The ID of the game action to continue.
+     * @param {string} actionType - The type of action to perform during continuation.
+     * @returns {void}
+     * @remarks actionType - "SkipShaders", "skip", "ShowDurationControl" todo:
+     */
+    ContinueGameAction(gameActionId: number, actionType: string): void;
 
     /**
      * Creates a Steam application shortcut on the desktop.
@@ -145,6 +163,7 @@ export interface Apps {
     GetBackupsInFolder(appBackupPath: string): Promise<string | undefined>;
 
     /**
+     * Retrieves cached details for a specific application.
      * @param appId - The ID of the application.
      * @returns {Promise<string>} - A Promise that resolves to a stringified object.
      */
@@ -177,7 +196,7 @@ export interface Apps {
      */
     GetDownloadedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
-    GetDurationControlInfo(appId: number): Promise<any>; // {"bApplicable": true} - overlay usage?
+    GetDurationControlInfo(appId: number): Promise<any>; // any - {"bApplicable": true} - overlay usage?
 
     /**
      * Retrieves achievement information for a specific application for a given friend.
@@ -194,6 +213,14 @@ export interface Apps {
      */
     GetFriendsWhoPlay(appId: number): Promise<string[]>;
 
+    /**
+     * Retrieves details of a game action.
+     * @param {number} appId - The ID of the application.
+     * @param {Function} callback - The callback function to handle the retrieved game action details and state.
+     * @param {GameAction} callback.gameAction - The game action received in the callback.
+     * @param {StateManager} callback.state - The state manager received in the callback.
+     * @returns {void}
+     */
     GetGameActionDetails(appId: number, callback: (gameAction: GameAction) => void): void;
 
     GetGameActionForApp(
@@ -304,9 +331,9 @@ export interface Apps {
     GetSubscribedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
     InstallFlatpakAppAndCreateShortcut(appName: string, appCommandLineOptions: string): Promise<any>; // returns {"appid":0,"strInstallOutput":""}
-    JoinAppContentBeta(appId: number, param1: any): any;
+    JoinAppContentBeta(appId: number, name: string): any;
 
-    JoinAppContentBetaByPassword(appId: number, param1: any): any;
+    JoinAppContentBetaByPassword(appId: number, accessCode: any): Promise<any>; // any.strName
 
     ListFlatpakApps(): Promise<any>;
 
@@ -314,7 +341,8 @@ export interface Apps {
      * @throws if the user does not own the app or no EULA.
      */
     LoadEula(appId: number): Promise<EndUserLicenseAgreement[]>; // Doesn't bring up the EULA dialog, just returns the eula data
-    MarkEulaAccepted: any;
+    MarkEulaAccepted(param0: any, param1: any, param2: any): any;
+
     MarkEulaRejected: any;
 
     /**
@@ -334,8 +362,6 @@ export interface Apps {
      * @returns {void}
      */
     OpenAppSettingsDialog(appId: number, section: string): void;
-
-    PromptToChangeShortcut(): Promise<any>; // todo: unknown, prompts file picker
 
     /**
      * Raises the window for a given application.
@@ -533,6 +559,14 @@ export interface Apps {
     SetAppCurrentLanguage(appId: number, language: string): void;
 
     /**
+     * Sets the blocked state for apps.
+     * @param {number[]} appIds - An array of app IDs to set the blocked state for.
+     * @param {boolean} state - The state to set (true for blocked, false for unblocked).
+     * @returns {void}
+     */
+    SetAppFamilyBlockedState(appIds: number[], state: boolean): void;
+
+    /**
      * Sets the hidden status of a specific Steam application.
      * @param {number} appId - The ID of the application to set the hidden status for.
      * @param {boolean} value - The value indicating whether the application should be hidden (true) or not (false).
@@ -557,7 +591,14 @@ export interface Apps {
      */
     SetAppResolutionOverride(appId: number, resolution: string): any;
 
-    SetCachedAppDetails(appId: number, details: string): any;
+    /**
+     * Sets cached details for a specific application.
+     * @param {number} appId - The ID of the application.
+     * @param {string} details - The details to be cached, a stringified object.
+     * @returns {Promise<any>} - A Promise that resolves when the details are successfully cached.
+     * todo: might return boolean?
+     */
+    SetCachedAppDetails(appId: number, details: string): Promise<any>;
 
     SetControllerRumblePreference(appId: number, param1: number): any; // param1 - enum for preference
 
@@ -569,15 +610,23 @@ export interface Apps {
      * @param {AppArtworkAssetType} assetType - The type of artwork to set.
      * @returns {Promise<any>} A Promise that resolves after the custom artwork is set.
      */
-    SetCustomArtworkForApp(
-        appId: number,
-        base64Image: string,
-        imageType: string,
-        assetType: AppArtworkAssetType,
-    ): Promise<any>;
+    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: AppArtworkAssetType): Promise<any>;
 
-    SetCustomLogoPositionForApp(appId: number, details: string): Promise<void>; // I've tried sending escaped LogoPosition JSON, but it doesn't seem to work
+    /**
+     * Sets a custom logo position for a specific app.
+     * @param {number} appId - The ID of the application.
+     * @param {string} details - The details of the custom logo position, expected to be a stringified {@link LogoPositionForApp} object.
+     * @returns {Promise<void>} - A Promise that resolves when the custom logo position is successfully set.
+     */
+    SetCustomLogoPositionForApp(appId: number, details: string): Promise<void>;
 
+    /**
+     * Sets the enabled state for downloadable content (DLC) of a specific app.
+     * @param {number} appId - The ID of the parent application.
+     * @param {number} appDLCId - The ID of the DLC to set the state for.
+     * @param {boolean} value - The value to set (true for enabled, false for disabled).
+     * @returns {void}
+     */
     SetDLCEnabled(appId: number, appDLCId: number, value: boolean): void;
 
     /**
@@ -652,7 +701,7 @@ export interface Apps {
      */
     SetStreamingClientForApp(appId: number, clientId: string): void;
 
-    SetThirdPartyControllerConfiguration: any;
+    SetThirdPartyControllerConfiguration(appId: number, param1: number): any;
 
     /**
      * Sets the workshop items disabled state.
@@ -716,8 +765,6 @@ export interface Apps {
     // "#AppProperties_SteamInputDesktopConfigInLauncher"
     ToggleAllowDesktopConfiguration(appId: number): any;
 
-    ToggleAppFamilyBlockedState(appId: number): any;
-
     /**
      * Toggles the Steam Cloud synchronization for game saves for a specific application.
      * @param {number} appId - The ID of the application.
@@ -758,7 +805,7 @@ export interface Auth {
 
     GetRefreshInfo(): Promise<AuthRefreshInfo>;
 
-    GetSteamGuardData: any;
+    GetSteamGuardData(param0: any): any;
 
     IsSecureComputer(): Promise<boolean>;
 
@@ -769,7 +816,6 @@ export interface Auth {
     StartSignInFromCache(param0: any, login: string): Promise<any>;
 }
 
-// Broadcasting support hasn't been implemented on Linux yet
 export interface Broadcast {
     /**
      * Approves a viewer request for the broadcast.
@@ -911,12 +957,40 @@ export interface ClientNotifications {
 }
 
 export interface Cloud {
-    ResolveAppSyncConflict(appId: number, keepLocal: boolean): any;
+    /**
+     * Resolves a synchronization conflict for an app in the cloud.
+     * @param {number} appId - The ID of the app with the sync conflict.
+     * @param {boolean} keepLocal - Whether to keep the local version during conflict resolution.
+     * @returns {any} - Returns data related to resolving the sync conflict.
+     */
+    ResolveAppSyncConflict(appId: number, keepLocal: boolean): void;
 
-    RetryAppSync(appId: number): any;
+    /**
+     * Retries syncing an app with the cloud.
+     * @param {number} appId - The ID of the app to retry syncing.
+     * @returns {any} - Returns data related to retrying the app sync.
+     */
+    RetryAppSync(appId: number): void;
 }
 
 export interface CommunityItems {
+    /*
+    DownloadMovie(e) {
+            return (0, o.mG)(this, void 0, void 0, (function* () {
+                if (0 != e.movie_webm_local_path.length) return !0;
+                let t = yield SteamClient.CommunityItems.DownloadItemAsset(e.communityitemid, w, e.movie_webm),
+                    n = 1 == t.result;
+                if (n) {
+                    e.movie_webm_local_path = t.path;
+                    let n = [];
+                    this.m_startupMovies.forEach((t => {
+                        t.movie_webm == e.movie_webm ? n.push(e) : n.push(t)
+                    })), this.m_startupMovies = n
+                }
+                return n
+            }))
+        }
+     */
     DownloadItemAsset(communityItemId: string, param1: any, param2: string): any;
 
     GetItemAssetPath(communityItemId: string, param1: any, param2: string): any;
@@ -951,11 +1025,12 @@ export interface Console {
 }
 
 export interface Customization {
-    GenerateLocalStartupMoviesThumbnails(param0: number): Promise<any>;
+    GenerateLocalStartupMoviesThumbnails(param0: number): Promise<number>;
 
-    GetDownloadedStartupMovies(param0: string): Promise<any>;
+    //param0: "startupmovies"
+    GetDownloadedStartupMovies(param0: string): Promise<StartupMovie[]>;
 
-    GetLocalStartupMovies(): Promise<any>;
+    GetLocalStartupMovies(): Promise<StartupMovie[]>;
 }
 
 /**
@@ -1060,6 +1135,9 @@ export interface FamilySharing {
     /**
      * Authorizes library sharing on the local device.
      * @returns {Promise<number>} A Promise that resolves to a status code.
+     * FamilySettings_SteamGuardRequired - 18
+     * FamilySettings_LimitExceeded - 25
+     * FamilySettings_FailedToAuthorize - any other number
      */
     AuthorizeLocalDevice(): Promise<number>;
 
@@ -1080,6 +1158,7 @@ export interface FamilySharing {
     SetPreferredLender(appId: number, param1: number): Promise<number>;
 
     // param0 - account id?
+    // return FamilySettings_TooManyBorrowers - 25, FamilySettings_FailedToUpdateBorrower - any number that's not 1 or previous
     UpdateAuthorizedBorrower(param0: number, param1: boolean): Promise<number>;
 }
 
@@ -1097,7 +1176,7 @@ export interface FriendSettings {
      * Registers a callback function to be notified of friend settings changes.
      * @param callback - The callback function to be called when friend settings change.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
-     * @todo The callback receives an escaped JSON object string as "settingsChanges", which should be parsed into FriendSettingsChange object.
+     * @remarks The callback receives an escaped JSON object string as "settingsChanges", which should be parsed into {@link FriendSettingsChange} object.
      */
     RegisterForSettingsChanges(callback: (settingsChanges: string) => void): Unregisterable | any;
 
@@ -1115,12 +1194,10 @@ export interface Friends {
      */
     AddFriend(steamId: string): Promise<boolean>;
 
-    GetCoplayData(): Promise<{
-        currentUsers: CoplayUser[];
-        recentUsers: CoplayUser[];
-    }>;
+    GetCoplayData(): Promise<CoplayData>;
 
-    InviteUserToCurrentGame: any;
+    //(e.ConvertTo64BitString(), t.steamidTarget)
+    InviteUserToCurrentGame(param0: any, param1: any): any;
 
     /**
      * Invites a user to a specific game.
@@ -1131,9 +1208,13 @@ export interface Friends {
      */
     InviteUserToGame(steamId: string, appId: number, connectString: string): Promise<boolean>;
 
-    InviteUserToLobby: any;
-    InviteUserToRemotePlayTogetherCurrentGame: any;
-    RegisterForVoiceChatStatus: any;
+    //(e.ConvertTo64BitString(), t.steamidTarget)
+    InviteUserToLobby(param0: any, param1: any): any;
+
+    //(e.ConvertTo64BitString())
+    InviteUserToRemotePlayTogetherCurrentGame(param0: any): any;
+
+    RegisterForVoiceChatStatus(callback: (status: any) => void): any;
 
     /**
      * Removes a user from the friend list.
@@ -1249,17 +1330,20 @@ export interface Input {
 
     DecrementCloudedControllerConfigsCounter(): any;
 
-    DeletePersonalControllerConfiguration: any;
-    DuplicateControllerConfigurationSourceMode: any;
+    DeletePersonalControllerConfiguration(param0: any): any;
+
+    //f.Debug("sending to client"), this.SetEditingConfigurationValue(e, t, c.QU, (e => SteamClient.Input.DuplicateControllerConfigurationSourceMode(this.m_unControllerIndex, e))), this.SaveEditingConfiguration(e), this
+    DuplicateControllerConfigurationSourceMode(controllerIndex: number, param1: any): any;
 
     EndControllerDeviceSupportFlow(): any;
 
-    ExportCurrentControllerConfiguration: any;
-    ForceConfiguratorFocus: any;
+    ExportCurrentControllerConfiguration(controllerIndex: number, appId: number, param2: number, title: string, description: string, param5: string): Promise<any>;
+
+    ForceConfiguratorFocus(param0: boolean): any;
 
     ForceSimpleHapticEvent(param0: number, param1: number, param2: number, param3: number, param4: number): any;
 
-    FreeControllerConfig: any;
+    FreeControllerConfig(m_ChordSummaryConfiguration: any): any;
 
     GetConfigForAppAndController(appId: number, unControllerIndex: number): any;
 
@@ -1287,13 +1371,15 @@ export interface Input {
 
     OpenDesktopConfigurator: any;
 
-    PreviewConfiguForAppAndController(appId: number): any;
+    PreviewConfigForAppAndController(appId: number, controllerIndex: number, workshopUri: string): any;
 
     PreviewControllerLEDColor(flHue: number, flSaturation: number, flBrightness: number): any;
 
-    QueryControllerConfigsForApp(appId: number): any;
+    QueryControllerConfigsForApp(appId: number, controllerIndex: number, param2: boolean): any;
 
     RegisterForActiveControllerChanges: Unregisterable | any; // {"nActiveController":0}
+    //param0 - e possibly appid?
+    //param1 - some index?
     RegisterForConfigSelectionChanges(callback: (param0: number, param1: number) => void): Unregisterable | any;
 
     RegisterForControllerAccountChanges: Unregisterable | any;
@@ -1356,35 +1442,59 @@ export interface Input {
      */
     RegisterForGameKeyboardMessages(callback: (gameKeyboardMessage: GameKeyboardMessage) => void): Unregisterable | any;
 
-    RegisterForRemotePlayConfigChanges: Unregisterable | any;
-    RegisterForShowControllerLayoutPreviewMessages: Unregisterable | any;
-    RegisterForTouchMenuInputMessages: Unregisterable | any;
+    RegisterForRemotePlayConfigChanges(callback: () => void): Unregisterable | any;
+
+    //data.appId, data.ulConfigId
+    RegisterForShowControllerLayoutPreviewMessages(callback: (data: any) => void): Unregisterable | any;
+
+    /*
+            onTouchMenuInput(e) {
+            for (let t = 0; t < e.length; t++) {
+                const n = this.TouchMenuGetKey(e[t]), o = this.m_mapActiveTouchMenus.get(n);
+                void 0 !== o && o.updateTouchMenuState(e[t])
+            }
+        }
+     */
+    RegisterForTouchMenuInputMessages(callback: (inputs: number[]) => void): Unregisterable | any;
 
     RegisterForTouchMenuMessages(callback: (touchMenuMessage: TouchMenuMessage) => void): Unregisterable | any;
 
-    RegisterForUIVisualization: Unregisterable | any;
+    //param0 - index?
+    RegisterForUIVisualization(param0: any, param1: any, param2: any): Unregisterable | any;
 
     RegisterForUnboundControllerListChanges(callback: (m_unboundControllerList: any) => void): Unregisterable | any; // param0 is an array
-    RegisterForUserDismissKeyboardMessages: Unregisterable | any;
+
+    /*
+        OnDismissKeyboardMessage(e) {
+            this.m_WindowStore.SteamUIWindows.forEach((e => e.VirtualKeyboardManager.SetVirtualKeyboardHidden(e.BrowserWindow)))
+        }
+     */
+    RegisterForUserDismissKeyboardMessages(callback: (param0: any) => void): Unregisterable | any;
+
     RegisterForUserKeyboardMessages: Unregisterable | any;
-    RequestGyroActive: any;
-    RequestRemotePlayControllerConfigs: any;
+
+    RequestGyroActive(controllerIndex: number, param1: boolean): any;
+
+    RequestRemotePlayControllerConfigs(param0: any): any;
 
     ResetControllerBindings(param0: any): any;
 
-    ResolveCloudedControllerConfigConflict: any;
+    ResolveCloudedControllerConfigConflict(param0: any): any;
 
     RestoreControllerPersonalizationSettings(controllerIndex: number): any;
 
     SaveControllerCalibration(controllerIndex: number): any;
 
-    SaveControllerPersonalizationSettings: any;
+    SaveControllerPersonalizationSettings(param0: any): any;
+
     SaveControllerSounds: any;
 
     SaveEditingControllerConfiguration(controllerIndex: number, sharedConfig: boolean): any;
 
     SetActiveControllerAccount: any;
-    SetControllerConfigurationModeShiftBinding: any;
+
+    //this.SetEditingConfigurationValue(e, t, c.sL, (e => SteamClient.Input.SetControllerConfigurationModeShiftBinding(this.m_unControllerIndex, e)))
+    SetControllerConfigurationModeShiftBinding(controllerIndex: number, param1: any): any;
 
     SetControllerHapticSetting(controllerIndex: number, eHapticSetting: any): any;
 
@@ -1433,17 +1543,48 @@ export interface Input {
 
     SetControllerRumbleSetting(controllerIndex: number, rumblePreference: any): any;
 
-    SetCursorActionset: any;
-    SetEditingControllerConfigurationActionSet: any;
-    SetEditingControllerConfigurationInputActivator: any;
-    SetEditingControllerConfigurationInputActivatorEnabled: any;
-    SetEditingControllerConfigurationInputBinding: any;
-    SetEditingControllerConfigurationMiscSetting: any;
-    SetEditingControllerConfigurationSourceMode: any;
+    SetCursorActionset(param0: boolean): any;
+
+    SetDualSenseUpdateNotification(param0: boolean): any
+
+    /*
+            SetEditingConfigurationValue(e, t, n, o) {
+            const a = new r.BinaryWriter;
+            n.serializeBinaryToWriter(n.fromObject(t), a);
+            const s = a.getResultBase64String();
+            f.Debug("SetEditingConfigurationValue serializeBinaryToWriter", (0, i.ZN)(t), s), this.EditingConfigurationWillUpdate(), this.m_updatingEditingConfigurationPromise = o(s).then((t => {
+                if (null == t) return f.Debug("SetEditingConfigurationValue returned nothing."), void (0, i.z)((() => this.UpdateEditingConfiguration(e, this.m_unControllerIndex, this.EditingConfiguration)));
+                const n = c.bE.deserializeBinary(t).toObject();
+                f.Debug("SetEditingConfigurationValue returned controller configuration.", n), this.UpdateEditingConfiguration(e, this.m_unControllerIndex, n), this.m_nEditNumber++, -1 == n.url.indexOf("autosave://") && this.SaveEditingConfiguration(e)
+            })).catch((e => {
+                f.Error("SetEditingConfigurationValue fail:", o, l.jt(e.result), e.message), this.m_bIsUpdatingActiveConfiguration = !1
+            }))
+        }
+
+        SetControllerActionSet(e, t) {
+            this.SetEditingConfigurationValue(e, t, c.X3, (e => SteamClient.Input.SetEditingControllerConfigurationActionSet(this.m_unControllerIndex, e)))
+        }
+     */
+    SetEditingControllerConfigurationActionSet(controllerIndex: number, param1: any): any;
+
+    //this.SetEditingConfigurationValue(e, t, c.io, (e => SteamClient.Input.SetEditingControllerConfigurationInputActivator(this.m_unControllerIndex, e)))
+    SetEditingControllerConfigurationInputActivator(controllerIndex: number, param1: any): any;
+
+    //this.SetEditingConfigurationValue(e, t, c.tH, (e => SteamClient.Input.SetEditingControllerConfigurationInputActivatorEnabled(this.m_unControllerIndex, e)))
+    SetEditingControllerConfigurationInputActivatorEnabled(controllerIndex: number, param1: any): any;
+
+    //this.SetEditingConfigurationValue(e, t, c.J2, (e => SteamClient.Input.SetEditingControllerConfigurationInputBinding(this.m_unControllerIndex, e)))
+    SetEditingControllerConfigurationInputBinding(controllerIndex: number, param1: any): any;
+
+    //this.SetEditingConfigurationValue(e, t, c.Sz, (e => SteamClient.Input.SetEditingControllerConfigurationMiscSetting(this.m_unControllerIndex, e)))
+    SetEditingControllerConfigurationMiscSetting(controllerIndex: number, param1: any): any;
+
+    //f.Debug("sending to client"), this.SetEditingConfigurationValue(e, t, c.QU, (e => SteamClient.Input.SetEditingControllerConfigurationSourceMode(this.m_unControllerIndex, e)))
+    SetEditingControllerConfigurationSourceMode(controllerIndex: number, param1: any): any;
 
     SetGamepadKeyboardText(param0: boolean, param1: string): any;
 
-    SetKeyboardActionset(param0: boolean): any;
+    SetKeyboardActionset(param0: boolean, param1: boolean): any;
 
     /**
      * Sets the mouse position.
@@ -1454,12 +1595,12 @@ export interface Input {
      */
     SetMousePosition(pid: number, x: number, y: number): void;
 
-    SetSelectedConfigForApp(): any;
+    SetSelectedConfigForApp(appId: number, controllerIndex: number, url: string, param3: boolean): any;
 
     SetSteamControllerDonglePairingMode(bEnable: boolean, bSilent: boolean): any;
 
-    SetVirtualMenuKeySelected(unControllerIndex: number, unMenuIndex: number, param2: number): any; //
-    SetWebBrowserActionset: any;
+    SetVirtualMenuKeySelected(unControllerIndex: number, unMenuIndex: number, m_controllerMenuActiveMenuItem: number): any; //
+    SetWebBrowserActionset(param0: boolean): any;
 
     SetXboxDriverInstallState(param0: any): any; // state
 
@@ -1492,20 +1633,26 @@ export interface Input {
 
     StartGyroSWCalibration(callback: () => void): any;
 
-    StopEditingControllerConfiguration: any;
-    SwapControllerModeInputBindings: any;
-    SwapControllerOrder: any;
+    StopEditingControllerConfiguration(controllerIndex: number): any;
+
+    //this.SetEditingConfigurationValue(e, t, c.Qb, (e => SteamClient.Input.SwapControllerModeInputBindings(this.m_unControllerIndex, e)))
+    SwapControllerModeInputBindings(controllerIndex: number, param1: any): any;
+
+    SwapControllerOrder(controllerIndex1: number, controllerIndex2: number): any;
 
     SyncCloudedControllerConfigs(): any;
 
     // type - enum
-    TriggerHapticPulse(controllerIndex: number, type: number, param2: number): any;
+    /*
+    Off - 0, Tick, Click
+     */
+    TriggerHapticPulse(controllerIndex: number, eHapticType: number, param2: number): any;
 
     TriggerSimpleHapticEvent(
         controllerIndex: number,
-        type: number,
-        intensity: number,
-        dbGain: number,
+        eHapticType: number,
+        unIntensity: number,
+        ndBGain: number,
         param4: number,
     ): any;
 
@@ -1720,6 +1867,7 @@ export interface Messaging {
             steamid: e.persona.m_steamid.ConvertTo64BitString()
         }))
     }
+    SteamClient.Messaging.PostMessage("FriendsUI", "AcceptedRemotePlayInvite", JSON.stringify({id: this.appID})) : SteamClient.Messaging.PostMessage("FriendsUI", "AcceptedGameInvite", JSON.stringify({id: this.appID}))
      */
     PostMessage(section: string, param1: string, message: string): void;
 }
@@ -2040,7 +2188,8 @@ export interface RemotePlay {
 
     GetPerUserInputSettingsWithGuestID(steam64Id: string, guestId: number): any;
 
-    IdentifyController: any;
+    IdentifyController(nControllerIndex: number): any;
+
     InstallAudioDriver: any;
     InstallInputDriver: any;
     MoveControllerToSlot: any;
@@ -2614,7 +2763,7 @@ export interface Storage {
 }
 
 export interface Streaming {
-    AcceptStreamingEULA: any;
+    AcceptStreamingEULA(param0: any, param1: any, param2: any): any;
 
     CancelStreamGame(): void; // existing stream
 
@@ -2623,7 +2772,7 @@ export interface Streaming {
      * @param {function} callback - The callback function to be called.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
-    RegisterForStreamingClientFinished(callback: (param0: number, description: string) => void): Unregisterable | any;
+    RegisterForStreamingClientFinished(callback: (code: number, result: string) => void): Unregisterable | any;
 
     /**
      * Registers a callback function to be called when there is progress in the launch of the streaming client.
@@ -2649,8 +2798,9 @@ export interface Streaming {
      */
     RegisterForStreamingLaunchComplete(callback: (code: number, result: string) => void): Unregisterable | any;
 
-    RegisterForStreamingShowEula: Unregisterable | any;
-    RegisterForStreamingShowIntro: Unregisterable | any;
+    RegisterForStreamingShowEula(callback: (appId: number) => any): Unregisterable | any;
+
+    RegisterForStreamingShowIntro(callback: (param0: any, param1: any) => any): Unregisterable | any;
 
     /**
      * Registers a callback function to be called when the streaming client receives launch options from the host.
@@ -2662,7 +2812,7 @@ export interface Streaming {
     ): Unregisterable | any; // Callback when streaming client receives launch options from host
 
     StreamingContinueStreamGame(): void; // existing game running on another streaming capable device
-    StreamingSetLaunchOption: any;
+    StreamingSetLaunchOption(param0: any): any;
 }
 
 /**
@@ -2774,7 +2924,7 @@ export interface AudioDevice {
      */
     RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 
-    UpdateSomething: any;
+    UpdateSomething(param0: any): any; // e.UpdateSomething(t.serializeBase64String())
 }
 
 /**
@@ -2845,10 +2995,13 @@ export interface Bluetooth {
 }
 
 export interface Devkit {
-    DeveloperModeChanged: any;
-    RegisterForPairingPrompt: Unregisterable | any;
-    RespondToPairingPrompt: any;
-    SetPairing: any;
+    DeveloperModeChanged(state: boolean): any;
+
+    RegisterForPairingPrompt(callback: (param0: any) => any): Unregisterable | any;
+
+    RespondToPairingPrompt(param0: any, param1: any): any;
+
+    SetPairing(param0: any): any;
 }
 
 export interface Display {
@@ -2890,13 +3043,15 @@ export interface Dock {
 }
 
 export interface WirelessNetwork {
-    Forget: any;
-    SetAutoconnect: any;
+    Forget(deviceId: any, deviceWapId: any): any;
+
+    SetAutoconnect(deviceId: any, deviceWapId: any, autoConnect: boolean): any;
 }
 
 export interface NetworkDevice {
     Connect(param0: any): any; // some base64 serialized string
-    Disconnect: any;
+    Disconnect(deviceId: any): Promise<any>;
+
     WirelessNetwork: WirelessNetwork;
 }
 
@@ -2909,7 +3064,8 @@ export interface Network {
 
     GetProxyInfo(): Promise<ProxyInfo>;
 
-    RegisterForAppSummaryUpdate: Unregisterable | any;
+    // data.nAppID, data.serializedMsg
+    RegisterForAppSummaryUpdate(callback: (data: any) => any): Unregisterable | any;
 
     /**
      * @todo {@link GameNetworkingUI_ConnectionState}, unconfirmed
@@ -3056,8 +3212,10 @@ export interface System {
 
     OpenLocalDirectoryInSystemExplorer(directory: string): void; // Opens local directory in system explorer
     Perf: Perf;
-    RebootToAlternateSystemPartition: any;
-    RebootToFactoryTestImage: any;
+
+    RebootToAlternateSystemPartition(): any;
+
+    RebootToFactoryTestImage(param0: any): any;
 
     RegisterForAirplaneModeChanges(callback: (airplaneModeChange: AirplaneModeChange) => void): Unregisterable | any;
 
@@ -3124,11 +3282,11 @@ export interface UI {
 
     NotifyAppInitialized(): void;
 
-    RegisterDesiredSteamUIWindowsChanged: Unregisterable | any;
+    RegisterDesiredSteamUIWindowsChanged(callback: () => void): Unregisterable | any;
 
     RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable | any;
 
-    RegisterForKioskModeResetSignal: Unregisterable | any;
+    RegisterForKioskModeResetSignal(callback: () => void): Unregisterable | any;
 
     RegisterForUIModeChanged(callback: (mode: UIMode) => void): Unregisterable | any;
 
@@ -3360,7 +3518,7 @@ export interface WebChat {
      */
     GetUIMode(): Promise<UIMode>;
 
-    OnGroupChatUserStateChange(chatGroupId: any, accountId: any, param2: any): any;
+    OnGroupChatUserStateChange(chatGroupId: any, accountId: any, action: any): any;
 
     OnNewGroupChatMsgAdded(
         groupId: number,
@@ -3412,9 +3570,9 @@ export interface WebChat {
 
     RegisterOverlayChatBrowserInfoChanged(callback: any): Unregisterable | any;
 
-    SetActiveClanChatIDs(param0: any[]): any;
+    SetActiveClanChatIDs(clanChatIds: any[]): any;
 
-    SetNumChatsWithUnreadPriorityMessages(param0: number): void;
+    SetNumChatsWithUnreadPriorityMessages(size: number): void;
 
     SetPersonaName: any;
 
@@ -3806,6 +3964,11 @@ export type BrowserViewEvent =
     | 'start-loading'
     | 'start-request'
     | 'toggle-find-in-page';
+
+export interface LogoPositionForApp {
+    nVersion: number; // Usually 1
+    logoPosition: LogoPosition;
+}
 
 export interface LogoPosition {
     pinnedPosition: LogoPinPositions;
@@ -8336,6 +8499,15 @@ export enum ParentalFeature {
     SiteLicense = 13,
     KioskMode = 14,
     Max = 15,
+}
+
+export interface StartupMovie {
+    strMovieURL: string;
+}
+
+export interface CoplayData {
+    currentUsers: CoplayUser[];
+    recentUsers: CoplayUser[];
 }
 
 export interface Unregisterable {
