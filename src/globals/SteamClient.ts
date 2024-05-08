@@ -26,12 +26,6 @@ export interface Apps {
     AddUserTagToApps(appIds: number[], userTag: string): void;
 
     /**
-     * Retrieves whether private apps are enabled.
-     * @returns {Promise<boolean>} - A Promise that resolves to true if private applications are enabled, otherwise false.
-     */
-    ArePrivateAppsEnabled(): Promise<boolean>;
-
-    /**
      * Backups an app to the specified path.
      * @param {number} appId - The ID of the application to back up.
      * @param {string} backupToPath - The path to store the backup.
@@ -170,6 +164,8 @@ export interface Apps {
     GetCachedAppDetails(appId: number): Promise<string>; // todo: Parsing nightmare
 
     GetCloudPendingRemoteOperations(appId: number): Promise<any>;
+
+    GetCompatExperiment: any;
 
     GetConflictingFileTimestamps(appId: number): Promise<ConflictingFileTimestamp>;
 
@@ -474,6 +470,8 @@ export interface Apps {
         callback: (appId: number, publishedFileId: string, param2: number) => void,
     ): Unregisterable | any;
 
+    RegisterForWorkshopItemInstalled: any;
+
     /**
      * Removes a non-Steam application shortcut from the Steam library.
      * @param {number} appId - The ID of the application for which to remove the shortcut.
@@ -734,6 +732,8 @@ export interface Apps {
      * @returns {void}
      */
     ShowStore(appId: number): void;
+
+    SpecifyCompatExperiment: any;
 
     /**
      * Specifies a compatibility tool by its name for a given application. If strToolName is an empty string, the specified application will no longer use a compatibility tool.
@@ -1634,6 +1634,8 @@ export interface Input {
     StartGyroSWCalibration(callback: () => void): any;
 
     StopEditingControllerConfiguration(controllerIndex: number): any;
+
+    SwapControllerConfigurationSourceModes: any;
 
     //this.SetEditingConfigurationValue(e, t, c.Qb, (e => SteamClient.Input.SwapControllerModeInputBindings(this.m_unControllerIndex, e)))
     SwapControllerModeInputBindings(controllerIndex: number, param1: any): any;
@@ -2878,11 +2880,9 @@ export interface Audio {
      * @param {function} callback - The callback function to be called.
      * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
      */
-    RegisterForDeviceVolumeChanged(
-        callback: (audioDeviceId: number, audioType: number, volume: number) => void,
-    ): Unregisterable | any;
+    RegisterForDeviceVolumeChanged(callback: (audioDeviceId: number, audioType: number, volume: number) => void): Unregisterable | any;
 
-    RegisterForServiceConnectionStateChanges: Unregisterable | any;
+    RegisterForServiceConnectionStateChanges(callback: (param0: any) => void): Unregisterable | any;
 
     /**
      * Registers a callback to be called when volume buttons are pressed.
@@ -3140,6 +3140,7 @@ export interface SystemUI {
     // appId is 0 if unknown app is focused
     RegisterForOverlayGameWindowFocusChanged(callback: (appId: number, param1: number) => void): Unregisterable | any;
 
+    //event.eKey, event.nControllerIndex
     RegisterForSystemKeyEvents(callback: (event: any) => void): Unregisterable | any; // eKey
 }
 
@@ -3283,6 +3284,8 @@ export interface UI {
     NotifyAppInitialized(): void;
 
     RegisterDesiredSteamUIWindowsChanged(callback: () => void): Unregisterable | any;
+
+    RegisterForClientConVar: any;
 
     RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable | any;
 
@@ -3598,6 +3601,8 @@ export interface WebChat {
 
 export interface WebUITransport {
     GetTransportInfo(): Promise<TransportInfo>;
+
+    NotifyTransportFailure: any;
 }
 
 /**
@@ -7452,9 +7457,9 @@ export enum DisplayStatus {
     CloudError = 34,
     CloudOutOfDate = 35,
     Terminating = 36,
-    OwnerLocked,
-    DownloadFailed,
-    UpdateFailed,
+    OwnerLocked = 37,
+    DownloadFailed = 38,
+    UpdateFailed = 39,
 }
 
 export enum AppCloudStatus {
@@ -7590,291 +7595,291 @@ export enum AppError {
 }
 
 export enum BrowserType {
-    OffScreen,
-    OpenVROverlay,
-    OpenVROverlay_Dashboard,
-    DirectHWND,
-    DirectHWND_Borderless,
-    DirectHWND_Hidden,
-    ChildHWNDNative,
-    Transparent_Toplevel,
-    OffScreen_SharedTexture,
-    OffScreen_GameOverlay,
-    OffScreen_GameOverlay_SharedTexture,
-    Offscreen_FriendsUI,
-    Offscreen_SteamUI,
-    OpenVROverlay_Subview,
+    OffScreen = 0,
+    OpenVROverlay = 1,
+    OpenVROverlay_Dashboard = 2,
+    DirectHWND = 3,
+    DirectHWND_Borderless = 4,
+    DirectHWND_Hidden = 5,
+    ChildHWNDNative = 6,
+    Transparent_Toplevel = 7,
+    OffScreen_SharedTexture = 8,
+    OffScreen_GameOverlay = 9,
+    OffScreen_GameOverlay_SharedTexture = 10,
+    Offscreen_FriendsUI = 11,
+    Offscreen_SteamUI = 12,
+    OpenVROverlay_Subview = 13,
 }
 
 export enum NotificationPosition {
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight,
+    TopLeft = 0,
+    TopRight = 1,
+    BottomLeft = 2,
+    BottomRight = 3,
 }
 
 export enum WorkshopFileType {
-    Community,
-    Microtransaction,
-    Collection,
-    Art,
-    Video,
-    Screenshot,
-    Game,
-    Software,
-    Concept,
-    WebGuide,
-    IntegratedGuide,
-    Merch,
-    ControllerBinding,
-    SteamworksAccessInvite,
-    SteamVideo,
-    GameManagedItem,
+    Community = 0,
+    Microtransaction = 1,
+    Collection = 2,
+    Art = 3,
+    Video = 4,
+    Screenshot = 5,
+    Game = 6,
+    Software = 7,
+    Concept = 8,
+    WebGuide = 9,
+    IntegratedGuide = 10,
+    Merch = 11,
+    ControllerBinding = 12,
+    SteamworksAccessInvite = 13,
+    SteamVideo = 14,
+    GameManagedItem = 15,
 }
 
 export enum EInstallManagerState {
-    None,
-    Setup,
-    WaitLicense,
-    FreeLicense,
-    ShowCDKey,
-    WaitAppInfo,
-    ShowPassword,
-    ShowConfig,
-    ShowEULAs,
-    CreateApps,
-    ReadFromMedia,
-    ShowChangeMedia,
-    WaitLegacyCDKeys,
-    ShowSignup,
-    Complete,
-    Failed,
-    Canceled,
+    None = 0,
+    Setup = 1,
+    WaitLicense = 2,
+    FreeLicense = 3,
+    ShowCDKey = 4,
+    WaitAppInfo = 5,
+    ShowPassword = 6,
+    ShowConfig = 7,
+    ShowEULAs = 8,
+    CreateApps = 9,
+    ReadFromMedia = 10,
+    ShowChangeMedia = 11,
+    WaitLegacyCDKeys = 12,
+    ShowSignup = 13,
+    Complete = 14,
+    Failed = 15,
+    Canceled = 16,
 }
 
 export enum EAppReleaseState {
-    Unknown,
-    Unavailable,
-    Prerelease,
-    PreloadOnly,
-    Released,
-    Disabled,
+    Unknown = 0,
+    Unavailable = 1,
+    Prerelease = 2,
+    PreloadOnly = 3,
+    Released = 4,
+    Disabled = 5,
 }
 
 export enum EControllerConfigExportType {
-    Unknown,
-    PersonalLocal,
-    PersonalCloud,
-    Community,
-    Template,
-    Official,
-    OfficialDefault,
+    Unknown = 0,
+    PersonalLocal = 1,
+    PersonalCloud = 2,
+    Community = 3,
+    Template = 4,
+    Official = 5,
+    OfficialDefault = 6,
 }
 
 export enum EMusicPlaybackStatus {
-    Undefined,
-    Playing,
-    Paused,
-    Idle,
+    Undefined = 0,
+    Playing = 1,
+    Paused = 2,
+    Idle = 3,
 }
 
 export enum EMusicRepeatStatus {
-    None,
-    All,
-    Once,
-    Max,
+    None = 0,
+    All = 1,
+    Once = 2,
+    Max = 3,
 }
 
 export enum EStreamP2PScope {
-    Automatic,
-    Disabled,
-    OnlyMe,
-    Friends,
-    Everyone,
+    Automatic = 0,
+    Disabled = 1,
+    OnlyMe = 2,
+    Friends = 3,
+    Everyone = 4,
 }
 
 /**
  * @todo unconfirmed, taken from localization strings
  */
 export enum ESteamGuardState {
-    EmailUnverified,
-    Protected,
-    Disabled,
-    Offline,
-    NotEnabled,
+    EmailUnverified = 0,
+    Protected = 1,
+    Disabled = 2,
+    Offline = 3,
+    NotEnabled = 4,
 }
 
 export enum ENetFakeLocalSystemState {
-    Normal,
-    NoLAN,
-    CaptivePortal_Redirected,
-    CaptivePortal_InPlace,
-    NoInternet,
-    NoSteam,
+    Normal = 0,
+    NoLAN = 1,
+    CaptivePortal_Redirected = 2,
+    CaptivePortal_InPlace = 3,
+    NoInternet = 4,
+    NoSteam = 5,
 }
 
 export enum ELanguage {
     None = -1,
-    English,
-    German,
-    French,
-    Italian,
-    Korean,
-    Spanish,
-    SimplifiedChinese,
-    TraditionalChinese,
-    Russian,
-    Thai,
-    Japanese,
-    Portuguese,
-    Polish,
-    Danish,
-    Dutch,
-    Finnish,
-    Norwegian,
-    Swedish,
-    Hungarian,
-    Czech,
-    Romanian,
-    Turkish,
-    Brazilian,
-    Bulgarian,
-    Greek,
-    Arabic,
-    Ukrainian,
-    LatamSpanish,
-    Vietnamese,
-    SteamChina_SChinese,
-    Max,
+    English = 0,
+    German = 1,
+    French = 2,
+    Italian = 3,
+    Korean = 4,
+    Spanish = 5,
+    SimplifiedChinese = 6,
+    TraditionalChinese = 7,
+    Russian = 8,
+    Thai = 9,
+    Japanese = 10,
+    Portuguese = 11,
+    Polish = 12,
+    Danish = 13,
+    Dutch = 14,
+    Finnish = 15,
+    Norwegian = 16,
+    Swedish = 17,
+    Hungarian = 18,
+    Czech = 19,
+    Romanian = 20,
+    Turkish = 21,
+    Brazilian = 22,
+    Bulgarian = 23,
+    Greek = 24,
+    Arabic = 25,
+    Ukrainian = 26,
+    LatamSpanish = 27,
+    Vietnamese = 28,
+    SteamChina_SChinese = 29,
+    Max = 30,
 }
 
 export enum EHIDKeyboardKey {
-    Invalid,
+    Invalid = 0,
     BeforeFirst = 3,
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
-    K,
-    L,
-    M,
-    N,
-    O,
-    P,
-    Q,
-    R,
-    S,
-    T,
-    U,
-    V,
-    W,
-    X,
-    Y,
-    Z,
-    Key_1,
-    Key_2,
-    Key_3,
-    Key_4,
-    Key_5,
-    Key_6,
-    Key_7,
-    Key_8,
-    Key_9,
-    Key_0,
-    Return,
-    Escape,
-    Backspace,
-    Tab,
-    Space,
-    Dash,
-    Equals,
-    LeftBracket,
-    RightBracket,
-    Backslash,
-    Unused1,
-    Semicolon,
-    SingleQuote,
-    Backtick,
-    Comma,
-    Period,
-    ForwardSlash,
-    CapsLock,
-    F1,
-    F2,
-    F3,
-    F4,
-    F5,
-    F6,
-    F7,
-    F8,
-    F9,
-    F10,
-    F11,
-    F12,
-    PrintScreen,
-    ScrollLock,
-    Break,
-    Insert,
-    Home,
-    PageUp,
-    Delete,
-    End,
-    PageDown,
-    RightArrow,
-    LeftArrow,
-    DownArrow,
-    UpArrow,
-    NumLock,
-    KeypadForwardSlash,
-    KeypadAsterisk,
-    KeypadDash,
-    KeypadPlus,
-    KeypadEnter,
-    Keypad_1,
-    Keypad_2,
-    Keypad_3,
-    Keypad_4,
-    Keypad_5,
-    Keypad_6,
-    Keypad_7,
-    Keypad_8,
-    Keypad_9,
-    Keypad_0,
-    KeypadPeriod,
-    LAlt,
-    LShift,
-    LWin,
-    LControl,
-    RAlt,
-    RShift,
-    RWin,
-    RControl,
-    VolUp,
-    VolDown,
-    Mute,
-    Play,
-    Stop,
-    Next,
-    Prev,
-    AfterLast,
+    A = 4,
+    B = 5,
+    C = 6,
+    D = 7,
+    E = 8,
+    F = 9,
+    G = 10,
+    H = 11,
+    I = 12,
+    J = 13,
+    K = 14,
+    L = 15,
+    M = 16,
+    N = 17,
+    O = 18,
+    P = 19,
+    Q = 20,
+    R = 21,
+    S = 22,
+    T = 23,
+    U = 24,
+    V = 25,
+    W = 26,
+    X = 27,
+    Y = 28,
+    Z = 29,
+    Key_1 = 30,
+    Key_2 = 31,
+    Key_3 = 32,
+    Key_4 = 33,
+    Key_5 = 34,
+    Key_6 = 35,
+    Key_7 = 36,
+    Key_8 = 37,
+    Key_9 = 38,
+    Key_0 = 39,
+    Return = 40,
+    Escape = 41,
+    Backspace = 42,
+    Tab = 43,
+    Space = 44,
+    Dash = 45,
+    Equals = 46,
+    LeftBracket = 47,
+    RightBracket = 48,
+    Backslash = 49,
+    Unused1 = 50,
+    Semicolon = 51,
+    SingleQuote = 52,
+    Backtick = 53,
+    Comma = 54,
+    Period = 55,
+    ForwardSlash = 56,
+    CapsLock = 57,
+    F1 = 58,
+    F2 = 59,
+    F3 = 60,
+    F4 = 61,
+    F5 = 62,
+    F6 = 63,
+    F7 = 64,
+    F8 = 65,
+    F9 = 66,
+    F10 = 67,
+    F11 = 68,
+    F12 = 69,
+    PrintScreen = 70,
+    ScrollLock = 71,
+    Break = 72,
+    Insert = 73,
+    Home = 74,
+    PageUp = 75,
+    Delete = 76,
+    End = 77,
+    PageDown = 78,
+    RightArrow = 79,
+    LeftArrow = 80,
+    DownArrow = 81,
+    UpArrow = 82,
+    NumLock = 83,
+    KeypadForwardSlash = 84,
+    KeypadAsterisk = 85,
+    KeypadDash = 86,
+    KeypadPlus = 87,
+    KeypadEnter = 88,
+    Keypad_1 = 89,
+    Keypad_2 = 90,
+    Keypad_3 = 91,
+    Keypad_4 = 92,
+    Keypad_5 = 93,
+    Keypad_6 = 94,
+    Keypad_7 = 95,
+    Keypad_8 = 96,
+    Keypad_9 = 97,
+    Keypad_0 = 98,
+    KeypadPeriod = 99,
+    LAlt = 100,
+    LShift = 101,
+    LWin = 102,
+    LControl = 103,
+    RAlt = 104,
+    RShift = 105,
+    RWin = 106,
+    RControl = 107,
+    VolUp = 108,
+    VolDown = 109,
+    Mute = 110,
+    Play = 111,
+    Stop = 112,
+    Next = 113,
+    Prev = 114,
+    AfterLast = 115,
 }
 
 export enum ELoginState {
-    None,
-    WelcomeDialog,
-    WaitingForCreateUser,
-    WaitingForCredentials,
-    WaitingForNetwork,
-    WaitingForServerResponse,
-    WaitingForLibraryReady,
-    Success,
-    Quit,
+    None = 0,
+    WelcomeDialog = 1,
+    WaitingForCreateUser = 2,
+    WaitingForCredentials = 3,
+    WaitingForNetwork = 4,
+    WaitingForServerResponse = 5,
+    WaitingForLibraryReady = 6,
+    Success = 7,
+    Quit = 8,
 }
 
 export enum ClientBetaState {
@@ -8180,24 +8185,24 @@ export enum BrowserViewContextMenuEditFlag {
 }
 
 export enum HDRVisualization {
-    None,
-    Heatmap,
-    Analysis,
-    HeatmapExtended,
-    HeatmapClassic,
+    None = 0,
+    Heatmap = 1,
+    Analysis = 2,
+    HeatmapExtended = 3,
+    HeatmapClassic = 4,
 }
 
 export enum BroadcastPermission {
-    Disabled,
-    FriendsApprove,
-    FriendsAllowed,
-    Public,
-    Subscribers,
+    Disabled = 0,
+    FriendsApprove = 1,
+    FriendsAllowed = 2,
+    Public = 3,
+    Subscribers = 4,
 }
 
 export enum BroadcastEncoderSetting {
-    BestQuality,
-    BestPerformance,
+    BestQuality = 0,
+    BestPerformance = 1,
 }
 
 export enum UpdaterState {
@@ -8211,14 +8216,14 @@ export enum UpdaterState {
 }
 
 export enum UpdaterType {
-    Invalid,
-    Client,
-    OS,
-    BIOS,
-    Aggregated,
-    Test1,
-    Test2,
-    Dummy,
+    Invalid = 0,
+    Client = 1,
+    OS = 2,
+    BIOS = 3,
+    Aggregated = 4,
+    Test1 = 5,
+    Test2 = 6,
+    Dummy = 7,
 }
 
 export enum Result {
@@ -8336,96 +8341,96 @@ export enum Result {
 }
 
 export enum AuthTokenPlatformType {
-    Unknown,
-    SteamClient,
-    WebBrowser,
-    MobileApp,
+    Unknown = 0,
+    SteamClient = 1,
+    WebBrowser = 2,
+    MobileApp = 3,
 }
 
 export enum SystemAudioDirection {
-    Invalid,
-    Input,
-    Output,
+    Invalid = 0,
+    Input = 1,
+    Output = 2,
 }
 
 export enum SystemAudioChannel {
-    Invalid,
-    Aggregated,
-    FrontLeft,
-    FrontRight,
-    LFE,
-    BackLeft,
-    BackRight,
-    FrontCenter,
-    Unknown,
-    Mono,
+    Invalid = 0,
+    Aggregated = 1,
+    FrontLeft = 2,
+    FrontRight = 3,
+    LFE = 4,
+    BackLeft = 5,
+    BackRight = 6,
+    FrontCenter = 7,
+    Unknown = 8,
+    Mono = 9,
 }
 
 export enum SystemAudioPortType {
-    Invalid,
-    Unknown,
-    Audio32f,
-    Midi8b,
-    Video32RGBA,
+    Invalid = 0,
+    Unknown = 1,
+    Audio32f = 2,
+    Midi8b = 3,
+    Video32RGBA = 4,
 }
 
 export enum SystemAudioPortDirection {
-    Invalid,
-    Input,
-    Output,
+    Invalid = 0,
+    Input = 1,
+    Output = 2,
 }
 
 export enum CPUGovernor {
-    Invalid,
-    Perf,
-    Powersave,
-    Manual,
+    Invalid = 0,
+    Perf = 1,
+    Powersave = 2,
+    Manual = 3,
 }
 
 export enum GPUPerformanceLevel {
-    Invalid,
-    Auto,
-    Manual,
-    Low,
-    High,
-    Profiling,
+    Invalid = 0,
+    Auto = 1,
+    Manual = 2,
+    Low = 3,
+    High = 4,
+    Profiling = 5,
 }
 
 export enum SplitScalingFilter {
-    Invalid,
-    Linear,
-    Nearest,
-    FSR,
-    NIS,
+    Invalid = 0,
+    Linear = 1,
+    Nearest = 2,
+    FSR = 3,
+    NIS = 4,
 }
 
 export enum SplitScalingScaler {
-    Invalid,
-    Auto,
-    Integer,
-    Fit,
-    Fill,
-    Stretch,
+    Invalid = 0,
+    Auto = 1,
+    Integer = 2,
+    Fit = 3,
+    Fill = 4,
+    Stretch = 5,
 }
 
 export enum SystemServiceState {
-    Unavailable,
-    Disabled,
-    Enabled,
+    Unavailable = 0,
+    Disabled = 1,
+    Enabled = 2,
 }
 
 export enum GraphicsPerfOverlayLevel {
-    Hidden,
-    Basic,
-    Medium,
-    Full,
-    Minimal,
+    Hidden = 0,
+    Basic = 1,
+    Medium = 2,
+    Full = 3,
+    Minimal = 4,
 }
 
 export enum HDRToneMapOperator {
-    Invalid,
-    Uncharted,
-    Reinhard,
+    Invalid = 0,
+    Uncharted = 1,
+    Reinhard = 2,
 }
 
 export enum GamingDeviceType {
@@ -8441,42 +8446,42 @@ export enum GamingDeviceType {
 
 export enum WirelessAPSecurityFlags {
     None = 0,
-    StaticWep = 1 << 0,
-    DynamicWep = 1 << 1,
-    Wpa = 1 << 2,
-    WpaEnterprise = 1 << 3,
-    Wpa2 = 1 << 4,
-    Wpa2Enterprise = 1 << 5,
+    StaticWep = 1,
+    DynamicWep = 2,
+    Wpa = 4,
+    WpaEnterprise = 8,
+    Wpa2 = 16,
+    Wpa2Enterprise = 32,
     /**
      * Special value to indicate that this platform does not support
      * the security methods required to connect to an access point
      */
-    Unsupported = 1 << 15,
+    Unsupported = 32768,
 }
 
 export enum WirelessAPStrength {
-    None,
-    Weak,
-    Ok,
-    Good,
-    Excellent,
+    None = 0,
+    Weak = 1,
+    Ok = 2,
+    Good = 3,
+    Excellent = 4,
 }
 
 export enum NetworkDeviceState {
-    NotPresent,
-    Failed,
-    Disconnected,
-    Disconnecting,
-    Connecting,
-    Connected,
-    Retrying,
+    NotPresent = 0,
+    Failed = 1,
+    Disconnected = 2,
+    Disconnecting = 3,
+    Connecting = 4,
+    Connected = 5,
+    Retrying = 6,
 }
 
 export enum NetworkDeviceType {
-    Unknown,
-    Wired,
-    Wireless,
-    Virtual,
+    Unknown = 0,
+    Wired = 1,
+    Wireless = 2,
+    Virtual = 3,
 }
 
 /**
