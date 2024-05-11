@@ -19,6 +19,10 @@ export interface MultiDropdownOption {
 
 export type DropdownOption = SingleDropdownOption | MultiDropdownOption;
 
+export interface DropdownMenuPositionOptions {
+  bMatchWidth?: boolean
+}
+
 export interface DropdownProps {
   rgOptions: DropdownOption[];
   selectedOption: any;
@@ -26,7 +30,7 @@ export interface DropdownProps {
   onMenuWillOpen?(showMenu: () => void): void;
   onMenuOpened?(): void;
   onChange?(data: SingleDropdownOption): void;
-  contextMenuPositionOptions?: any;
+  contextMenuPositionOptions?: DropdownMenuPositionOptions;
   menuLabel?: string;
   strDefaultLabel?: string;
   renderButtonValue?(element: ReactNode): ReactNode;
