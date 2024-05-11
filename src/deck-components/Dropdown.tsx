@@ -19,7 +19,8 @@ export interface MultiDropdownOption {
 
 export type DropdownOption = SingleDropdownOption | MultiDropdownOption;
 
-export interface DropdownMenuPositionOptions {
+export interface DropdownMenuPosition {
+  [_: string]: unknown
   bMatchWidth?: boolean
 }
 
