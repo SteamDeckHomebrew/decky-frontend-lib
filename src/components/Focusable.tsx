@@ -13,4 +13,6 @@ export interface FocusableProps extends HTMLAttributes<HTMLDivElement>, FooterLe
   onCancel?: (e: CustomEvent) => void;
 }
 
-export const Focusable = findModuleExport((e: Export) => e?.render?.toString()?.includes('["flow-children","onActivate","onCancel","focusClassName",')) as VFC<FocusableProps & RefAttributes<HTMLDivElement>>;
+export const Focusable = findModuleExport((e: Export) =>
+  e?.render?.toString()?.includes('["flow-children","onActivate","onCancel","focusClassName",'),
+) as VFC<FocusableProps & RefAttributes<HTMLDivElement>>;

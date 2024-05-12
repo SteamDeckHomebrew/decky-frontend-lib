@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+
 import { getGamepadNavigationTrees } from '../utils';
 
 function getQuickAccessWindow(): Window | null {
   const navTrees = getGamepadNavigationTrees();
-  return navTrees.find((tree: any) => tree?.id === 'QuickAccess-NA')?.m_Root?.m_element?.ownerDocument.defaultView ?? null;
+  return (
+    navTrees.find((tree: any) => tree?.id === 'QuickAccess-NA')?.m_Root?.m_element?.ownerDocument.defaultView ?? null
+  );
 }
 
 /**

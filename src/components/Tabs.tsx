@@ -109,8 +109,7 @@ try {
  * Tabs component as used in the library and media tabs. See {@link TabsProps}.
  * Unlike other components in `decky-frontend-lib`, this requires Decky Loader to be running.
  */
-export const Tabs =
-  (oldTabs ||
+export const Tabs = (oldTabs ||
   ((props: TabsProps) => {
     const found = tabsComponent;
     const [tc, setTC] = useState<FC<TabsProps>>(found);

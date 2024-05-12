@@ -6,9 +6,9 @@
       {
         "preset": "angular",
         "releaseRules": [
-          {"type": "chore", "scope": "classes", "release": "patch"},
-          {"type": "docs", "scope": "steamclient", "release": "patch"},
-          {"type": "*", "scope": "docs", "release": false}
+          { "type": "chore", "scope": "classes", "release": "patch" },
+          { "type": "docs", "scope": "steamclient", "release": "patch" },
+          { "type": "*", "scope": "docs", "release": false }
         ]
       }
     ],

@@ -22,8 +22,14 @@ export interface ProgressBarWithInfoProps extends ProgressBarItemProps {
   sOperationText?: ReactNode;
 }
 
-export const ProgressBar = findModuleExport((e: Export) => e?.toString()?.includes('.ProgressBar,"standard"==')) as VFC<ProgressBarProps>;
+export const ProgressBar = findModuleExport((e: Export) =>
+  e?.toString()?.includes('.ProgressBar,"standard"=='),
+) as VFC<ProgressBarProps>;
 
-export const ProgressBarWithInfo = findModuleExport((e: Export) => e?.toString()?.includes('.ProgressBarFieldStatus},')) as VFC<ProgressBarWithInfoProps>;
+export const ProgressBarWithInfo = findModuleExport((e: Export) =>
+  e?.toString()?.includes('.ProgressBarFieldStatus},'),
+) as VFC<ProgressBarWithInfoProps>;
 
-export const ProgressBarItem = findModuleExport((e: Export) => e?.toString()?.includes('"indeterminate","nTransitionSec"')) as VFC<ProgressBarItemProps>;
+export const ProgressBarItem = findModuleExport((e: Export) =>
+  e?.toString()?.includes('"indeterminate","nTransitionSec"'),
+) as VFC<ProgressBarItemProps>;

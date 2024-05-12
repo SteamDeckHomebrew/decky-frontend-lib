@@ -23,4 +23,6 @@ export interface FieldProps extends FooterLegendProps {
   onClick?: (e: CustomEvent | MouseEvent) => void;
 }
 
-export const Field = findModuleExport((e: Export) => e?.render?.toString().includes('"shift-children-below"')) as FC<FieldProps & RefAttributes<HTMLDivElement>>;
+export const Field = findModuleExport((e: Export) => e?.render?.toString().includes('"shift-children-below"')) as FC<
+  FieldProps & RefAttributes<HTMLDivElement>
+>;

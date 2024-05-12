@@ -22,43 +22,26 @@ export const group = (name: string, ...args: any[]) => {
 
 export const groupEnd = (name: string, ...args: any[]) => {
   console.groupEnd();
-  if (args?.length > 0) console.log(
-    `^ %c @decky/ui %c ${name} %c`,
-    bgStyle1,
-    'background: #1abc9c; color: black;',
-    'background: transparent;',
-    ...args,
-  );
+  if (args?.length > 0)
+    console.log(
+      `^ %c @decky/ui %c ${name} %c`,
+      bgStyle1,
+      'background: #1abc9c; color: black;',
+      'background: transparent;',
+      ...args,
+    );
 };
 
 export const debug = (name: string, ...args: any[]) => {
-  console.debug(
-    `%c @decky/ui %c ${name} %c`,
-    bgStyle1,
-    'background: #1abc9c; color: black;',
-    'color: blue;',
-    ...args,
-  );
+  console.debug(`%c @decky/ui %c ${name} %c`, bgStyle1, 'background: #1abc9c; color: black;', 'color: blue;', ...args);
 };
 
 export const warn = (name: string, ...args: any[]) => {
-  console.warn(
-    `%c @decky/ui %c ${name} %c`,
-    bgStyle1,
-    'background: #ffbb00; color: black;',
-    'color: blue;',
-    ...args,
-  );
+  console.warn(`%c @decky/ui %c ${name} %c`, bgStyle1, 'background: #ffbb00; color: black;', 'color: blue;', ...args);
 };
 
 export const error = (name: string, ...args: any[]) => {
-  console.error(
-    `%c @decky/ui %c ${name} %c`,
-    bgStyle1,
-    'background: #FF0000;',
-    'background: transparent;',
-    ...args,
-  );
+  console.error(`%c @decky/ui %c ${name} %c`, bgStyle1, 'background: #FF0000;', 'background: transparent;', ...args);
 };
 
 class Logger {
@@ -90,5 +73,5 @@ class Logger {
     groupEnd(this.name, ...args);
   }
 }
-  
+
 export default Logger;

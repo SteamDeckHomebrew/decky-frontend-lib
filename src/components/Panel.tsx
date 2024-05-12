@@ -21,4 +21,6 @@ export const PanelSection = panelSection as FC<PanelSectionProps>;
 export interface PanelSectionRowProps {
   children?: ReactNode;
 }
-export const PanelSectionRow = Object.values(mod).filter((exp: any) => !exp?.toString()?.includes('.PanelSection'))[0] as FC<PanelSectionRowProps>;
+export const PanelSectionRow = Object.values(mod).filter(
+  (exp: any) => !exp?.toString()?.includes('.PanelSection'),
+)[0] as FC<PanelSectionRowProps>;

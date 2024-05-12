@@ -18,16 +18,19 @@ export interface DialogCheckboxProps extends DialogCommonProps, FooterLegendProp
   onClick?(evt: Event): void;
 }
 
-export const DialogCheckbox = Object.values(findModule((m: any) => {
-  if (typeof m !== 'object') return false;
-  for (const prop in m) {
-    if (m[prop]?.prototype?.GetPanelElementProps) return true;
-  }
-  return false;
-})).find((m: any) =>
-  m.contextType &&
-  m.prototype?.render.toString().includes('fallback:') &&
-  m?.prototype?.SetChecked &&
-  m?.prototype?.Toggle &&
-  m?.prototype?.GetPanelElementProps
+export const DialogCheckbox = Object.values(
+  findModule((m: any) => {
+    if (typeof m !== 'object') return false;
+    for (const prop in m) {
+      if (m[prop]?.prototype?.GetPanelElementProps) return true;
+    }
+    return false;
+  }),
+).find(
+  (m: any) =>
+    m.contextType &&
+    m.prototype?.render.toString().includes('fallback:') &&
+    m?.prototype?.SetChecked &&
+    m?.prototype?.Toggle &&
+    m?.prototype?.GetPanelElementProps,
 ) as FC<DialogCheckboxProps>;

@@ -20,7 +20,7 @@ This library can also theoretically be used to extend existing UI elements of th
 
 ### Getting Started (Developers)
 
-If you would like a feature added to decky-frontend-lib, please request it via a Github issue.  
+If you would like a feature added to decky-frontend-lib, please request it via a Github issue.
 
 If you want to start making a plugin with decky-frontend-lib, please direct your attention to the [decky-plugin-template](https://github.com/SteamDeckHomebrew/decky-plugin-template) repository.
 

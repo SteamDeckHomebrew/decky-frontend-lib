@@ -1,2 +1,2 @@
-export * from "./SteamClient";
-export * from "./stores";
+export * from './SteamClient';
+export * from './stores';

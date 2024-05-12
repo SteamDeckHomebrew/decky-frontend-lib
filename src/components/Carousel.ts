@@ -20,4 +20,6 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   scrollToAlignment?: 'center';
 }
 
-export const Carousel = findModuleExport((e: Export) => e.render?.toString().includes('setFocusedColumn:')) as VFC<CarouselProps & RefAttributes<HTMLDivElement>>;
+export const Carousel = findModuleExport((e: Export) => e.render?.toString().includes('setFocusedColumn:')) as VFC<
+  CarouselProps & RefAttributes<HTMLDivElement>
+>;

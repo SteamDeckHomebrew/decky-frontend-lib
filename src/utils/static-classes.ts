@@ -543,153 +543,153 @@ type GamepadTabbedPageClasses = Record<
 >;
 
 type GamepadContextMenuClasses = Record<
-  | "duration-app-launch"
-  | "BasicContextMenuModal"
-  | "BasicContextMenuHeader"
-  | "BasicContextMenuHeaderShrinkableSpacing"
-  | "BasicContextMenuContainer"
-  | "slideInAnimation"
-  | "contextMenu"
-  | "contextMenuContents"
-  | "hasSubMenu"
-  | "contextMenuFade"
-  | "contextMenuItem"
-  | "active"
-  | "Selected"
-  | "Focused"
-  | "Positive"
-  | "Emphasis"
-  | "Destructive"
-  | "Capitalized"
-  | "MenuSectionHeader"
-  | "UpperCase"
-  | "SubMenu"
-  | "ContextMenuSeparator"
-  | "Label"
-  | "Arrow"
-  | "ItemFocusAnim-darkerGrey-nocolor"
-  | "ItemFocusAnim-darkerGrey"
-  | "ItemFocusAnim-darkGrey"
-  | "ItemFocusAnim-grey"
-  | "ItemFocusAnimBorder-darkGrey"
-  | "ItemFocusAnim-green"
-  | "focusAnimation"
-  | "hoverAnimation",
+  | 'duration-app-launch'
+  | 'BasicContextMenuModal'
+  | 'BasicContextMenuHeader'
+  | 'BasicContextMenuHeaderShrinkableSpacing'
+  | 'BasicContextMenuContainer'
+  | 'slideInAnimation'
+  | 'contextMenu'
+  | 'contextMenuContents'
+  | 'hasSubMenu'
+  | 'contextMenuFade'
+  | 'contextMenuItem'
+  | 'active'
+  | 'Selected'
+  | 'Focused'
+  | 'Positive'
+  | 'Emphasis'
+  | 'Destructive'
+  | 'Capitalized'
+  | 'MenuSectionHeader'
+  | 'UpperCase'
+  | 'SubMenu'
+  | 'ContextMenuSeparator'
+  | 'Label'
+  | 'Arrow'
+  | 'ItemFocusAnim-darkerGrey-nocolor'
+  | 'ItemFocusAnim-darkerGrey'
+  | 'ItemFocusAnim-darkGrey'
+  | 'ItemFocusAnim-grey'
+  | 'ItemFocusAnimBorder-darkGrey'
+  | 'ItemFocusAnim-green'
+  | 'focusAnimation'
+  | 'hoverAnimation',
   string
 >;
 
 type AchievementClasses = Record<
-  | "nAchievementHeight"
-  | "nGlobalAchievementHeight"
-  | "nAchievementsListTitleHeight"
-  | "nAchievementGap"
-  | "AchievementList"
-  | "ListTitle"
-  | "AchievementListItemBase"
-  | "Container"
-  | "Content"
-  | "Right"
-  | "Footer"
-  | "AchievementTitle"
-  | "AchievementDescription"
-  | "AchievementGlobalPercentage"
-  | "InBody"
-  | "VerticalContent"
-  | "UnlockDate"
-  | "AlignEnd"
-  | "ProgressBar"
-  | "ProgressCount"
-  | "AchievementContent"
-  | "HiddenAchievementContent"
-  | "FriendAchievementFooter"
-  | "GlobalPercentage"
-  | "UserUnlockDateTime"
-  | "GlobalAchievementsListHeader"
-  | "SearchField"
-  | "Avatar"
-  | "HeaderText"
-  | "GlobalAchievementListItem"
-  | "UnlockContainer"
-  | "Info"
-  | "Title"
-  | "Description"
-  | "Percent"
-  | "ImageContainer"
-  | "ProgressFill"
-  | "SpoilerWarning"
-  | "Hidden"
-  | "ComparisonAchieverColumn"
-  | "ComparisonAchieverInfo"
-  | "ProgressContainer"
-  | "ProgressLabel"
-  | "Secondary"
-  | "AvatarContainer"
-  | "Unachieved",
+  | 'nAchievementHeight'
+  | 'nGlobalAchievementHeight'
+  | 'nAchievementsListTitleHeight'
+  | 'nAchievementGap'
+  | 'AchievementList'
+  | 'ListTitle'
+  | 'AchievementListItemBase'
+  | 'Container'
+  | 'Content'
+  | 'Right'
+  | 'Footer'
+  | 'AchievementTitle'
+  | 'AchievementDescription'
+  | 'AchievementGlobalPercentage'
+  | 'InBody'
+  | 'VerticalContent'
+  | 'UnlockDate'
+  | 'AlignEnd'
+  | 'ProgressBar'
+  | 'ProgressCount'
+  | 'AchievementContent'
+  | 'HiddenAchievementContent'
+  | 'FriendAchievementFooter'
+  | 'GlobalPercentage'
+  | 'UserUnlockDateTime'
+  | 'GlobalAchievementsListHeader'
+  | 'SearchField'
+  | 'Avatar'
+  | 'HeaderText'
+  | 'GlobalAchievementListItem'
+  | 'UnlockContainer'
+  | 'Info'
+  | 'Title'
+  | 'Description'
+  | 'Percent'
+  | 'ImageContainer'
+  | 'ProgressFill'
+  | 'SpoilerWarning'
+  | 'Hidden'
+  | 'ComparisonAchieverColumn'
+  | 'ComparisonAchieverInfo'
+  | 'ProgressContainer'
+  | 'ProgressLabel'
+  | 'Secondary'
+  | 'AvatarContainer'
+  | 'Unachieved',
   string
 >;
 
 type MainMenuAppRunningClasses = Record<
-  | "duration-app-launch"
-  | "ScrollMask"
-  | "HideMask"
-  | "MainMenuAppRunning"
-  | "MenuOpen"
-  | "NavigationColumn"
-  | "ControllerColumnFocused"
-  | "NavColumnFocused"
-  | "NavigationBox"
-  | "NavigationMenuItem"
-  | "ItemFocusAnim-darkerGrey"
-  | "Active"
-  | "Disabled"
-  | "SwitchAppsTitle"
-  | "SelectableAppWindow"
-  | "ActiveDot"
-  | "NavigationMenuItemSeparator"
-  | "AppColumn"
-  | "FocusedColumn"
-  | "AppColumnContent"
-  | "ActiveContent"
-  | "CurrentGameBackground"
-  | "CurrentGameLogo"
-  | "OverlayAchievements"
-  | "Container"
-  | "OverlayGuides"
-  | "OverlayNotes"
-  | "OverlayInplaceBrowser"
-  | "ItemFocusAnim-darkerGrey-nocolor"
-  | "ItemFocusAnim-darkGrey"
-  | "ItemFocusAnim-grey"
-  | "ItemFocusAnimBorder-darkGrey"
-  | "ItemFocusAnim-green"
-  | "focusAnimation"
-  | "hoverAnimation",
+  | 'duration-app-launch'
+  | 'ScrollMask'
+  | 'HideMask'
+  | 'MainMenuAppRunning'
+  | 'MenuOpen'
+  | 'NavigationColumn'
+  | 'ControllerColumnFocused'
+  | 'NavColumnFocused'
+  | 'NavigationBox'
+  | 'NavigationMenuItem'
+  | 'ItemFocusAnim-darkerGrey'
+  | 'Active'
+  | 'Disabled'
+  | 'SwitchAppsTitle'
+  | 'SelectableAppWindow'
+  | 'ActiveDot'
+  | 'NavigationMenuItemSeparator'
+  | 'AppColumn'
+  | 'FocusedColumn'
+  | 'AppColumnContent'
+  | 'ActiveContent'
+  | 'CurrentGameBackground'
+  | 'CurrentGameLogo'
+  | 'OverlayAchievements'
+  | 'Container'
+  | 'OverlayGuides'
+  | 'OverlayNotes'
+  | 'OverlayInplaceBrowser'
+  | 'ItemFocusAnim-darkerGrey-nocolor'
+  | 'ItemFocusAnim-darkGrey'
+  | 'ItemFocusAnim-grey'
+  | 'ItemFocusAnimBorder-darkGrey'
+  | 'ItemFocusAnim-green'
+  | 'focusAnimation'
+  | 'hoverAnimation',
   string
 >;
 
 type BasicAppDetailsSectionStylerClasses = Record<
-  | "duration-app-launch"
-  | "headerPadding"
-  | "Header"
-  | "AppDetailsContent"
-  | "AppDetailsContainer"
-  | "AppDetailsRoot"
-  | "GameInfoContainer"
-  | "GameInfoQuickLinks"
-  | "GameInfoCollections"
-  | "CollectionsHeader"
-  | "PlaySection"
-  | "ActionRow"
-  | "AppDetailSectionList"
-  | "AppActionButton"
-  | "ActionButtonAndStatusPanel"
-  | "AppButtons"
-  | "InvertFocusedIcon"
-  | "DeckVerifiedFeedbackContainer"
-  | "DeckVerifiedFeedbackConfirmationContainer"
-  | "DeckVerifiedFeedbackButton"
-  | "DeckVerifiedFeedbackQuestion"
-  | "DeckVerifiedFeedbackConfirmation",
+  | 'duration-app-launch'
+  | 'headerPadding'
+  | 'Header'
+  | 'AppDetailsContent'
+  | 'AppDetailsContainer'
+  | 'AppDetailsRoot'
+  | 'GameInfoContainer'
+  | 'GameInfoQuickLinks'
+  | 'GameInfoCollections'
+  | 'CollectionsHeader'
+  | 'PlaySection'
+  | 'ActionRow'
+  | 'AppDetailSectionList'
+  | 'AppActionButton'
+  | 'ActionButtonAndStatusPanel'
+  | 'AppButtons'
+  | 'InvertFocusedIcon'
+  | 'DeckVerifiedFeedbackContainer'
+  | 'DeckVerifiedFeedbackConfirmationContainer'
+  | 'DeckVerifiedFeedbackButton'
+  | 'DeckVerifiedFeedbackQuestion'
+  | 'DeckVerifiedFeedbackConfirmation',
   string
 >;
 
@@ -700,9 +700,7 @@ export const quickAccessMenuClasses: QuickAccessMenuClasses = findModule(
  * @depreciated please use quickAccessMenuClasses instead
  */
 export const staticClasses = quickAccessMenuClasses;
-export const scrollPanelClasses: ScrollPanelClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.ScrollPanel,
-);
+export const scrollPanelClasses: ScrollPanelClasses = findModule((mod) => typeof mod === 'object' && mod?.ScrollPanel);
 /**
  * @depreciated please use scrollPanelClasses instead
  */
@@ -717,33 +715,27 @@ export const quickAccessControlsClasses: QuickAccessControlsClasses = findModule
 export const updaterFieldClasses: UpdaterFieldClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.OOBEUpdateStatusContainer,
 );
-export const playSectionClasses: PlaySectionClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.Container,
-);
+export const playSectionClasses: PlaySectionClasses = findModule((mod) => typeof mod === 'object' && mod?.Container);
 export const gamepadSliderClasses: GamepadSliderClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.SliderControlPanelGroup,
 );
 export const appDetailsHeaderClasses: AppDetailsHeaderClasses = findModule(
   (mod) => typeof mod === 'object' && mod?.TopCapsule,
 );
-export const appDetailsClasses: AppDetailsClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.HeaderLoaded,
-);
-export const gamepadUIClasses: GamepadUIClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.BasicUiRoot,
-);
+export const appDetailsClasses: AppDetailsClasses = findModule((mod) => typeof mod === 'object' && mod?.HeaderLoaded);
+export const gamepadUIClasses: GamepadUIClasses = findModule((mod) => typeof mod === 'object' && mod?.BasicUiRoot);
 export const gamepadTabbedPageClasses: GamepadTabbedPageClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.GamepadTabbedPage
+  (mod) => typeof mod === 'object' && mod?.GamepadTabbedPage,
 );
 export const gamepadContextMenuClasses: GamepadContextMenuClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.BasicContextMenuModal
+  (mod) => typeof mod === 'object' && mod?.BasicContextMenuModal,
 );
 export const achievementClasses: AchievementClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.AchievementListItemBase
+  (mod) => typeof mod === 'object' && mod?.AchievementListItemBase,
 );
 export const mainMenuAppRunningClasses: MainMenuAppRunningClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.MainMenuAppRunning
+  (mod) => typeof mod === 'object' && mod?.MainMenuAppRunning,
 );
 export const basicAppDetailsSectionStylerClasses: BasicAppDetailsSectionStylerClasses = findModule(
-  (mod) => typeof mod === 'object' && mod?.AppDetailsRoot
+  (mod) => typeof mod === 'object' && mod?.AppDetailsRoot,
 );

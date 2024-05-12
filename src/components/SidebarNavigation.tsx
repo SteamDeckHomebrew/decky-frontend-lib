@@ -23,4 +23,6 @@ export interface SidebarNavigationProps {
   onPageRequested?: (page: string) => void;
 }
 
-export const SidebarNavigation = findModuleExport((e: Export) => e?.toString()?.includes('"disableRouteReporting"')) as VFC<SidebarNavigationProps>;
+export const SidebarNavigation = findModuleExport((e: Export) =>
+  e?.toString()?.includes('"disableRouteReporting"'),
+) as VFC<SidebarNavigationProps>;

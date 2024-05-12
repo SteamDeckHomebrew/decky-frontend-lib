@@ -36,7 +36,7 @@ export declare enum NavEntryPositionPreferences {
   LAST,
   MAINTAIN_X,
   MAINTAIN_Y,
-  PREFERRED_CHILD
+  PREFERRED_CHILD,
 }
 export interface GamepadEventDetail {
   button: number;
@@ -44,8 +44,8 @@ export interface GamepadEventDetail {
   source: number;
 }
 export declare type ActionDescriptionMap = {
-  [key in GamepadButton]?: ReactNode
-}
+  [key in GamepadButton]?: ReactNode;
+};
 export declare type GamepadEvent = CustomEvent<GamepadEventDetail>;
 export interface FooterLegendProps {
   actionDescriptionMap?: ActionDescriptionMap;

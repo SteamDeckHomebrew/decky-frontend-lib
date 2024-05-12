@@ -1,5 +1,5 @@
 declare global {
-    interface Window {
-        SP_REACT: typeof React;
-    }
+  interface Window {
+    SP_REACT: typeof React;
+  }
 }
