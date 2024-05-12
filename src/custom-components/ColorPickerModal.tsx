@@ -1,6 +1,7 @@
 import { CSSProperties, FC, useState } from 'react';
 
-import { ConfirmModal, SliderField, gamepadSliderClasses } from '../deck-components';
+import { ConfirmModal, SliderField } from '../components';
+import { gamepadSliderClasses } from '../utils/static-classes';
 
 interface ColorPickerModalProps {
   closeModal: () => void;

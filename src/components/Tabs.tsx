@@ -1,7 +1,7 @@
 import { FC, ReactNode, createElement, useEffect, useState } from 'react';
 
 import { fakeRenderComponent, findInReactTree, sleep } from '../utils';
-import { findModule } from '../webpack';
+import { Export, findModuleByExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 import { SteamSpinner } from './SteamSpinner';
 
@@ -98,13 +98,7 @@ const getTabs = async () => {
 let oldTabs: any;
 
 try {
-  const oldTabsModule = findModule((m: any) => {
-    if (typeof m !== 'object') return false;
-    for (let prop in m) {
-      if (m[prop]?.Unbleed) return true;
-    }
-    return false;
-  });
+  const oldTabsModule = findModuleByExport((e: Export) => e.Unbleed);
   if (oldTabsModule)
     oldTabs = Object.values(oldTabsModule).find((x: any) => x?.type?.toString()?.includes('((function(){'));
 } catch (e) {

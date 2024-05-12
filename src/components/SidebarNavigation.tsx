@@ -1,6 +1,6 @@
 import { ReactNode, VFC } from 'react';
 
-import { Module, findModuleChild } from '../webpack';
+import { Export, findModuleExport } from '../webpack';
 
 export interface SidebarNavigationPage {
   title: ReactNode;
@@ -23,11 +23,4 @@ export interface SidebarNavigationProps {
   onPageRequested?: (page: string) => void;
 }
 
-export const SidebarNavigation = findModuleChild((mod: Module) => {
-  for (let prop in mod) {
-    if (mod[prop]?.toString()?.includes('"disableRouteReporting"')) {
-      return mod[prop];
-    }
-  }
-  return null;
-}) as VFC<SidebarNavigationProps>;
+export const SidebarNavigation = findModuleExport((e: Export) => e?.toString()?.includes('"disableRouteReporting"')) as VFC<SidebarNavigationProps>;

@@ -1,6 +1,6 @@
 import { FC, ReactNode, RefAttributes } from 'react';
 
-import { findModuleChild } from '../webpack';
+import { Export, findModuleExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 export interface FieldProps extends FooterLegendProps {
@@ -23,9 +23,4 @@ export interface FieldProps extends FooterLegendProps {
   onClick?: (e: CustomEvent | MouseEvent) => void;
 }
 
-export const Field = findModuleChild((m) => {
-  if (typeof m !== 'object') return undefined;
-  for (let prop in m) {
-    if (m[prop]?.render?.toString().includes('"shift-children-below"')) return m[prop];
-  }
-}) as FC<FieldProps & RefAttributes<HTMLDivElement>>;
+export const Field = findModuleExport((e: Export) => e?.render?.toString().includes('"shift-children-below"')) as FC<FieldProps & RefAttributes<HTMLDivElement>>;

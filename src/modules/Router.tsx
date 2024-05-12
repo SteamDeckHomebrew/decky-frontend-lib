@@ -1,5 +1,5 @@
 import { sleep } from '../utils';
-import { Module, findModuleChild } from '../webpack';
+import { Export, findModuleExport } from '../webpack';
 
 export enum SideMenu {
   None,
@@ -101,12 +101,7 @@ export interface Router {
   get MainRunningApp(): AppOverview | undefined;
 }
 
-export const Router = findModuleChild((m: Module) => {
-  if (typeof m !== 'object') return undefined;
-  for (let prop in m) {
-    if (m[prop]?.Navigate && m[prop]?.NavigationManager) return m[prop];
-  }
-}) as Router;
+export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as Router;
 
 export interface Navigation {
   Navigate(path: string): void;
@@ -133,14 +128,7 @@ try {
     if (!Router.NavigateToAppProperties || (Router as unknown as any).deckyShim) {
       function initInternalNavigators() {
         try {
-          InternalNavigators = findModuleChild((m: any) => {
-            if (typeof m !== 'object') return undefined;
-            for (let prop in m) {
-              if (m[prop]?.GetNavigator && m[prop]?.SetNavigator) {
-                return m[prop];
-              }
-            }
-          })?.GetNavigator();
+          InternalNavigators = findModuleExport((e: Export) => e.GetNavigator && e.SetNavigator)?.GetNavigator();
         } catch (e) {
           console.error('[DFL:Router]: Failed to init internal navigators, trying again');
         }

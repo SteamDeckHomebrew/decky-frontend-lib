@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode, RefAttributes, VFC } from 'react';
 
-import { findModuleChild } from '../webpack';
+import { Export, findModuleExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 export interface FocusableProps extends HTMLAttributes<HTMLDivElement>, FooterLegendProps {
@@ -13,10 +13,4 @@ export interface FocusableProps extends HTMLAttributes<HTMLDivElement>, FooterLe
   onCancel?: (e: CustomEvent) => void;
 }
 
-export const Focusable = findModuleChild((m) => {
-  if (typeof m !== 'object') return undefined;
-  for (let prop in m) {
-    if (m[prop]?.render?.toString()?.includes('["flow-children","onActivate","onCancel","focusClassName",'))
-      return m[prop];
-  }
-}) as VFC<FocusableProps & RefAttributes<HTMLDivElement>>;
+export const Focusable = findModuleExport((e: Export) => e?.render?.toString()?.includes('["flow-children","onActivate","onCancel","focusClassName",')) as VFC<FocusableProps & RefAttributes<HTMLDivElement>>;

@@ -1,5 +1,5 @@
 {
-  "name": "@decky/frontend",
+  "name": "@decky/ui",
   "version": "4.0.0",
   "description": "A library for interacting with the Steam frontend in Decky plugins and elsewhere.",
   "main": "dist/index.js",

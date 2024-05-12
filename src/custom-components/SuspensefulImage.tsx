@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { FC, ImgHTMLAttributes, useState } from 'react';
 
-import { Spinner } from '../deck-components';
+import { Spinner } from '../components';
 
 interface SuspensefulImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   suspenseWidth?: string | number;

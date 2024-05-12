@@ -8,9 +8,8 @@ export interface ButtonItemProps extends ItemProps {
   disabled?: boolean;
 }
 export const ButtonItem =
-  (CommonUIModule.ButtonField ||
   Object.values(CommonUIModule).find(
     (mod: any) =>
       mod?.render?.toString()?.includes('"highlightOnFocus","childrenContainerWidth"') ||
      mod?.render?.toString()?.includes('childrenContainerWidth:"min"'),
-  )) as FC<ButtonItemProps>;
+  ) as FC<ButtonItemProps>;

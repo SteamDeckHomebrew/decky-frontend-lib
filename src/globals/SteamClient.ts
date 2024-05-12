@@ -1,3 +1,7 @@
+declare global {
+  var SteamClient: SteamClient;
+}
+
 export interface Apps {
   RegisterForAppOverviewChanges: any;
   RegisterForAppDetails: any;
