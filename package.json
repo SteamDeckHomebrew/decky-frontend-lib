@@ -1,7 +1,7 @@
 {
-  "name": "decky-frontend-lib",
-  "version": "3.25.0",
-  "description": "A library for building decky plugins",
+  "name": "@decky/frontend",
+  "version": "4.0.0",
+  "description": "A library for interacting with the Steam frontend in Decky plugins and elsewhere.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
