@@ -1,0 +1,175 @@
+import {Unregisterable} from "./index";
+import {AppError} from "./App";
+
+/**
+ * Represents functions related to Steam Install Folders.
+ */
+export interface InstallFolder {
+    /**
+     * Adds a Steam Library folder to the Steam client.
+     * @param {string} steamLibraryPath - The path of the Steam Library folder to be added.
+     * @returns {Promise<number>} - A Promise that resolves to the index of the added folder.
+     */
+    AddInstallFolder(steamLibraryPath: string): Promise<number>;
+
+    /**
+     * Opens the file explorer to browse files in a specific Steam Library folder.
+     * @param {number} folderIndex - The index of the folder to be opened.
+     * @returns {void}
+     */
+    BrowseFilesInFolder(folderIndex: number): void;
+
+    /**
+     * Cancels the current move operation for moving game content.
+     * @returns {void}
+     */
+    CancelMove(): void;
+
+    /**
+     * Retrieves a list of installed Steam Library folders.
+     * @returns {Promise<SteamInstallFolder[]>} - A Promise that resolves to an array of SteamInstallFolder objects.
+     */
+    GetInstallFolders(): Promise<SteamInstallFolder[]>;
+
+    /**
+     * Retrieves a list of potential Steam Library folders that can be added.
+     * @returns {Promise<PotentialInstallFolder[]>} - A Promise that resolves to an array of PotentialInstallFolder objects.
+     */
+    GetPotentialFolders(): Promise<PotentialInstallFolder[]>;
+
+    /**
+     * Moves the installation folder for a specific app to another Steam Library folder.
+     * @param {number} appId - The ID of the application to be moved.
+     * @param {number} folderIndex - The index of the target Steam Library folder.
+     * @returns {void}
+     */
+    MoveInstallFolderForApp(appId: number, folderIndex: number): void;
+
+    /**
+     * Refreshes the list of installed Steam Library folders.
+     * @returns {any} - A Promise or response indicating the refresh operation.
+     */
+    RefreshFolders(): any;
+
+    /**
+     * Registers a callback function to be called when changes occur in Steam Install Folders.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForInstallFolderChanges(callback: (folderChange: FolderChange) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when moving game content progresses.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForMoveContentProgress(callback: (moveContentProgress: MoveContentProgress) => void): Unregisterable | any;
+
+    /**
+     * Registers a callback function to be called when repairing an install folder is finished.
+     * @param {function} callback - The callback function to be called.
+     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     */
+    RegisterForRepairFolderFinished(callback: (folderChange: FolderChange) => void): Unregisterable | any;
+
+    /**
+     * Removes a Steam Library folder from the Steam client.
+     * @param {number} folderIndex - The index of the folder to be removed.
+     * @returns {void}
+     */
+    RemoveInstallFolder(folderIndex: number): void;
+
+    /**
+     * Repairs an installed Steam Library folder.
+     * @param {number} folderIndex - The index of the folder to be repaired.
+     * @returns {void}
+     */
+    RepairInstallFolder(folderIndex: number): void;
+
+    /**
+     * Sets a specific Steam Library folder as the default install folder.
+     * @param {number} folderIndex - The index of the folder to be set as default.
+     * @returns {void}
+     */
+    SetDefaultInstallFolder(folderIndex: number): void;
+
+    /**
+     * Sets a user-defined label for a specific Steam Library folder.
+     * @param {number} folderIndex - The index of the folder to be labeled.
+     * @param {string} userLabel - The label to be assigned to the folder.
+     * @returns {void}
+     */
+    SetFolderLabel(folderIndex: number, userLabel: string): void;
+}
+
+/**
+ * Represents information about an installation folder.
+ */
+export interface SteamInstallFolder extends PotentialInstallFolder {
+    /** Index of the folder. */
+    nFolderIndex: number;
+    /** Used space in the folder. */
+    strUsedSize: string;
+    /** Size of DLC storage used in the folder. */
+    strDLCSize: string;
+    /** Size of workshop storage used in the folder. */
+    strWorkshopSize: string;
+    /** Size of staged storage used in the folder. */
+    strStagedSize: string;
+    /** Indicates if the folder is set as the default installation folder. */
+    bIsDefaultFolder: boolean;
+    /** Indicates if the folder is currently mounted. */
+    bIsMounted: boolean;
+    /** List of applications installed in the folder. */
+    vecApps: AppInfo[];
+}
+
+export interface PotentialInstallFolder {
+    /** Path of the folder. */
+    strFolderPath: string;
+    /** User label for the folder. */
+    strUserLabel: string;
+    /** Name of the drive where the folder is located. */
+    strDriveName: string;
+    /** Total capacity of the folder. */
+    strCapacity: string;
+    /** Available free space in the folder. */
+    strFreeSpace: string;
+    /** Indicates if the folder is on a fixed drive. */
+    bIsFixed: boolean;
+}
+
+/**
+ * Represents information about an installed application.
+ */
+export interface AppInfo {
+    /** ID of the application. */
+    nAppID: number;
+    /** Name of the application. */
+    strAppName: string;
+    /** Sorting information for the application. */
+    strSortAs: string;
+    /** Last played time in Unix Epoch time format. */
+    rtLastPlayed: number;
+    /** Size of used storage by the application. */
+    strUsedSize: string;
+    /** Size of DLC storage used by the application. */
+    strDLCSize: string;
+    /** Size of workshop storage used by the application. */
+    strWorkshopSize: string;
+    /** Size of staged storage used by the application. */
+    strStagedSize: string;
+}
+
+export interface FolderChange {
+    folderIndex: number;
+}
+
+export interface MoveContentProgress {
+    appid: number;
+    eError: AppError;
+    flProgress: number;
+    strBytesMoved: string;
+    strTotalBytesToMove: string;
+    nFilesMoved: number;
+}

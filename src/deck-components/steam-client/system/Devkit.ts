@@ -1,0 +1,11 @@
+import {Unregisterable} from "../index";
+
+export interface Devkit {
+    DeveloperModeChanged(state: boolean): any;
+
+    RegisterForPairingPrompt(callback: (param0: any) => any): Unregisterable | any;
+
+    RespondToPairingPrompt(param0: any, param1: any): any;
+
+    SetPairing(param0: any): any;
+}
