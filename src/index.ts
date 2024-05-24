@@ -5,7 +5,6 @@ export * from './components';
 export * from './deck-hooks';
 export * from './modules';
 export * from './globals';
-export * from './plugin';
 export * from './webpack';
 export * from './utils';
 export * from './class-mapper';
