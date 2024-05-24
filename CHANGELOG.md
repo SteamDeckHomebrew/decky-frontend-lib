@@ -1,3 +1,15 @@
+# [3.26.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.25.0...v3.26.0) (2024-05-24)
+
+
+### Bug Fixes
+
+* **utils/react:** shut it ts ([d91f49e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d91f49e728b613e24b40d7e81d47fd1f3bd92372))
+
+
+### Features
+
+* add v4 webpack api and port everything to it ([bffd530](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bffd530bda9a49aae603c323c0a2b4328eee968d))
+
 # [3.25.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.5...v3.25.0) (2024-03-09)
 
 
