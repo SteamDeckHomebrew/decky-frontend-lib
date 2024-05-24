@@ -29,7 +29,7 @@
     "steam",
     "components"
   ],
-  "author": "Jonas Dellinger <jonas@dellinger.dev>",
+  "author": "SteamDeckHomebrew Team",
   "license": "LGPL-2.1",
   "bugs": {
     "url": "https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues"
