@@ -4,6 +4,7 @@ import { Export, findModuleExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 export interface FieldProps extends FooterLegendProps {
+  children?: ReactNode;
   label?: ReactNode;
   bottomSeparator?: 'standard' | 'thick' | 'none';
   description?: ReactNode;
