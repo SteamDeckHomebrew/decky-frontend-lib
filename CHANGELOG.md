@@ -1,3 +1,11 @@
+## [3.26.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.26.0...v3.26.1) (2024-05-25)
+
+
+### Bug Fixes
+
+* **Field:** add children prop ([2a78cc0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2a78cc011671ab123fb6356f54102e531a7953a8))
+* **plugin:** shim definePlugin for now [ci skip] ([0cd498b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0cd498beacbd23efa3b771880ff0a4df3f636836))
+
 # [3.26.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.25.0...v3.26.0) (2024-05-24)
 
 
