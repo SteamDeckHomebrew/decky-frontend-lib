@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, RefAttributes, VFC } from 'react';
+import { HTMLAttributes, ReactNode, RefAttributes, FC } from 'react';
 
 import { Export, findModuleExport } from '../webpack';
 
@@ -20,6 +20,6 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   scrollToAlignment?: 'center';
 }
 
-export const Carousel = findModuleExport((e: Export) => e.render?.toString().includes('setFocusedColumn:')) as VFC<
+export const Carousel = findModuleExport((e: Export) => e.render?.toString().includes('setFocusedColumn:')) as FC<
   CarouselProps & RefAttributes<HTMLDivElement>
 >;

@@ -1,4 +1,4 @@
-import { ReactNode, VFC } from 'react';
+import { ReactNode, FC } from 'react';
 
 import { Export, findModuleExport } from '../webpack';
 
@@ -25,4 +25,4 @@ export interface SidebarNavigationProps {
 
 export const SidebarNavigation = findModuleExport((e: Export) =>
   e?.toString()?.includes('"disableRouteReporting"'),
-) as VFC<SidebarNavigationProps>;
+) as FC<SidebarNavigationProps>;

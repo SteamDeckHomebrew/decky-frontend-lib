@@ -15,10 +15,10 @@ function getQuickAccessWindow(): Window | null {
  * @returns `true` if quick access menu is visible and `false` otherwise.
  *
  * @example
- * import { VFC, useEffect } from "react";
+ * import { FC, useEffect } from "react";
  * import { useQuickAccessVisible } from "decky-frontend-lib";
  *
- * export const PluginPanelView: VFC<{}> = ({ }) => {
+ * export const PluginPanelView: FC<{}> = ({ }) => {
  *   const isVisible = useQuickAccessVisible();
  *
  *   useEffect(() => {

@@ -1,4 +1,4 @@
-import { ReactNode, VFC } from 'react';
+import { ReactNode, FC } from 'react';
 
 import { Export, findModuleExport } from '../webpack';
 import { ItemProps } from './Item';
@@ -24,12 +24,12 @@ export interface ProgressBarWithInfoProps extends ProgressBarItemProps {
 
 export const ProgressBar = findModuleExport((e: Export) =>
   e?.toString()?.includes('.ProgressBar,"standard"=='),
-) as VFC<ProgressBarProps>;
+) as FC<ProgressBarProps>;
 
 export const ProgressBarWithInfo = findModuleExport((e: Export) =>
   e?.toString()?.includes('.ProgressBarFieldStatus},'),
-) as VFC<ProgressBarWithInfoProps>;
+) as FC<ProgressBarWithInfoProps>;
 
 export const ProgressBarItem = findModuleExport((e: Export) =>
   e?.toString()?.includes('"indeterminate","nTransitionSec"'),
-) as VFC<ProgressBarItemProps>;
+) as FC<ProgressBarItemProps>;

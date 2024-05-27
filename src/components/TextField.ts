@@ -1,4 +1,4 @@
-import { ChangeEventHandler, HTMLAttributes, ReactNode, VFC } from 'react';
+import { ChangeEventHandler, HTMLAttributes, ReactNode, FC } from 'react';
 
 import { CommonUIModule, Module } from '../webpack';
 
@@ -25,4 +25,4 @@ export interface TextFieldProps extends HTMLAttributes<HTMLInputElement> {
 
 export const TextField = Object.values(CommonUIModule).find(
   (mod: Module) => mod?.validateUrl && mod?.validateEmail,
-) as VFC<TextFieldProps>;
+) as FC<TextFieldProps>;

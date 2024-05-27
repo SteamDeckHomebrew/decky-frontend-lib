@@ -1,4 +1,4 @@
-import { ReactNode, VFC } from 'react';
+import { ReactNode, FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
 import { ItemProps } from './Item';
@@ -40,10 +40,10 @@ export interface DropdownProps {
 
 export const Dropdown = Object.values(CommonUIModule).find(
   (mod: any) => mod?.prototype?.SetSelectedOption && mod?.prototype?.BuildMenu,
-) as VFC<DropdownProps>;
+) as FC<DropdownProps>;
 
 export interface DropdownItemProps extends DropdownProps, ItemProps {}
 
 export const DropdownItem = Object.values(CommonUIModule).find((mod: any) =>
   mod?.toString()?.includes('"dropDownControlRef","description"'),
-) as VFC<DropdownItemProps>;
+) as FC<DropdownItemProps>;

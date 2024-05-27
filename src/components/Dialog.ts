@@ -1,4 +1,4 @@
-import { CSSProperties, FC, RefAttributes } from 'react';
+import { CSSProperties, FC, ReactNode, RefAttributes } from 'react';
 
 import { CommonUIModule } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
@@ -6,6 +6,7 @@ import { FooterLegendProps } from './FooterLegend';
 export interface DialogCommonProps extends RefAttributes<HTMLDivElement> {
   style?: CSSProperties;
   className?: string;
+  children?: ReactNode;
 }
 
 export interface DialogButtonProps extends DialogCommonProps, FooterLegendProps {
