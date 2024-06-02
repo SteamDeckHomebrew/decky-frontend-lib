@@ -1,5 +1,4 @@
-import {Unregisterable} from "./index";
-import {UIMode} from "./UI";
+import {EBrowserType, UIMode, Unregisterable} from "./index";
 
 export interface Overlay {
     /**
@@ -74,7 +73,7 @@ export enum NotificationPosition {
 
 export interface OverlayBrowserInfo {
     appID: number;
-    eBrowserType: BrowserType;
+    eBrowserType: EBrowserType;
     eUIMode: UIMode;
     flDisplayScale?: number;
     gameID: string;
@@ -85,23 +84,6 @@ export interface OverlayBrowserInfo {
      * The PID of the overlay process.
      */
     unPID: number;
-}
-
-export enum BrowserType {
-    OffScreen = 0,
-    OpenVROverlay = 1,
-    OpenVROverlay_Dashboard = 2,
-    DirectHWND = 3,
-    DirectHWND_Borderless = 4,
-    DirectHWND_Hidden = 5,
-    ChildHWNDNative = 6,
-    Transparent_Toplevel = 7,
-    OffScreen_SharedTexture = 8,
-    OffScreen_GameOverlay = 9,
-    OffScreen_GameOverlay_SharedTexture = 10,
-    Offscreen_FriendsUI = 11,
-    Offscreen_SteamUI = 12,
-    OpenVROverlay_Subview = 13,
 }
 
 export interface OverlayBrowserProtocols {

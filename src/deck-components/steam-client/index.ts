@@ -202,6 +202,73 @@ export enum Result {
     LimitedUserAccount = 112,
 }
 
+export enum EBrowserType {
+    /**
+     * No window is created (like SharedJSContext).
+     */
+    OffScreen,
+    OpenVROverlay,
+    OpenVROverlay_Dashboard,
+    /**
+     * A normal window.
+     */
+    DirectHWND,
+    /**
+     * A borderless window.
+     */
+    DirectHWND_Borderless,
+    /**
+     * An initially hidden window.
+     * May be shown with {@link SteamClient.Window.ShowWindow}.
+     */
+    DirectHWND_Hidden,
+    ChildHWNDNative,
+    /**
+     * A transparent borderless window.
+     * Always on top of other windows, does not have a taskbar icon and not focusable.
+     */
+    Transparent_Toplevel,
+    OffScreen_SharedTexture,
+    OffScreen_GameOverlay,
+    OffScreen_GameOverlay_SharedTexture,
+    Offscreen_FriendsUI,
+    Offscreen_SteamUI,
+    OpenVROverlay_Subview,
+}
+
+export enum UIMode {
+    Unknown = -1,
+    GamePad = 4,
+    Desktop = 7,
+}
+
+export interface BrowserContext {
+    /**
+     * Window type.
+     */
+    m_eBrowserType?: EBrowserType;
+    /**
+     * The UI mode in use.
+     */
+    m_eUIMode?: UIMode;
+    /**
+     * @todo Appears when EBrowserType == 0 ?
+     */
+    m_gameID?: string;
+    /**
+     * @todo Same as `SteamClient.Browser.GetBrowserID()` ?
+     */
+    m_nBrowserID: number;
+    /**
+     * Game's app ID.
+     */
+    m_unAppID?: number;
+    /**
+     * If overlay, game's PID.
+     */
+    m_unPID: number;
+}
+
 /**
  * Represents the response of an operation. It appears to be not necessary to await for this operation response. It is only used to indicate the result of an operation.
  */
@@ -264,18 +331,6 @@ export interface SteamShortcut {
 export interface AppData {
     details: AppDetails;
     // more
-}
-
-export interface NotificationOptions {
-    body: string;
-    chatroomgroupid?: number;
-    chatroomid?: number;
-    icon?: string;
-    state: string;
-    /** A Steam64 ID. */
-    steamid: string;
-    tag?: string;
-    title?: string;
 }
 
 export interface SteamDatagramLinkInstantaneousStats {

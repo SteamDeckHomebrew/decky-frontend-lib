@@ -1,4 +1,4 @@
-import {Unregisterable} from "./index";
+import {UIMode, Unregisterable} from "./index";
 import {OSType} from "./system";
 
 export interface UI {
@@ -40,12 +40,6 @@ export interface UI {
      * @returns {void}
      */
     SetUIMode(mode: UIMode): void;
-}
-
-export enum UIMode {
-    Unknown = -1,
-    GamePad = 4,
-    Desktop = 7,
 }
 
 export interface OSEndOfLifeInfo {

@@ -1,6 +1,5 @@
 import {OverlayBrowserInfo} from "./Overlay";
-import {UIMode} from "./UI";
-import {Unregisterable} from "./index";
+import {UIMode, Unregisterable} from "./index";
 
 export interface WebChat {
     BSuppressPopupsInRestore(): Promise<boolean>;
