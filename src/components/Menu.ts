@@ -28,8 +28,8 @@ export interface MenuGroupProps {
 export const MenuGroup: FC<MenuGroupProps> = findModuleExport(
   (e: Export) =>
     (e?.toString()?.includes?.('bInGamepadUI:') &&
-      fakeRenderComponent(() => e({ overview: { appid: 7 } }))?.type?.prototype?.RenderSubMenu) ||
-    (e?.prototype?.RenderSubMenu && e?.prototype?.ShowSubMenu),
+      fakeRenderComponent(() => e({ overview: { appid: 7 } }), {useContext: () => ({IN_GAMEPADUI: true})})?.type?.prototype?.RenderSubMenu) ||
+    (e?.prototype?.RenderSubMenu && e?.prototype?.ShowSubMenu)
 );
 export interface MenuItemProps extends FooterLegendProps {
   bInteractableItem?: boolean;
