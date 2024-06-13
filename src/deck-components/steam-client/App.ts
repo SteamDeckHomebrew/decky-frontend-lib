@@ -473,6 +473,7 @@ export interface Apps {
 
     /**
      * @todo returns undefined (now)?
+     * @todo does not exist on Steam Version:  1718064497
      */
     RegisterForLocalizationChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
 

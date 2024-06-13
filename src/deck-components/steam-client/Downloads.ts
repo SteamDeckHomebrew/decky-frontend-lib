@@ -68,7 +68,6 @@ export interface Downloads {
      * Sets an app to launch when its download is complete.
      * @param {number} appId - The ID of the application to set.
      * @returns {void}
-     * @todo: unsure if this toggles though
      */
     SetLaunchOnUpdateComplete(appId: number): void;
 

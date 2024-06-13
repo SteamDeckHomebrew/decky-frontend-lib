@@ -2,22 +2,26 @@ import {UIComposition} from "./Overlay";
 
 /**
  * Represents functionality for managing Steam's windows.
- * Note that methods here have to be called from the window you want to use.
+ *
+ * "Restore details" here refers to a string that is similiar to
+ * `1&x=604&y=257&w=1010&h=600`, which is usable with certain
+ * `window.open()` parameters and methods from here.
+ *
+ * Note that methods here have to be called from the
+ * window you want to use (not SharedJSContext).
  */
 export interface Window {
-    BringToFront(forceOS?: WindowBringToFront): any;
+    BringToFront(forceOS?: WindowBringToFront): void;
 
     /**
-     * @todo Shuts down Steam too?
+     * Closes the window.
      */
-    Close(): any;
+    Close(): void;
 
     /**
-     * Is the Steam window fullscreen?
-     * @param {function} callback - The callback function to be called to receive the fullscreen state.
-     * @returns {void}
+     * @returns the window's fullscreen state.
      */
-    DefaultMonitorHasFullscreenWindow(callback: (fullscreen: boolean) => void): void;
+    DefaultMonitorHasFullscreenWindow(): Promise<boolean>;
 
     /**
      * Flashes the window in the taskbar.
@@ -25,21 +29,22 @@ export interface Window {
      */
     FlashWindow(): void;
 
-    /**
-     * @todo Returns 0?
-     */
-    GetDefaultMonitorDimensions(callback: (param0: number) => void): void;
-
-    GetMousePositionDetails(callback: (details: string) => void): void;
+    GetDefaultMonitorDimensions(): Promise<MonitorDimensions>;
 
     /**
-     * Gets the window X position.
-     * @param {function} callback - The callback function to be called to receive the X position.
-     * @returns {void}
+     * @returns the mouse position's restore details.
      */
-    GetWindowDimensions(callback: (x: number) => void): void;
+    GetMousePositionDetails(): Promise<string>;
 
-    GetWindowRestoreDetails(callback: (details: string) => void): void;
+    /**
+     * @returns the window's dimensions.
+     */
+    GetWindowDimensions(): Promise<WindowDimensions>;
+
+    /**
+     * @returns the window's restore details.
+     */
+    GetWindowRestoreDetails(): Promise<string>;
 
     /**
      * Hides the window.
@@ -48,18 +53,14 @@ export interface Window {
     HideWindow(): void;
 
     /**
-     * Is the window maximized?
-     * @param {function} callback - The callback function to be called to receive the maximized state.
-     * @returns {void}
+     * @returns the window's maximized state.
      */
-    IsWindowMaximized(callback: (maximized: boolean) => void): void;
+    IsWindowMaximized(): Promise<boolean>;
 
     /**
-     * Is the window minimized?
-     * @param {function} callback - The callback function to be called to receive the minimized state.
-     * @returns {void}
+     * @returns the window's minimized state.
      */
-    IsWindowMinimized(callback: (minimized: boolean) => void): void;
+    IsWindowMinimized(): Promise<boolean>;
 
     MarkLastFocused(): void;
 
@@ -88,7 +89,7 @@ export interface Window {
 
     /**
      * Moves the window relatively to given details.
-     * @param {string} details - Window details string from `Window.GetWindowRestoreDetails`.
+     * @param {string} details - Window restore details string from {@link GetWindowRestoreDetails}.
      * @param {number} x - Window X position.
      * @param {number} y - Window Y position.
      * @param {number} width - Window width.
@@ -126,7 +127,7 @@ export interface Window {
 
     SetAutoDisplayScale(value: boolean): void;
 
-    SetComposition(uiComposition: UIComposition, appIds: number[], windowId: number): any;
+    SetComposition(mode: UIComposition, appIdCompositionQueue: number[], windowId: number): void;
 
     /**
      * Makes the window hide, but not close on pressing the close button.
@@ -159,7 +160,7 @@ export interface Window {
 
     /**
      * Sets the window's resize grip size.
-     * The window has to be created with the resize grip flag.
+     * The window has to be created with the resizable flag for this to take any effect.
      * @param {number} width - Resize grip width.
      * @param {number} height - Resize grip height.
      * @returns {void}
@@ -213,3 +214,26 @@ export type WindowLocation =
     | 'lower-right';
 
 export type WindowIcon = 'steam' | 'messages' | 'voice';
+
+/**
+ * "Usable" here refers to space that is not taken by the taskbar.
+ */
+export interface MonitorDimensions {
+    flHorizontalScale: number;
+    flVerticalScale: number;
+    nFullHeight: number;
+    nFullLeft: number;
+    nFullTop: number;
+    nFullWidth: number;
+    nUsableHeight: number;
+    nUsableLeft: number;
+    nUsableTop: number;
+    nUsableWidth: number;
+}
+
+export interface WindowDimensions {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}

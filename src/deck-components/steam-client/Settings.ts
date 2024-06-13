@@ -1,5 +1,5 @@
 import {CompatibilityToolInfo} from "./App";
-import {JsPbMessage, Unregisterable} from "./index";
+import {JsPbMessage, OperationResponse, Unregisterable} from "./index";
 
 export interface Settings {
     AddClientBeta(name: string, password: string): void;
@@ -91,19 +91,19 @@ export interface Settings {
      */
     SetSaveAccountCredentials(value: boolean): void;
 
-    SetSetting: any;
+    SetSetting(serializedBase64: string): any;
 
     SetSteamPlayEnabled(value: boolean): void;
 
     SetTimeZone(timezoneId: string): void; // You can get valid timezoneIds from GetAvailableTimeZones()
-    SetUseNintendoButtonLayout: any;
+
+    SetUseNintendoButtonLayout(controllerIndex: number, value: boolean): void;
 
     SetWindowed(value: boolean): void;
 
     SpecifyGlobalCompatTool(strToolName: string): void;
 
-    // "{"result":2,"message":""}"
-    ToggleSteamInstall(): any;
+    ToggleSteamInstall(): Promise<OperationResponse>;
 }
 
 export interface AccountSettings {

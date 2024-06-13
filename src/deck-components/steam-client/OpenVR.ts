@@ -21,7 +21,7 @@ export interface OpenVR {
 
     RegisterForButtonPress: Unregisterable | any;
 
-    RegisterForHMDActivityLevelChanged(callback: (m_eHMDActivityLevel: any) => void): Unregisterable | any;
+    RegisterForHMDActivityLevelChanged(callback: (m_eHMDActivityLevel: EHMDActivityLevel) => void): Unregisterable | any;
 
     RegisterForInstallDialog: Unregisterable | any;
 
@@ -60,7 +60,10 @@ export interface DeviceProperties {
 export interface Keyboard {
     Hide(): any;
 
-    RegisterForStatus(callback: (m_bIsKeyboardOpen: boolean, m_eKeyboardFlags: any, m_sInitialKeyboardText: string) => void): Unregisterable | any;
+    /**
+     * {@link EKeyboardFlags} could be useful here
+     */
+    RegisterForStatus(callback: (m_bIsKeyboardOpen: boolean, m_eKeyboardFlags: number, m_sInitialKeyboardText: string) => void): Unregisterable | any;
 
     SendDone(): any;
 
@@ -100,4 +103,20 @@ export interface VROverlay {
     ShowDashboard: any;
 
     SwitchToDashboardOverlay(param0: string): void;
+}
+
+export enum EHMDActivityLevel {
+    Unknown = -1,
+    Idle,
+    UserInteraction,
+    UserInteraction_Timeout,
+    Standby,
+    Idle_Timeout,
+}
+
+export enum EKeyboardFlags {
+    Minimal = 1 << 0,
+    Modal = 1 << 1,
+    ShowArrowKeys = 1 << 2,
+    HideDoneKey = 1 << 3,
 }

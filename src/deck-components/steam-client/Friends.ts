@@ -1,3 +1,5 @@
+import { Unregisterable } from "./index";
+
 /**
  * Represents functions related to managing friends in Steam.
  */
@@ -9,10 +11,13 @@ export interface Friends {
      */
     AddFriend(steamId: string): Promise<boolean>;
 
+    /**
+     * @returns a list of players you recently played with.
+     */
     GetCoplayData(): Promise<CoplayData>;
 
     //(e.ConvertTo64BitString(), t.steamidTarget)
-    InviteUserToCurrentGame(param0: any, param1: any): any;
+    InviteUserToCurrentGame(steam64Id: string, param1: any): any;
 
     /**
      * Invites a user to a specific game.
@@ -24,12 +29,12 @@ export interface Friends {
     InviteUserToGame(steamId: string, appId: number, connectString: string): Promise<boolean>;
 
     //(e.ConvertTo64BitString(), t.steamidTarget)
-    InviteUserToLobby(param0: any, param1: any): any;
+    InviteUserToLobby(steam64Id: string, param1: any): any;
 
     //(e.ConvertTo64BitString())
-    InviteUserToRemotePlayTogetherCurrentGame(param0: any): any;
+    InviteUserToRemotePlayTogetherCurrentGame(steam64Id: string): any;
 
-    RegisterForVoiceChatStatus(callback: (status: any) => void): any;
+    RegisterForVoiceChatStatus(callback: (status: VoiceChatStatus) => void): Unregisterable | any;
 
     /**
      * Removes a user from the friend list.
@@ -48,4 +53,10 @@ export interface CoplayUser {
     accountid: number;
     rtTimePlayed: number;
     appid: number;
+}
+
+export interface VoiceChatStatus {
+    bVoiceChatActive: boolean;
+    bMicMuted: boolean;
+    bOutputMuted: boolean;
 }

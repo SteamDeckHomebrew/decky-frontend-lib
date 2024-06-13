@@ -76,8 +76,8 @@ export interface WebChat {
     RegisterForFriendPostMessage(callback: (data: FriendChatDialogData) => void): Unregisterable | any;
 
     /**
+     * To unregister, use {@link UnregisterForMouseXButtonDown}.
      * @returns {void}
-     * @todo To unregister, use WebChat.UnregisterForMouseXButtonDown() ?
      */
     RegisterForMouseXButtonDown(callback: any): void;
 
@@ -120,7 +120,10 @@ export interface WebChat {
      */
     ShowFriendChatDialog(steamid: string): void;
 
-    UnregisterForMouseXButtonDown(): void;
+    /**
+     * @todo does this take any args at all lol
+     */
+    UnregisterForMouseXButtonDown(callback: any): void;
 }
 
 export enum ComputerActiveState {
@@ -148,7 +151,7 @@ export interface PushToTalkInfo {
     bPushToMute: boolean;
     /**
      * Push-to-talk hotkey.
-     * @todo enum?
+     * @todo enum? this is not EHIDKeyboardKey
      */
     vkHotKey: number;
     /** Push-to-talk hotkey name. */
