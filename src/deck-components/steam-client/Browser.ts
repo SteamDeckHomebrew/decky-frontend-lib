@@ -21,7 +21,10 @@ export interface Browser {
      */
     HideCursorUntilMouseEvent(): void;
 
-    InspectElement(clientY: number, clientX: number): void; // yup that's right, clientY and clientX are reversed
+    /**
+     * yup that's right, clientY and clientX are reversed
+     */
+    InspectElement(clientY: number, clientX: number): void;
 
     NotifyUserActivation(): void;
 
@@ -42,7 +45,7 @@ export interface Browser {
     ReplaceMisspelling: any;
 
     /**
-     * Restarts the browser.
+     * Restarts the Steam JS context.
      * @returns {void}
      */
     RestartJSContext(): void;

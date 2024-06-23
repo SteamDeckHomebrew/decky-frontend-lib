@@ -1,8 +1,9 @@
 import {JsPbMessage, Unregisterable} from "./index";
 
-// Everything is taken from here:
-// https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/steammessages_clientnotificationtypes.proto
-
+/**
+ * Everything is taken from here:
+ * https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/steammessages_clientnotificationtypes.proto
+ */
 export interface Notifications {
     /**
      * If `data` is deserialized, returns one of the following here: {@link Notifications}

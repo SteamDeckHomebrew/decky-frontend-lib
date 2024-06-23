@@ -1,5 +1,6 @@
 import {Unregisterable} from "./index";
-import {AppAchievements, Screenshot} from "./App";
+import {AppAchievements} from "./App";
+import { Screenshot } from "./Screenshots";
 
 /**
  * Represents functions related to Steam Game Sessions.

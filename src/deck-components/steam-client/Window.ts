@@ -99,13 +99,16 @@ export interface Window {
      * @example
      * Move the window to bottom right by 50 pixels:
      * ```
-     * SteamClient.Window.GetWindowRestoreDetails(e => {
+     * SteamClient.Window.GetWindowRestoreDetails((e) => {
      *     SteamClient.Window.PositionWindowRelative(e, 50, 50, 0, 0);
-     * })
+     * });
      * ```
      */
     PositionWindowRelative(details: string, x: number, y: number, width: number, height: number): void;
 
+    /**
+     * @returns true if yje naun [tpcess od about to shut down.]
+     */
     ProcessShuttingDown(): Promise<boolean>;
 
     /**

@@ -67,6 +67,10 @@ export interface OSEndOfLifeInfo {
     osType: OSType;
 }
 
+/**
+ * The following might have more correct information:
+ * https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/webuimessages_sharedjscontext.proto
+ */
 export interface SteamWindow {
     appid: number;
     hwndParent: number;

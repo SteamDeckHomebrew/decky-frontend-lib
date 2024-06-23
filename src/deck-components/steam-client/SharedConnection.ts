@@ -1,8 +1,10 @@
 import {Unregisterable} from "./index";
 import {SteamRealm} from "./Overlay";
 
+/**
+ * `hSharedConnection` is the number from {@link AllocateSharedConnection}.
+ */
 export interface SharedConnection {
-    // hSharedConnection is the number from AllocateSharedConnection()
     AllocateSharedConnection(): Promise<number>;
 
     // if no such number, sends this warning:
@@ -24,10 +26,14 @@ export interface SharedConnection {
 }
 
 export interface LogonInfo {
+    /** `true` if logged on, `false otherwise. */
     bLoggedOn: boolean;
     eUniverse: SteamRealm;
+    /** Account username. Empty if not logged on. */
     strAccountName: string;
+    /** URL for community content. */
     strCommunityImagesURL: string;
+    /** Account nickname. Empty if not logged on. */
     strPersonaName: string;
     /** Steam64 ID. */
     strSteamid: string;
