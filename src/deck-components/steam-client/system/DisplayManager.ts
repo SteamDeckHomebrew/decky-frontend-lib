@@ -6,7 +6,7 @@ export interface DisplayManager {
 
     GetState: any;
 
-    RegisterForStateChanges(callback: () => void): Unregisterable | any;
+    RegisterForStateChanges(callback: () => void): Unregisterable;
 
     SetCompatibilityMode(displayId: any): any;
 

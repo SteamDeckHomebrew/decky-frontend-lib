@@ -25,7 +25,6 @@ export interface Window {
 
     /**
      * Flashes the window in the taskbar.
-     * @returns {void}
      */
     FlashWindow(): void;
 
@@ -48,7 +47,6 @@ export interface Window {
 
     /**
      * Hides the window.
-     * @returns {void}
      */
     HideWindow(): void;
 
@@ -66,35 +64,31 @@ export interface Window {
 
     /**
      * Minimizes the window.
-     * @returns {void}
      */
     Minimize(): void;
 
     /**
      * Moves the window to given coordinates.
-     * @param {number} x - Window X position.
-     * @param {number} y - Window Y position.
-     * @param {number | undefined} dpi - Screen DPI.
-     * @returns {void}
+     * @param x Window X position.
+     * @param y Window Y position.
+     * @param dpi Screen DPI.
      */
     MoveTo(x: number, y: number, dpi: number | undefined): void;
 
     /**
      * Moves the window to a given location.
-     * @param {string} location - Window location.
-     * @param {number | undefined} offset - X/Y offset.
-     * @returns {void}
+     * @param location Window location.
+     * @param offset X/Y offset.
      */
     MoveToLocation(location: WindowLocation, offset: number | undefined): void;
 
     /**
      * Moves the window relatively to given details.
-     * @param {string} details - Window restore details string from {@link GetWindowRestoreDetails}.
-     * @param {number} x - Window X position.
-     * @param {number} y - Window Y position.
-     * @param {number} width - Window width.
-     * @param {number} height - Window height.
-     * @returns {void}
+     * @param details Window restore details string from {@link GetWindowRestoreDetails}.
+     * @param x Window X position.
+     * @param y Window Y position.
+     * @param width Window width.
+     * @param height Window height.
      *
      * @example
      * Move the window to bottom right by 50 pixels:
@@ -114,17 +108,15 @@ export interface Window {
     /**
      * Resizes the window to given dimension.
      * The window has to be created with the resizable flag.
-     * @param {number} width - Window width.
-     * @param {number} height - Window height.
-     * @param {boolean | number} applyBrowserScaleOrDPIValue
-     * @returns {void}
+     * @param width Window width.
+     * @param height Window height.
+     * @param applyBrowserScaleOrDPIValue
      */
     ResizeTo(width: number, height: number, applyBrowserScaleOrDPIValue: boolean | number): void;
 
     /**
      * Moves the window to given details.
-     * @param {string} details - Window details string from `Window.GetWindowRestoreDetails`.
-     * @returns {void}
+     * @param details Window details string from `Window.GetWindowRestoreDetails`.
      */
     RestoreWindowSizeAndPosition(details: string): void;
 
@@ -134,8 +126,7 @@ export interface Window {
 
     /**
      * Makes the window hide, but not close on pressing the close button.
-     * @param {boolean} value - Hide on close?
-     * @returns {void}
+     * @param value Hide on close?
      */
     SetHideOnClose(value: boolean): void;
 
@@ -145,17 +136,15 @@ export interface Window {
 
     /**
      * Sets the window's max size.
-     * @param {number} width - Window's max width.
-     * @param {number} height - Window's max height.
-     * @returns {void}
+     * @param width Window's max width.
+     * @param height Window's max height.
      */
     SetMaxSize(width: number, height: number): void;
 
     /**
      * Sets the window's min size.
-     * @param {number} width - Window's max width.
-     * @param {number} height - Window's max height.
-     * @returns {void}
+     * @param width Window's max width.
+     * @param height Window's max height.
      */
     SetMinSize(width: number, height: number): void;
 
@@ -164,40 +153,34 @@ export interface Window {
     /**
      * Sets the window's resize grip size.
      * The window has to be created with the resizable flag for this to take any effect.
-     * @param {number} width - Resize grip width.
-     * @param {number} height - Resize grip height.
-     * @returns {void}
+     * @param width Resize grip width.
+     * @param height Resize grip height.
      */
     SetResizeGrip(width: number, height: number): void;
 
     /**
      * Set the window's icon.
-     * @param {WindowIcon} icon - The window icon to be used.
-     * @returns {void}
+     * @param icon The window icon to be used.
      */
     SetWindowIcon(icon: WindowIcon): void;
 
     /**
      * Shows the window.
-     * @returns {void}
      */
     ShowWindow(): void;
 
     /**
      * Stops the window's taskbar flashing.
-     * @returns {void}
      */
     StopFlashWindow(): void;
 
     /**
      * Toggles the window's fullscreen state.
-     * @returns {void}
      */
     ToggleFullscreen(): void;
 
     /**
      * Toggles the window's maximized state.
-     * @returns {void}
      */
     ToggleMaximize(): void;
 }

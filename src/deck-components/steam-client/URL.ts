@@ -16,11 +16,11 @@ export interface URL {
 
     /**
      * Registers a callback to be called when a steam:// URL gets executed.
-     * @param {string} section - `rungameid`, `open`, etc.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param section `rungameid`, `open`, etc.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForRunSteamURL(section: string, callback: (param0: number, url: string) => void): Unregisterable | any;
+    RegisterForRunSteamURL(section: string, callback: (param0: number, url: string) => void): Unregisterable;
 
     RegisterForSteamURLChanges(callback: () => void): void;
 }

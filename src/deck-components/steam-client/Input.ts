@@ -18,16 +18,14 @@ export interface Input {
 
     /**
      * Writes text.
-     * @param {string} textToWrite - The text to write.
-     * @returns {void}
+     * @param textToWrite The text to write.
      */
     ControllerKeyboardSendText(textToWrite: string): void;
 
     /**
      * Sets a specified key's pressed state.
-     * @param {HIDKeyboardKey} keyIndex - The key index to set the state for.
-     * @param {boolean} state - true for pressed, false otherwise.
-     * @returns {void}
+     * @param keyIndex The key index to set the state for.
+     * @param state true for pressed, false otherwise.
      * @example
      * Send paste command:
      * ```
@@ -62,8 +60,8 @@ export interface Input {
 
     /**
      * Retrieves the controller mapping string for the specified controller index.
-     * @param {number} unControllerIndex - The controller index.
-     * @returns {Promise<string>} - A Promise that resolves to the controller mapping string.
+     * @param unControllerIndex The controller index.
+     * @returns A Promise that resolves to the controller mapping string.
      */
     GetControllerMappingString(unControllerIndex: number): Promise<string>;
 
@@ -90,75 +88,75 @@ export interface Input {
 
     QueryControllerConfigsForApp(appId: number, controllerIndex: number, param2: boolean): any;
 
-    RegisterForActiveControllerChanges: Unregisterable | any; // {"nActiveController":0}
+    RegisterForActiveControllerChanges: Unregisterable; // {"nActiveController":0}
     //param0 - e possibly appid?
     //param1 - some index?
-    RegisterForConfigSelectionChanges(callback: (param0: number, param1: number) => void): Unregisterable | any;
+    RegisterForConfigSelectionChanges(callback: (param0: number, param1: number) => void): Unregisterable;
 
-    RegisterForControllerAccountChanges: Unregisterable | any;
+    RegisterForControllerAccountChanges: Unregisterable;
 
     RegisterForControllerAnalogInputMessages(
         callback: (controllerAnalogInputMessages: ControllerAnalogInputMessage[]) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     RegisterForControllerCommandMessages(
         callback: (controllerCommandMessage: ControllerCommandMessage) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback for changes in controller configuration cloud state.
-     * @param {(controllerConfigCloudStateChange: ControllerConfigCloudStateChange) => void} callback - The callback function for config cloud state changes.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function for config cloud state changes.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForControllerConfigCloudStateChanges(
         callback: (controllerConfigCloudStateChange: ControllerConfigCloudStateChange) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback for receiving controller configuration info messages (controller layouts query, personal controller layout query).
-     * @param {(controllerConfigInfoMessages: ControllerConfigInfoMessageList[] | ControllerConfigInfoMessageQuery[]) => void} callback - The callback function for controller config info messages.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function for controller config info messages.
+     * @returns An object that can be used to unregister the callback.
      * @remarks Do Not Use, this will break the controller layout selection unless you know what you are doing.
      */
     RegisterForControllerConfigInfoMessages(
         callback: (
             controllerConfigInfoMessages: ControllerConfigInfoMessageList[] | ControllerConfigInfoMessageQuery[],
         ) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be invoked when controller input messages are received.
-     * @param {(controllerInputMessages: ControllerInputMessage[]) => void} callback - The callback function to be invoked when controller input messages are received.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be invoked when controller input messages are received.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForControllerInputMessages(
         callback: (controllerInputMessages: ControllerInputMessage[]) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
-    RegisterForControllerListChanges(callback: (controllerListChanges: ControllerInfo[]) => void): Unregisterable | any;
+    RegisterForControllerListChanges(callback: (controllerListChanges: ControllerInfo[]) => void): Unregisterable;
 
     /**
      * Registers a callback for changes in the controller state (buttons presses, triggers presses, joystick changes etc...).
-     * @param {(controllerStateChanges: ControllerStateChange[]) => void} callback - The callback function for controller state changes.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function for controller state changes.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForControllerStateChanges(
         callback: (controllerStateChanges: ControllerStateChange[]) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
-    RegisterForDualSenseUpdateNotification(callback: (m_strDualSenseUpdateProduct: string) => void): Unregisterable | any;
+    RegisterForDualSenseUpdateNotification(callback: (m_strDualSenseUpdateProduct: string) => void): Unregisterable;
 
     /**
      * Registers a callback for receiving game keyboard messages (text field popup for inputting text for games when in character creation or etc...).
-     * @param {(gameKeyboardMessage: GameKeyboardMessage) => void} callback - The callback function for game keyboard messages.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function for game keyboard messages.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForGameKeyboardMessages(callback: (gameKeyboardMessage: GameKeyboardMessage) => void): Unregisterable | any;
+    RegisterForGameKeyboardMessages(callback: (gameKeyboardMessage: GameKeyboardMessage) => void): Unregisterable;
 
-    RegisterForRemotePlayConfigChanges(callback: () => void): Unregisterable | any;
+    RegisterForRemotePlayConfigChanges(callback: () => void): Unregisterable;
 
     //data.appId, data.ulConfigId
-    RegisterForShowControllerLayoutPreviewMessages(callback: (data: any) => void): Unregisterable | any;
+    RegisterForShowControllerLayoutPreviewMessages(callback: (data: any) => void): Unregisterable;
 
     /*
             onTouchMenuInput(e) {
@@ -168,23 +166,23 @@ export interface Input {
             }
         }
      */
-    RegisterForTouchMenuInputMessages(callback: (inputs: number[]) => void): Unregisterable | any;
+    RegisterForTouchMenuInputMessages(callback: (inputs: number[]) => void): Unregisterable;
 
-    RegisterForTouchMenuMessages(callback: (touchMenuMessage: TouchMenuMessage) => void): Unregisterable | any;
+    RegisterForTouchMenuMessages(callback: (touchMenuMessage: TouchMenuMessage) => void): Unregisterable;
 
     //param0 - index?
-    RegisterForUIVisualization(param0: any, param1: any, param2: any): Unregisterable | any;
+    RegisterForUIVisualization(param0: any, param1: any, param2: any): Unregisterable;
 
-    RegisterForUnboundControllerListChanges(callback: (m_unboundControllerList: any) => void): Unregisterable | any; // param0 is an array
+    RegisterForUnboundControllerListChanges(callback: (m_unboundControllerList: any) => void): Unregisterable; // param0 is an array
 
     /*
         OnDismissKeyboardMessage(e) {
             this.m_WindowStore.SteamUIWindows.forEach((e => e.VirtualKeyboardManager.SetVirtualKeyboardHidden(e.BrowserWindow)))
         }
      */
-    RegisterForUserDismissKeyboardMessages(callback: (param0: any) => void): Unregisterable | any;
+    RegisterForUserDismissKeyboardMessages(callback: (param0: any) => void): Unregisterable;
 
-    RegisterForUserKeyboardMessages: Unregisterable | any;
+    RegisterForUserKeyboardMessages: Unregisterable;
 
     RequestGyroActive(controllerIndex: number, param1: boolean): any;
 
@@ -301,10 +299,9 @@ export interface Input {
 
     /**
      * Sets the mouse position.
-     * @param {number} pid - 0
-     * @param {number} x - Mouse X position.
-     * @param {number} y - Mouse Y position.
-     * @returns {void}
+     * @param pid 0
+     * @param x Mouse X position.
+     * @param y Mouse Y position.
      */
     SetMousePosition(pid: number, x: number, y: number): void;
 
@@ -320,7 +317,6 @@ export interface Input {
     /**
      * Opens the Steam Input controller settings.
      * This function displays the Steam Input controller settings for configuration.
-     * @returns {void}
      */
     ShowControllerSettings(): void;
 

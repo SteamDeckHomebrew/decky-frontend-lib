@@ -10,19 +10,18 @@ export interface UI {
 
     /**
      * Gets information about whether your OS will be unsupported in the future or not.
-     * @returns {Promise<OSEndOfLifeInfo>}
      */
     GetOSEndOfLifeInfo(): Promise<OSEndOfLifeInfo>;
 
     /**
      * Retrieves the current UI mode.
-     * @returns {Promise<UIMode>} - A Promise that resolves to the current UI mode.
+     * @returns A Promise that resolves to the current UI mode.
      */
     GetUIMode(): Promise<UIMode>;
 
     NotifyAppInitialized(): void;
 
-    RegisterDesiredSteamUIWindowsChanged(callback: () => void): Unregisterable | any;
+    RegisterDesiredSteamUIWindowsChanged(callback: () => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when a convar's value gets changed.
@@ -32,20 +31,19 @@ export interface UI {
      * @param convar The ConVar to watch.
      * @param callback The callback function to be called.
      */
-    RegisterForClientConVar(convar: string, callback: (value: string) => void): Unregisterable | any;
+    RegisterForClientConVar(convar: string, callback: (value: string) => void): Unregisterable;
 
-    RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable | any;
+    RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable;
 
-    RegisterForKioskModeResetSignal(callback: () => void): Unregisterable | any;
+    RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;
 
-    RegisterForUIModeChanged(callback: (mode: UIMode) => void): Unregisterable | any;
+    RegisterForUIModeChanged(callback: (mode: UIMode) => void): Unregisterable;
 
     ResetErrorCondition(): void;
 
     /**
      * Sets the UI mode to the specified value.
-     * @param {UIMode} mode - The UI mode to set.
-     * @returns {void}
+     * @param mode The UI mode to set.
      */
     SetUIMode(mode: UIMode): void;
 }

@@ -3,9 +3,9 @@ import {JsPbMessage, Unregisterable} from "../index";
 export interface AudioDevice {
     /**
      * If `data` is deserialized, returns {@link MsgSystemAudioManagerState}.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     UpdateSomething(param0: any): any; // e.UpdateSomething(t.serializeBase64String())
 }

@@ -8,30 +8,30 @@ import { Screenshot } from "./Screenshots";
 export interface GameSessions {
     /**
      * Registers a callback function to be called when an achievement notification is received.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForAchievementNotification(
         callback: (achievementNotification: AchievementNotification) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when an app lifetime notification is received.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForAppLifetimeNotifications(
         callback: (appLifetimeNotification: AppLifetimeNotification) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when a screenshot notification is received.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForScreenshotNotification(
         callback: (screenshotNotification: ScreenshotNotification) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 }
 
 export interface AchievementNotification {

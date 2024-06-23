@@ -39,45 +39,45 @@ export interface RemotePlay {
     InstallAudioDriver: any;
     InstallInputDriver: any;
     MoveControllerToSlot: any;
-    RegisterForAdditionalParentalBlocks: Unregisterable | any;
-    RegisterForAudioDriverPrompt: Unregisterable | any;
-    RegisterForBitrateOverride: Unregisterable | any;
-    RegisterForControllerIndexSet: Unregisterable | any;
+    RegisterForAdditionalParentalBlocks: Unregisterable;
+    RegisterForAudioDriverPrompt: Unregisterable;
+    RegisterForBitrateOverride: Unregisterable;
+    RegisterForControllerIndexSet: Unregisterable;
 
-    RegisterForDevicesChanges(callback: (devicesChange: RemotePlayDevice[]) => void): Unregisterable | any;
+    RegisterForDevicesChanges(callback: (devicesChange: RemotePlayDevice[]) => void): Unregisterable;
 
-    RegisterForGroupCreated: Unregisterable | any;
-    RegisterForGroupDisbanded: Unregisterable | any;
-    RegisterForInputDriverPrompt: Unregisterable | any;
-    RegisterForInputDriverRestartNotice: Unregisterable | any;
+    RegisterForGroupCreated: Unregisterable;
+    RegisterForGroupDisbanded: Unregisterable;
+    RegisterForInputDriverPrompt: Unregisterable;
+    RegisterForInputDriverRestartNotice: Unregisterable;
 
     RegisterForInputUsed(
         callback: (steam64Id: string, type: ClientUsedInputType, guestId: number) => void,
-    ): Unregisterable | any; // only fires on host
+    ): Unregisterable; // only fires on host
 
-    RegisterForInviteResult: Unregisterable | any;
+    RegisterForInviteResult: Unregisterable;
 
     RegisterForNetworkUtilizationUpdate(
         callback: (steam64Id: string, guestId: number, networkUtilization: number, networkDuration: number) => void,
-    ): Unregisterable | any; // only fires on host
+    ): Unregisterable; // only fires on host
 
-    RegisterForPlaceholderStateChanged(callback: (isShowingPlaceholder: boolean) => void): Unregisterable | any;
+    RegisterForPlaceholderStateChanged(callback: (isShowingPlaceholder: boolean) => void): Unregisterable;
 
-    RegisterForPlayerInputSettingsChanged: Unregisterable | any;
+    RegisterForPlayerInputSettingsChanged: Unregisterable;
 
-    RegisterForQualityOverride(callback: (hostStreamingQualityOverride: number) => void): Unregisterable | any;
+    RegisterForQualityOverride(callback: (hostStreamingQualityOverride: number) => void): Unregisterable;
 
-    RegisterForRemoteClientLaunchFailed: Unregisterable | any;
+    RegisterForRemoteClientLaunchFailed: Unregisterable;
 
-    RegisterForRemoteClientStarted(callback: (steam64Id: string, appId: number) => void): Unregisterable | any; // only fires on client
+    RegisterForRemoteClientStarted(callback: (steam64Id: string, appId: number) => void): Unregisterable; // only fires on client
 
-    RegisterForRemoteClientStopped(callback: (steam64Id: string, appId: number) => void): Unregisterable | any; // only fires on client
+    RegisterForRemoteClientStopped(callback: (steam64Id: string, appId: number) => void): Unregisterable; // only fires on client
 
-    RegisterForSessionStarted(callback: (steam64Id: any, gameId: any, guestId: any) => void): Unregisterable | any;
+    RegisterForSessionStarted(callback: (steam64Id: any, gameId: any, guestId: any) => void): Unregisterable;
 
-    RegisterForSessionStopped(callback: (steam64Id: any, guestId: any) => void): Unregisterable | any;
+    RegisterForSessionStopped(callback: (steam64Id: any, guestId: any) => void): Unregisterable;
 
-    RegisterForSettingsChanges(callback: (remotePlaySettings: RemotePlaySettings) => void): Unregisterable | any;
+    RegisterForSettingsChanges(callback: (remotePlaySettings: RemotePlaySettings) => void): Unregisterable;
 
     SetClientStreamingBitrate(bitrate: number): void;
 

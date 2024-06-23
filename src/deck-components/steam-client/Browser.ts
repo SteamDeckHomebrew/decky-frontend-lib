@@ -17,7 +17,6 @@ export interface Browser {
 
     /**
      * Hides the mouse cursor until input.
-     * @returns {void}
      */
     HideCursorUntilMouseEvent(): void;
 
@@ -38,15 +37,14 @@ export interface Browser {
     /**
      * @todo unconfirmed
      */
-    RegisterForGestureEvents(callback: (gesture: TouchGesture) => void): Unregisterable | any;
+    RegisterForGestureEvents(callback: (gesture: TouchGesture) => void): Unregisterable;
 
-    RegisterForOpenNewTab: Unregisterable | any;
+    RegisterForOpenNewTab: Unregisterable;
 
     ReplaceMisspelling: any;
 
     /**
      * Restarts the Steam JS context.
-     * @returns {void}
      */
     RestartJSContext(): void;
 
@@ -60,8 +58,7 @@ export interface Browser {
 
     /**
      * Prompts and downloads a file.
-     * @param {string} url - The URL of the file to download.
-     * @returns {void}
+     * @param url The URL of the file to download.
      */
     StartDownload(url: string): void;
 }

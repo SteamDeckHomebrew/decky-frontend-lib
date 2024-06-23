@@ -7,97 +7,90 @@ import {AppError} from "./App";
 export interface InstallFolder {
     /**
      * Adds a Steam Library folder to the Steam client.
-     * @param {string} steamLibraryPath - The path of the Steam Library folder to be added.
-     * @returns {Promise<number>} - A Promise that resolves to the index of the added folder.
+     * @param steamLibraryPath The path of the Steam Library folder to be added.
+     * @returns A Promise that resolves to the index of the added folder.
      */
     AddInstallFolder(steamLibraryPath: string): Promise<number>;
 
     /**
      * Opens the file explorer to browse files in a specific Steam Library folder.
-     * @param {number} folderIndex - The index of the folder to be opened.
-     * @returns {void}
+     * @param folderIndex The index of the folder to be opened.
      */
     BrowseFilesInFolder(folderIndex: number): void;
 
     /**
      * Cancels the current move operation for moving game content.
-     * @returns {void}
      */
     CancelMove(): void;
 
     /**
      * Retrieves a list of installed Steam Library folders.
-     * @returns {Promise<SteamInstallFolder[]>} - A Promise that resolves to an array of SteamInstallFolder objects.
+     * @returns A Promise that resolves to an array of SteamInstallFolder objects.
      */
     GetInstallFolders(): Promise<SteamInstallFolder[]>;
 
     /**
      * Retrieves a list of potential Steam Library folders that can be added.
-     * @returns {Promise<PotentialInstallFolder[]>} - A Promise that resolves to an array of PotentialInstallFolder objects.
+     * @returns A Promise that resolves to an array of PotentialInstallFolder objects.
      */
     GetPotentialFolders(): Promise<PotentialInstallFolder[]>;
 
     /**
      * Moves the installation folder for a specific app to another Steam Library folder.
-     * @param {number} appId - The ID of the application to be moved.
-     * @param {number} folderIndex - The index of the target Steam Library folder.
-     * @returns {void}
+     * @param appId The ID of the application to be moved.
+     * @param folderIndex The index of the target Steam Library folder.
      */
     MoveInstallFolderForApp(appId: number, folderIndex: number): void;
 
     /**
      * Refreshes the list of installed Steam Library folders.
-     * @returns {any} - A Promise or response indicating the refresh operation.
+     * @returns A Promise or response indicating the refresh operation.
      */
     RefreshFolders(): any;
 
     /**
      * Registers a callback function to be called when changes occur in Steam Install Folders.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForInstallFolderChanges(callback: (folderChange: FolderChange) => void): Unregisterable | any;
+    RegisterForInstallFolderChanges(callback: (folderChange: FolderChange) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when moving game content progresses.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForMoveContentProgress(callback: (moveContentProgress: MoveContentProgress) => void): Unregisterable | any;
+    RegisterForMoveContentProgress(callback: (moveContentProgress: MoveContentProgress) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when repairing an install folder is finished.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForRepairFolderFinished(callback: (folderChange: FolderChange) => void): Unregisterable | any;
+    RegisterForRepairFolderFinished(callback: (folderChange: FolderChange) => void): Unregisterable;
 
     /**
      * Removes a Steam Library folder from the Steam client.
-     * @param {number} folderIndex - The index of the folder to be removed.
-     * @returns {void}
+     * @param folderIndex The index of the folder to be removed.
      */
     RemoveInstallFolder(folderIndex: number): void;
 
     /**
      * Repairs an installed Steam Library folder.
-     * @param {number} folderIndex - The index of the folder to be repaired.
-     * @returns {void}
+     * @param folderIndex The index of the folder to be repaired.
      */
     RepairInstallFolder(folderIndex: number): void;
 
     /**
      * Sets a specific Steam Library folder as the default install folder.
-     * @param {number} folderIndex - The index of the folder to be set as default.
-     * @returns {void}
+     * @param folderIndex The index of the folder to be set as default.
      */
     SetDefaultInstallFolder(folderIndex: number): void;
 
     /**
      * Sets a user-defined label for a specific Steam Library folder.
-     * @param {number} folderIndex - The index of the folder to be labeled.
-     * @param {string} userLabel - The label to be assigned to the folder.
-     * @returns {void}
+     * @param folderIndex The index of the folder to be labeled.
+     * @param userLabel The label to be assigned to the folder.
      */
     SetFolderLabel(folderIndex: number, userLabel: string): void;
 }

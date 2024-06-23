@@ -7,9 +7,9 @@ export interface Dock {
 
     /**
      * If `data` is deserialized, returns {@link MsgSystemDockState}.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     UpdateFirmware(base64String: string): any; // serialize base64 string
 }

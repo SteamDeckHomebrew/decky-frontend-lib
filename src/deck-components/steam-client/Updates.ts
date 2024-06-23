@@ -9,9 +9,9 @@ export interface Updates {
 
     /**
      * If `data` is deserialized, returns {@link MsgSystemUpdateState}.
-     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message.
+     * @returns A Promise that resolves to a ProtoBuf message.
      */
-    RegisterForUpdateStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForUpdateStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     // 1 - Stable, 2 - Beta, 3 - Preview
     SelectOSBranch(branch: number): any; // enum?

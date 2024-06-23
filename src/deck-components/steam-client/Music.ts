@@ -15,8 +15,8 @@ export interface Music {
     IncreaseVolume(): void;
 
     /**
-     * @param {number} param0 - Unknown parameter usage.
-     * @param {number} param1 - Unknown parameter usage.
+     * @param param0 Unknown parameter usage.
+     * @param param1 Unknown parameter usage.
      * @todo: unknown parameter usages, I have tried soundtrack identifier + track index and in reverse as well
      */
     PlayEntry(param0: number, param1: number): void;
@@ -33,39 +33,39 @@ export interface Music {
 
     /**
      * Registers a callback function to be called when music playback changes.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForMusicPlaybackChanges(callback: (param0: boolean | MusicTrack) => void): Unregisterable | any;
+    RegisterForMusicPlaybackChanges(callback: (param0: boolean | MusicTrack) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when the music playback position changes.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForMusicPlaybackPosition(callback: (position: number) => void): Unregisterable | any;
+    RegisterForMusicPlaybackPosition(callback: (position: number) => void): Unregisterable;
 
     /**
      * Sets the playback position of the music track.
-     * @param {number} position - The position to set in seconds.
+     * @param position The position to set in seconds.
      */
     SetPlaybackPosition(position: number): void;
 
     /**
      * Sets the repeat status for music playback.
-     * @param {MusicRepeatStatus} status - The repeat status.
+     * @param status The repeat status.
      */
     SetPlayingRepeatStatus(status: MusicRepeatStatus): void;
 
     /**
      * Sets the shuffle status for music playback.
-     * @param {boolean} value - True to enable shuffle, false to disable shuffle.
+     * @param value True to enable shuffle, false to disable shuffle.
      */
     SetPlayingShuffled(value: boolean): void;
 
     /**
      * Sets the volume for music playback.
-     * @param {number} volume - The volume level to set.
+     * @param volume The volume level to set.
      * @remarks Ranges from 0 to 100.
      */
     SetVolume(volume: number): void;

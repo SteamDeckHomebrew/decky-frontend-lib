@@ -6,16 +6,15 @@ import {OperationResponse, Unregisterable} from "./index";
 export interface ServerBrowser {
     /**
      * Adds a favorite server.
-     * @param {ServerBrowserServerFull} server - The server to add.
-     * @returns {Promise<string>} A Promise that resolves to an empty string if successful, `Invalid/missing IPv4?` if failed.
-     * @todo Refreshed the favorite servers list upon adding once, but doesn't now. :-(
+     * @param server The server to add.
+     * @returns A Promise that resolves to an empty string if successful, `Invalid/missing IPv4?` if failed.
      */
     AddFavoriteServer(server: ServerBrowserServerFull): Promise<string>;
 
     /**
      * Adds a favorite server by IP.
-     * @param {string} ip - The IP to add to favorite servers.
-     * @returns {Promise<string>} A Promise that resolves to an empty string if successful, localization string if failed.
+     * @param ip The IP to add to favorite servers.
+     * @returns A Promise that resolves to an empty string if successful, localization string if failed.
      */
     AddFavoriteServersByIP(ip: string): Promise<string>;
 
@@ -23,37 +22,36 @@ export interface ServerBrowser {
 
     /**
      * Connects to a server from a given dialog.
-     * @param {number} dialogId - The dialog ID to use.
-     * @param {string} password - Server password, empty if none.
-     * @returns {Promise<JoinServerError>} A Promise that resolves to a connection status.
+     * @param dialogId The dialog ID to use.
+     * @param password Server password, empty if none.
+     * @returns A Promise that resolves to a connection status.
      */
     ConnectToServer(dialogId: number, password: string): Promise<JoinServerError>;
 
     /**
      * Creates a server info dialog, on which your friend is playing on.
-     * @param {number} pid - 0
-     * @param {string} steamId - A Steam64 ID of a friend.
-     * @returns {void}
+     * @param pid 0
+     * @param steamId A Steam64 ID of a friend.
      */
     CreateFriendGameInfoDialog(pid: number, steamId: string): void;
 
     /**
      * Creates a server info dialog.
-     * @param {string} ip - The IP to create a dialog for.
-     * @param {number} port - The IP's port.
-     * @param {number} queryPort -
-     * @returns {Promise<number>} A Promise that resolves to the current dialog ID.
+     * @param ip The IP to create a dialog for.
+     * @param port The IP's port.
+     * @param queryPort
+     * @returns A Promise that resolves to the current dialog ID.
      */
     CreateServerGameInfoDialog(ip: string, port: number, queryPort: number): Promise<number>;
 
     /**
      * Retrieves the server list.
-     * @param {number} appId - The game ID, 0 for every game.
-     * @param {ServerBrowserTab} queryType - The tab to use.
-     * @param {string[]} filters - Server filters.
-     * @param {function} serverCallback - What to do with the found server?
-     * @param {function} requestCompletedCallback - The callback function to be called when the request is completed.
-     * @returns {Promise<number>} A Promise that resolves to the current server list request ID.
+     * @param appId The game ID, 0 for every game.
+     * @param queryType The tab to use.
+     * @param filters Server filters.
+     * @param serverCallback What to do with the found server?
+     * @param requestCompletedCallback The callback function to be called when the request is completed.
+     * @returns A Promise that resolves to the current server list request ID.
      * @throws Throws if the query type is unknown.
      * @throws Throws if the filter list isn't key/value pairs, i.e. of an even length.
      * @remarks Stops at 10000 if there are more servers to be found.
@@ -107,107 +105,100 @@ export interface ServerBrowser {
 
     /**
      * Destroys the game info dialog functions (but not the window).
-     * @param {number} dialogId - The dialog ID to use.
-     * @returns {void}
+     * @param dialogId The dialog ID to use.
      * @remarks ServerBrowser.CancelServerQuery may throw if it tries to ping the server.
      */
     DestroyGameInfoDialog(dialogId: number): void;
 
     /**
      * Stops retrieving the server list.
-     * @param {number} activeServerListRequestId - The active server request ID to use.
-     * @returns {void}
+     * @param activeServerListRequestId The active server request ID to use.
      */
     DestroyServerListRequest(activeServerListRequestId: number): void;
 
     /**
      * Gets a list of games that support the server browser feature.
-     * @returns {Promise<ServerBrowserGame[]>} A Promise that resolves to a list of games.
+     * @returns A Promise that resolves to a list of games.
      */
     GetMultiplayerGames(): Promise<ServerBrowserGame[]>;
 
     /**
      * Gets the server browser preferences.
-     * @returns {Promise<ServerBrowserPreferences>} A Promise that resolves to server browser preferences.
+     * @returns A Promise that resolves to server browser preferences.
      */
     GetServerListPreferences(): Promise<ServerBrowserPreferences>;
 
     /**
      * Pings the server of a specified dialog ID.
-     * @param {number} dialogId - The dialog ID to use.
-     * @returns {Promise<number | OperationResponse>}
+     * @param dialogId The dialog ID to use.
      */
     PingServer(dialogId: number): Promise<number | OperationResponse>;
 
     /**
      * Registers a callback function to be called when a server gets added to favorite servers.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForFavorites(callback: (list: ServerBrowserFavoritesAndHistory) => void): Unregisterable | any;
+    RegisterForFavorites(callback: (list: ServerBrowserFavoritesAndHistory) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when idk
-     * @param {number} dialogId - The dialog ID to use.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @param dialogId The dialog ID to use.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForFriendGamePlayed(
         dialogId: number,
         callback: (server: ServerBrowserFriendServer) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when a server info dialog opens.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForGameInfoDialogs(callback: (dialogs: ServerBrowserDialog[]) => void): Unregisterable | any;
+    RegisterForGameInfoDialogs(callback: (dialogs: ServerBrowserDialog[]) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when player details get requested.
-     * @param {number} dialogId - The dialog ID to use.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @param dialogId The dialog ID to use.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForPlayerDetails(
         dialogId: number,
         callback: (player: ServerBrowserPlayer | ServerBrowserPlayerRefreshStatus) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when a server gets pinged.
-     * @param {number} dialogId - The dialog ID to use.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} An object that can be used to unregister the callback.
+     * @param dialogId The dialog ID to use.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForServerInfo(dialogId: number, callback: (server: ServerBrowserServerFull) => void): Unregisterable | any;
+    RegisterForServerInfo(dialogId: number, callback: (server: ServerBrowserServerFull) => void): Unregisterable;
 
     /**
      * Removes a server from favorite servers.
-     * @param {ServerBrowserServer} server - The server to remove.
-     * @returns {void}
+     * @param server The server to remove.
      */
     RemoveFavoriteServer(server: ServerBrowserServer): void;
 
     /**
      * Removes a server from history of played servers.
-     * @param {ServerBrowserServer} server - The server to remove.
-     * @returns {void}
+     * @param server The server to remove.
      */
     RemoveHistoryServer(server: ServerBrowserServer): void;
 
     /**
      * Requests player details for a specific dialog.
-     * @param {number} dialogId - The dialog ID to use.
-     * @returns {Promise<number | OperationResponse>}
+     * @param dialogId The dialog ID to use.
      */
     RequestPlayerDetails(dialogId: number): Promise<number | OperationResponse>;
 
     /**
      * Sets the server browser preferences.
-     * @param {ServerBrowserPreferences} prefs - Server list preferences.
-     * @returns {void}
+     * @param prefs Server list preferences.
      */
     SetServerListPreferences(prefs: ServerBrowserPreferences): void;
 }

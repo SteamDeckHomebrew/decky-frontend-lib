@@ -6,22 +6,21 @@ import {Result, Unregisterable} from "./index";
 export interface Parental {
     /**
      * Locks the parental control settings.
-     * @returns {void}
      */
     LockParentalLock(): void;
 
     /**
      * Registers a callback function to be invoked when parental settings change.
-     * @param {(parentalSettings: ParentalSettings) => void} callback - The callback function to be invoked when parental settings change.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be invoked when parental settings change.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForParentalSettingsChanges(callback: (parentalSettings: ParentalSettings) => void): Unregisterable | any;
+    RegisterForParentalSettingsChanges(callback: (parentalSettings: ParentalSettings) => void): Unregisterable;
 
     /**
      * Unlocks the parental lock with the provided PIN.
-     * @param {string} pin - The 4-digit PIN to unlock the parental lock.
-     * @param {boolean} param1 - Additional parameter. // Todo: Unknown usage.
-     * @returns {Promise<Result>} - A Promise that resolves to a number representing the result of the unlock operation.
+     * @param pin The 4-digit PIN to unlock the parental lock.
+     * @param param1 Additional parameter. // Todo: Unknown usage.
+     * @returns A Promise that resolves to a number representing the result of the unlock operation.
      */
     UnlockParentalLock(pin: string, param1: boolean): Promise<Result>;
 }

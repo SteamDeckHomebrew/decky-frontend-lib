@@ -3,7 +3,6 @@ import {EBrowserType, UIMode, Unregisterable} from "./index";
 export interface Overlay {
     /**
      * Destroys the gamepad UI desktop configurator window if open.
-     * @returns {void}
      */
     DestroyGamePadUIDesktopConfiguratorWindow(): void;
 
@@ -13,53 +12,53 @@ export interface Overlay {
 
     HandleProtocolForOverlayBrowser(appId: number, protocol: string): any;
 
-    RegisterForActivateOverlayRequests: Unregisterable | any;
+    RegisterForActivateOverlayRequests: Unregisterable;
 
     /**
      * Registers a callback function to be called when a microtransaction authorization is requested.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForMicroTxnAuth(
         callback: (appId: number, microTxnId: string, realm: SteamRealm, microTxnUrl: string) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when a microtransaction authorization is dismissed by the user in Steam's authorization page.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForMicroTxnAuthDismiss(callback: (appId: number, microTxnId: string) => void): Unregisterable | any;
+    RegisterForMicroTxnAuthDismiss(callback: (appId: number, microTxnId: string) => void): Unregisterable;
 
     RegisterForNotificationPositionChanged(
         callback: (appId: any, position: NotificationPosition, horizontalInset: number, verticalInset: number) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when an overlay is activated or closed.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForOverlayActivated(
         callback: (overlayProcessPid: number, appId: number, active: boolean, param3: boolean) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when the overlay browser protocols change.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForOverlayBrowserProtocols(
         callback: (browseProtocols: OverlayBrowserProtocols) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers **the** callback function to be called when the overlay browser information changes.
-     * @param {function} callback - The callback function to be called when the overlay browser information changes.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called when the overlay browser information changes.
+     * @returns An object that can be used to unregister the callback.
      * @remarks Do Not Use, this will break the overlay unless you know what you are doing.
      */
-    RegisterOverlayBrowserInfoChanged(callback: () => void): Unregisterable | any;
+    RegisterOverlayBrowserInfoChanged(callback: () => void): Unregisterable;
 
     SetOverlayState(appId: number, uiComposition: UIComposition): any;
 }

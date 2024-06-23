@@ -6,17 +6,17 @@ import {Unregisterable} from "./index";
 export interface FriendSettings {
     /**
      * Retrieves a list of enabled friend settings features.
-     * @returns {Promise<FriendSettingsFeature[]>} - A Promise that resolves to an array of enabled friend settings features.
+     * @returns A Promise that resolves to an array of enabled friend settings features.
      */
     GetEnabledFeatures(): Promise<FriendSettingsFeature[]>;
 
     /**
      * Registers a callback function to be notified of friend settings changes.
-     * @param callback - The callback function to be called when friend settings change.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called when friend settings change.
+     * @returns An object that can be used to unregister the callback.
      * @remarks The callback receives an escaped JSON object string as "settingsChanges", which should be parsed into {@link FriendSettingsChange} object.
      */
-    RegisterForSettingsChanges(callback: (settingsChanges: string) => void): Unregisterable | any;
+    RegisterForSettingsChanges(callback: (settingsChanges: string) => void): Unregisterable;
 
     SetFriendSettings(details: string): any; // stringified object
 }

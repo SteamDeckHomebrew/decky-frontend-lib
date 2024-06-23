@@ -5,7 +5,7 @@ export interface Auth {
     GetLocalHostname(): Promise<string>;
 
     /**
-     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link Authentication_DeviceDetails}.
+     * @returns A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link Authentication_DeviceDetails}.
      */
     GetMachineID(): Promise<ArrayBuffer>;
 

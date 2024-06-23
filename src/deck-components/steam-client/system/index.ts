@@ -66,15 +66,14 @@ export interface System {
 
     /**
      * Open a dialog for choosing a file.
-     * @param {FileDialog} prefs - Dialog preferences.
-     * @returns {Promise<string>} A Promise that resolves to the selected file name.
+     * @param prefs Dialog preferences.
+     * @returns A Promise that resolves to the selected file name.
      * @throws Throws if no file was selected.
      */
     OpenFileDialog(prefs: FileDialog): Promise<string | OperationResponse>;
 
     /**
      * Open a URL in the default web browser.
-     * @returns {void}
      */
     OpenInSystemBrowser(url: string): void;
 
@@ -85,20 +84,20 @@ export interface System {
 
     RebootToFactoryTestImage(param0: any): any;
 
-    RegisterForAirplaneModeChanges(callback: (airplaneModeChange: AirplaneModeChange) => void): Unregisterable | any;
+    RegisterForAirplaneModeChanges(callback: (airplaneModeChange: AirplaneModeChange) => void): Unregisterable;
 
-    RegisterForBatteryStateChanges(callback: (batteryStateChange: BatteryStateChange) => void): Unregisterable | any;
+    RegisterForBatteryStateChanges(callback: (batteryStateChange: BatteryStateChange) => void): Unregisterable;
 
-    RegisterForFormatStorageProgress(callback: () => void): Unregisterable | any; // {"flProgress":0,"rtEstimatedCompletionTime":0,"eStage":1}
+    RegisterForFormatStorageProgress(callback: () => void): Unregisterable; // {"flProgress":0,"rtEstimatedCompletionTime":0,"eStage":1}
 
-    RegisterForOnResumeFromSuspend(callback: () => void): Unregisterable | any;
+    RegisterForOnResumeFromSuspend(callback: () => void): Unregisterable;
 
-    RegisterForOnSuspendRequest(callback: () => void): Unregisterable | any;
+    RegisterForOnSuspendRequest(callback: () => void): Unregisterable;
 
     /**
-     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgSystemManagerSettings}.
+     * @returns A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgSystemManagerSettings}.
      */
-    RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     Report: Report;
 

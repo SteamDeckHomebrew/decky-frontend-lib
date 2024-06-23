@@ -7,7 +7,7 @@ export interface Messaging {
     RegisterForMessages(
         section: string,
         callback: (section: string, param1: string, message: string) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /*
     function m(e) {

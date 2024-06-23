@@ -3,23 +3,22 @@ import {TouchGestureType} from "../Browser";
 export interface BrowserViewPopup {
     /**
      * Blur the popup.
-     * @param {boolean} enabled - Is the blur enabled?
-     * @param {boolean} backgroundColor
-     * @param {boolean} blur
-     * @returns {void}
+     * @param enabled Is the blur enabled?
+     * @param backgroundColor
+     * @param blur
      * @todo backgroundColor is a bool? Whatever that means
      */
     AddGlass(enabled: boolean, backgroundColor: boolean, blur: boolean): void;
 
     /**
      * Indicates whether you can go backward in history or not.
-     * @returns {boolean} true if you can go backward in history, false otherwise.
+     * @returns true if you can go backward in history, false otherwise.
      */
     CanGoBackward(): boolean;
 
     /**
      * Indicates whether you can go forward in history or not.
-     * @returns {boolean} true if you can go forward in history, false otherwise.
+     * @returns true if you can go forward in history, false otherwise.
      */
     CanGoForward(): boolean;
 
@@ -30,28 +29,25 @@ export interface BrowserViewPopup {
 
     /**
      * Find a string in the page.
-     * @param {string} input - The string to find.
-     * @param {boolean} param1 - Additional parameter (exact usage may vary).
-     * @param {boolean} previous - `true` for previous match, `false` for next match.
-     * @returns {void}
+     * @param input The string to find.
+     * @param param1 Additional parameter (exact usage may vary).
+     * @param previous `true` for previous match, `false` for next match.
      */
     FindInPage(input: string, param1: boolean, previous: boolean): void;
 
     /**
      * Get the current popup position.
-     * @returns {BrowserViewBounds} The window position.
+     * @returns The window position.
      */
     GetBounds(): BrowserViewBounds;
 
     /**
      * Go back in history.
-     * @returns {void}
      */
     GoBack(): void;
 
     /**
      * Go forward in history.
-     * @returns {void}
      */
     GoForward(): void;
 
@@ -62,8 +58,7 @@ export interface BrowserViewPopup {
 
     /**
      * Load the specified URL.
-     * @param {string} url - The URL to go to.
-     * @returns {void}
+     * @param url The URL to go to.
      */
     LoadURL(url: string): void;
 
@@ -71,7 +66,6 @@ export interface BrowserViewPopup {
 
     /**
      * Paste the current clipboard selection.
-     * @returns {void}
      */
     Paste(): void;
 
@@ -79,38 +73,33 @@ export interface BrowserViewPopup {
 
     /**
      * Reload the page.
-     * @returns {void}
      */
     Reload(): void;
 
     /**
      * Load the specified URL, but don't save history.
-     * @param {string} url - The URL to go to.
-     * @returns {void}
+     * @param url The URL to go to.
      */
     ReplaceURL(url: string): void;
 
     /**
      * Define blocked protocols, like https, etc.
      * @param protocols The protocols to block, separated by a semicolon.
-     * @returns {void}
      */
     SetBlockedProtocols(protocols: string): void;
 
     /**
      * Sets the browser window position.
-     * @param {number} x - Browser window X position.
-     * @param {number} y - Browser window Y position.
-     * @param {number} width - Browser window width.
-     * @param {number} height - Browser window height.
-     * @returns {void}
+     * @param x Browser window X position.
+     * @param y Browser window Y position.
+     * @param width Browser window width.
+     * @param height Browser window height.
      */
     SetBounds(x: number, y: number, width: number, height: number): void;
 
     /**
      * Sets the browser window focus state.
-     * @param {boolean} value - Is the window focused?
-     * @returns {void}
+     * @param value Is the window focused?
      */
     SetFocus(value: boolean): void;
 
@@ -118,19 +107,17 @@ export interface BrowserViewPopup {
 
     /**
      * Registers a callback to be called when a context menu is shown.
-     * @param {function} callback - The callback function to be called.
+     * @param callback The callback function to be called.
      */
     SetShowContextMenuCallback(callback: (data: BrowserViewContextMenu) => void): void;
 
     /**
      * Registers a callback to be called when a steam:// protocol URL is loaded.
-     * @returns {void}
      */
     SetSteamURLCallback(callback: (steamURL: string) => void): void;
 
     /**
      * Raises the browser window.
-     * @returns {void}
      */
     SetTopWindow(): void;
 
@@ -145,23 +132,20 @@ export interface BrowserViewPopup {
 
     /**
      * Stop the "find in page" function.
-     * @returns {void}
      */
     StopFindInPage(): void;
 
     /**
      * Stop listening for an event.
-     * @param {BrowserViewEvent} event - The event to stop listening to.
-     * @param {function} callback - The callback function to be called.
-     * @returns {void}
+     * @param event The event to stop listening to.
+     * @param callback The callback function to be called.
      */
     off(event: BrowserViewEvent, callback: (args: any) => void): void;
 
     /**
      * Start listening for an event.
-     * @param {BrowserViewEvent} event - The event to start listening to.
-     * @param {function} callback - The callback function to be called.
-     * @returns {void}
+     * @param event The event to start listening to.
+     * @param callback The callback function to be called.
      */
     on(event: BrowserViewEvent, callback: (args: any) => void): void;
 

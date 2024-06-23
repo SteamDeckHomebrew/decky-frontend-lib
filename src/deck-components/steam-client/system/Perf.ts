@@ -4,15 +4,15 @@ import {JsPbMessage, Unregisterable} from "../index";
 export interface Perf {
     /**
      * If `data` is deserialized, returns {@link MsgSystemPerfDiagnosticInfo}.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForDiagnosticInfoChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForDiagnosticInfoChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     /**
      * If `data` is deserialized, returns {@link MsgSystemPerfState}.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     UpdateSettings(base64: string): any; // serialize
 }

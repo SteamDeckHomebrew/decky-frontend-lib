@@ -3,7 +3,7 @@ import {Unregisterable} from "../index";
 export interface Display {
     EnableUnderscan(param0: boolean): any;
 
-    RegisterForBrightnessChanges(callback: (brightnessChanges: BrightnessChange) => void): Unregisterable | any;
+    RegisterForBrightnessChanges(callback: (brightnessChanges: BrightnessChange) => void): Unregisterable;
 
     SetBrightness(brightness: number): any;
 

@@ -6,19 +6,19 @@ export interface WebChat {
 
     /**
      * Gets your Steam3 ID.
-     * @returns {Promise<number>} A Promise that resolves to a Steam3 ID.
+     * @returns A Promise that resolves to a Steam3 ID.
      */
     GetCurrentUserAccountID(): Promise<number>;
 
     /**
      * Gets the current user's 64x64 avatar as a data URL.
-     * @returns {Promise<string>} A Promise that resolves to the data URL.
+     * @returns A Promise that resolves to the data URL.
      */
     GetLocalAvatarBase64(): Promise<string>;
 
     /**
      * Gets the current user's nickname.
-     * @returns {Promise<string>} A Promise that resolves to the nickname.
+     * @returns A Promise that resolves to the nickname.
      */
     GetLocalPersonaName(): Promise<string>;
 
@@ -29,19 +29,19 @@ export interface WebChat {
 
     /**
      * Gets information about push-to-Talk.
-     * @returns {Promise<PushToTalkInfo>}
+     * @returns
      */
     GetPushToTalkEnabled(): Promise<PushToTalkInfo>;
 
     /**
      * Gets the "Sign in to friends when Steam starts" option value.
-     * @returns {Promise<boolean>} A Promise that resolves to a boolean indicating whether the option is enabled or not.
+     * @returns A Promise that resolves to a boolean indicating whether the option is enabled or not.
      */
     GetSignIntoFriendsOnStart(): Promise<boolean>;
 
     /**
      * Retrieves the current UI mode.
-     * @returns {Promise<UIMode>} - A Promise that resolves to the current UI mode.
+     * @returns A Promise that resolves to the current UI mode.
      */
     GetUIMode(): Promise<UIMode>;
 
@@ -61,41 +61,40 @@ export interface WebChat {
 
     /**
      * Registers a callback function to be called when the computer's active state changes.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      * @todo Changes to 2 after 10 seconds?
      * @todo Does not affect the keyboard?
      */
     RegisterForComputerActiveStateChange(
         callback: (state: ComputerActiveState, time: number) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * @todo WebChat.ShowFriendChatDialog does this.
      */
-    RegisterForFriendPostMessage(callback: (data: FriendChatDialogData) => void): Unregisterable | any;
+    RegisterForFriendPostMessage(callback: (data: FriendChatDialogData) => void): Unregisterable;
 
     /**
      * To unregister, use {@link UnregisterForMouseXButtonDown}.
-     * @returns {void}
      */
     RegisterForMouseXButtonDown(callback: any): void;
 
     /**
      * Registers a callback function to be called when the push-to-talk state changes.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForPushToTalkStateChange(callback: (state: boolean) => void): Unregisterable | any;
+    RegisterForPushToTalkStateChange(callback: (state: boolean) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when the UI mode is changed.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForUIModeChange(callback: (mode: UIMode) => void): Unregisterable | any;
+    RegisterForUIModeChange(callback: (mode: UIMode) => void): Unregisterable;
 
-    RegisterOverlayChatBrowserInfoChanged(callback: any): Unregisterable | any;
+    RegisterOverlayChatBrowserInfoChanged(callback: any): Unregisterable;
 
     SetActiveClanChatIDs(clanChatIds: any[]): any;
 

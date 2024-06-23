@@ -6,8 +6,8 @@ import { Unregisterable } from "./index";
 export interface Friends {
     /**
      * Adds a user to the friend list.
-     * @param {string} steamId - The Steam ID of the user to add as a friend.
-     * @returns {Promise<boolean>} A Promise that resolves to true if the friend was added successfully, false otherwise.
+     * @param steamId The Steam ID of the user to add as a friend.
+     * @returns A Promise that resolves to true if the friend was added successfully, false otherwise.
      */
     AddFriend(steamId: string): Promise<boolean>;
 
@@ -21,10 +21,10 @@ export interface Friends {
 
     /**
      * Invites a user to a specific game.
-     * @param {string} steamId - The Steam ID of the user to invite.
-     * @param {number} appId - The ID of the game to invite the user to.
-     * @param {string} connectString - Additional parameters for the invitation.
-     * @returns {Promise<boolean>} A Promise that resolves to true if the user was invited successfully, false otherwise.
+     * @param steamId The Steam ID of the user to invite.
+     * @param appId The ID of the game to invite the user to.
+     * @param connectString Additional parameters for the invitation.
+     * @returns A Promise that resolves to true if the user was invited successfully, false otherwise.
      */
     InviteUserToGame(steamId: string, appId: number, connectString: string): Promise<boolean>;
 
@@ -34,12 +34,12 @@ export interface Friends {
     //(e.ConvertTo64BitString())
     InviteUserToRemotePlayTogetherCurrentGame(steam64Id: string): any;
 
-    RegisterForVoiceChatStatus(callback: (status: VoiceChatStatus) => void): Unregisterable | any;
+    RegisterForVoiceChatStatus(callback: (status: VoiceChatStatus) => void): Unregisterable;
 
     /**
      * Removes a user from the friend list.
-     * @param {string} steamId - The Steam ID of the user to remove from the friend list.
-     * @returns {Promise<boolean>} A Promise that resolves to true if the friend was removed successfully, false otherwise.
+     * @param steamId The Steam ID of the user to remove from the friend list.
+     * @returns A Promise that resolves to true if the friend was removed successfully, false otherwise.
      */
     RemoveFriend(steamId: string): Promise<boolean>;
 }

@@ -19,19 +19,19 @@ export interface OpenVR {
 
     QuitAllVR(): any;
 
-    RegisterForButtonPress: Unregisterable | any;
+    RegisterForButtonPress: Unregisterable;
 
-    RegisterForHMDActivityLevelChanged(callback: (m_eHMDActivityLevel: EHMDActivityLevel) => void): Unregisterable | any;
+    RegisterForHMDActivityLevelChanged(callback: (m_eHMDActivityLevel: EHMDActivityLevel) => void): Unregisterable;
 
-    RegisterForInstallDialog: Unregisterable | any;
+    RegisterForInstallDialog: Unregisterable;
 
-    RegisterForStartupErrors(callback: (clientError: any, initError: any, initErrorString: string) => void): Unregisterable | any;
+    RegisterForStartupErrors(callback: (clientError: any, initError: any, initErrorString: string) => void): Unregisterable;
 
-    RegisterForVRHardwareDetected(callback: (m_bHMDPresent: any, m_bHMDHardwareDetected: any, m_strHMDName: any) => void): Unregisterable | any;
+    RegisterForVRHardwareDetected(callback: (m_bHMDPresent: any, m_bHMDHardwareDetected: any, m_strHMDName: any) => void): Unregisterable;
 
-    RegisterForVRModeChange(callback: (m_bIsVRRunning: boolean) => void): Unregisterable | any;
+    RegisterForVRModeChange(callback: (m_bIsVRRunning: boolean) => void): Unregisterable;
 
-    RegisterForVRSceneAppChange(callback: (param0: number) => void): Unregisterable | any;
+    RegisterForVRSceneAppChange(callback: (param0: number) => void): Unregisterable;
 
     SetOverlayInteractionAffordance: any;
 
@@ -43,9 +43,9 @@ export interface OpenVR {
 
 export interface VRDevice {
     BIsConnected: any;
-    RegisterForDeviceConnectivityChange: Unregisterable | any;
+    RegisterForDeviceConnectivityChange: Unregisterable;
 
-    RegisterForVRDeviceSeenRecently(callback: (m_bVRDeviceSeenRecently: any) => void): Unregisterable | any;
+    RegisterForVRDeviceSeenRecently(callback: (m_bVRDeviceSeenRecently: any) => void): Unregisterable;
 }
 
 export interface DeviceProperties {
@@ -54,7 +54,7 @@ export interface DeviceProperties {
     GetFloatDeviceProperty: any;
     GetInt32DeviceProperty: any;
     GetStringDeviceProperty: any;
-    RegisterForDevicePropertyChange: Unregisterable | any;
+    RegisterForDevicePropertyChange: Unregisterable;
 }
 
 export interface Keyboard {
@@ -63,7 +63,7 @@ export interface Keyboard {
     /**
      * {@link EKeyboardFlags} could be useful here
      */
-    RegisterForStatus(callback: (m_bIsKeyboardOpen: boolean, m_eKeyboardFlags: number, m_sInitialKeyboardText: string) => void): Unregisterable | any;
+    RegisterForStatus(callback: (m_bIsKeyboardOpen: boolean, m_eKeyboardFlags: number, m_sInitialKeyboardText: string) => void): Unregisterable;
 
     SendDone(): any;
 
@@ -87,7 +87,7 @@ export interface PathProperties {
 
 export interface VRNotifications {
     HideCustomNotification: any;
-    RegisterForNotificationEvent: Unregisterable | any;
+    RegisterForNotificationEvent: Unregisterable;
     ShowCustomNotification: any;
 }
 
@@ -96,10 +96,10 @@ export interface VROverlay {
 
     IsDashboardVisible(): Promise<boolean>;
 
-    RegisterForButtonPress: Unregisterable | any;
-    RegisterForCursorMovement: Unregisterable | any;
-    RegisterForThumbnailChanged: Unregisterable | any;
-    RegisterForVisibilityChanged: Unregisterable | any;
+    RegisterForButtonPress: Unregisterable;
+    RegisterForCursorMovement: Unregisterable;
+    RegisterForThumbnailChanged: Unregisterable;
+    RegisterForVisibilityChanged: Unregisterable;
     ShowDashboard: any;
 
     SwitchToDashboardOverlay(param0: string): void;

@@ -7,21 +7,19 @@ import {AppError} from "./App";
 export interface Downloads {
     /**
      * Enables or disables all downloads in Steam.
-     * @param {boolean} enable - True to enable downloads, false to disable.
+     * @param enable True to enable downloads, false to disable.
      */
     EnableAllDownloads(enable: boolean): void;
 
     /**
      * Moves the update for a specific app down the download queue.
-     * @param {number} appId - The ID of the application to move.
-     * @returns {void}
+     * @param appId The ID of the application to move.
      */
     MoveAppUpdateDown(appId: number): void;
 
     /**
      * Moves the update for a specific app up the download queue.
-     * @param {number} appId - The ID of the application to move.
-     * @returns {void}
+     * @param appId The ID of the application to move.
      */
     MoveAppUpdateUp(appId: number): void;
 
@@ -29,68 +27,61 @@ export interface Downloads {
 
     /**
      * Adds the update for a specific app to the download queue.
-     * @param {number} appId - The ID of the application to queue.
-     * @returns {void}
+     * @param appId The ID of the application to queue.
      */
     QueueAppUpdate(appId: number): void;
 
     /**
      * Registers a callback function to be called when download items change.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForDownloadItems(
         callback: (isDownloading: boolean, downloadItems: DownloadItem[]) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when download overview changes.
-     * @param {function} callback - The callback function to be called.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForDownloadOverview(callback: (downloadOverview: DownloadOverview) => void): Unregisterable | any;
+    RegisterForDownloadOverview(callback: (downloadOverview: DownloadOverview) => void): Unregisterable;
 
     /**
      * Removes the update for a specific app from the download list and places it in the unscheduled list.
-     * @param {number} appId - The ID of the application to remove.
-     * @returns {void}
+     * @param appId The ID of the application to remove.
      */
     RemoveFromDownloadList(appId: number): void;
 
     /**
      * Resumes the update for a specific app in the queue.
-     * @param {number} appId - The ID of the application to resume.
-     * @returns {void}
+     * @param appId The ID of the application to resume.
      */
     ResumeAppUpdate(appId: number): void;
 
     /**
      * Sets an app to launch when its download is complete.
-     * @param {number} appId - The ID of the application to set.
-     * @returns {void}
+     * @param appId The ID of the application to set.
      */
     SetLaunchOnUpdateComplete(appId: number): void;
 
     /**
      * Sets the queue index for an app in the download queue.
-     * @param {number} appId - The ID of the application to set the index for.
-     * @param {number} index - The index to set.
-     * @returns {void}
+     * @param appId The ID of the application to set the index for.
+     * @param index The index to set.
      * @remarks Index of 0 is the current download in progress.
      */
     SetQueueIndex(appId: number, index: number): void;
 
     /**
      * Suspends or resumes download throttling.
-     * @param {boolean} suspend - Whether to suspend or resume download throttling.
-     * @returns {void}
+     * @param suspend Whether to suspend or resume download throttling.
      */
     SuspendDownloadThrottling(suspend: boolean): void;
 
     /**
      * Suspends or resumes local transfers.
-     * @param {boolean} suspend - Whether to suspend or resume local transfers.
-     * @returns {void}
+     * @param suspend Whether to suspend or resume local transfers.
      */
     SuspendLanPeerContent(suspend: boolean): void;
 }

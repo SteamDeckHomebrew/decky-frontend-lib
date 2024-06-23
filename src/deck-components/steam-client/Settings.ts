@@ -6,13 +6,11 @@ export interface Settings {
 
     /**
      * Clears HTTP cache located in `<STEAMPATH>/appcache/httpcache`.
-     * @returns {void}
      */
     ClearAllHTTPCaches(): void;
 
     /**
      * Clears download cache and logs you out.
-     * @returns {void}
      */
     ClearDownloadCache(): void;
 
@@ -30,7 +28,7 @@ export interface Settings {
     GetGlobalCompatTools(): Promise<CompatibilityToolInfo[]>;
 
     /**
-     * @returns {Promise<ArrayBuffer>} A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgMonitorInfo}.
+     * @returns A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgMonitorInfo}.
      */
     GetMonitorInfo(): Promise<ArrayBuffer>;
 
@@ -47,21 +45,20 @@ export interface Settings {
 
     /**
      * Opens the Windows microphones dialog.
-     * @returns {void}
      */
     OpenWindowsMicSettings(): void;
 
-    RegisterForMicVolumeUpdates: Unregisterable | any;
+    RegisterForMicVolumeUpdates: Unregisterable;
 
     /**
      * If `data` is deserialized, returns {@link MsgClientSettings}.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForSettingsArrayChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForSettingsArrayChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    RegisterForSettingsChanges(callback: (steamSettings: SteamSettings) => void): Unregisterable | any;
+    RegisterForSettingsChanges(callback: (steamSettings: SteamSettings) => void): Unregisterable;
 
-    RegisterForTimeZoneChange(callback: (timezoneId: string) => void): Unregisterable | any; // When timezone is changed from settings, callback will return new timezoneId
+    RegisterForTimeZoneChange(callback: (timezoneId: string) => void): Unregisterable; // When timezone is changed from settings, callback will return new timezoneId
     ReinitMicSettings(): void;
 
     RequestDeviceAuthInfo(): void;
@@ -86,8 +83,7 @@ export interface Settings {
 
     /**
      * Sets the "Don't save account credentials on this computer" option.
-     * @param {boolean} value - Whether to save account credentials.
-     * @returns {void}
+     * @param value Whether to save account credentials.
      */
     SetSaveAccountCredentials(value: boolean): void;
 

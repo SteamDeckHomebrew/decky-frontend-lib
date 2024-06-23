@@ -3,14 +3,14 @@ import { BrowserContext } from "./index";
 export interface ClientNotifications {
     /**
      * Displays a Steam notification.
-     * @param {ClientUINotificationType} notification - Notification type.
-     * @param {string} options - Stringified object of {@link SteamNotificationOptions}.
-     * @param {function} callback
+     * @param notification Notification type.
+     * @param options Stringified object of {@link SteamNotificationOptions}.
+     * @param callback
      */
     DisplayClientNotification(
         notification: ClientUINotificationType,
         options: string,
-        callback: (browser: BrowserContext) => void,
+        callback: (context: BrowserContext) => void,
     ): void;
 
     /**

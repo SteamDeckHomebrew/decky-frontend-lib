@@ -12,22 +12,22 @@ export interface Network {
     GetProxyInfo(): Promise<ProxyInfo>;
 
     // data.nAppID, data.serializedMsg
-    RegisterForAppSummaryUpdate(callback: (data: any) => any): Unregisterable | any;
+    RegisterForAppSummaryUpdate(callback: (data: any) => any): Unregisterable;
 
     /**
      * @todo {@link GameNetworkingUI_ConnectionState}, unconfirmed
      */
-    RegisterForConnectionStateUpdate: Unregisterable | any;
+    RegisterForConnectionStateUpdate: Unregisterable;
 
     RegisterForConnectivityTestChanges(
         callback: (connectivityTestChange: ConnectivityTestChange) => void,
-    ): Unregisterable | any;
+    ): Unregisterable;
 
     /**
      * If `data` is deserialized, returns {@link MsgNetworkDevicesData}.
-     * @returns {Unregisterable | any} - An object that can be used to unregister the callback.
+     * @returns An object that can be used to unregister the callback.
      */
-    RegisterForDeviceChanges(callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterForDeviceChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     SetFakeLocalSystemState(state: NetFakeLocalSystemState): void;
 

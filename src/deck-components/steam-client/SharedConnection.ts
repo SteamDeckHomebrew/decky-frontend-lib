@@ -11,11 +11,11 @@ export interface SharedConnection {
     // src\clientdll\clientsharedconnection.cpp (154) : m_mapSharedConnections.HasElement( hSharedConnection )
     Close(hSharedConnection: number): void;
 
-    RegisterOnBinaryMessageReceived(hSharedConnection: number, callback: (data: ArrayBuffer) => void): Unregisterable | any;
+    RegisterOnBinaryMessageReceived(hSharedConnection: number, callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    RegisterOnLogonInfoChanged(hSharedConnection: number, callback: (info: LogonInfo) => void): Unregisterable | any;
+    RegisterOnLogonInfoChanged(hSharedConnection: number, callback: (info: LogonInfo) => void): Unregisterable;
 
-    RegisterOnMessageReceived(hSharedConnection: number, callback: (param0: any) => void): Unregisterable | any;
+    RegisterOnMessageReceived(hSharedConnection: number, callback: (param0: any) => void): Unregisterable;
 
     SendMsg: any;
     SendMsgAndAwaitBinaryResponse: any;

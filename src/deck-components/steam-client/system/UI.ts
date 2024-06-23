@@ -5,13 +5,13 @@ export interface UI {
 
     GetGameWindowsInfo(appId: number, windowIds: number[]): Promise<GameWindowInfo>;
 
-    RegisterForFocusChangeEvents(callback: (event: FocusChangeEvent) => void): Unregisterable | any;
+    RegisterForFocusChangeEvents(callback: (event: FocusChangeEvent) => void): Unregisterable;
 
     // appId is 0 if unknown app is focused
-    RegisterForOverlayGameWindowFocusChanged(callback: (appId: number, param1: number) => void): Unregisterable | any;
+    RegisterForOverlayGameWindowFocusChanged(callback: (appId: number, param1: number) => void): Unregisterable;
 
     //event.eKey, event.nControllerIndex
-    RegisterForSystemKeyEvents(callback: (event: any) => void): Unregisterable | any; // eKey
+    RegisterForSystemKeyEvents(callback: (event: any) => void): Unregisterable; // eKey
 }
 
 export interface FocusChangeEvent {

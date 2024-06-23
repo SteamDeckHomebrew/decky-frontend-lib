@@ -9,14 +9,12 @@ export interface User {
 
     /**
      * Tries to cancel Steam shutdown.
-     * @returns {void}
      * @remarks Used in the "Shutting down" dialog.
      */
     CancelShutdown(): void;
 
     /**
      * Opens the "Change Account" dialog.
-     * @returns {void}
      */
     ChangeUser(): void;
 
@@ -26,25 +24,24 @@ export interface User {
 
     /**
      * Forces a shutdown while shutting down.
-     * @returns {void}
      * @remarks Used in the "Shutting down" dialog.
      */
     ForceShutdown(): void;
 
     /**
      * Forgets an account's password.
-     * @param {string} accountName - Login of the account to forget.
-     * @returns {Promise<boolean>} A Promise that resolves to a boolean indicating whether the operation succeeded or not.
+     * @param accountName Login of the account to forget.
+     * @returns A Promise that resolves to a boolean indicating whether the operation succeeded or not.
      */
     ForgetPassword(accountName: string): Promise<boolean>;
 
     /**
      * Gets your country code.
-     * @returns {Promise<string>} A Promise that resolves to a string containing your country code.
+     * @returns A Promise that resolves to a string containing your country code.
      */
     GetIPCountry(): Promise<string>;
 
-    GetLoginProgress(callback: (param0: number, param1: number) => void): Unregisterable | any;
+    GetLoginProgress(callback: (param0: number, param1: number) => void): Unregisterable;
 
     GetLoginUsers(): Promise<LoginUser[]>;
 
@@ -58,32 +55,31 @@ export interface User {
 
     Reconnect(): void;
 
-    RegisterForConnectionAttemptsThrottled(callback: (data: ConnectionAttempt) => void): Unregisterable | any;
+    RegisterForConnectionAttemptsThrottled(callback: (data: ConnectionAttempt) => void): Unregisterable;
 
     RegisterForCurrentUserChanges(callback: (user: CurrentUser) => void): void;
 
-    RegisterForLoginStateChange(callback: (accountName: string, loginState: LoginState, loginResult: number, loginPercentage: number, param4: number) => void): Unregisterable | any;
+    RegisterForLoginStateChange(callback: (accountName: string, loginState: LoginState, loginResult: number, loginPercentage: number, param4: number) => void): Unregisterable;
 
-    RegisterForPrepareForSystemSuspendProgress(callback: (data: any) => void): Unregisterable | any;
+    RegisterForPrepareForSystemSuspendProgress(callback: (data: any) => void): Unregisterable;
 
-    RegisterForResumeSuspendedGamesProgress: Unregisterable | any;
+    RegisterForResumeSuspendedGamesProgress: Unregisterable;
 
-    RegisterForShutdownDone(callback: () => void): Unregisterable | any;
+    RegisterForShutdownDone(callback: () => void): Unregisterable;
 
-    RegisterForShutdownFailed: Unregisterable | any;
+    RegisterForShutdownFailed: Unregisterable;
 
     /**
      * Register a function to be executed when a shutdown start is detected.
      * @param callback The function to be executed on shutdown start.
      */
-    RegisterForShutdownStart(callback: () => void): Unregisterable | any;
+    RegisterForShutdownStart(callback: () => void): Unregisterable;
 
-    RegisterForShutdownState: Unregisterable | any;
+    RegisterForShutdownState: Unregisterable;
 
     /**
      * Removes an account from remembered users.
-     * @param {string} accountName - The account to remove.
-     * @returns {void}
+     * @param accountName The account to remove.
      */
     RemoveUser(accountName: string): void;
 
@@ -102,10 +98,9 @@ export interface User {
 
     /**
      * Sets given login credentials, but don't log in to that account.
-     * @param {string} accountName - Account name.
-     * @param {string} password - Account password.
-     * @param {boolean} rememberMe - Whether to remember that account.
-     * @returns {void}
+     * @param accountName Account name.
+     * @param password Account password.
+     * @param rememberMe Whether to remember that account.
      */
     SetLoginCredentials(accountName: string, password: string, rememberMe: boolean): void;
 
@@ -115,7 +110,6 @@ export interface User {
 
     /**
      * Signs out and restarts Steam.
-     * @returnsn {void}
      */
     SignOutAndRestart(): void;
 

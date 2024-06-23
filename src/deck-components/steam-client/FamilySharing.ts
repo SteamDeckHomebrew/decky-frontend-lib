@@ -4,7 +4,7 @@
 export interface FamilySharing {
     /**
      * Authorizes library sharing on the local device.
-     * @returns {Promise<number>} A Promise that resolves to a status code.
+     * @returns A Promise that resolves to a status code.
      * FamilySettings_SteamGuardRequired - 18
      * FamilySettings_LimitExceeded - 25
      * FamilySettings_FailedToAuthorize - any other number
@@ -13,7 +13,7 @@ export interface FamilySharing {
 
     /**
      * Deauthorizes library sharing on the local device.
-     * @returns {Promise<number>} A Promise that resolves to a status code.
+     * @returns A Promise that resolves to a status code.
      */
     DeauthorizeLocalDevice(): Promise<number>;
 
