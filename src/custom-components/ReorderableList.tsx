@@ -35,12 +35,12 @@ export type ReorderableListProps<T> = {
 export function ReorderableList<T>(props: ReorderableListProps<T>) {
   if (props.animate === undefined) props.animate = true;
   const [entryList, setEntryList] = useState<ReorderableEntry<T>[]>(
-    props.entries.sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position),
+    [...props.entries].sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position),
   );
   const [reorderEnabled, setReorderEnabled] = useState<boolean>(false);
 
   useEffect(() => {
-    setEntryList(props.entries.sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position));
+    setEntryList([...props.entries].sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position));
   }, [props.entries]);
 
   function toggleReorderEnabled(): void {
