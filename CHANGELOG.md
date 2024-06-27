@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.0.0...v4.0.1) (2024-06-27)
+
+
+### Bug Fixes
+
+* **release:** empty commit to bump to v4.0.1 ([2bfe624](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2bfe62409f775a69124e0f2e853ae0b1668a9c36))
+
 # [4.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.25.0...v4.0.0) (2024-06-27)
 
 
