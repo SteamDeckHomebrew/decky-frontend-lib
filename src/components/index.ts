@@ -5,6 +5,7 @@ export * from './ControlsList';
 export * from './Dialog';
 export * from './DialogCheckbox';
 export * from './Dropdown';
+export * from './ErrorBoundary';
 export * from './Field';
 export * from './Focusable';
 export * from './FocusRing';

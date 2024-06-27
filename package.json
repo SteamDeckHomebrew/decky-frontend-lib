@@ -85,5 +85,9 @@
       "style": "module",
       "parser": "typescript"
     }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest"
   }
 }
