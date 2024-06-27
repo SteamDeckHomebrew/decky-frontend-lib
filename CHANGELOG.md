@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.1.1...v4.2.0) (2024-06-27)
+
+
+### Features
+
+* **components:** add ErrorBoundary ([dcdbb2d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/dcdbb2d6c7c0b72197f04153d7c3e73e9e71ea5c))
+
 ## [4.1.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.1.0...v4.1.1) (2024-06-27)
 
 
