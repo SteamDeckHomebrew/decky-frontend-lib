@@ -5,7 +5,8 @@ import { Export, findModuleExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 export const showContextMenu: (children: ReactNode, parent?: EventTarget) => void = findModuleExport(
-  (e: Export) => typeof e === 'function' && e.toString().includes('stopPropagation))'),
+  (e: Export) => typeof e === 'function' && e.toString().includes('GetContextMenuManagerFromWindow(')
+  && e.toString().includes('.CreateContextMenuInstance('),
 );
 
 export interface MenuProps extends FooterLegendProps {

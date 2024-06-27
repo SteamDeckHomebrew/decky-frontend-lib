@@ -2,6 +2,7 @@ import { ReactNode, FC } from 'react';
 
 import { Export, findModuleExport } from '../webpack';
 import { ItemProps } from './Item';
+import { createPropListRegex } from '../utils';
 
 export interface ProgressBarItemProps extends ItemProps {
   indeterminate?: boolean;
@@ -30,6 +31,7 @@ export const ProgressBarWithInfo = findModuleExport((e: Export) =>
   e?.toString()?.includes('.ProgressBarFieldStatus},'),
 ) as FC<ProgressBarWithInfoProps>;
 
+const progressBarItemRegex = createPropListRegex(["indeterminate", "nTransitionSec", "nProgress"]);
 export const ProgressBarItem = findModuleExport((e: Export) =>
-  e?.toString()?.includes('"indeterminate","nTransitionSec"'),
+  e?.toString && progressBarItemRegex.test(e.toString()),
 ) as FC<ProgressBarItemProps>;

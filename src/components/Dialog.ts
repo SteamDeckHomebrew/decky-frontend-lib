@@ -52,13 +52,19 @@ export interface DialogButtonProps extends DialogCommonProps, FooterLegendProps 
 }
 
 const CommonDialogDivs = Object.values(CommonUIModule).filter(
-  (m: any) => typeof m === 'object' && m?.render?.toString().includes('"div",Object.assign({},'),
+  (m: any) => typeof m === 'object' && m?.render?.toString().includes('createElement("div",{...') ||
+  m?.render?.toString().includes('createElement("div",Object.assign({},'),
 );
 const MappedDialogDivs = new Map(
   Object.values(CommonDialogDivs).map((m: any) => {
-    const renderedDiv = m.render({});
-    // Take only the first class name segment as it identifies the element we want
-    return [renderedDiv.props.className.split(' ')[0], m];
+    try {
+      const renderedDiv = m.render({});
+      // Take only the first class name segment as it identifies the element we want
+      return [renderedDiv.props.className.split(' ')[0], m];
+    } catch (e) {
+      console.error("[DFL:Dialog]: failed to render common dialog component", e);
+      return [null, null];
+    }
   }),
 );
 
@@ -72,14 +78,11 @@ export const DialogControlsSection = MappedDialogDivs.get('DialogControlsSection
 export const DialogControlsSectionHeader = MappedDialogDivs.get('DialogControlsSectionHeader') as FC<DialogCommonProps>;
 
 export const DialogButtonPrimary = Object.values(CommonUIModule).find(
-  (mod: any) => mod?.render?.toString()?.includes('DialogButton') && mod?.render?.toString()?.includes('Primary'),
+  (mod: any) => mod?.render?.toString()?.includes('"DialogButton","_DialogLayout","Primary"'),
 ) as FC<DialogButtonProps>;
 
 export const DialogButtonSecondary = Object.values(CommonUIModule).find(
-  (mod: any) =>
-    mod?.render?.toString()?.includes('Object.assign({type:"button"') &&
-    mod?.render?.toString()?.includes('DialogButton') &&
-    mod?.render?.toString()?.includes('Secondary'),
+  (mod: any) => mod?.render?.toString()?.includes('"DialogButton","_DialogLayout","Secondary"')
 ) as FC<DialogButtonProps>;
 
 // This is the "main" button. The Primary can act as a submit button,

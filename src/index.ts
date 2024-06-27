@@ -13,8 +13,8 @@ export * from './class-mapper';
  * @deprecated use @decky/api instead
  */
 export const definePlugin = (fn: any): any => {
-    return (...args: any[]) => {
-      // TODO: Maybe wrap this
-      return fn(...args);
-    };
+  return (...args: any[]) => {
+    // TODO: Maybe wrap this
+    return fn(...args);
+  };
 };

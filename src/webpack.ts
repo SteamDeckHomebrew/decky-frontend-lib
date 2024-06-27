@@ -130,7 +130,7 @@ export const CommonUIModule = modules.find((m: Module) => {
 });
 
 export const IconsModule = findModuleByExport(
-  (e) => e?.toString && /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(e.toString()),
+  (e) => e?.toString && /Spinner\)}\)?,.\.createElement\(\"path\",{d:\"M18 /.test(e.toString()),
 );
 
 export const ReactRouter = findModuleByExport((e) => e.computeRootMatch);
