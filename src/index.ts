@@ -1,9 +1,20 @@
 // export * from './deck-libs';
 export * from './custom-components';
 export * from './custom-hooks';
-export * from './deck-components';
+export * from './components';
 export * from './deck-hooks';
-export * from './plugin';
+export * from './modules';
+export * from './globals';
 export * from './webpack';
 export * from './utils';
 export * from './class-mapper';
+
+/**
+ * @deprecated use @decky/api instead
+ */
+export const definePlugin = (fn: any): any => {
+  return (...args: any[]) => {
+    // TODO: Maybe wrap this
+    return fn(...args);
+  };
+};

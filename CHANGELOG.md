@@ -1,3 +1,66 @@
+# [4.1.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.0.1...v4.1.0) (2024-06-27)
+
+
+### Features
+
+* **release:** release v4.1.0 ([b040444](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b04044451a9dc3633fe624e47dd58c7ea206d0a3))
+
+## [4.0.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.0.0...v4.0.1) (2024-06-27)
+
+
+### Bug Fixes
+
+* **release:** empty commit to bump to v4.0.1 ([2bfe624](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2bfe62409f775a69124e0f2e853ae0b1668a9c36))
+
+# [4.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.25.0...v4.0.0) (2024-06-27)
+
+
+### Bug Fixes
+
+* **ci:** empty commit so semantic-release shuts up ([8cb7c27](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/8cb7c273eb61c1f949844291b2864c11bf746058))
+* **ci:** temp remove npm publisher ([abfd2c0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/abfd2c010508ddf6e18149374dc52b50402ffb4c))
+* **components:** fix missing children prop ([688c747](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/688c7471cde96bf9e9a71c47d19bd63cff7a66b3))
+* **components:** forgot one ([e6e8c91](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e6e8c91ec7ea711f6c147f28e300f745dcbd24f4))
+* **Field:** add children prop ([2a78cc0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2a78cc011671ab123fb6356f54102e531a7953a8))
+* fixes for jun 26 beta ([7e0cb15](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7e0cb153b197267f49b5e1f513b54a880bf3710f))
+* **Menu:** work around ConfigContext error ([9f26209](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/9f262097b9808a0366bb52cd24844371bbe65316))
+* **package:** fix ts memes ([ea19d62](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ea19d62dabfbecad97c1ab9384c676f8a018f96b))
+* **package:** pin react properly ([62b454f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/62b454f71255d5e1898677909a63612615e09083))
+* **package:** unbreak react ([b1e5038](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b1e503853ff6d39f1e86a6180f355e73b9fd6925))
+* **plugin:** shim definePlugin for now [ci skip] ([0cd498b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0cd498beacbd23efa3b771880ff0a4df3f636836))
+* **utils/react:** shut it ts ([d91f49e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d91f49e728b613e24b40d7e81d47fd1f3bd92372))
+
+
+### Features
+
+* add v4 webpack api and port everything to it ([bffd530](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bffd530bda9a49aae603c323c0a2b4328eee968d))
+
+
+### BREAKING CHANGES
+
+* **ci:** v4 release
+* **ci:** v4 release
+
+## [3.26.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.26.0...v3.26.1) (2024-05-25)
+
+
+### Bug Fixes
+
+* **Field:** add children prop ([2a78cc0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2a78cc011671ab123fb6356f54102e531a7953a8))
+* **plugin:** shim definePlugin for now [ci skip] ([0cd498b](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0cd498beacbd23efa3b771880ff0a4df3f636836))
+
+# [3.26.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.25.0...v3.26.0) (2024-05-24)
+
+
+### Bug Fixes
+
+* **utils/react:** shut it ts ([d91f49e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d91f49e728b613e24b40d7e81d47fd1f3bd92372))
+
+
+### Features
+
+* add v4 webpack api and port everything to it ([bffd530](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bffd530bda9a49aae603c323c0a2b4328eee968d))
+
 # [3.25.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v3.24.5...v3.25.0) (2024-03-09)
 
 

@@ -1,65 +1,104 @@
+import Logger from './logger';
+
 declare global {
   interface Window {
-    webpackJsonp: any;
     webpackChunksteamui: any;
   }
 }
 
-// TODO
+const logger = new Logger('Webpack');
+
+// In most case an object with getters for each property. Look for the first call to r.d in the module, usually near or at the top.
 export type Module = any;
+export type Export = any;
 type FilterFn = (module: any) => boolean;
+type ExportFilterFn = (moduleExport: any, exportName?: any) => boolean;
 type FindFn = (module: any) => any;
 
-export let webpackCache: any = {};
-let hasWebpack5 = false;
+export let modules: any = [];
 
-if (window.webpackJsonp && !window.webpackJsonp.deckyShimmed) {
-  // Webpack 4, currently on stable
-  const wpRequire = window.webpackJsonp.push([
-    [],
-    { get_require: (mod: any, _exports: any, wpRequire: any) => (mod.exports = wpRequire) },
-    [['get_require']],
-  ]);
-
-  delete wpRequire.m.get_require;
-  delete wpRequire.c.get_require;
-  webpackCache = wpRequire.c;
-} else {
+function initModuleCache() {
+  const startTime = performance.now();
+  logger.group('Webpack Module Init');
   // Webpack 5, currently on beta
-  hasWebpack5 = true;
-  const id = Math.random();
-  let initReq: any;
+  // Generate a fake module ID
+  const id = Math.random(); // really should be an int and not a float but who cares
+  let webpackRequire!: ((id: any) => Module) & { m: object };
+  // Insert our module in a new chunk.
+  // The module will then be called with webpack's internal require function as its first argument
   window.webpackChunksteamui.push([
     [id],
     {},
     (r: any) => {
-      initReq = r;
+      webpackRequire = r;
     },
   ]);
-  for (let i of Object.keys(initReq.m)) {
+
+  logger.log(
+    'Initializing all modules. Errors here likely do not matter, as they are usually just failing module side effects.',
+  );
+
+  // Loop over every module ID
+  for (let i of Object.keys(webpackRequire.m)) {
     try {
-      webpackCache[i] = initReq(i);
+      const module = webpackRequire(i);
+      if (module) {
+        modules.push(module);
+      }
     } catch (e) {
-      console.debug("[DFL:Webpack]: Ignoring require error for module", i, e);
+      logger.debug('Ignoring require error for module', i, e);
     }
   }
+
+  logger.groupEnd(`Modules initialized in ${performance.now() - startTime}ms...`);
 }
 
-export const allModules: Module[] = hasWebpack5
-  ? Object.values(webpackCache).filter((x) => x)
-  : Object.keys(webpackCache)
-      .map((x) => webpackCache[x].exports)
-      .filter((x) => x);
+initModuleCache();
 
 export const findModule = (filter: FilterFn) => {
-  for (const m of allModules) {
+  for (const m of modules) {
     if (m.default && filter(m.default)) return m.default;
     if (filter(m)) return m;
   }
 };
 
+export const findModuleDetailsByExport = (
+  filter: ExportFilterFn,
+  minExports?: number,
+): [module: Module | undefined, moduleExport: any, exportName: any] => {
+  for (const m of modules) {
+    if (!m) continue;
+    for (const mod of [m.default, m]) {
+      if (typeof mod !== 'object') continue;
+      if (minExports && Object.keys(mod).length < minExports) continue;
+      for (let exportName in mod) {
+        if (mod?.[exportName]) {
+          const filterRes = filter(mod[exportName], exportName);
+          if (filterRes) {
+            return [mod, mod[exportName], exportName];
+          } else {
+            continue;
+          }
+        }
+      }
+    }
+  }
+  return [undefined, undefined, undefined];
+};
+
+export const findModuleByExport = (filter: ExportFilterFn, minExports?: number) => {
+  return findModuleDetailsByExport(filter, minExports)?.[0];
+};
+
+export const findModuleExport = (filter: ExportFilterFn, minExports?: number) => {
+  return findModuleDetailsByExport(filter, minExports)?.[1];
+};
+
+/**
+ * @deprecated use findModuleExport instead
+ */
 export const findModuleChild = (filter: FindFn) => {
-  for (const m of allModules) {
+  for (const m of modules) {
     for (const mod of [m.default, m]) {
       const filterRes = filter(mod);
       if (filterRes) {
@@ -74,7 +113,7 @@ export const findModuleChild = (filter: FindFn) => {
 export const findAllModules = (filter: FilterFn) => {
   const out = [];
 
-  for (const m of allModules) {
+  for (const m of modules) {
     if (m.default && filter(m.default)) out.push(m.default);
     if (filter(m)) out.push(m);
   }
@@ -82,7 +121,7 @@ export const findAllModules = (filter: FilterFn) => {
   return out;
 };
 
-export const CommonUIModule = allModules.find((m: Module) => {
+export const CommonUIModule = modules.find((m: Module) => {
   if (typeof m !== 'object') return false;
   for (let prop in m) {
     if (m[prop]?.contextType?._currentValue && Object.keys(m).length > 60) return true;
@@ -90,18 +129,8 @@ export const CommonUIModule = allModules.find((m: Module) => {
   return false;
 });
 
-export const IconsModule = findModule((m: Module) => {
-  if (typeof m !== 'object') return false;
-  for (let prop in m) {
-    if (m[prop]?.toString && /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(m[prop].toString())) return true;
-  }
-  return false;
-});
+export const IconsModule = findModuleByExport(
+  (e) => e?.toString && /Spinner\)}\)?,.\.createElement\(\"path\",{d:\"M18 /.test(e.toString()),
+);
 
-export const ReactRouter = allModules.find((m: Module) => {
-  if (typeof m !== 'object') return undefined;
-  for (let prop in m) {
-    if (m[prop]?.computeRootMatch) return true;
-  }
-  return false;
-});
+export const ReactRouter = findModuleByExport((e) => e.computeRootMatch);

@@ -8,6 +8,28 @@ declare global {
   }
 }
 
+/**
+ * Create a Regular Expression to search for a React component that uses certain props in order.
+ *
+ * @export
+ * @param {string[]} propList Ordererd list of properties to search for
+ * @returns {RegExp} RegEx to call .test(component.toString()) on
+ */
+export function createPropListRegex(propList: string[], fromStart: boolean = true): RegExp {
+  let regexString = fromStart ? "const\{" : "";
+  propList.forEach((prop: any, propIdx) => {
+    regexString += `"?${prop}"?:[a-zA-Z_$]{1,2}`;
+    if (propIdx < propList.length - 1) {
+      regexString += ",";
+    }
+  });
+
+  // TODO provide a way to enable this
+  // console.debug(`[DFL:Utils] createPropListRegex generated regex "${regexString}" for props`, propList);
+
+  return new RegExp(regexString);
+}
+
 export function fakeRenderComponent(fun: Function, customHooks: any = {}): any {
   const hooks = (window.SP_REACT as any).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
     .current;
@@ -67,14 +89,18 @@ export function wrapReactClass(node: any, prop: any = 'type') {
 
 export function getReactRoot(o: HTMLElement | Element | Node) {
   return (
+    // @ts-expect-error 7053
     o[Object.keys(o).find((k) => k.startsWith('__reactContainer$')) as string] ||
+    // @ts-expect-error 7053
     o['_reactRootContainer']?._internalRoot?.current
   );
 }
 
 export function getReactInstance(o: HTMLElement | Element | Node) {
   return (
+    // @ts-expect-error 7053
     o[Object.keys(o).find((k) => k.startsWith('__reactFiber')) as string] ||
+    // @ts-expect-error 7053
     o[Object.keys(o).find((k) => k.startsWith('__reactInternalInstance')) as string]
   );
 }

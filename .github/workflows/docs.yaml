@@ -1,9 +1,10 @@
 name: Generate docs
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   release:

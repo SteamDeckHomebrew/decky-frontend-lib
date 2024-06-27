@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - v4-dev
 
 jobs:
   release:
@@ -29,5 +29,5 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_DECKY_ORG }}
         run: pnpm exec semantic-release

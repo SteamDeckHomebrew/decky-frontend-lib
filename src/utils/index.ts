@@ -1,5 +1,6 @@
 export * from './patcher';
 export * from './react';
+export * from './static-classes';
 
 declare global {
   var FocusNavController: any;
