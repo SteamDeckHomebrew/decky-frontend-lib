@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.1.0...v4.1.1) (2024-06-27)
+
+
+### Bug Fixes
+
+* **ReorderableList:** avoid mutating props ([#109](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/109)) ([bd1dc85](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bd1dc85b9202c8ec6ca994177417574fdd71cbd7))
+
 # [4.1.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.0.1...v4.1.0) (2024-06-27)
 
 
