@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.0...v4.2.1) (2024-06-27)
+
+
+### Bug Fixes
+
+* **errorboundary:** work around broken react types ([3ef9648](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3ef96483550020cecf656b94a73d2bb9313bda07))
+
 # [4.2.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.1.1...v4.2.0) (2024-06-27)
 
 
