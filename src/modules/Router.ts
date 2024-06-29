@@ -1,6 +1,6 @@
 import { sleep } from '../utils';
-import { Module, findModuleChild } from '../webpack';
-import { DisplayStatus } from "./steam-client/App";
+import {Export, findModuleExport} from "../webpack";
+import {DisplayStatus} from "../deck-components/steam-client/App";
 
 export enum SideMenu {
   None,

@@ -1,5 +1,5 @@
-import {AppData, SteamClient} from "./steam-client";
-import {AppDetails, LogoPosition, SteamAppOverview} from "./steam-client/App";
+import {AppDetails, LogoPosition, SteamAppOverview} from "../deck-components/steam-client/App";
+import {AppData} from "../deck-components/steam-client";
 
 declare global {
   interface Window {
