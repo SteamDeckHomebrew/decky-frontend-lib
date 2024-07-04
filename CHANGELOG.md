@@ -1,3 +1,10 @@
+## [4.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.1...v4.2.2) (2024-07-04)
+
+
+### Bug Fixes
+
+* **SteamSpinner:** add background option ([c04f024](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c04f024b34b1148c965850965127f9fd44204157))
+
 ## [4.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.0...v4.2.1) (2024-06-27)
 
 
