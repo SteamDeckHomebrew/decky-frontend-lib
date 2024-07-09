@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.2...v4.3.0) (2024-07-09)
+
+
+### Features
+
+* **utils:** react tree patching api ([2c3a9f8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2c3a9f81de0b63364bb31f4a4dd8e559784ece16))
+
 ## [4.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.1...v4.2.2) (2024-07-04)
 
 
