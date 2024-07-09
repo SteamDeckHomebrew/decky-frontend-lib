@@ -6,7 +6,7 @@ export interface PatchOptions {
   singleShot?: boolean;
 }
 
-type GenericPatchHandler = (args: any[], ret?: any) => any;
+export type GenericPatchHandler = (args: any[], ret?: any) => any;
 
 export interface Patch {
   original: Function;

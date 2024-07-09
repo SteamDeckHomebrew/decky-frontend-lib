@@ -1,5 +1,6 @@
 export * from './patcher';
 export * from './react';
+export * from './react-patching';
 export * from './static-classes';
 
 declare global {
