@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.3.0...v4.3.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* **Menu/MenuGroup:** rewrite filter to work on beta and prevent future errors ([d64c42a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d64c42ac310d3c3266c4ff610d9ec5ab6c7707b6))
+
 # [4.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.2...v4.3.0) (2024-07-09)
 
 
