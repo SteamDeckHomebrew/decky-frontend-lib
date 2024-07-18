@@ -30,13 +30,15 @@ export function createPropListRegex(propList: string[], fromStart: boolean = tru
   return new RegExp(regexString);
 }
 
-export function fakeRenderComponent(fun: Function, customHooks: any = {}): any {
+let oldHooks = {};
+
+export function applyHookStubs(customHooks: any = {}): any {
   const hooks = (window.SP_REACT as any).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
     .current;
 
   // TODO: add more hooks
 
-  let oldHooks = {
+  oldHooks = {
     useContext: hooks.useContext,
     useCallback: hooks.useCallback,
     useLayoutEffect: hooks.useLayoutEffect,
@@ -60,9 +62,22 @@ export function fakeRenderComponent(fun: Function, customHooks: any = {}): any {
 
   Object.assign(hooks, customHooks);
 
-  const res = fun(hooks);
+  return hooks;
+}
 
+export function removeHookStubs() {
+  const hooks = (window.SP_REACT as any).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
+    .current;
   Object.assign(hooks, oldHooks);
+  oldHooks = {};
+}
+
+export function fakeRenderComponent(fun: Function, customHooks?: any): any {
+  const hooks = applyHookStubs(customHooks);
+
+  const res = fun(hooks); // TODO why'd we do this?
+
+  removeHookStubs();
 
   return res;
 }

@@ -1,7 +1,8 @@
 export * from './patcher';
-export * from './react';
-export * from './react-patching';
 export * from './static-classes';
+export * from './react/react';
+export * from './react/fc';
+export * from './react/treepatcher';
 
 declare global {
   var FocusNavController: any;

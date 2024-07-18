@@ -1,5 +1,5 @@
-import Logger from '../logger';
-import { GenericPatchHandler, afterPatch } from './patcher';
+import Logger from '../../logger';
+import { GenericPatchHandler, afterPatch } from '../patcher';
 import { wrapReactClass, wrapReactType } from './react';
 
 // TODO max size limit? could implement as a class extending map perhaps
