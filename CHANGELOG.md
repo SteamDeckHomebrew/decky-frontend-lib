@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.3.1...v4.4.0) (2024-07-18)
+
+
+### Features
+
+* **utils/react:** add injectFCTrampoline ([44fdf9e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/44fdf9ed3b9a676a88b0ddc6a1c2c89d46ff7651))
+
 ## [4.3.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.3.0...v4.3.1) (2024-07-17)
 
 
