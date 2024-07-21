@@ -713,9 +713,9 @@ export interface ControllerStateChange {
     flHardwareGyroDegreesPerSecondRoll: number;
     flGyroNoiseLength: number;
     flGyroCalibrationProgress: number;
-    glGravityVectorX: number;
-    glGravityVectorY: number;
-    glGravityVectorZ: number;
+    flGravityVectorX: number;
+    flGravityVectorY: number;
+    flGravityVectorZ: number;
     flAccelerometerNoiseLength: number;
     sBatteryLevel: number;
     sPressurePadLeft: number;
