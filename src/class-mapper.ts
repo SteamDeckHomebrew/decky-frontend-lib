@@ -1,10 +1,10 @@
-import { Module, findAllModules } from './webpack';
+import { Module, ModuleID, createModuleMapping } from './webpack';
 
 export interface ClassModule {
   [name: string]: string;
 }
 
-export const classMap: ClassModule[] = findAllModules((m: Module) => {
+export const classModuleMap: Map<ModuleID, ClassModule> = createModuleMapping((m: Module) => {
   if (typeof m == 'object' && !m.__esModule) {
     const keys = Object.keys(m);
     // special case some libraries
@@ -17,16 +17,19 @@ export const classMap: ClassModule[] = findAllModules((m: Module) => {
   return false;
 });
 
-export function findClass(name: string): string | void {
-  return classMap.find((m) => m?.[name])?.[name];
+export const classMap = classModuleMap.values();
+
+export function findClass(id: string, name: string): string | void {
+  return classModuleMap.get(id)?.[name];
 }
 
 export function findClassModule(filter: (module: any) => boolean): ClassModule | void {
-  return classMap.find((m) => filter(m));
+  // TODO optimize
+  return [...classModuleMap.values()].find((m) => filter(m));
 }
 
 export function unminifyClass(minifiedClass: string): string | void {
-  for (let m of classMap) {
+  for (let m of classModuleMap.values()) {
     for (let className of Object.keys(m)) {
       if (m[className] == minifiedClass) return className;
     }
