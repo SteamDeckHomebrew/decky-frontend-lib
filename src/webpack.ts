@@ -9,20 +9,21 @@ declare global {
 const logger = new Logger('Webpack');
 
 // In most case an object with getters for each property. Look for the first call to r.d in the module, usually near or at the top.
+export type ModuleID = string; // number string
 export type Module = any;
 export type Export = any;
 type FilterFn = (module: any) => boolean;
 type ExportFilterFn = (moduleExport: any, exportName?: any) => boolean;
 type FindFn = (module: any) => any;
 
-export let modules: any = [];
+export let modules = new Map<ModuleID, Module>();
 
 function initModuleCache() {
   const startTime = performance.now();
   logger.group('Webpack Module Init');
   // Webpack 5, currently on beta
   // Generate a fake module ID
-  const id = Math.random(); // really should be an int and not a float but who cares
+  const id = Symbol("@decky/ui");
   let webpackRequire!: ((id: any) => Module) & { m: object };
   // Insert our module in a new chunk.
   // The module will then be called with webpack's internal require function as its first argument
@@ -39,14 +40,14 @@ function initModuleCache() {
   );
 
   // Loop over every module ID
-  for (let i of Object.keys(webpackRequire.m)) {
+  for (let id of Object.keys(webpackRequire.m)) {
     try {
-      const module = webpackRequire(i);
+      const module = webpackRequire(id);
       if (module) {
-        modules.push(module);
+        modules.set(id, module);
       }
     } catch (e) {
-      logger.debug('Ignoring require error for module', i, e);
+      logger.debug('Ignoring require error for module', id, e);
     }
   }
 
@@ -56,7 +57,7 @@ function initModuleCache() {
 initModuleCache();
 
 export const findModule = (filter: FilterFn) => {
-  for (const m of modules) {
+  for (const m of modules.values()) {
     if (m.default && filter(m.default)) return m.default;
     if (filter(m)) return m;
   }
@@ -65,8 +66,8 @@ export const findModule = (filter: FilterFn) => {
 export const findModuleDetailsByExport = (
   filter: ExportFilterFn,
   minExports?: number,
-): [module: Module | undefined, moduleExport: any, exportName: any] => {
-  for (const m of modules) {
+): [module: Module | undefined, moduleExport: any, exportName: any, moduleID: string | undefined] => {
+  for (const [id, m] of modules) {
     if (!m) continue;
     for (const mod of [m.default, m]) {
       if (typeof mod !== 'object') continue;
@@ -75,7 +76,7 @@ export const findModuleDetailsByExport = (
         if (mod?.[exportName]) {
           const filterRes = filter(mod[exportName], exportName);
           if (filterRes) {
-            return [mod, mod[exportName], exportName];
+            return [mod, mod[exportName], exportName, id];
           } else {
             continue;
           }
@@ -83,7 +84,7 @@ export const findModuleDetailsByExport = (
       }
     }
   }
-  return [undefined, undefined, undefined];
+  return [undefined, undefined, undefined, undefined];
 };
 
 export const findModuleByExport = (filter: ExportFilterFn, minExports?: number) => {
@@ -98,7 +99,7 @@ export const findModuleExport = (filter: ExportFilterFn, minExports?: number) =>
  * @deprecated use findModuleExport instead
  */
 export const findModuleChild = (filter: FindFn) => {
-  for (const m of modules) {
+  for (const m of modules.values()) {
     for (const mod of [m.default, m]) {
       const filterRes = filter(mod);
       if (filterRes) {
@@ -110,10 +111,13 @@ export const findModuleChild = (filter: FindFn) => {
   }
 };
 
+/**
+ * @deprecated use createModuleMapping instead
+ */
 export const findAllModules = (filter: FilterFn) => {
   const out = [];
 
-  for (const m of modules) {
+  for (const m of modules.values()) {
     if (m.default && filter(m.default)) out.push(m.default);
     if (filter(m)) out.push(m);
   }
@@ -121,7 +125,18 @@ export const findAllModules = (filter: FilterFn) => {
   return out;
 };
 
-export const CommonUIModule = modules.find((m: Module) => {
+export const createModuleMapping = (filter: FilterFn) => {
+  const mapping = new Map<ModuleID, Module>();
+
+  for (const [id, m] of modules) {
+    if (m.default && filter(m.default)) mapping.set(id, m.default);
+    if (filter(m)) mapping.set(id, m);
+  }
+
+  return mapping;
+};
+
+export const CommonUIModule = findModule((m: Module) => {
   if (typeof m !== 'object') return false;
   for (let prop in m) {
     if (m[prop]?.contextType?._currentValue && Object.keys(m).length > 60) return true;
