@@ -1,3 +1,11 @@
+# [4.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.4.0...v4.5.0) (2024-07-24)
+
+
+### Features
+
+* **classMapper:** add classModuleMap, make findClass require ID ([a370c1f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a370c1f7d3dca0db56a346c98c28ed9681a415e0))
+* **webpack:** refactor to prepare for classMapper changes ([d83bada](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d83bada4af2d16c750955de9a52f94a0080a2c14))
+
 # [4.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.3.1...v4.4.0) (2024-07-18)
 
 
