@@ -17,15 +17,18 @@ export const classModuleMap: Map<ModuleID, ClassModule> = createModuleMapping((m
   return false;
 });
 
-export const classMap = classModuleMap.values();
+export const classMap = [...classModuleMap.values()];
 
 export function findClass(id: string, name: string): string | void {
   return classModuleMap.get(id)?.[name];
 }
 
+export function findClassByName(name: string): string | void {
+  return classMap.find((m) => m[name])?.[name];
+}
+
 export function findClassModule(filter: (module: any) => boolean): ClassModule | void {
-  // TODO optimize
-  return [...classModuleMap.values()].find((m) => filter(m));
+  return classMap.find((m) => filter(m));
 }
 
 export function unminifyClass(minifiedClass: string): string | void {
