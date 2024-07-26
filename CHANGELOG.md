@@ -1,3 +1,10 @@
+# [4.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.5.0...v4.6.0) (2024-07-26)
+
+
+### Features
+
+* **classMapper:** add findClassByName back ([2b8d2ae](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2b8d2ae4dbd9a0c4a59a43be0101a0a8fe1c518f))
+
 # [4.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.4.0...v4.5.0) (2024-07-24)
 
 
