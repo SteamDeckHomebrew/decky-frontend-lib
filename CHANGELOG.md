@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.6.0...v4.7.0) (2024-07-28)
+
+
+### Features
+
+* **router:** support desktop bpm overlay ([7eb484d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7eb484d55c6be6e7844878eb47eda55591a6cf51))
+
 # [4.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.5.0...v4.6.0) (2024-07-26)
 
 
