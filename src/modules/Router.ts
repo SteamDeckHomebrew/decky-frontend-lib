@@ -1,4 +1,4 @@
-import { sleep } from '../utils';
+import Logger from '../logger';
 import { Export, findModuleExport } from '../webpack';
 
 export enum SideMenu {
@@ -88,14 +88,23 @@ export interface WindowStore {
 
 export interface Router {
   WindowStore?: WindowStore;
+  /** @deprecated use {@link Navigation} instead */
   CloseSideMenus(): void;
+  /** @deprecated use {@link Navigation} instead */
   Navigate(path: string): void;
+  /** @deprecated use {@link Navigation} instead */
   NavigateToAppProperties(): void;
+  /** @deprecated use {@link Navigation} instead */
   NavigateToExternalWeb(url: string): void;
+  /** @deprecated use {@link Navigation} instead */
   NavigateToInvites(): void;
+  /** @deprecated use {@link Navigation} instead */
   NavigateToChat(): void;
+  /** @deprecated use {@link Navigation} instead */
   NavigateToLibraryTab(): void;
+  /** @deprecated use {@link Navigation} instead */
   NavigateToLayoutPreview(e: unknown): void;
+  /** @deprecated use {@link Navigation} instead */
   OpenPowerMenu(unknown?: any): void;
   get RunningApps(): AppOverview[];
   get MainRunningApp(): AppOverview | undefined;
@@ -122,53 +131,52 @@ export interface Navigation {
 
 export let Navigation = {} as Navigation;
 
+const logger = new Logger("Navigation");
+
 try {
-  (async () => {
-    let InternalNavigators: any = {};
-    if (!Router.NavigateToAppProperties || (Router as unknown as any).deckyShim) {
-      function initInternalNavigators() {
-        try {
-          InternalNavigators = findModuleExport((e: Export) => e.GetNavigator && e.SetNavigator)?.GetNavigator();
-        } catch (e) {
-          console.error('[DFL:Router]: Failed to init internal navigators, trying again');
-        }
+  function createNavigationFunction(fncName: string, handler?: (win: any) => any) {
+    return (...args: any) => {
+      let win: WindowRouter | undefined;
+      try {
+        win = window.SteamUIStore.GetFocusedWindowInstance();
+      } catch (e) {
+        logger.warn("Navigation interface failed to call GetFocusedWindowInstance", e);
       }
-      initInternalNavigators();
-      while (!InternalNavigators?.AppProperties) {
-        console.log('[DFL:Router]: Trying to init internal navigators again');
-        await sleep(2000);
-        initInternalNavigators();
+      if (!win) {
+        logger.warn("Navigation interface could not find any focused window. Falling back to GamepadUIMainWindowInstance");
+        win = Router.WindowStore?.GamepadUIMainWindowInstance;
+      }
+
+      if (win) {
+        try {
+          const thisObj = handler && handler(win);
+          (thisObj || win)[fncName](...args);
+        } catch (e) {
+          logger.error("Navigation handler failed", e);
+        }
+      } else {
+        logger.error("Navigation interface could not find a window to navigate");
       }
     }
-    const newNavigation = {
-      Navigate: Router.Navigate?.bind(Router),
-      NavigateBack: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateBack?.bind(
-        Router.WindowStore.GamepadUIMainWindowInstance,
-      ),
-      NavigateToAppProperties: InternalNavigators?.AppProperties || Router.NavigateToAppProperties?.bind(Router),
-      NavigateToExternalWeb: InternalNavigators?.ExternalWeb || Router.NavigateToExternalWeb?.bind(Router),
-      NavigateToInvites: InternalNavigators?.Invites || Router.NavigateToInvites?.bind(Router),
-      NavigateToChat: InternalNavigators?.Chat || Router.NavigateToChat?.bind(Router),
-      NavigateToLibraryTab: InternalNavigators?.LibraryTab || Router.NavigateToLibraryTab?.bind(Router),
-      NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
-      NavigateToSteamWeb: Router.WindowStore?.GamepadUIMainWindowInstance?.NavigateToSteamWeb?.bind(
-        Router.WindowStore.GamepadUIMainWindowInstance,
-      ),
-      OpenSideMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenSideMenu?.bind(
-        Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
-      ),
-      OpenQuickAccessMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenQuickAccessMenu?.bind(
-        Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
-      ),
-      OpenMainMenu: Router.WindowStore?.GamepadUIMainWindowInstance?.MenuStore.OpenMainMenu?.bind(
-        Router.WindowStore.GamepadUIMainWindowInstance.MenuStore,
-      ),
-      CloseSideMenus: Router.CloseSideMenus?.bind(Router),
-      OpenPowerMenu: Router.OpenPowerMenu?.bind(Router),
-    } as Navigation;
+  }
+  const newNavigation = {
+    Navigate: createNavigationFunction("Navigate"),
+    NavigateBack: createNavigationFunction("NavigateBack"),
+    NavigateToAppProperties: createNavigationFunction("AppProperties", win => win.Navigator),
+    NavigateToExternalWeb: createNavigationFunction("ExternalWeb", win => win.Navigator),
+    NavigateToInvites: createNavigationFunction("Invites", win => win.Navigator),
+    NavigateToChat: createNavigationFunction("Chat", win => win.Navigator),
+    NavigateToLibraryTab: createNavigationFunction("LibraryTab", win => win.Navigator),
+    NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
+    NavigateToSteamWeb: createNavigationFunction("NavigateToSteamWeb"),
+    OpenSideMenu: createNavigationFunction("OpenSideMenu", win => win.MenuStore),
+    OpenQuickAccessMenu: createNavigationFunction("OpenQuickAccessMenu", win => win.MenuStore),
+    OpenMainMenu: createNavigationFunction("OpenMainMenu", win => win.MenuStore),
+    CloseSideMenus: createNavigationFunction("CloseSideMenus", win => win.MenuStore),
+    OpenPowerMenu: Router.OpenPowerMenu?.bind(Router),
+  } as Navigation;
 
-    Object.assign(Navigation, newNavigation);
-  })();
+  Object.assign(Navigation, newNavigation);
 } catch (e) {
-  console.error('[DFL:Router]: Error initializing Navigation interface', e);
+  logger.error('Error initializing Navigation interface', e);
 }
