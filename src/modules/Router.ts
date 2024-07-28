@@ -126,6 +126,7 @@ export interface Navigation {
   OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
   OpenMainMenu(): void;
   OpenPowerMenu(unknown?: any): void;
+  /** if calling this to perform navigation, call it after Navigate to prevent a race condition in desktop Big Picture mode that hides the overlay unintentionally */
   CloseSideMenus(): void;
 }
 
