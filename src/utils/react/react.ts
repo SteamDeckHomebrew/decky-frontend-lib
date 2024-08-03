@@ -104,19 +104,15 @@ export function wrapReactClass(node: any, prop: any = 'type') {
 
 export function getReactRoot(o: HTMLElement | Element | Node) {
   return (
-    // @ts-expect-error 7053
-    o[Object.keys(o).find((k) => k.startsWith('__reactContainer$')) as string] ||
-    // @ts-expect-error 7053
-    o['_reactRootContainer']?._internalRoot?.current
+    (o as any)[Object.keys(o).find((k) => k.startsWith('__reactContainer$')) as string] ||
+    (o as any)['_reactRootContainer']?._internalRoot?.current
   );
 }
 
 export function getReactInstance(o: HTMLElement | Element | Node) {
   return (
-    // @ts-expect-error 7053
-    o[Object.keys(o).find((k) => k.startsWith('__reactFiber')) as string] ||
-    // @ts-expect-error 7053
-    o[Object.keys(o).find((k) => k.startsWith('__reactInternalInstance')) as string]
+    (o as any)[Object.keys(o).find((k) => k.startsWith('__reactFiber')) as string] ||
+    (o as any)[Object.keys(o).find((k) => k.startsWith('__reactInternalInstance')) as string]
   );
 }
 
