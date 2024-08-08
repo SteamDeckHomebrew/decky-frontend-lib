@@ -52,6 +52,7 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
             // we have to redirect this to return an object with component's prototype as a constructor returning a value overrides its prototype
             window.SP_REACT.createElement = () => {
                 loggingEnabled && logger.debug("createElement hook called");
+                loggingEnabled && console.trace("createElement trace");
                 return Object.create(component.prototype);
             };
         }
@@ -66,12 +67,16 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
         }
     }
 
+    let renderHookStep = 0;
+
     // Accessed two times, once directly before class instantiation, and again in some extra logic we don't need to worry about that we hanlde below just in case.
     Object.defineProperty(component, "contextType", {
         configurable: true,
         get: function () {
-            loggingEnabled && logger.debug("get contexttype", this, stubsApplied);
-            applyStubsIfNeeded();
+            loggingEnabled && logger.debug("get contexttype", this, stubsApplied, renderHookStep);
+            loggingEnabled && console.trace("contextType trace");
+            if (renderHookStep == 0) renderHookStep = 1;
+            else if (renderHookStep == 3) renderHookStep = 4;
             return this._contextType;
         },
         set: function (value) {
@@ -79,16 +84,20 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
         }
     });
 
-    // Undoes the second contextType access we can't detect shortly before render before it's able to cause any damage
-    Object.defineProperty(component, "getDerivedStateFromProps", {
+    // Always accessed directly after contextType for the path we want to catch.
+    Object.defineProperty(component, "contextTypes", {
         configurable: true,
         get: function () {
-            loggingEnabled && logger.debug("get getDerivedStateFromProps", this, stubsApplied);
-            removeStubsIfNeeded();
-            return this._getDerivedStateFromProps;
+            loggingEnabled && logger.debug("get contexttypes", this, stubsApplied, renderHookStep);
+            loggingEnabled && console.trace("contextTypes trace");
+            if (renderHookStep == 1) {
+                renderHookStep = 2;
+                applyStubsIfNeeded();
+            };
+            return this._contextTypes;
         },
         set: function (value) {
-            this._getDerivedStateFromProps = value;
+            this._contextTypes = value;
         }
     });
 
@@ -99,9 +108,30 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
             return this._updater;
         },
         set: function (value) {
-            loggingEnabled && logger.debug("set updater", this, value, stubsApplied);
-            removeStubsIfNeeded();
+            loggingEnabled && logger.debug("set updater", this, value, stubsApplied, renderHookStep);
+            loggingEnabled && console.trace("updater trace");
+            if (renderHookStep == 2) {
+                renderHookStep = 0;
+                removeStubsIfNeeded();
+            }
             return this._updater = value;
+        }
+    });
+
+    // Prevents the second contextType+contextTypes access from leaving its hooks around
+    Object.defineProperty(component, "getDerivedStateFromProps", {
+        configurable: true,
+        get: function () {
+            loggingEnabled && logger.debug("get getDerivedStateFromProps", this, stubsApplied, renderHookStep);
+            loggingEnabled && console.trace("getDerivedStateFromProps trace");
+            if (renderHookStep == 2) {
+                renderHookStep = 0;
+                removeStubsIfNeeded();
+            }
+            return this._getDerivedStateFromProps;
+        },
+        set: function (value) {
+            this._getDerivedStateFromProps = value;
         }
     });
 
