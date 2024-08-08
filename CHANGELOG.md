@@ -1,3 +1,10 @@
+## [4.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.0...v4.7.1) (2024-08-08)
+
+
+### Bug Fixes
+
+* **utils/react:** fix potential race condition in injectFCTrampoline ([4c97097](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4c97097757919580a380b70785e6c161de6b03cc))
+
 # [4.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.6.0...v4.7.0) (2024-07-28)
 
 
