@@ -13,6 +13,7 @@ import {FamilySharing} from "./FamilySharing";
 import {FriendSettings} from "./FriendSettings";
 import {Friends} from "./Friends";
 import {GameNotes} from "./GameNotes";
+import {GameRecording} from "./GameRecording";
 import {GameSessions} from "./GameSessions";
 import {Input} from "./Input";
 import {InstallFolder} from "./InstallFolder";
@@ -57,6 +58,7 @@ export interface SteamClient {
     Friends: Friends;
     FriendSettings: FriendSettings;
     GameNotes: GameNotes;
+    GameRecording: GameRecording;
     GameSessions: GameSessions;
     Input: Input;
     InstallFolder: InstallFolder;
@@ -223,16 +225,7 @@ export enum EBrowserType {
      */
     DirectHWND_Hidden,
     ChildHWNDNative,
-    /**
-     * A transparent borderless window.
-     * Always on top of other windows, does not have a taskbar icon and not focusable.
-     */
-    Transparent_Toplevel,
-    OffScreen_SharedTexture,
-    OffScreen_GameOverlay,
-    OffScreen_GameOverlay_SharedTexture,
-    Offscreen_FriendsUI,
-    Offscreen_SteamUI,
+    Offscreen_SteamUI = 12,
     OpenVROverlay_Subview,
 }
 

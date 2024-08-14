@@ -355,13 +355,35 @@ export interface MsgClientSettings extends JsPbMessage {
 
     force_oobe(): boolean;
 
+    g_background_audio(): EGRAudio;
+
+    g_background_a_m(): number;
+
+    g_background_a_s(): boolean;
+
+    g_background_br(): number;
+
+    g_background_path(): string;
+
+    g_background_max_keep(): string;
+
+    g_background_mode(): EGRMode;
+
+    g_background_time_resolution(): number;
+
     g_background_mk(): Hotkey;
 
     g_background_tg(): Hotkey;
 
+    g_max_fps(): number;
+
     game_notes_enable_spellcheck(): boolean;
 
+    gamescope_allow_tearing(): boolean;
+
     gamescope_app_target_framerate(): number;
+
+    gamescope_composite_debug(): boolean;
 
     gamescope_disable_framelimit(): boolean;
 
@@ -370,6 +392,8 @@ export interface MsgClientSettings extends JsPbMessage {
     gamescope_display_refresh_rate(): number;
 
     gamescope_enable_app_target_framerate(): boolean;
+
+    gamescope_force_composite(): boolean;
 
     gamescope_hdr_visualization(): HDRVisualization;
 
@@ -477,6 +501,8 @@ export interface MsgClientSettings extends JsPbMessage {
 
     shader_precached_size(): string;
 
+    show_copy_count_in_library(): boolean;
+
     show_family_sharing_notifications(): boolean;
 
     show_screenshot_manager(): boolean;
@@ -515,7 +541,23 @@ export interface MsgClientSettings extends JsPbMessage {
 
     steam_os_underscan_level(): number;
 
+    steamos_cec_enabled(): boolean;
+
+    steamos_cec_wake_on_resume(): boolean;
+
+    steamos_magnifier_scale(): number;
+
     steamos_status_led_brightness(): number;
+
+    steamos_tdp_limit(): number;
+
+    steamos_tdp_limit_enabled(): boolean;
+
+    steamos_wifi_debug(): boolean;
+
+    steamos_wifi_force_wpa_supplicant(): boolean;
+
+    system_bluetooth_enabled(): boolean;
 
     turn_off_controller_on_exit(): boolean;
 
@@ -543,6 +585,18 @@ export enum BroadcastPermission {
     FriendsAllowed = 2,
     Public = 3,
     Subscribers = 4,
+}
+
+export enum EGRAudio {
+    Game,
+    System,
+    Select,
+}
+
+export enum EGRMode {
+    Never,
+    Always,
+    Manual,
 }
 
 export interface Hotkey {

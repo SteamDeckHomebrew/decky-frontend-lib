@@ -42,8 +42,6 @@ export interface System {
 
     FormatStorage(forceFormat: boolean): any;
 
-    GetLegacyAmpControlEnabled(): Promise<any>; // {"bAvailable":true,"bEnabled":false}
-
     GetOSType(): Promise<OSType>;
 
     GetSystemInfo(): Promise<SystemInfo>;
@@ -107,8 +105,6 @@ export interface System {
     RestartPC(): any;
 
     SetAirplaneMode(value: boolean): void;
-
-    SetLegacyAmpControl: any;
 
     ShutdownPC(): any;
 

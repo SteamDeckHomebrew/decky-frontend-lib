@@ -36,6 +36,11 @@ export interface Window {
     GetMousePositionDetails(): Promise<string>;
 
     /**
+     * @returns the window's details.
+     */
+    GetWindowDetails(): Promise<WindowDetails>;
+
+    /**
      * @returns the window's dimensions.
      */
     GetWindowDimensions(): Promise<WindowDimensions>;
@@ -215,6 +220,11 @@ export interface MonitorDimensions {
     nUsableLeft: number;
     nUsableTop: number;
     nUsableWidth: number;
+}
+
+export interface WindowDetails {
+    bGPUEnabled: boolean;
+    bUnderlaySupported: boolean;
 }
 
 export interface WindowDimensions {

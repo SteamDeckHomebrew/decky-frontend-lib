@@ -10,6 +10,8 @@ export interface Screenshots {
      */
     DeleteLocalScreenshot(appId: string, screenshotIndex: number): Promise<boolean>;
 
+    DeleteLocalScreenshots(screenshots: ScreenshotToDelete[]): Promise<ScreenshotDeletionResponse>;
+
     /**
      * Retrieves all local screenshots for all applications.
      * @returns A Promise that resolves to an array of Screenshot objects.
@@ -118,6 +120,16 @@ export interface Screenshot {
     strUrl: string;
     bUploaded: boolean;
     ugcHandle: string;
+}
+
+export interface ScreenshotToDelete {
+    gameID: string;
+    rgHandles: number[];
+}
+
+export interface ScreenshotDeletionResponse {
+    bSuccess: boolean;
+    rgFailedRequestIndices: number[];
 }
 
 export enum FilePrivacyState {

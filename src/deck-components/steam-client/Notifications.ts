@@ -72,6 +72,7 @@ export enum EClientNotificationType {
     ClipDownloaded,
     GameRecordingStart,
     GameRecordingStop,
+    GameRecordingUserMarkerAdded,
 }
 
 export enum ESystemUpdateNotificationType {
@@ -310,10 +311,6 @@ export interface ClientNotificationGameRecordingError extends JsPbMessage {
 	error_type(): EGameRecordingErrorType;
 }
 
-export interface ClientNotificationClipDownloaded extends JsPbMessage {
-	clip_id(): string;
-}
-
 export interface ClientNotificationGameRecordingStart extends JsPbMessage {
 	game_id(): number;
 }
@@ -321,4 +318,8 @@ export interface ClientNotificationGameRecordingStart extends JsPbMessage {
 export interface ClientNotificationGameRecordingStop extends JsPbMessage {
 	game_id(): number;
 	clip_id(): string;
+}
+
+export interface ClientNotificationGameRecordingUserMarkerAdded extends JsPbMessage {
+    game_id(): number;
 }

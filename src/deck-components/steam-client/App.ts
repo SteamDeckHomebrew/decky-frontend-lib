@@ -16,14 +16,6 @@ export interface Apps {
     AddShortcut(appName: string, executablePath: string, directory: string, launchOptions: string): Promise<number>;
 
     /**
-     * Adds user tags to specified apps in the Steam library.
-     * @param appIds The IDs of the apps to which user tags will be added.
-     * @param userTag The user tag to be added.
-     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
-     */
-    AddUserTagToApps(appIds: number[], userTag: string): void;
-
-    /**
      * Backups an app to the specified path.
      * @param appId The ID of the application to back up.
      * @param backupToPath The path to store the backup.
@@ -62,14 +54,6 @@ export interface Apps {
     CancelLaunch(appId: string): void;
 
     /**
-     * Clears existing user tags on a specified application and sets new user tags.
-     * @param appId The ID of the application to clear and set user tags for.
-     * @param userTags An array of user tags to set for the application.
-     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
-     */
-    ClearAndSetUserTagsOnApp(appId: number, userTags: string[]): void;
-
-    /**
      * Clears the custom artwork for a given application.
      * @param appId The ID of the application to clear custom artwork for.
      * @param assetType The type of artwork to clear.
@@ -84,13 +68,6 @@ export interface Apps {
     ClearCustomLogoPositionForApp(appId: number): Promise<void>;
 
     ClearProton(appId: number): Promise<any>;
-
-    /**
-     * Clears user tags on a list of specified applications.
-     * @param appIds An array of application IDs for which to clear user tags.
-     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
-     */
-    ClearUserTagsOnApps(appIds: number[]): void;
 
     /**
      * Continues a specific game action.
@@ -486,14 +463,6 @@ export interface Apps {
      */
     RemoveShortcut(appId: number): void;
 
-    /**
-     * Removes a user tag from multiple Steam applications.
-     * @param appIds An array of application IDs from which the user tag should be removed.
-     * @param userTag The user tag to be removed.
-     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file.
-     */
-    RemoveUserTagFromApps(appIds: number[], userTag: string): void;
-
     ReportLibraryAssetCacheMiss(appId: number, assetType: AppArtworkAssetType): void;
 
     ReportMarketingMessageDialogShown(): void;
@@ -501,10 +470,6 @@ export interface Apps {
     RequestIconDataForApp(appId: number): any;
 
     RequestLegacyCDKeysForApp(appId: number): any;
-
-    // collectionStore.GetCollection('hidden').allApps.map(e => e.appid)
-    // May be broken?
-    ResetHiddenState(appIds: number[]): Promise<void>;
 
     /**
      * Runs a game with specified parameters. Focuses the game if already launched.
@@ -564,14 +529,6 @@ export interface Apps {
      * @param state The state to set (true for blocked, false for unblocked).
      */
     SetAppFamilyBlockedState(appIds: number[], state: boolean): void;
-
-    /**
-     * Sets the hidden status of a specific Steam application.
-     * @param appId The ID of the application to set the hidden status for.
-     * @param value The value indicating whether the application should be hidden (true) or not (false).
-     * @remarks This function modifies the "<STEAMPATH>/userdata/<STEAMID3>/7/remote/sharedconfig.vdf" file to set the hidden status of the specified application.
-     */
-    SetAppHidden(appId: number, value: boolean): void;
 
     /**
      * Sets launch options for a Steam application.
