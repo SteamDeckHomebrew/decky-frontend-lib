@@ -73,6 +73,7 @@ export enum EClientNotificationType {
     GameRecordingStart,
     GameRecordingStop,
     GameRecordingUserMarkerAdded,
+    GameRecordingInstantClip,
 }
 
 export enum ESystemUpdateNotificationType {
@@ -322,4 +323,9 @@ export interface ClientNotificationGameRecordingStop extends JsPbMessage {
 
 export interface ClientNotificationGameRecordingUserMarkerAdded extends JsPbMessage {
     game_id(): number;
+}
+
+export interface CClientNotificationGameRecordingInstantClip extends JsPbMessage {
+    game_id(): number;
+    clip_id(): string;
 }

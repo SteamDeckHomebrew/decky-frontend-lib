@@ -17,6 +17,11 @@ export interface System {
     Bluetooth: Bluetooth;
 
     /**
+     * @returns a boolean indicating whether the operation succeeded.
+     */
+    CopyFile(target: string, destination: string): Promise<boolean>;
+
+    /**
      * Copies specified files to clipboard.
      * Does not throw if not found.
      * @param paths File paths to copy.

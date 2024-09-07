@@ -61,6 +61,8 @@ export interface Settings {
     RegisterForTimeZoneChange(callback: (timezoneId: string) => void): Unregisterable; // When timezone is changed from settings, callback will return new timezoneId
     ReinitMicSettings(): void;
 
+    RenderHotkey(event: KeyCaptureEvent): Promise<string>;
+
     RequestDeviceAuthInfo(): void;
 
     //
@@ -121,6 +123,14 @@ export enum ESteamGuardState {
     Disabled = 2,
     Offline = 3,
     NotEnabled = 4,
+}
+
+export interface KeyCaptureEvent {
+    alt_key: boolean;
+    ctrl_key: boolean;
+    display_name: string;
+    meta_key: boolean;
+    shift_key: boolean;
 }
 
 export interface Language {
@@ -377,6 +387,9 @@ export interface MsgClientSettings extends JsPbMessage {
 
     g_max_fps(): number;
 
+    gamerecording_hotkey_ic(): Hotkey;
+    gamerecording_ic_seconds(): number;
+
     game_notes_enable_spellcheck(): boolean;
 
     gamescope_allow_tearing(): boolean;
@@ -444,6 +457,8 @@ export interface MsgClientSettings extends JsPbMessage {
     no_save_personal_info(): boolean;
 
     oobe_test_mode_enabled(): boolean;
+
+    os_version_unsupported(): boolean;
 
     overlay_fps_counter_corner(): number;
 
