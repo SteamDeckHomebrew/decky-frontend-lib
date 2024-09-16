@@ -1,3 +1,10 @@
+## [4.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.1...v4.7.2) (2024-09-16)
+
+
+### Bug Fixes
+
+* **utils:** fix potential race condition in findSP ([3aa07dc](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3aa07dc9ce798ff8d1148424ee9e8a8bf2ba78c6))
+
 ## [4.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.0...v4.7.1) (2024-08-08)
 
 
