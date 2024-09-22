@@ -79,7 +79,7 @@ export function inheritCurrentOrder<T>(entries: ReorderableEntry<T>[]){return en
  *
  */
 export function ReorderableListV2<T>(props: ReorderableListV2Props<T>) {
-  const inheritCurrentPosition = (entries: ReorderableEntry<T>[]) => entries.sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position)
+  const inheritCurrentPosition = (entries: ReorderableEntry<T>[]) => [...entries].sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position)
   const [entryList, setEntryList] = useState<ReorderableEntry<T>[]>([]);
   const entryListRef = useRef<ReorderableEntry<T>[]>([])
   const [reorderEnabled, setReorderEnabled] = useState<boolean>(false);
