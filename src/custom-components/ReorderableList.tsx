@@ -243,6 +243,8 @@ const DefaultFieldProps: FieldProps = {
   padding: "standard"
 }
 
+
+// Might want to add this to ../globals/SteamClient or some other name at some point
 interface SteamElement {
   m_node: NavNode
 }
