@@ -1,3 +1,10 @@
+## [4.7.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.2...v4.7.3) (2024-10-03)
+
+
+### Bug Fixes
+
+* **components:** fix missing components on oct 2 2024 beta ([0f9fb5a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0f9fb5a3b8ef4f9978025a28323ab080fb0e7a4c))
+
 ## [4.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.1...v4.7.2) (2024-09-16)
 
 
