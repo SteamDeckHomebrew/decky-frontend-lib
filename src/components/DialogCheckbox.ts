@@ -28,9 +28,12 @@ export const DialogCheckbox = Object.values(
   }),
 ).find(
   (m: any) =>
-    m.contextType &&
-    m.prototype?.render.toString().includes('fallback:') &&
     m?.prototype?.SetChecked &&
     m?.prototype?.Toggle &&
-    m?.prototype?.GetPanelElementProps,
+    m?.prototype?.GetPanelElementProps &&
+    // beta || stable as of oct 2 2024
+    (m?.prototype?.render?.toString().includes('="DialogCheckbox"') || (
+      m.contextType &&
+      m.prototype?.render.toString().includes('fallback:')
+    ))
 ) as FC<DialogCheckboxProps>;
