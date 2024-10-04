@@ -1,3 +1,10 @@
+## [4.7.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.3...v4.7.4) (2024-10-04)
+
+
+### Bug Fixes
+
+* **DialogCheckbox:** don't access getters to prevent their side effects from breaking the component ([241b22c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/241b22cad711621a1695dfd11da857f13c3fffdf))
+
 ## [4.7.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.2...v4.7.3) (2024-10-03)
 
 
