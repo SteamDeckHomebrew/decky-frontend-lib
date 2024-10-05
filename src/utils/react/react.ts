@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Ref, useState } from 'react';
 
 // this shouldn't need to be redeclared but it does for some reason
 
@@ -150,3 +151,21 @@ export const findInReactTree = (node: any, filter: findInTreeFilter) =>
     // Specialised findInTree for React nodes
     walkable: ['props', 'children', 'child', 'sibling'],
   });
+
+/**
+ * Finds the parent window of a DOM element
+ */
+export function getParentWindow<WindowType = Window>(elem: HTMLElement | null): WindowType | null | undefined {
+  return elem?.ownerDocument?.defaultView as any;
+}
+
+/**
+ * React hook to find the host window of a component
+ * Pass the returned ref into a React element and window will be its host window.
+ * @returns [ref, window]
+ */
+export function useWindowRef<RefElementType extends HTMLElement, WindowType = Window>(): [Ref<RefElementType>, WindowType | null | undefined] {
+  const [win, setWin] = useState<WindowType | null | undefined>(null);
+
+  return [(elem) => setWin(getParentWindow<WindowType>(elem)), win];
+}
