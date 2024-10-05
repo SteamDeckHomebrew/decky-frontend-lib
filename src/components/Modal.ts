@@ -50,7 +50,7 @@ export const showModal = (
     bHideMainWindowForPopouts: false,
   },
 ): ShowModalResult => {
-  return showModalRaw(modal, parent || findSP(), props.strTitle, props, undefined, {
+  return showModalRaw(modal, parent || findSP() || window, props.strTitle, props, undefined, {
     bHideActions: props.bHideActionIcons,
   });
 };
