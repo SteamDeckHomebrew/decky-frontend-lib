@@ -1,3 +1,16 @@
+# [4.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.4...v4.8.0) (2024-10-05)
+
+
+### Bug Fixes
+
+* **components/Modal:** dont break in desktop ui ([bea9ac7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bea9ac777452b883c2f3f3ebf8510c22c4577cd0))
+* **components/Router:** dont break in desktop ui ([980df68](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/980df687e7b7bf389f478e831f992fb9475eeb15))
+
+
+### Features
+
+* **utils/react:** add some window-related utils ([063dedb](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/063dedbbc1573a825571c675bf6bfa8a1bc1c6cd))
+
 ## [4.7.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.3...v4.7.4) (2024-10-04)
 
 
