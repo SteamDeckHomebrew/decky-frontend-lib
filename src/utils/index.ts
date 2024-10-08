@@ -1,6 +1,8 @@
 export * from './patcher';
-export * from './react';
 export * from './static-classes';
+export * from './react/react';
+export * from './react/fc';
+export * from './react/treepatcher';
 
 declare global {
   var FocusNavController: any;
@@ -23,7 +25,7 @@ export function findSP(): Window {
   if (document.title == 'SP') return window;
   // new (SP as popup)
   const navTrees = getGamepadNavigationTrees();
-  return navTrees?.find((x: any) => x.m_ID == 'root_1_').Root.Element.ownerDocument.defaultView;
+  return navTrees?.find((x: any) => x.m_ID == 'root_1_')?.Root?.Element?.ownerDocument?.defaultView;
 }
 
 /**
@@ -38,6 +40,6 @@ export function getFocusNavController(): any {
  */
 export function getGamepadNavigationTrees(): any {
   const focusNav = getFocusNavController();
-  const context = focusNav.m_ActiveContext || focusNav.m_LastActiveContext;
+  const context = focusNav?.m_ActiveContext || focusNav?.m_LastActiveContext;
   return context?.m_rgGamepadNavigationTrees;
 }

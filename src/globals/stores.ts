@@ -1,4 +1,5 @@
-import {AppDetails, LogoPosition, SteamAppOverview} from "../deck-components/steam-client/App";
+import { WindowRouter } from '../modules/Router';
+import { AppDetails, LogoPosition, SteamAppOverview } from "../deck-components/steam-client/App";
 import {AppData} from "../deck-components/steam-client";
 
 declare global {
@@ -48,6 +49,12 @@ declare global {
       GetAppDetails: (appId: number) => AppDetails | null;
       GetCustomLogoPosition: (app: SteamAppOverview) => LogoPosition | null;
       SaveCustomLogoPosition: (app: SteamAppOverview, logoPositions: LogoPosition) => any;
+    };
+    SteamUIStore: {
+      GetFocusedWindowInstance: () => WindowRouter;
+    };
+    securitystore: {
+      IsLockScreenActive: () => boolean;
     };
   }
 }

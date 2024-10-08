@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - v4-dev
+      - main
 
 jobs:
   release:
@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Setup | Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup | Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Setup | Dependencies

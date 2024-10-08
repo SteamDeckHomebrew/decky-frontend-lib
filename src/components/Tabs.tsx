@@ -1,9 +1,6 @@
-import { FC, ReactNode, createElement, useEffect, useState } from 'react';
-
-import { fakeRenderComponent, findInReactTree, sleep } from '../utils';
-import { Export, findModuleByExport } from '../webpack';
+import { FC, ReactNode } from 'react';
+import { findModuleByExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
-import { SteamSpinner } from './SteamSpinner';
 
 /**
  * Individual tab objects for the Tabs component
@@ -65,63 +62,9 @@ export interface TabsProps {
   autoFocusContents?: boolean;
 }
 
-let tabsComponent: any;
-
-const getTabs = async () => {
-  if (tabsComponent) return tabsComponent;
-  // @ts-ignore
-  while (!window?.DeckyPluginLoader?.routerHook?.routes) {
-    console.debug('[DFL:Tabs]: Waiting for Decky router...');
-    await sleep(500);
-  }
-  return (tabsComponent = fakeRenderComponent(
-    () => {
-      return findInReactTree(
-        findInReactTree(
-          // @ts-ignore
-          window.DeckyPluginLoader.routerHook.routes
-            .find((x: any) => x.props.path == '/library/app/:appid/achievements')
-            .props.children.type(),
-          (x) => x?.props?.scrollTabsTop,
-        ).type({ appid: 1 }),
-        (x) => x?.props?.tabs,
-      ).type;
-    },
-    {
-      useRef: () => ({ current: { reaction: { track: () => {} } } }),
-      useContext: () => ({ match: { params: { appid: 1 } } }),
-      useMemo: () => ({ data: {} }),
-    },
-  ));
-};
-
-let oldTabs: any;
-
-try {
-  const oldTabsModule = findModuleByExport((e: Export) => e.Unbleed);
-  if (oldTabsModule)
-    oldTabs = Object.values(oldTabsModule).find((x: any) => x?.type?.toString()?.includes('((function(){'));
-} catch (e) {
-  console.error('Error finding oldTabs:', e);
-}
+const tabsModule = findModuleByExport(e => e?.toString()?.includes(".TabRowTabs") && e?.toString()?.includes("activeTab:"));
 
 /**
  * Tabs component as used in the library and media tabs. See {@link TabsProps}.
- * Unlike other components in `decky-frontend-lib`, this requires Decky Loader to be running.
  */
-export const Tabs = (oldTabs ||
-  ((props: TabsProps) => {
-    const found = tabsComponent;
-    const [tc, setTC] = useState<FC<TabsProps>>(found);
-    useEffect(() => {
-      if (found) return;
-      (async () => {
-        console.debug('[DFL:Tabs]: Finding component...');
-        const t = await getTabs();
-        console.debug('[DFL:Tabs]: Found!');
-        setTC(t);
-      })();
-    }, []);
-    console.log('tc', tc);
-    return tc ? createElement(tc, props) : <SteamSpinner />;
-  })) as FC<TabsProps>;
+export const Tabs = tabsModule && Object.values(tabsModule).find((e: any) => e?.type?.toString()?.includes("((function()")) as FC<TabsProps>;

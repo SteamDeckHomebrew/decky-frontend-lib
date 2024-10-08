@@ -1,3 +1,94 @@
+# [4.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.4...v4.8.0) (2024-10-05)
+
+
+### Bug Fixes
+
+* **components/Modal:** dont break in desktop ui ([bea9ac7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bea9ac777452b883c2f3f3ebf8510c22c4577cd0))
+* **components/Router:** dont break in desktop ui ([980df68](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/980df687e7b7bf389f478e831f992fb9475eeb15))
+
+
+### Features
+
+* **utils/react:** add some window-related utils ([063dedb](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/063dedbbc1573a825571c675bf6bfa8a1bc1c6cd))
+
+## [4.7.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.3...v4.7.4) (2024-10-04)
+
+
+### Bug Fixes
+
+* **DialogCheckbox:** don't access getters to prevent their side effects from breaking the component ([241b22c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/241b22cad711621a1695dfd11da857f13c3fffdf))
+
+## [4.7.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.2...v4.7.3) (2024-10-03)
+
+
+### Bug Fixes
+
+* **components:** fix missing components on oct 2 2024 beta ([0f9fb5a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0f9fb5a3b8ef4f9978025a28323ab080fb0e7a4c))
+
+## [4.7.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.1...v4.7.2) (2024-09-16)
+
+
+### Bug Fixes
+
+* **utils:** fix potential race condition in findSP ([3aa07dc](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3aa07dc9ce798ff8d1148424ee9e8a8bf2ba78c6))
+
+## [4.7.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.0...v4.7.1) (2024-08-08)
+
+
+### Bug Fixes
+
+* **utils/react:** fix potential race condition in injectFCTrampoline ([4c97097](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4c97097757919580a380b70785e6c161de6b03cc))
+
+# [4.7.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.6.0...v4.7.0) (2024-07-28)
+
+
+### Features
+
+* **router:** support desktop bpm overlay ([7eb484d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7eb484d55c6be6e7844878eb47eda55591a6cf51))
+
+# [4.6.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.5.0...v4.6.0) (2024-07-26)
+
+
+### Features
+
+* **classMapper:** add findClassByName back ([2b8d2ae](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2b8d2ae4dbd9a0c4a59a43be0101a0a8fe1c518f))
+
+# [4.5.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.4.0...v4.5.0) (2024-07-24)
+
+
+### Features
+
+* **classMapper:** add classModuleMap, make findClass require ID ([a370c1f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a370c1f7d3dca0db56a346c98c28ed9681a415e0))
+* **webpack:** refactor to prepare for classMapper changes ([d83bada](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d83bada4af2d16c750955de9a52f94a0080a2c14))
+
+# [4.4.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.3.1...v4.4.0) (2024-07-18)
+
+
+### Features
+
+* **utils/react:** add injectFCTrampoline ([44fdf9e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/44fdf9ed3b9a676a88b0ddc6a1c2c89d46ff7651))
+
+## [4.3.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.3.0...v4.3.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* **Menu/MenuGroup:** rewrite filter to work on beta and prevent future errors ([d64c42a](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/d64c42ac310d3c3266c4ff610d9ec5ab6c7707b6))
+
+# [4.3.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.2...v4.3.0) (2024-07-09)
+
+
+### Features
+
+* **utils:** react tree patching api ([2c3a9f8](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2c3a9f81de0b63364bb31f4a4dd8e559784ece16))
+
+## [4.2.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.1...v4.2.2) (2024-07-04)
+
+
+### Bug Fixes
+
+* **SteamSpinner:** add background option ([c04f024](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c04f024b34b1148c965850965127f9fd44204157))
+
 ## [4.2.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.2.0...v4.2.1) (2024-06-27)
 
 

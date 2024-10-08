@@ -29,5 +29,6 @@ export interface SliderFieldProps extends ItemProps {
 }
 
 export const SliderField = Object.values(CommonUIModule).find((mod: any) =>
-  mod?.toString()?.includes('SliderField,fallback'),
+  // stable || beta as of oct 2 2024
+  mod?.toString()?.includes('SliderField,fallback') || mod?.toString()?.includes("SliderField\",")
 ) as FC<SliderFieldProps>;

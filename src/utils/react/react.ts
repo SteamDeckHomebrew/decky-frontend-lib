@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Ref, useState } from 'react';
 
 // this shouldn't need to be redeclared but it does for some reason
 
@@ -30,13 +31,15 @@ export function createPropListRegex(propList: string[], fromStart: boolean = tru
   return new RegExp(regexString);
 }
 
-export function fakeRenderComponent(fun: Function, customHooks: any = {}): any {
+let oldHooks = {};
+
+export function applyHookStubs(customHooks: any = {}): any {
   const hooks = (window.SP_REACT as any).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
     .current;
 
   // TODO: add more hooks
 
-  let oldHooks = {
+  oldHooks = {
     useContext: hooks.useContext,
     useCallback: hooks.useCallback,
     useLayoutEffect: hooks.useLayoutEffect,
@@ -60,9 +63,22 @@ export function fakeRenderComponent(fun: Function, customHooks: any = {}): any {
 
   Object.assign(hooks, customHooks);
 
-  const res = fun(hooks);
+  return hooks;
+}
 
+export function removeHookStubs() {
+  const hooks = (window.SP_REACT as any).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
+    .current;
   Object.assign(hooks, oldHooks);
+  oldHooks = {};
+}
+
+export function fakeRenderComponent(fun: Function, customHooks?: any): any {
+  const hooks = applyHookStubs(customHooks);
+
+  const res = fun(hooks); // TODO why'd we do this?
+
+  removeHookStubs();
 
   return res;
 }
@@ -89,19 +105,15 @@ export function wrapReactClass(node: any, prop: any = 'type') {
 
 export function getReactRoot(o: HTMLElement | Element | Node) {
   return (
-    // @ts-expect-error 7053
-    o[Object.keys(o).find((k) => k.startsWith('__reactContainer$')) as string] ||
-    // @ts-expect-error 7053
-    o['_reactRootContainer']?._internalRoot?.current
+    (o as any)[Object.keys(o).find((k) => k.startsWith('__reactContainer$')) as string] ||
+    (o as any)['_reactRootContainer']?._internalRoot?.current
   );
 }
 
 export function getReactInstance(o: HTMLElement | Element | Node) {
   return (
-    // @ts-expect-error 7053
-    o[Object.keys(o).find((k) => k.startsWith('__reactFiber')) as string] ||
-    // @ts-expect-error 7053
-    o[Object.keys(o).find((k) => k.startsWith('__reactInternalInstance')) as string]
+    (o as any)[Object.keys(o).find((k) => k.startsWith('__reactFiber')) as string] ||
+    (o as any)[Object.keys(o).find((k) => k.startsWith('__reactInternalInstance')) as string]
   );
 }
 
@@ -139,3 +151,21 @@ export const findInReactTree = (node: any, filter: findInTreeFilter) =>
     // Specialised findInTree for React nodes
     walkable: ['props', 'children', 'child', 'sibling'],
   });
+
+/**
+ * Finds the parent window of a DOM element
+ */
+export function getParentWindow<WindowType = Window>(elem: HTMLElement | null): WindowType | null | undefined {
+  return elem?.ownerDocument?.defaultView as any;
+}
+
+/**
+ * React hook to find the host window of a component
+ * Pass the returned ref into a React element and window will be its host window.
+ * @returns [ref, window]
+ */
+export function useWindowRef<RefElementType extends HTMLElement, WindowType = Window>(): [Ref<RefElementType>, WindowType | null | undefined] {
+  const [win, setWin] = useState<WindowType | null | undefined>(null);
+
+  return [(elem) => setWin(getParentWindow<WindowType>(elem)), win];
+}

@@ -1,7 +1,6 @@
 import { FC, ReactNode } from 'react';
 
-import { fakeRenderComponent } from '../utils';
-import { Export, findModuleExport } from '../webpack';
+import { Export, findModuleByExport, findModuleExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 export const showContextMenu: (children: ReactNode, parent?: EventTarget) => void = findModuleExport(
@@ -26,12 +25,8 @@ export interface MenuGroupProps {
   children?: ReactNode;
 }
 
-export const MenuGroup: FC<MenuGroupProps> = findModuleExport(
-  (e: Export) =>
-    (e?.toString()?.includes?.('bInGamepadUI:') &&
-      fakeRenderComponent(() => e({ overview: { appid: 7 } }), {useContext: () => ({IN_GAMEPADUI: true})})?.type?.prototype?.RenderSubMenu) ||
-    (e?.prototype?.RenderSubMenu && e?.prototype?.ShowSubMenu)
-);
+const MenuGoupModule = findModuleByExport(e => e?.prototype?.Focus && e?.prototype?.OnOKButton && e?.prototype?.render?.toString().includes?.(`"emphasis"==this.props.tone`));
+export const MenuGroup: FC<MenuGroupProps> = MenuGoupModule && Object.values(MenuGoupModule).find((e: Export) => typeof e == "function" && e?.toString()?.includes("bInGamepadUI:"));
 export interface MenuItemProps extends FooterLegendProps {
   bInteractableItem?: boolean;
   onClick?(evt: Event): void;

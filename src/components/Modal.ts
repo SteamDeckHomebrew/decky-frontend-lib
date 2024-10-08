@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 
 import { findSP } from '../utils';
-import { Export, findModule, findModuleByExport, findModuleExport } from '../webpack';
+import { Export, findModule, findModuleDetailsByExport, findModuleExport } from '../webpack';
 
 // All of the popout options + strTitle are related. Proper usage is not yet known...
 export interface ShowModalProps {
@@ -50,7 +50,7 @@ export const showModal = (
     bHideMainWindowForPopouts: false,
   },
 ): ShowModalResult => {
-  return showModalRaw(modal, parent || findSP(), props.strTitle, props, undefined, {
+  return showModalRaw(modal, parent || findSP() || window, props.strTitle, props, undefined, {
     bHideActions: props.bHideActionIcons,
   });
 };
@@ -105,7 +105,7 @@ interface SimpleModalProps {
   children: ReactNode;
 }
 
-const ModalModule = findModuleByExport((e: Export) => e?.toString().includes('.ModalPosition,fallback:'), 5);
+const [ModalModule, _ModalPosition] = findModuleDetailsByExport((e: Export) => e?.toString().includes('.ModalPosition'), 5)
 
 const ModalModuleProps = ModalModule ? Object.values(ModalModule) : [];
 
@@ -114,6 +114,4 @@ export const SimpleModal = ModalModuleProps.find((prop) => {
   return string?.includes('.ShowPortalModal()') && string?.includes('.OnElementReadyCallbacks.Register(');
 }) as FC<SimpleModalProps>;
 
-export const ModalPosition = ModalModuleProps.find((prop) =>
-  prop?.toString().includes('.ModalPosition,fallback:'),
-) as FC<SimpleModalProps>;
+export const ModalPosition = _ModalPosition as FC<SimpleModalProps>;
