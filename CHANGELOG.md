@@ -1,3 +1,11 @@
+## [4.8.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.0...v4.8.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* **DialogCheckbox:** prevent some potential issues in dialogcheckbox ([bf58e08](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/bf58e08e4b5b183737c9ad43a858b642ce593f93))
+* prevent issues where toString may not be a function (what) ([e965816](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e96581614471524cbf91bf962742df867ba3c3e9))
+
 # [4.8.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.7.4...v4.8.0) (2024-10-05)
 
 
