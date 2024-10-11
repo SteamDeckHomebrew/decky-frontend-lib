@@ -78,11 +78,11 @@ export const DialogControlsSection = MappedDialogDivs.get('DialogControlsSection
 export const DialogControlsSectionHeader = MappedDialogDivs.get('DialogControlsSectionHeader') as FC<DialogCommonProps>;
 
 export const DialogButtonPrimary = Object.values(CommonUIModule).find(
-  (mod: any) => mod?.render?.toString()?.includes('"DialogButton","_DialogLayout","Primary"'),
+  (mod: any) => mod?.render?.toString?.()?.includes('"DialogButton","_DialogLayout","Primary"'),
 ) as FC<DialogButtonProps>;
 
 export const DialogButtonSecondary = Object.values(CommonUIModule).find(
-  (mod: any) => mod?.render?.toString()?.includes('"DialogButton","_DialogLayout","Secondary"')
+  (mod: any) => mod?.render?.toString?.()?.includes('"DialogButton","_DialogLayout","Secondary"')
 ) as FC<DialogButtonProps>;
 
 // This is the "main" button. The Primary can act as a submit button,

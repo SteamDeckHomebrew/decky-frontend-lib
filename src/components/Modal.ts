@@ -98,7 +98,7 @@ export const ModalRoot = Object.values(
 
     return false;
   }) || {},
-)?.find((x: any) => x?.type?.toString()?.includes('((function(){')) as FC<ModalRootProps>;
+)?.find((x: any) => x?.type?.toString?.()?.includes('((function(){')) as FC<ModalRootProps>;
 
 interface SimpleModalProps {
   active?: boolean;

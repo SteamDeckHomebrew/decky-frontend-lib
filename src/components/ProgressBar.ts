@@ -24,11 +24,11 @@ export interface ProgressBarWithInfoProps extends ProgressBarItemProps {
 }
 
 export const ProgressBar = findModuleExport((e: Export) =>
-  e?.toString()?.includes('.ProgressBar,"standard"=='),
+  e?.toString?.()?.includes('.ProgressBar,"standard"=='),
 ) as FC<ProgressBarProps>;
 
 export const ProgressBarWithInfo = findModuleExport((e: Export) =>
-  e?.toString()?.includes('.ProgressBarFieldStatus},'),
+  e?.toString?.()?.includes('.ProgressBarFieldStatus},'),
 ) as FC<ProgressBarWithInfoProps>;
 
 const progressBarItemRegex = createPropListRegex(["indeterminate", "nTransitionSec", "nProgress"]);

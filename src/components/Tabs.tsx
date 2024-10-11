@@ -62,9 +62,9 @@ export interface TabsProps {
   autoFocusContents?: boolean;
 }
 
-const tabsModule = findModuleByExport(e => e?.toString()?.includes(".TabRowTabs") && e?.toString()?.includes("activeTab:"));
+const tabsModule = findModuleByExport(e => e?.toString?.()?.includes(".TabRowTabs") && e?.toString?.()?.includes("activeTab:"));
 
 /**
  * Tabs component as used in the library and media tabs. See {@link TabsProps}.
  */
-export const Tabs = tabsModule && Object.values(tabsModule).find((e: any) => e?.type?.toString()?.includes("((function()")) as FC<TabsProps>;
+export const Tabs = tabsModule && Object.values(tabsModule).find((e: any) => e?.type?.toString?.()?.includes("((function()")) as FC<TabsProps>;

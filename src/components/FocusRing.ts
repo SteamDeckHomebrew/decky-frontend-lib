@@ -11,5 +11,5 @@ export interface FocusRingProps {
 }
 
 export const FocusRing = findModuleExport((e: Export) =>
-  e?.toString()?.includes('.GetShowDebugFocusRing())'),
+  e?.toString?.()?.includes('.GetShowDebugFocusRing())'),
 ) as FC<FocusRingProps>;

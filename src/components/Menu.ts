@@ -26,7 +26,7 @@ export interface MenuGroupProps {
 }
 
 const MenuGoupModule = findModuleByExport(e => e?.prototype?.Focus && e?.prototype?.OnOKButton && e?.prototype?.render?.toString().includes?.(`"emphasis"==this.props.tone`));
-export const MenuGroup: FC<MenuGroupProps> = MenuGoupModule && Object.values(MenuGoupModule).find((e: Export) => typeof e == "function" && e?.toString()?.includes("bInGamepadUI:"));
+export const MenuGroup: FC<MenuGroupProps> = MenuGoupModule && Object.values(MenuGoupModule).find((e: Export) => typeof e == "function" && e?.toString?.()?.includes("bInGamepadUI:"));
 export interface MenuItemProps extends FooterLegendProps {
   bInteractableItem?: boolean;
   onClick?(evt: Event): void;
@@ -42,7 +42,7 @@ export interface MenuItemProps extends FooterLegendProps {
 
 export const MenuItem: FC<MenuItemProps> = findModuleExport(
   (e: Export) =>
-    e?.render?.toString()?.includes('bPlayAudio:') || (e?.prototype?.OnOKButton && e?.prototype?.OnMouseEnter),
+    e?.render?.toString?.()?.includes('bPlayAudio:') || (e?.prototype?.OnOKButton && e?.prototype?.OnMouseEnter),
 );
 
 /*

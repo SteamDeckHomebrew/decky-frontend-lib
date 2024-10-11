@@ -10,5 +10,5 @@ export interface ToggleProps {
 }
 
 export const Toggle = Object.values(CommonUIModule).find((mod: any) =>
-  mod?.render?.toString()?.includes('.ToggleOff)'),
+  mod?.render?.toString?.()?.includes('.ToggleOff)'),
 ) as FC<ToggleProps>;
