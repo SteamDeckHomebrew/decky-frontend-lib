@@ -130,6 +130,8 @@ export interface BrowserViewPopup {
 
     SetVisible(value: boolean): void;
 
+    SetWindowStackingOrder(order: EWindowStackingOrder): void;
+
     /**
      * Stop the "find in page" function.
      */
@@ -328,6 +330,11 @@ export enum BrowserViewContextMenuCommand {
     CloseDevTools = 26501,
     InspectElement = 26502,
     OpenLinkInNewTab = 26503,
+}
+
+export enum EWindowStackingOrder {
+    Bottom,
+    Top,
 }
 
 export type BrowserViewEvent =

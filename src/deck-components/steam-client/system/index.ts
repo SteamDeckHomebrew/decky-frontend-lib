@@ -127,6 +127,8 @@ export interface System {
 
     UI: UI;
     UpdateSettings: any;
+
+    VideoRecordingDriverCheck(): any;
 }
 
 export interface AirplaneModeChange {

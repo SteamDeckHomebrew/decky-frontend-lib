@@ -15,13 +15,6 @@ export interface Music {
     IncreaseVolume(): void;
 
     /**
-     * @param param0 Unknown parameter usage.
-     * @param param1 Unknown parameter usage.
-     * @todo: unknown parameter usages, I have tried soundtrack identifier + track index and in reverse as well
-     */
-    PlayEntry(param0: number, param1: number): void;
-
-    /**
      * Plays the next track in the music playlist.
      */
     PlayNext(): void;

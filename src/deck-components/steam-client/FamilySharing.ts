@@ -23,8 +23,6 @@ export interface FamilySharing {
 
     RegisterForKickedBorrower: any;
 
-    RequestLocalDeviceAuthorization(steam64Id: string): Promise<number>;
-
     SetPreferredLender(appId: number, param1: number): Promise<number>;
 
     // param0 - account id?

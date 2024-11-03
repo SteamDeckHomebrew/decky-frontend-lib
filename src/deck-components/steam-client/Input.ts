@@ -37,8 +37,6 @@ export interface Input {
      */
     ControllerKeyboardSetKeyState(keyIndex: HIDKeyboardKey, state: boolean): void;
 
-    DeauthorizeControllerAccount: any;
-
     DecrementCloudedControllerConfigsCounter(): any;
 
     DeletePersonalControllerConfiguration(param0: any): any;
@@ -201,8 +199,6 @@ export interface Input {
     SaveControllerSounds: any;
 
     SaveEditingControllerConfiguration(controllerIndex: number, sharedConfig: boolean): any;
-
-    SetActiveControllerAccount: any;
 
     //this.SetEditingConfigurationValue(e, t, c.sL, (e => SteamClient.Input.SetControllerConfigurationModeShiftBinding(this.m_unControllerIndex, e)))
     SetControllerConfigurationModeShiftBinding(controllerIndex: number, param1: any): any;

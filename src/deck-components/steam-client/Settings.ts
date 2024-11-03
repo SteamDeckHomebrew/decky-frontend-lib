@@ -91,8 +91,6 @@ export interface Settings {
 
     SetSetting(serializedBase64: string): any;
 
-    SetSteamPlayEnabled(value: boolean): void;
-
     SetTimeZone(timezoneId: string): void; // You can get valid timezoneIds from GetAvailableTimeZones()
 
     SetUseNintendoButtonLayout(controllerIndex: number, value: boolean): void;

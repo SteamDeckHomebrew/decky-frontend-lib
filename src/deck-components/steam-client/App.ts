@@ -250,13 +250,6 @@ export interface Apps {
     GetScreenshotsInTimeRange(appId: number, start: number, end: number): Promise<Screenshot[]>;
 
     /**
-     * Represents a function to retrieve shortcut data for a list of non-Steam app IDs.
-     * @param appIds An array of non-Steam application IDs.
-     * @returns A Promise that resolves to an array of Shortcut objects for the specified non-Steam app IDs.
-     */
-    GetShortcutData(appIds: number[]): Promise<Shortcut[]>;
-
-    /**
      * Retrieves shortcut data for a given shortcut file path.
      * @param pathToShortcut The path to the shortcut file.
      * @returns A Promise that resolves to the shortcut data.

@@ -2,6 +2,13 @@ import {JsPbMessage} from "./index";
 import {OSType} from "./system";
 
 export interface Auth {
+    /**
+     * @returns a boolean indicating if the operation succeeded.
+     */
+    ClearCachedSignInPin(): Promise<boolean>;
+
+    CurrentUserHasCachedSignInPin(): Promise<boolean>;
+
     GetLocalHostname(): Promise<string>;
 
     /**
@@ -15,11 +22,17 @@ export interface Auth {
 
     IsSecureComputer(): Promise<boolean>;
 
+    SetCachedSignInPin(pin: string): Promise<boolean>;
+
     SetLoginToken(refreshToken: string, accountName: string): any;
 
     SetSteamGuardData(accountName: string, newGuardData: string): any;
 
     StartSignInFromCache(param0: any, login: string): Promise<any>;
+
+    UserHasCachedSignInPin(accountName: string): Promise<boolean>;
+
+    ValidateCachedSignInPin(accountName: string, pin: string): Promise<boolean>;
 }
 
 export interface AuthRefreshInfo {
