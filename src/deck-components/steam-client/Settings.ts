@@ -300,11 +300,13 @@ export interface MsgClientSettings extends JsPbMessage {
     cloud_enabled(): boolean;
 
     controller_combine_nintendo_joycons(): boolean;
+    controller_enable_chord(): boolean;
 
     controller_generic_support(): boolean;
 
     controller_guide_button_focus_steam(): boolean;
 
+    controller_poll_rate(): boolean;
     controller_power_off_timeout(): number;
 
     controller_ps_support(): number;
@@ -369,8 +371,6 @@ export interface MsgClientSettings extends JsPbMessage {
 
     g_background_a_s(): boolean;
 
-    g_background_br(): number;
-
     g_background_path(): string;
 
     g_background_max_keep(): string;
@@ -385,8 +385,20 @@ export interface MsgClientSettings extends JsPbMessage {
 
     g_max_fps(): number;
 
+    gamerecording_automatic_gain_control(): boolean;
+    gamerecording_export_codec(): EExportCodec;
+    gamerecording_export_directory(): number;
+    gamerecording_export_limit_bitrate(): number;
+    gamerecording_export_limit_frame_rate(): number;
+    gamerecording_export_limit_height(): number;
+    gamerecording_export_limit_size_mb(): number;
+    gamerecording_export_limit_width(): number;
+    gamerecording_export_limit_type(): EGRExportLimitType;
+    gamerecording_force_mic_mono(): boolean;
     gamerecording_hotkey_ic(): Hotkey;
     gamerecording_ic_seconds(): number;
+    gamerecording_video_bitrate(): string;
+    gamerecording_video_maxheight(): number;
 
     game_notes_enable_spellcheck(): boolean;
 
@@ -412,6 +424,7 @@ export interface MsgClientSettings extends JsPbMessage {
 
     gamescope_use_game_refresh_rate_in_steam(): boolean;
 
+    gamestream_enable_video_h265(): boolean;
     gamestream_hardware_video_encode(): boolean;
 
     hdr_compat_testing(): boolean;
@@ -600,10 +613,22 @@ export enum BroadcastPermission {
     Subscribers = 4,
 }
 
+export enum EExportCodec {
+    Default,
+    H264,
+    H265,
+}
+
 export enum EGRAudio {
     Game,
     System,
     Select,
+}
+
+export enum EGRExportLimitType {
+    Native,
+    FileSize,
+    Advanced,
 }
 
 export enum EGRMode {

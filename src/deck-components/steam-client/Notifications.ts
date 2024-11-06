@@ -319,6 +319,7 @@ export interface ClientNotificationGameRecordingStart extends JsPbMessage {
 export interface ClientNotificationGameRecordingStop extends JsPbMessage {
 	game_id(): number;
 	clip_id(): string;
+	duration_secs(): number;
 }
 
 export interface ClientNotificationGameRecordingUserMarkerAdded extends JsPbMessage {
@@ -328,4 +329,5 @@ export interface ClientNotificationGameRecordingUserMarkerAdded extends JsPbMess
 export interface CClientNotificationGameRecordingInstantClip extends JsPbMessage {
     game_id(): number;
     clip_id(): string;
+	duration_secs(): number;
 }

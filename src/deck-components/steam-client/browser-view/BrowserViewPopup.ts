@@ -117,11 +117,6 @@ export interface BrowserViewPopup {
     SetSteamURLCallback(callback: (steamURL: string) => void): void;
 
     /**
-     * Raises the browser window.
-     */
-    SetTopWindow(): void;
-
-    /**
      * @todo unconfirmed
      */
     SetTouchGesturesToCancel(gestures: TouchGestureType[]): void;
