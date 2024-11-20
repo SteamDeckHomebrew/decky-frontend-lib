@@ -1,3 +1,10 @@
+## [4.8.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.1...v4.8.2) (2024-11-20)
+
+
+### Bug Fixes
+
+* **Footer:** add missing focus/nav properties ([#113](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/113)) ([8117693](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/8117693427e4dba2f3b5bd24f36704d8d5e65ae2))
+
 ## [4.8.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.0...v4.8.1) (2024-10-11)
 
 
