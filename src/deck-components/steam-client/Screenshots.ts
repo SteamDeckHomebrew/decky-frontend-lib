@@ -67,6 +67,14 @@ export interface Screenshots {
     GetLocalScreenshotCount(appId: number): Promise<number>;
 
     /**
+     * Retrieves the path of a screenshot.
+     * @param appId The ID of the application.
+     * @param hHandle The handle of the screenshot.
+     * @returns the screenshot path or the screenshot directory if no such handle.
+     */
+    GetLocalScreenshotPath(appId: number, hHandle: number): Promise<string>;
+
+    /**
      * Retrieves the number of games with local screenshots.
      * @returns A Promise that resolves to the number of games with local screenshots.
      */

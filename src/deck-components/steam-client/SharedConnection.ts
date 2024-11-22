@@ -20,13 +20,15 @@ export interface SharedConnection {
     SendMsg: any;
     SendMsgAndAwaitBinaryResponse: any;
 
+    SendMsgAndAwaitResponse(hSharedConnection: number, msg: string): Promise<any>;
+
     SubscribeToClientServiceMethod(hSharedConnection: number, param1: any): any;
 
     SubscribeToEMsg(hSharedConnection: number, param1: any): any;
 }
 
 export interface LogonInfo {
-    /** `true` if logged on, `false otherwise. */
+    /** `true` if logged on, `false` otherwise. */
     bLoggedOn: boolean;
     eUniverse: SteamRealm;
     /** Account username. Empty if not logged on. */

@@ -37,6 +37,11 @@ export interface UI {
 
     RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;
 
+    /**
+     * @todo This fires multiple times.
+     */
+    RegisterForStartupFinished(callback: () => void): Unregisterable;
+
     RegisterForUIModeChanged(callback: (mode: UIMode) => void): Unregisterable;
 
     ResetErrorCondition(): void;

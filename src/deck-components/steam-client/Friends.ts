@@ -34,6 +34,8 @@ export interface Friends {
     //(e.ConvertTo64BitString())
     InviteUserToRemotePlayTogetherCurrentGame(steam64Id: string): any;
 
+    RegisterForMultiplayerSessionShareURLChanged(param0: any, param1: any): Unregisterable;
+
     RegisterForVoiceChatStatus(callback: (status: VoiceChatStatus) => void): Unregisterable;
 
     /**
@@ -42,6 +44,8 @@ export interface Friends {
      * @returns A Promise that resolves to true if the friend was removed successfully, false otherwise.
      */
     RemoveFriend(steamId: string): Promise<boolean>;
+
+    ShowRemotePlayTogetherUI(): void;
 }
 
 export interface CoplayData {

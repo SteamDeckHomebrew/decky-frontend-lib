@@ -95,6 +95,8 @@ export interface Settings {
 
     SetUseNintendoButtonLayout(controllerIndex: number, value: boolean): void;
 
+    SetUseUniversalFaceButtonGlyphs(nControllerIndex: number, value: boolean): void;
+
     SetWindowed(value: boolean): void;
 
     SpecifyGlobalCompatTool(strToolName: string): void;

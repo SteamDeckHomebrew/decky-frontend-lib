@@ -65,6 +65,8 @@ export interface User {
 
     RegisterForResumeSuspendedGamesProgress: Unregisterable;
 
+    RegisterForShowHardwareSurvey(callback: () => void): Unregisterable;
+
     RegisterForShutdownDone(callback: () => void): Unregisterable;
 
     RegisterForShutdownFailed: Unregisterable;
@@ -92,7 +94,7 @@ export interface User {
     // Hardware survey information
     RunSurvey(callback: (surveySections: SurveySection[]) => void): void;
 
-    SendSurvey: any;
+    SendSurvey(): void;
 
     SetAsyncNotificationEnabled(appId: number, enable: boolean): any;
 

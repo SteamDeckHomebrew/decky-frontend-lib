@@ -97,6 +97,8 @@ export interface Input {
         callback: (controllerAnalogInputMessages: ControllerAnalogInputMessage[]) => void,
     ): Unregisterable;
 
+    RegisterForControllerBatteryChanges(callback: any): Unregisterable;
+
     RegisterForControllerCommandMessages(
         callback: (controllerCommandMessage: ControllerCommandMessage) => void,
     ): Unregisterable;
@@ -249,6 +251,8 @@ export interface Input {
     SetControllerPersonalizationSettingFloat(param0: string, param1: number): any;
 
     SetControllerRumbleSetting(controllerIndex: number, rumblePreference: any): any;
+
+    SetControllerUseUniversalFaceButtonGlyphs(controllerIndex: number, value: boolean): void;
 
     SetCursorActionset(param0: boolean): any;
 

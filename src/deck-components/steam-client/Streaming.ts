@@ -1,4 +1,4 @@
-import {Unregisterable} from "./index";
+import {Unregisterable, type Result} from "./index";
 import {LaunchOption} from "./App";
 
 export interface Streaming {
@@ -11,7 +11,7 @@ export interface Streaming {
      * @param callback The callback function to be called.
      * @returns An object that can be used to unregister the callback.
      */
-    RegisterForStreamingClientFinished(callback: (code: number, result: string) => void): Unregisterable;
+    RegisterForStreamingClientFinished(callback: (code: Result, result: string) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when there is progress in the launch of the streaming client.
@@ -33,13 +33,12 @@ export interface Streaming {
      * Registers a callback function to be called when the streaming launch is complete.
      * @param callback The callback function to be called.
      * @returns An object that can be used to unregister the callback.
-     * @todo `code` is likely a code, 1 being it started, 10 being host computer is updating game, `result` just returns "complete"
      */
-    RegisterForStreamingLaunchComplete(callback: (code: number, result: string) => void): Unregisterable;
+    RegisterForStreamingLaunchComplete(callback: (code: Result, result: string) => void): Unregisterable;
 
-    RegisterForStreamingShowEula(callback: (appId: number) => any): Unregisterable;
+    RegisterForStreamingShowEula(callback: (appId: number) => void): Unregisterable;
 
-    RegisterForStreamingShowIntro(callback: (param0: any, param1: any) => any): Unregisterable;
+    RegisterForStreamingShowIntro(callback: (appId: number, param: string) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when the streaming client receives launch options from the host.
@@ -51,5 +50,10 @@ export interface Streaming {
     ): Unregisterable; // Callback when streaming client receives launch options from host
 
     StreamingContinueStreamGame(): void; // existing game running on another streaming capable device
-    StreamingSetLaunchOption(param0: any): any;
+
+    /**
+     * Chooses the launch option for the streamed app by its index
+     * and restarts the stream.
+     */
+    StreamingSetLaunchOption(index: number): void;
 }

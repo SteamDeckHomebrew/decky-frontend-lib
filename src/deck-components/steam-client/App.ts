@@ -599,6 +599,13 @@ export interface Apps {
     SetLocalScreenshotSpoiler(appId: string, hHandle: any, spoilered: boolean): void;
 
     /**
+     * Sets the executable path for a non-Steam application shortcut.
+     * @param appId The ID of the application to set the shortcut executable for.
+     * @param exePath The path to the executable.
+     */
+    SetShortcutExe(appId: number, exePath: string): void;
+
+    /**
      * Sets the icon for a non-Steam application shortcut.
      * @param appId The ID of the application to set the shortcut icon for.
      * @param iconPath The path to the icon image (can be png or tga format).

@@ -7,6 +7,8 @@ export interface Updates {
 
     GetCurrentOSBranch(): Promise<OSBranch>;
 
+    GetOSBranchList(): Promise<any[]>;
+
     /**
      * If `data` is deserialized, returns {@link MsgSystemUpdateState}.
      * @returns A Promise that resolves to a ProtoBuf message.

@@ -9,6 +9,8 @@ export interface Parental {
      */
     LockParentalLock(): void;
 
+    RegisterForParentalPlaytimeWarnings(callback: (time: number) => void): Unregisterable;
+
     /**
      * Registers a callback function to be invoked when parental settings change.
      * @param callback The callback function to be invoked when parental settings change.

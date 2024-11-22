@@ -17,6 +17,8 @@ export interface RemotePlay {
 
     CancelInviteAndSessionWithGuestID(steam64Id: string, guestId: number): any;
 
+    CancelRemoteClientPairing(): void;
+
     CloseGroup(): Promise<number>;
 
     CreateGroup: any;
@@ -24,6 +26,8 @@ export interface RemotePlay {
     CreateInviteAndSession(steam64Id: string, param1: any): any;
 
     CreateInviteAndSessionWithGuestID(steam64Id: string, guestId: number, param2: any): any;
+
+    GetClientID(): Promise<string>;
 
     GetClientStreamingBitrate(): Promise<number>; //todo: -1 not streaming??
     GetClientStreamingQuality(): Promise<number>; //todo: -1 not streaming??
@@ -42,6 +46,7 @@ export interface RemotePlay {
     RegisterForAdditionalParentalBlocks: Unregisterable;
     RegisterForAudioDriverPrompt: Unregisterable;
     RegisterForBitrateOverride: Unregisterable;
+    RegisterForClearControllers(callback: () => void): Unregisterable;
     RegisterForControllerIndexSet: Unregisterable;
 
     RegisterForDevicesChanges(callback: (devicesChange: RemotePlayDevice[]) => void): Unregisterable;
@@ -72,6 +77,16 @@ export interface RemotePlay {
     RegisterForRemoteClientStarted(callback: (steam64Id: string, appId: number) => void): Unregisterable; // only fires on client
 
     RegisterForRemoteClientStopped(callback: (steam64Id: string, appId: number) => void): Unregisterable; // only fires on client
+
+    RegisterForRemoteDeviceAuthorizationCancelled(callback: () => void): Unregisterable;
+
+    RegisterForRemoteDeviceAuthorizationRequested(callback: (device: string) => void): Unregisterable;
+
+    RegisterForRemoteDevicePairingPINChanged(callback: (device: string, pin: string) => void): Unregisterable;
+
+    RegisterForRestrictedSessionChanges(callback: (restrictedSession: boolean) => void): Unregisterable;
+
+    RegisterForSessionStopped(callback: (steam64Id: any, guestId: any, avatarHash: string) => void): Unregisterable;
 
     RegisterForSessionStarted(callback: (steam64Id: any, gameId: any, guestId: any) => void): Unregisterable;
 
@@ -117,7 +132,7 @@ export interface RemotePlay {
     StopStreamingSession: any;
     StopStreamingSessionAndSuspendDevice: any;
 
-    UnlockH264(): any;
+    UnlockH264(): void;
 
     UnpairRemoteDevices(): void; // unpairs all devices
 }
