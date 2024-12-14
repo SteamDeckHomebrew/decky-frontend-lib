@@ -1,3 +1,10 @@
+## [4.8.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.2...v4.8.3) (2024-12-14)
+
+
+### Bug Fixes
+
+* **utils:** add new nav root name ([a43cd7f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a43cd7f3c56a2e30e332417e5b4abde8f4492be1))
+
 ## [4.8.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.1...v4.8.2) (2024-11-20)
 
 
