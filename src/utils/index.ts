@@ -25,7 +25,7 @@ export function findSP(): Window {
   if (document.title == 'SP') return window;
   // new (SP as popup)
   const navTrees = getGamepadNavigationTrees();
-  return navTrees?.find((x: any) => x.m_ID == 'root_1_')?.Root?.Element?.ownerDocument?.defaultView;
+  return navTrees?.find((x: any) => x.m_ID == 'GamepadUI_Full_Root' || x.m_ID == 'root_1_')?.Root?.Element?.ownerDocument?.defaultView;
 }
 
 /**
