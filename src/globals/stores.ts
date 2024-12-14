@@ -1,5 +1,7 @@
 import { WindowRouter } from '../modules/Router';
-import { AppDetails, LogoPosition, SteamAppOverview } from './SteamClient';
+import { AppDetails, LogoPosition, SteamAppOverview } from "../deck-components/steam-client/App";
+import {AppData} from "../deck-components/steam-client";
+
 declare global {
   interface Window {
     LocalizationManager: {
@@ -43,6 +45,7 @@ declare global {
       GetIconURLForApp: (app: SteamAppOverview) => string;
     };
     appDetailsStore: {
+      GetAppData: (appId: number) => AppData | null;
       GetAppDetails: (appId: number) => AppDetails | null;
       GetCustomLogoPosition: (app: SteamAppOverview) => LogoPosition | null;
       SaveCustomLogoPosition: (app: SteamAppOverview, logoPositions: LogoPosition) => any;
