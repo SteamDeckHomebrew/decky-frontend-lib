@@ -1,3 +1,10 @@
+# [4.9.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.3...v4.9.0) (2025-01-02)
+
+
+### Features
+
+* add MenuSeparator component ([484a882](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/484a882015ceb51c2c80e08151e79056e751ac15))
+
 ## [4.8.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.2...v4.8.3) (2024-12-14)
 
 
