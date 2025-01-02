@@ -45,6 +45,10 @@ export const MenuItem: FC<MenuItemProps> = findModuleExport(
     e?.render?.toString?.()?.includes('bPlayAudio:') || (e?.prototype?.OnOKButton && e?.prototype?.OnMouseEnter),
 );
 
+export const MenuSeparator: FC = findModuleExport(
+  (e: Export) => typeof e === 'function' && /className:.+?\.ContextMenuSeparator/.test(e.toString()),
+);
+
 /*
 all().map(m => {
 if (typeof m !== "object") return undefined;
