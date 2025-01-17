@@ -54,7 +54,7 @@ export interface Browser {
 
     SetShouldExitSteamOnBrowserClosed(value: boolean): any;
 
-    SetTouchGesturesToCancel(gestures: TouchGestureType[]): void;
+    SetTouchGesturesToCancel(gestures: ETouchGesture[]): void;
 
     /**
      * Prompts and downloads a file.
@@ -64,24 +64,24 @@ export interface Browser {
 }
 
 export interface TouchGesture {
-    eTouchGesture: TouchGestureType;
+    eTouchGesture: ETouchGesture;
     x: number;
     y: number;
 }
 
-export enum TouchGestureType {
-    None = 0,
-    Touch = 1,
-    Tap = 2,
-    DoubleTap = 3,
-    ShortPress = 4,
-    LongPress = 5,
-    LongTap = 6,
-    TwoFingerTap = 7,
-    TapCancelled = 8,
-    PinchBegin = 9,
-    PinchUpdate = 10,
-    PinchEnd = 11,
-    FlingStart = 12,
-    FlingCancelled = 13,
+export enum ETouchGesture {
+    None,
+    Touch,
+    Tap,
+    DoubleTap,
+    ShortPress,
+    LongPress,
+    LongTap,
+    TwoFingerTap,
+    TapCancelled,
+    PinchBegin,
+    PinchUpdate,
+    PinchEnd,
+    FlingStart,
+    FlingCancelled,
 }

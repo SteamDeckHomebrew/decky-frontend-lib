@@ -118,11 +118,11 @@ export interface AccountSettings {
  * @todo unconfirmed, taken from localization strings
  */
 export enum ESteamGuardState {
-    EmailUnverified = 0,
-    Protected = 1,
-    Disabled = 2,
-    Offline = 3,
-    NotEnabled = 4,
+    EmailUnverified,
+    Protected,
+    Disabled,
+    Offline,
+    NotEnabled,
 }
 
 export interface KeyCaptureEvent {
@@ -140,37 +140,37 @@ export interface Language {
 
 export enum ELanguage {
     None = -1,
-    English = 0,
-    German = 1,
-    French = 2,
-    Italian = 3,
-    Korean = 4,
-    Spanish = 5,
-    SimplifiedChinese = 6,
-    TraditionalChinese = 7,
-    Russian = 8,
-    Thai = 9,
-    Japanese = 10,
-    Portuguese = 11,
-    Polish = 12,
-    Danish = 13,
-    Dutch = 14,
-    Finnish = 15,
-    Norwegian = 16,
-    Swedish = 17,
-    Hungarian = 18,
-    Czech = 19,
-    Romanian = 20,
-    Turkish = 21,
-    Brazilian = 22,
-    Bulgarian = 23,
-    Greek = 24,
-    Arabic = 25,
-    Ukrainian = 26,
-    LatamSpanish = 27,
-    Vietnamese = 28,
-    SteamChina_SChinese = 29,
-    Max = 30,
+    English,
+    German,
+    French,
+    Italian,
+    Korean,
+    Spanish,
+    SimplifiedChinese,
+    TraditionalChinese,
+    Russian,
+    Thai,
+    Japanese,
+    Portuguese,
+    Polish,
+    Danish,
+    Dutch,
+    Finnish,
+    Norwegian,
+    Swedish,
+    Hungarian,
+    Czech,
+    Romanian,
+    Turkish,
+    Brazilian,
+    Bulgarian,
+    Greek,
+    Arabic,
+    Ukrainian,
+    LatamSpanish,
+    Vietnamese,
+    SteamChina_SChinese,
+    Max,
 }
 export interface RegisteredSteamDeck {
     bRegistered: boolean;
@@ -204,7 +204,7 @@ interface AvailableClientBeta {
 interface SteamSettings {
     bIsInClientBeta: boolean;
     bIsSteamSideload: boolean;
-    eClientBetaState: ClientBetaState;
+    eClientBetaState: EClientBetaState;
     strSelectedBetaName: string;
     nAvailableBetas: number;
     bChangeBetaEnabled: boolean;
@@ -230,12 +230,12 @@ interface SteamSettings {
     vecNightModeScheduledHours: Hour[];
 }
 
-export enum ClientBetaState {
-    None = 0,
-    NoneChosen = 1,
-    NoneChosenNonAdmin = 2,
-    InBeta = 3,
-    InBetaNonAdmin = 4,
+export enum EClientBetaState {
+    None,
+    NoneChosen,
+    NoneChosenNonAdmin,
+    InBeta,
+    InBetaNonAdmin,
 }
 
 
@@ -279,13 +279,13 @@ export interface MsgClientSettings extends JsPbMessage {
 
     broadcast_chat_corner(): number;
 
-    broadcast_encoding_option(): BroadcastEncoderSetting;
+    broadcast_encoding_option(): EBroadcastEncoderSetting;
 
     broadcast_output_height(): number;
 
     broadcast_output_width(): number;
 
-    broadcast_permissions(): BroadcastPermission;
+    broadcast_permissions(): EBroadcastPermission;
 
     broadcast_record_all_audio(): boolean;
 
@@ -420,7 +420,7 @@ export interface MsgClientSettings extends JsPbMessage {
 
     gamescope_force_composite(): boolean;
 
-    gamescope_hdr_visualization(): HDRVisualization;
+    gamescope_hdr_visualization(): EHDRVisualization;
 
     gamescope_include_steamui_in_screenshots(): boolean;
 
@@ -515,7 +515,7 @@ export interface MsgClientSettings extends JsPbMessage {
 
     setting_validation_bool(): boolean;
 
-    setting_validation_enum(): HDRVisualization;
+    setting_validation_enum(): EHDRVisualization;
 
     setting_validation_int32(): number;
 
@@ -602,17 +602,17 @@ export interface MsgClientSettings extends JsPbMessage {
     web_browser_home(): string;
 }
 
-export enum BroadcastEncoderSetting {
-    BestQuality = 0,
-    BestPerformance = 1,
+export enum EBroadcastEncoderSetting {
+    BestQuality,
+    BestPerformance,
 }
 
-export enum BroadcastPermission {
-    Disabled = 0,
-    FriendsApprove = 1,
-    FriendsAllowed = 2,
-    Public = 3,
-    Subscribers = 4,
+export enum EBroadcastPermission {
+    Disabled,
+    FriendsApprove,
+    FriendsAllowed,
+    Public,
+    Subscribers,
 }
 
 export enum EExportCodec {
@@ -648,10 +648,10 @@ export interface Hotkey {
     shift_key: boolean;
 }
 
-export enum HDRVisualization {
-    None = 0,
-    Heatmap = 1,
-    Analysis = 2,
-    HeatmapExtended = 3,
-    HeatmapClassic = 4,
+export enum EHDRVisualization {
+    None,
+    Heatmap,
+    Analysis,
+    HeatmapExtended,
+    HeatmapClassic,
 }

@@ -1,5 +1,5 @@
 import {Unregisterable} from "./index";
-import {SteamRealm} from "./Overlay";
+import {ESteamRealm} from "./Overlay";
 
 /**
  * `hSharedConnection` is the number from {@link AllocateSharedConnection}.
@@ -30,7 +30,7 @@ export interface SharedConnection {
 export interface LogonInfo {
     /** `true` if logged on, `false` otherwise. */
     bLoggedOn: boolean;
-    eUniverse: SteamRealm;
+    eUniverse: ESteamRealm;
     /** Account username. Empty if not logged on. */
     strAccountName: string;
     /** URL for community content. */

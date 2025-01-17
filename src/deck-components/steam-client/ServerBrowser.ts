@@ -26,7 +26,7 @@ export interface ServerBrowser {
      * @param password Server password, empty if none.
      * @returns A Promise that resolves to a connection status.
      */
-    ConnectToServer(dialogId: number, password: string): Promise<JoinServerError>;
+    ConnectToServer(dialogId: number, password: string): Promise<EJoinServerError>;
 
     /**
      * Creates a server info dialog, on which your friend is playing on.
@@ -247,16 +247,16 @@ export interface ServerBrowserServerFull extends ServerBrowserServer {
     steamID: string;
 }
 
-export enum JoinServerError {
+export enum EJoinServerError {
     PingFailed = -3,
-    Connecting = -2,
-    Pinging = -1,
-    None = 0,
-    VACBanned = 1,
-    ServerFull = 2,
-    ModNotInstalled = 3,
-    AppNotFound = 4,
-    NotInitialized = 5,
+    Connecting,
+    Pinging,
+    None,
+    VACBanned,
+    ServerFull,
+    ModNotInstalled,
+    AppNotFound,
+    NotInitialized,
 }
 
 export type ServerBrowserTab = 'internet' | 'favorites' | 'history' | 'lan' | 'friends';
@@ -293,7 +293,7 @@ export interface ServerBrowserGameFilter {
     /** Is not password protected */
     NoPassword: boolean;
     /** Anti-cheat */
-    Secure: ServerBrowserGameFilterAntiCheat;
+    Secure: EServerBrowserGameFilterAntiCheat;
     /** The ID of the game */
     appid: number;
     /** The game folder */
@@ -301,17 +301,17 @@ export interface ServerBrowserGameFilter {
     /** Map filter */
     map: string;
     /** Latency */
-    ping: ServerBrowserGameFilterPing;
+    ping: EServerBrowserGameFilterPing;
 }
 
-export enum ServerBrowserGameFilterAntiCheat {
-    All = 0,
-    Secure = 1,
-    NotSecure = 2,
+export enum EServerBrowserGameFilterAntiCheat {
+    All,
+    Secure,
+    NotSecure,
 }
 
-export enum ServerBrowserGameFilterPing {
-    All = 0,
+export enum EServerBrowserGameFilterPing {
+    All,
     LessThan50 = 50,
     LessThan100 = 100,
     LessThan150 = 150,

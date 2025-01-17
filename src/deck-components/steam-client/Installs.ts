@@ -1,5 +1,5 @@
 import {Unregisterable} from "./index";
-import {AppError} from "./App";
+import {EAppUpdateError} from "./App";
 
 /**
  * Represents functions related to managing installs and installation wizards in Steam.
@@ -47,7 +47,7 @@ export interface Installs {
      * @param callback The callback function to be called when the dialog is shown.
      * @returns An object that can be used to unregister the callback.
      */
-    RegisterForShowFailedUninstall(callback: (appId: number, reason: AppError) => void): Unregisterable;
+    RegisterForShowFailedUninstall(callback: (appId: number, reason: EAppUpdateError) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when the installation wizard is shown.
@@ -83,7 +83,7 @@ export interface Installs {
 
 export interface InstallInfo {
     rgAppIDs: InstallInfoApps[];
-    eInstallState: EInstallManagerState;
+    eInstallState: EInstallMgrState;
     nDiskSpaceRequired: number;
     nDiskSpaceAvailable: number;
     nCurrentDisk: number;
@@ -95,7 +95,7 @@ export interface InstallInfo {
     iInstallFolder: number;
     iUnmountedFolder: number;
     currentAppID: number;
-    eAppError: AppError;
+    eAppError: EAppUpdateError;
     errorDetail: string;
     bSystemMenuShortcut: boolean;
     bDesktopShortcut: boolean;
@@ -110,22 +110,22 @@ export interface InstallInfoApps {
     lDiskSpaceRequiredBytes: number;
 }
 
-export enum EInstallManagerState {
-    None = 0,
-    Setup = 1,
-    WaitLicense = 2,
-    FreeLicense = 3,
-    ShowCDKey = 4,
-    WaitAppInfo = 5,
-    ShowPassword = 6,
-    ShowConfig = 7,
-    ShowEULAs = 8,
-    CreateApps = 9,
-    ReadFromMedia = 10,
-    ShowChangeMedia = 11,
-    WaitLegacyCDKeys = 12,
-    ShowSignup = 13,
-    Complete = 14,
-    Failed = 15,
-    Canceled = 16,
+export enum EInstallMgrState {
+    None,
+    Setup,
+    WaitLicense,
+    FreeLicense,
+    ShowCDKey,
+    WaitAppInfo,
+    ShowPassword,
+    ShowConfig,
+    ShowEULAs,
+    CreateApps,
+    ReadFromMedia,
+    ShowChangeMedia,
+    WaitLegacyCDKeys,
+    ShowSignup,
+    Complete,
+    Failed,
+    Canceled,
 }

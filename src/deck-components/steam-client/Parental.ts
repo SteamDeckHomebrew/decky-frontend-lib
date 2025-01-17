@@ -1,4 +1,4 @@
-import {Result, Unregisterable} from "./index";
+import {EResult, Unregisterable} from "./index";
 
 /**
  * Interface for managing parental control settings.
@@ -24,7 +24,7 @@ export interface Parental {
      * @param param1 Additional parameter. // Todo: Unknown usage.
      * @returns A Promise that resolves to a number representing the result of the unlock operation.
      */
-    UnlockParentalLock(pin: string, param1: boolean): Promise<Result>;
+    UnlockParentalLock(pin: string, param1: boolean): Promise<EResult>;
 }
 
 /**

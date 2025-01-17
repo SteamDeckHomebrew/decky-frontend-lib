@@ -134,7 +134,7 @@ export interface BluetoothDevice {
     /**
      * The type of the Bluetooth device (e.g., headphones, mouse, keyboard).
      */
-    eType: BluetoothDeviceType;
+    eType: EBluetoothDeviceType;
 
     /**
      * The MAC address of the Bluetooth device.
@@ -162,17 +162,17 @@ export interface BluetoothDevice {
     nStrengthRaw: number;
 }
 
-export enum BluetoothDeviceType {
-    Invalid = 0,
-    Unknown = 1,
-    Phone = 2,
-    Computer = 3,
-    Headset = 4,
-    Headphones = 5,
-    Speakers = 6,
-    OtherAudio = 7,
-    Mouse = 8,
-    Joystick = 9,
-    Gamepad = 10,
-    Keyboard = 11,
+export enum EBluetoothDeviceType {
+    Invalid,
+    Unknown,
+    Phone,
+    Computer,
+    Headset,
+    Headphones,
+    Speakers,
+    OtherAudio,
+    Mouse,
+    Joystick,
+    Gamepad,
+    Keyboard,
 }

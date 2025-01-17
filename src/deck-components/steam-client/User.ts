@@ -59,7 +59,7 @@ export interface User {
 
     RegisterForCurrentUserChanges(callback: (user: CurrentUser) => void): void;
 
-    RegisterForLoginStateChange(callback: (accountName: string, loginState: LoginState, loginResult: number, loginPercentage: number, param4: number) => void): Unregisterable;
+    RegisterForLoginStateChange(callback: (accountName: string, loginState: ELoginState, loginResult: number, loginPercentage: number, param4: number) => void): Unregisterable;
 
     RegisterForPrepareForSystemSuspendProgress(callback: (data: any) => void): Unregisterable;
 
@@ -159,16 +159,16 @@ export interface CurrentUser {
     strSteamID: string;
 }
 
-export enum LoginState {
-    None = 0,
-    WelcomeDialog = 1,
-    WaitingForCreateUser = 2,
-    WaitingForCredentials = 3,
-    WaitingForNetwork = 4,
-    WaitingForServerResponse = 5,
-    WaitingForLibraryReady = 6,
-    Success = 7,
-    Quit = 8,
+export enum ELoginState {
+    None,
+    WelcomeDialog,
+    WaitingForCreateUser,
+    WaitingForCredentials,
+    WaitingForNetwork,
+    WaitingForServerResponse,
+    WaitingForLibraryReady,
+    Success,
+    Quit,
 }
 
 export interface LoginUser {

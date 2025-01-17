@@ -1,4 +1,4 @@
-import {JsPbMessage, OperationResponse, Result, Unregisterable} from "./index";
+import {JsPbMessage, OperationResponse, EResult, Unregisterable} from "./index";
 
 export interface Updates {
     ApplyUpdates(param0: string): Promise<OperationResponse>;
@@ -21,18 +21,20 @@ export interface Updates {
 
 
 export interface OSBranch {
-    eBranch: OSBranchType; // 1 - Stable
+    eBranch: EOSBranch; // 1 - Stable
     sRawName: string;
 }
 
-export enum OSBranchType {
-    Unknown = 0,
-    Release = 1,
-    ReleaseCandidate = 2,
-    Beta = 3,
-    BetaCandidate = 4,
-    Main = 5,
-    Staging = 6,
+export enum EOSBranch {
+    Unknown,
+    Release,
+    ReleaseCandidate,
+    Beta,
+    BetaCandidate,
+    Preview,
+    PreviewCandidate,
+    Main,
+    Staging,
 }
 
 /**
@@ -51,15 +53,15 @@ export interface MsgSystemUpdateState extends JsPbMessage {
 }
 
 export interface UpdateApplyResult {
-    type: UpdaterType;
-    eresult: Result;
+    type: EUpdaterType;
+    eresult: EResult;
     requires_client_restart: boolean;
     requires_system_restart: boolean;
 }
 
 export interface UpdateCheckResult {
-    type: UpdaterType;
-    eresult: Result;
+    type: EUpdaterType;
+    eresult: EResult;
     rtime_checked: number;
     available: boolean;
 }
@@ -71,22 +73,24 @@ export interface UpdateProgress {
 }
 
 export enum UpdaterState {
-    Invalid = 0,
+    Invalid,
+    // ty valve
     UpToDate = 2,
-    Checking = 3,
-    Available = 4,
-    Applying = 5,
-    ClientRestartPending = 6,
-    SystemRestartPending = 7,
+    Checking,
+    Available,
+    Applying,
+    ClientRestartPending,
+    SystemRestartPending,
+    RollBack,
 }
 
-export enum UpdaterType {
-    Invalid = 0,
-    Client = 1,
-    OS = 2,
-    BIOS = 3,
-    Aggregated = 4,
-    Test1 = 5,
-    Test2 = 6,
-    Dummy = 7,
+export enum EUpdaterType {
+    Invalid,
+    Client,
+    OS,
+    BIOS,
+    Aggregated,
+    Test1,
+    Test2,
+    Dummy,
 }

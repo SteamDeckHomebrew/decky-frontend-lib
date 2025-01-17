@@ -20,7 +20,7 @@ export interface Overlay {
      * @returns An object that can be used to unregister the callback.
      */
     RegisterForMicroTxnAuth(
-        callback: (appId: number, microTxnId: string, realm: SteamRealm, microTxnUrl: string) => void,
+        callback: (appId: number, microTxnId: string, realm: ESteamRealm, microTxnUrl: string) => void,
     ): Unregisterable;
 
     /**
@@ -31,7 +31,7 @@ export interface Overlay {
     RegisterForMicroTxnAuthDismiss(callback: (appId: number, microTxnId: string) => void): Unregisterable;
 
     RegisterForNotificationPositionChanged(
-        callback: (appId: any, position: NotificationPosition, horizontalInset: number, verticalInset: number) => void,
+        callback: (appId: any, position: ENotificationPosition, horizontalInset: number, verticalInset: number) => void,
     ): Unregisterable;
 
     /**
@@ -60,14 +60,15 @@ export interface Overlay {
      */
     RegisterOverlayBrowserInfoChanged(callback: () => void): Unregisterable;
 
-    SetOverlayState(appId: number, uiComposition: UIComposition): any;
+    SetOverlayState(appId: number, uiComposition: EUIComposition): any;
 }
 
-export enum NotificationPosition {
-    TopLeft = 0,
-    TopRight = 1,
-    BottomLeft = 2,
-    BottomRight = 3,
+// EPosition
+export enum ENotificationPosition {
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
 }
 
 export interface OverlayBrowserInfo {
@@ -91,33 +92,33 @@ export interface OverlayBrowserProtocols {
     bAdded: boolean;
 }
 
-export enum SteamRealm {
-    Unknown = 0,
-    Global = 1,
-    China = 2,
+export enum ESteamRealm {
+    Unknown,
+    Global,
+    China,
 }
 
 /**
  * Controls how Gamescope renders the GamepadUI window when a game is running.
  */
-export enum UIComposition {
+export enum EUIComposition {
     /** Steam is not rendered on the screen. */
-    Hidden = 0,
+    Hidden,
     /**
      * Transparent divs will allow pixels from the app behind Steam to penetrate.
      * Input goes to **the app**.
      */
-    Notification = 1,
+    Notification,
     /**
      * Transparent divs will allow pixels from the app behind Steam to penetrate.
      * Input goes to **Steam**.
      */
-    Overlay = 2,
+    Overlay,
     /** Take all of the pixels on the screen, nothing "behind" Steam is shown. */
-    Opaque = 3,
+    Opaque,
     /**
-     * Special composition mode that matches Overlay, but forwards synthetic keyboard
+     * Special composition mode that matches {@link Overlay}, but forwards synthetic keyboard
      * events to the Gamescope foreground app (game) instead of Steam.
      */
-    OverlayKeyboard = 4,
+    OverlayKeyboard,
 }

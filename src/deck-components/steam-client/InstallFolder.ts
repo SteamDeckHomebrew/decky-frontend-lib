@@ -1,5 +1,5 @@
 import {Unregisterable} from "./index";
-import {AppError} from "./App";
+import {EAppUpdateError} from "./App";
 
 /**
  * Represents functions related to Steam Install Folders.
@@ -160,7 +160,7 @@ export interface FolderChange {
 
 export interface MoveContentProgress {
     appid: number;
-    eError: AppError;
+    eError: EAppUpdateError;
     flProgress: number;
     strBytesMoved: string;
     strTotalBytesToMove: string;

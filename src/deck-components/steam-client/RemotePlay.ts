@@ -57,7 +57,7 @@ export interface RemotePlay {
     RegisterForInputDriverRestartNotice: Unregisterable;
 
     RegisterForInputUsed(
-        callback: (steam64Id: string, type: ClientUsedInputType, guestId: number) => void,
+        callback: (steam64Id: string, type: EClientUsedInputType, guestId: number) => void,
     ): Unregisterable; // only fires on host
 
     RegisterForInviteResult: Unregisterable;
@@ -137,11 +137,11 @@ export interface RemotePlay {
     UnpairRemoteDevices(): void; // unpairs all devices
 }
 
-export enum ClientUsedInputType {
-    Keyboard = 0,
-    Mouse = 1,
-    Controller = 2,
-    Max = 3,
+export enum EClientUsedInputType {
+    Keyboard,
+    Mouse,
+    Controller,
+    Max,
 }
 
 export interface RemotePlayDevice {
@@ -155,7 +155,7 @@ export interface RemotePlayDevice {
 export interface RemotePlaySettings {
     bRemotePlaySupported: boolean;
     bRemotePlayEnabled: boolean;
-    eRemotePlayP2PScope: StreamP2PScope;
+    eRemotePlayP2PScope: EStreamP2PScope;
     bRemotePlayServerConfigAvailable: boolean;
     bRemotePlayServerConfigEnabled: boolean;
     RemotePlayServerConfig: any; // todo: document {}
@@ -171,10 +171,10 @@ export interface RemotePlaySettings {
     nAutomaticResolutionY: number;
 }
 
-export enum StreamP2PScope {
-    Automatic = 0,
-    Disabled = 1,
-    OnlyMe = 2,
-    Friends = 3,
-    Everyone = 4,
+export enum EStreamP2PScope {
+    Automatic,
+    Disabled,
+    OnlyMe,
+    Friends,
+    Everyone,
 }

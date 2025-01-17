@@ -8,7 +8,7 @@ export interface ClientNotifications {
      * @param callback
      */
     DisplayClientNotification(
-        notification: ClientUINotificationType,
+        notification: EClientUINotificationType,
         options: string,
         callback: (context: BrowserContext) => void,
     ): void;
@@ -32,8 +32,8 @@ export interface SteamNotificationOptions {
     title?: string;
 }
 
-export enum ClientUINotificationType {
+export enum EClientUINotificationType {
     GroupChatMessage = 1,
-    FriendChatMessage = 2,
-    FriendPersonaState = 3,
+    FriendChatMessage,
+    FriendPersonaState,
 }

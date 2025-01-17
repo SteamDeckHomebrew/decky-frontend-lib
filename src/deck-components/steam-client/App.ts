@@ -1,5 +1,5 @@
-import {JsPbMessage, OperationResponse, Result, Unregisterable} from "./index";
-import {FilePrivacyState, Screenshot} from "./Screenshots";
+import {JsPbMessage, OperationResponse, EResult, Unregisterable} from "./index";
+import {EUCMFilePrivacyState, Screenshot} from "./Screenshots";
 
 /**
  * Represents various functions related to Steam applications.
@@ -58,7 +58,7 @@ export interface Apps {
      * @param appId The ID of the application to clear custom artwork for.
      * @param assetType The type of artwork to clear.
      */
-    ClearCustomArtworkForApp(appId: number, assetType: AppArtworkAssetType): Promise<void>;
+    ClearCustomArtworkForApp(appId: number, assetType: ELibraryAssetType): Promise<void>;
 
     /**
      * Clears the custom logo position for a specific application.
@@ -394,7 +394,7 @@ export interface Apps {
      * @returns An object that can be used to unregister the callback.
      */
     RegisterForGameActionStart(
-        callback: (gameActionIdentifier: number, appId: string, action: string, param3: AppLaunchSource) => void,
+        callback: (gameActionIdentifier: number, appId: string, action: string, param3: ELaunchSource) => void,
     ): Unregisterable;
 
     /**
@@ -456,7 +456,7 @@ export interface Apps {
      */
     RemoveShortcut(appId: number): void;
 
-    ReportLibraryAssetCacheMiss(appId: number, assetType: AppArtworkAssetType): void;
+    ReportLibraryAssetCacheMiss(appId: number, assetType: ELibraryAssetType): void;
 
     ReportMarketingMessageDialogShown(): void;
 
@@ -472,7 +472,7 @@ export interface Apps {
      * @param launchSource
      * @remarks `launchOptions` is appended before the ones specified in the application's settings.
      */
-    RunGame(appId: string, launchOptions: string, param2: number, launchSource: AppLaunchSource): void;
+    RunGame(appId: string, launchOptions: string, param2: number, launchSource: ELaunchSource): void;
 
     /*
       function u(e, t) {
@@ -499,7 +499,7 @@ export interface Apps {
      * @param mode The update behavior mode to set.
      * @remarks This function only works with installed Steam applications.
      */
-    SetAppAutoUpdateBehavior(appId: number, mode: AutoUpdateBehavior): void;
+    SetAppAutoUpdateBehavior(appId: number, mode: EAppAutoUpdateBehavior): void;
 
     /**
      * Sets the background downloads behavior for a specific Steam application.
@@ -507,7 +507,7 @@ export interface Apps {
      * @param mode The background downloads mode to set.
      * @remarks This function only works with installed Steam applications.
      */
-    SetAppBackgroundDownloadsBehavior(appId: number, mode: BackgroundDownloadsBehavior): void;
+    SetAppBackgroundDownloadsBehavior(appId: number, mode: EAppAllowDownloadsWhileRunningBehavior): void;
 
     /**
      * Sets the current language for a specific Steam application.
@@ -556,7 +556,7 @@ export interface Apps {
      * @param assetType The type of artwork to set.
      * @returns A Promise that resolves after the custom artwork is set.
      */
-    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: AppArtworkAssetType): Promise<any>;
+    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: ELibraryAssetType): Promise<any>;
 
     /**
      * Sets a custom logo position for a specific app.
@@ -588,7 +588,7 @@ export interface Apps {
      * @param hHandle The handle of the screenshot.
      * @param privacy Screenshot privacy state.
      */
-    SetLocalScreenshotPrivacy(appId: string, hHandle: any, privacy: FilePrivacyState): void;
+    SetLocalScreenshotPrivacy(appId: string, hHandle: any, privacy: EUCMFilePrivacyState): void;
 
     /**
      * Set a local screenshot's spoiler state.
@@ -734,13 +734,13 @@ export interface Apps {
     VerifyApp(appId: number): Promise<any>; // todo: returns {"nGameActionID":9}
 }
 
-export enum AppArtworkAssetType {
-    Capsule = 0,
-    Hero = 1,
-    Logo = 2,
-    Header = 3,
-    Icon = 4,
-    HeroBlur = 5,
+export enum ELibraryAssetType {
+    Capsule,
+    Hero,
+    Logo,
+    Header,
+    Icon,
+    HeroBlur,
 }
 
 export type AppAchievements = {
@@ -940,32 +940,32 @@ export interface PrePurchaseInfo {
 
 
 export enum AppReleaseState {
-    Unknown = 0,
-    Unavailable = 1,
-    Prerelease = 2,
-    PreloadOnly = 3,
-    Released = 4,
-    Disabled = 5,
+    Unknown,
+    Unavailable,
+    Prerelease,
+    PreloadOnly,
+    Released,
+    Disabled,
 }
 
 export enum AppLaunchOptionType {
-    None = 0,
-    Default = 1,
-    SafeMode = 2,
-    Multiplayer = 3,
-    Config = 4,
-    OpenVR = 5,
-    Server = 6,
-    Editor = 7,
-    Manual = 8,
-    Benchmark = 9,
-    Option1 = 10,
-    Option2 = 11,
-    Option3 = 12,
-    OculusVR = 13,
-    OpenVROverlay = 14,
-    OSVR = 15,
-    OpenXR = 16,
+    None,
+    Default,
+    SafeMode,
+    Multiplayer,
+    Config,
+    OpenVR,
+    Server,
+    Editor,
+    Manual,
+    Benchmark,
+    Option1,
+    Option2,
+    Option3,
+    OculusVR,
+    OpenVROverlay,
+    OSVR,
+    OpenXR,
     Dialog = 1e3,
 }
 
@@ -1008,7 +1008,7 @@ export interface WorkshopItemDetails {
      * Required items' IDs.
      */
     children: string[];
-    eresult: Result;
+    eresult: EResult;
     /**
      * Item size, in byts.
      */
@@ -1016,7 +1016,7 @@ export interface WorkshopItemDetails {
     /**
      * Workshop file type.
      */
-    file_type: WorkshopFileType;
+    file_type: EWorkshopFileType;
     /**
      * Item preview image URL.
      */
@@ -1039,23 +1039,25 @@ export interface WorkshopItemDetails {
     title: string;
 }
 
-export enum WorkshopFileType {
-    Community = 0,
-    Microtransaction = 1,
-    Collection = 2,
-    Art = 3,
-    Video = 4,
-    Screenshot = 5,
-    Game = 6,
-    Software = 7,
-    Concept = 8,
-    WebGuide = 9,
-    IntegratedGuide = 10,
-    Merch = 11,
-    ControllerBinding = 12,
-    SteamworksAccessInvite = 13,
-    SteamVideo = 14,
-    GameManagedItem = 15,
+export enum EWorkshopFileType {
+    Invalid = -1,
+    Community,
+    Microtransaction,
+    Collection,
+    Art,
+    Video,
+    Screenshot,
+    Game,
+    Software,
+    Concept,
+    WebGuide,
+    IntegratedGuide,
+    Merch,
+    ControllerBinding,
+    SteamworksAccessInvite,
+    SteamVideo,
+    GameManagedItem,
+    Max,
 }
 
 export interface EndUserLicenseAgreement {
@@ -1066,75 +1068,72 @@ export interface EndUserLicenseAgreement {
 
 export interface AppBackupStatus {
     appid: number;
-    eError: AppError;
+    eError: EAppUpdateError;
     strBytesToProcess: string;
     strBytesProcessed: string;
     strTotalBytesWritten: string;
 }
 
 
-/**
- * @remarks Not present in any of the Steam files. This is only present as localization strings, whose tokens start with `#Steam_AppUpdateError_`.
- */
-export enum AppError {
-    None = 0,
-    Unspecified = 1,
-    Paused = 2,
-    Canceled = 3,
-    Suspended = 4,
-    NoSubscription = 5,
-    NoConnection = 6,
-    Timeout = 7,
-    MissingKey = 8,
-    MissingConfig = 9,
-    DiskReadFailure = 10,
-    DiskWriteFailure = 11,
-    NotEnoughDiskSpace = 12,
-    CorruptGameFiles = 13,
-    WaitingForNextDisk = 14,
-    InvalidInstallPath = 15,
-    AppRunning = 16,
-    DependencyFailure = 17,
-    NotInstalled = 18,
-    UpdateRequired = 19,
-    Busy = 20,
-    NoDownloadSources = 21,
-    InvalidAppConfig = 22,
-    InvalidDepotConfig = 23,
-    MissingManifest = 24,
-    NotReleased = 25,
-    RegionRestricted = 26,
-    CorruptDepotCache = 27,
-    MissingExecutable = 28,
-    InvalidPlatform = 29,
-    InvalidFileSystem = 30,
-    CorruptUpdateFiles = 31,
-    DownloadDisabled = 32,
-    SharedLibraryLocked = 33,
-    PendingLicense = 34,
-    OtherSessionPlaying = 35,
-    CorruptDownload = 36,
-    CorruptDisk = 37,
-    FilePermissions = 38,
-    FileLocked = 39,
-    MissingContent = 40,
-    Requires64BitOS = 41,
-    MissingUpdateFiles = 42,
-    NotEnoughDiskQuota = 43,
-    LockedSiteLicense = 44,
-    ParentalControlBlocked = 45,
-    CreateProcessFailure = 46,
-    SteamClientOutdated = 47,
-    PlaytimeExceeded = 48,
-    CorruptFileSignature = 49,
-    MissingInstalledFiles = 50,
-    CompatibilityToolFailure = 51,
-    UnmountedUninstallPath = 52,
-    InvalidBackupPath = 53,
-    InvalidPasscode = 54,
-    ThirdPartyUpdater = 55,
-    ParentalPlaytimeExceeded = 56,
-    Max = 57,
+export enum EAppUpdateError {
+    None,
+    Unspecified,
+    Paused,
+    Canceled,
+    Suspended,
+    NoSubscription,
+    NoConnection,
+    Timeout,
+    MissingKey,
+    MissingConfig,
+    DiskReadFailure,
+    DiskWriteFailure,
+    NotEnoughDiskSpace,
+    CorruptGameFiles,
+    WaitingForNextDisk,
+    InvalidInstallPath,
+    AppRunning,
+    DependencyFailure,
+    NotInstalled,
+    UpdateRequired,
+    Busy,
+    NoDownloadSources,
+    InvalidAppConfig,
+    InvalidDepotConfig,
+    MissingManifest,
+    NotReleased,
+    RegionRestricted,
+    CorruptDepotCache,
+    MissingExecutable,
+    InvalidPlatform,
+    InvalidFileSystem,
+    CorruptUpdateFiles,
+    DownloadDisabled,
+    SharedLibraryLocked,
+    PendingLicense,
+    OtherSessionPlaying,
+    CorruptDownload,
+    CorruptDisk,
+    FilePermissions,
+    FileLocked,
+    MissingContent,
+    Requires64BitOS,
+    MissingUpdateFiles,
+    NotEnoughDiskQuota,
+    LockedSiteLicense,
+    ParentalControlBlocked,
+    CreateProcessFailure,
+    SteamClientOutdated,
+    PlaytimeExceeded,
+    CorruptFileSignature,
+    MissingInstalledFiles,
+    CompatibilityToolFailure,
+    UnmountedUninstallPath,
+    InvalidBackupPath,
+    InvalidPasscode,
+    ThirdPartyUpdater,
+    ParentalPlaytimeExceeded,
+    Max,
 }
 
 export interface AppDetails {
@@ -1167,9 +1166,9 @@ export interface AppDetails {
     bVRGameTheatreEnabled: boolean;
     bWorkshopVisible: boolean;
     deckDerivedProperties?: AppDeckDerivedProperties;
-    eAppOwnershipFlags: AppOwnershipFlags | number; // is this a bitmask?
-    eAutoUpdateValue: AutoUpdateBehavior;
-    eBackgroundDownloads: BackgroundDownloadsBehavior;
+    eAppOwnershipFlags: EAppOwnershipFlags | number; // is this a bitmask?
+    eAutoUpdateValue: EAppAutoUpdateBehavior;
+    eBackgroundDownloads: EAppAllowDownloadsWhileRunningBehavior;
     /**
      * @todo enum
      */
@@ -1178,7 +1177,7 @@ export interface AppDetails {
      * @todo enum
      */
     eControllerRumblePreference: number; // ControllerRumbleSetting?
-    eDisplayStatus: DisplayStatus;
+    eDisplayStatus: EDisplayStatus;
     /**
      * @todo enum
      */
@@ -1257,84 +1256,93 @@ export interface AppDeckDerivedProperties {
     supported_input: number;
 }
 
-export enum AppOwnershipFlags {
-    None = 0,
-    Subscribed = 1,
-    Free = 2,
-    RegionRestricted = 4,
-    LowViolence = 8,
-    InvalidPlatform = 16,
-    Borrowed = 32,
-    FreeWeekend = 64,
-    Retail = 128,
-    Locked = 256,
-    Pending = 512,
-    Expired = 1024,
-    Permanent = 2048,
-    Recurring = 4096,
-    Canceled = 8192,
-    AutoGrant = 16384,
-    PendingGift = 32768,
-    RentalNotActivated = 65536,
-    Rental = 131072,
-    SiteLicense = 262144,
-    LegacyFreeSub = 524288,
-    InvalidOSType = 1048576,
-    TimedTrial = 2097152,
+export enum EAppOwnershipFlags {
+    None,
+    Subscribed = 1 << 0,
+    Free = 1 << 1,
+    RegionRestricted = 1 << 2,
+    LowViolence = 1 << 3,
+    InvalidPlatform = 1 << 4,
+    Borrowed = 1 << 5,
+    FreeWeekend = 1 << 6,
+    Retail = 1 << 7,
+    Locked = 1 << 8,
+    Pending = 1 << 9,
+    Expired = 1 << 10,
+    Permanent = 1 << 11,
+    Recurring = 1 << 12,
+    Canceled = 1 << 13,
+    AutoGrant = 1 << 14,
+    PendingGift = 1 << 15,
+    RentalNotActivated = 1 << 16,
+    Rental = 1 << 17,
+    SiteLicense = 1 << 18,
+    LegacyFreeSub = 1 << 19,
+    InvalidOSType = 1 << 20,
+    TimedTrial = 1 << 21,
 }
 
-export enum AutoUpdateBehavior {
-    Always = 0, // (Always keep this game updated)
-    Launch = 1, // (Only update this game when I launch it)
-    HighPriority = 2, // (High priority)
+export enum EAppAutoUpdateBehavior {
+    Always, // (Always keep this game updated)
+    Launch, // (Only update this game when I launch it)
+    HighPriority, // (High priority)
 }
 
-export enum BackgroundDownloadsBehavior {
-    Pause = 0,
-    Always = 1,
-    Never = 2,
+export enum EAppAllowDownloadsWhileRunningBehavior {
+    UseGlobal,
+    AlwaysAllow,
+    NeverAllow,
 }
 
-export enum DisplayStatus {
-    Invalid = 0,
-    Launching = 1,
-    Uninstalling = 2,
-    Installing = 3,
-    Running = 4,
-    Validating = 5,
-    Updating = 6,
-    Downloading = 7,
-    Synchronizing = 8,
-    ReadyToInstall = 9,
-    ReadyToPreload = 10,
-    ReadyToLaunch = 11,
-    RegionRestricted = 12,
-    PresaleOnly = 13,
-    InvalidPlatform = 14,
+export enum EDisplayStatus {
+    Invalid,
+    Launching,
+    Uninstalling,
+    Installing,
+    Running,
+    Validating,
+    Updating,
+    Downloading,
+    Synchronizing,
+    ReadyToInstall,
+    ReadyToPreload,
+    ReadyToLaunch,
+    RegionRestricted,
+    PresaleOnly,
+    InvalidPlatform,
+    // ty valve
     PreloadComplete = 16,
-    BorrowerLocked = 17,
-    UpdatePaused = 18,
-    UpdateQueued = 19,
-    UpdateRequired = 20,
-    UpdateDisabled = 21,
-    DownloadPaused = 22,
-    DownloadQueued = 23,
-    DownloadRequired = 24,
-    DownloadDisabled = 25,
-    LicensePending = 26,
-    LicenseExpired = 27,
-    AvailForFree = 28,
-    AvailToBorrow = 29,
-    AvailGuestPass = 30,
-    Purchase = 31,
-    Unavailable = 32,
-    NotLaunchable = 33,
-    CloudError = 34,
-    CloudOutOfDate = 35,
-    Terminating = 36,
-    OwnerLocked = 37,
-    DownloadFailed = 38,
-    UpdateFailed = 39,
+    BorrowerLocked,
+    UpdatePaused,
+    UpdateQueued,
+    UpdateRequired,
+    UpdateDisabled,
+    DownloadPaused,
+    DownloadQueued,
+    DownloadRequired,
+    DownloadDisabled,
+    LicensePending,
+    LicenseExpired,
+    AvailForFree,
+    AvailToBorrow,
+    AvailGuestPass,
+    Purchase,
+    Unavailable,
+    NotLaunchable,
+    CloudError,
+    CloudOutOfDate,
+    Terminating,
+    OwnerLocked,
+    DownloadFailed,
+    UpdateFailed,
+}
+
+export enum ESteamDeckCompatibilityTestResult {
+    Invalid,
+    NotApplicable,
+    Pass,
+    Fail,
+    FailMinor,
 }
 
 export type AppLanguage = {
@@ -1370,8 +1378,7 @@ export interface AppDLC {
 }
 
 export interface DeckCompatTestResult {
-    // enum ?
-    test_result: number;
+    test_result: ESteamDeckCompatibilityTestResult;
     /** A localization string. */
     test_loc_token: string;
 }
@@ -1404,38 +1411,35 @@ export interface LogoPosition {
 
 export type LogoPinPositions = 'BottomLeft' | 'UpperLeft' | 'CenterCenter' | 'UpperCenter' | 'BottomCenter';
 
-/**
- * @remarks Not present in any of the Steam files, source: https://gist.github.com/Ne3tCode/fc424ae2bd723d9ccb236eeccce66316#file-steammobile_friendsui_enums-steamd-L1308-L1340
- */
-export enum AppLaunchSource {
-    None = 0,
+export enum ELaunchSource {
+    None,
     _2ftLibraryDetails = 100,
-    _2ftLibraryListView = 101,
-    _2ftLibraryGrid = 103,
-    InstallSubComplete = 104,
-    DownloadsPage = 105,
-    RemoteClientStartStreaming = 106,
-    _2ftMiniModeList = 107,
+    _2ftLibraryListView,
+    _2ftLibraryGrid,
+    InstallSubComplete,
+    DownloadsPage,
+    RemoteClientStartStreaming,
+    _2ftMiniModeList,
     _10ft = 200,
     DashAppLaunchCmdLine = 300,
-    DashGameIdLaunchCmdLine = 301,
-    RunByGameDir = 302,
-    SubCmdRunDashGame = 303,
+    DashGameIdLaunchCmdLine,
+    RunByGameDir,
+    SubCmdRunDashGame,
     SteamURL_Launch = 400,
-    SteamURL_Run = 401,
-    SteamURL_JoinLobby = 402,
-    SteamURL_RunGame = 403,
-    SteamURL_RunGameIdOrJumplist = 404,
-    SteamURL_RunSafe = 405,
+    SteamURL_Run,
+    SteamURL_JoinLobby,
+    SteamURL_RunGame,
+    SteamURL_RunGameIdOrJumplist,
+    SteamURL_RunSafe,
     TrayIcon = 500,
     LibraryLeftColumnContextMenu = 600,
-    LibraryLeftColumnDoubleClick = 601,
+    LibraryLeftColumnDoubleClick,
     Dota2Launcher = 700,
     IRunGameEngine = 800,
-    DRMFailureResponse = 801,
-    DRMDataRequest = 802,
-    CloudFilePanel = 803,
-    DiscoveredAlreadyRunning = 804,
+    DRMFailureResponse,
+    DRMDataRequest,
+    CloudFilePanel,
+    DiscoveredAlreadyRunning,
     GameActionJoinParty = 900,
     AppPortraitContextMenu = 1000,
 }
@@ -1507,7 +1511,7 @@ export interface SteamAppOverview {
      * Possible bitmask values, but I haven't spotted any of them being masked in the app_type field.
      * Should be safe as an enum.
      */
-    app_type: AppType;
+    app_type: EAppType;
     mru_index: number | undefined;
     rt_recent_activity_time: number;
     minutes_playtime_forever: number;
@@ -1520,7 +1524,7 @@ export interface SteamAppOverview {
     rt_original_release_date: number;
     rt_steam_release_date: number;
     icon_hash: string;
-    controller_support?: AppControllerSupportLevel; // default none
+    controller_support?: EAppControllerSupportLevel; // default none
     vr_supported?: boolean;
     metacritic_score: number;
     size_on_disk?: number;
@@ -1546,13 +1550,13 @@ export interface SteamAppOverview {
     mastersub_includedwith_logo?: string;
     site_license_site_name?: string;
     shortcut_override_appid?: number;
-    steam_deck_compat_category: SteamDeckCompatibilityCategory; // Default should be Unknown
+    steam_deck_compat_category: ESteamDeckCompatibilityCategory; // Default should be Unknown
     rt_last_time_locally_played?: number;
     rt_purchased_time: number;
     header_filename?: string;
     local_cache_version?: number;
-    ps4_controller_support?: AppControllerSupportLevel;
-    ps5_controller_support?: AppControllerSupportLevel;
+    ps4_controller_support?: EAppControllerSupportLevel;
+    ps5_controller_support?: EAppControllerSupportLevel;
     gamepad_preferred?: boolean;
 
     m_setStoreCategories: Set<number>;
@@ -1568,51 +1572,51 @@ export interface SteamAppOverview {
     BIsShortcut: () => boolean;
 }
 
-export enum AppType {
+export enum EAppType {
     DepotOnly = -2147483648,
     Invalid = 0,
-    Game = 1,
-    Application = 2,
-    Tool = 4,
-    Demo = 8,
-    Deprecated = 16,
-    DLC = 32,
-    Guide = 64,
-    Driver = 128,
-    Config = 256,
-    Hardware = 512,
-    Franchise = 1024,
-    Video = 2048,
-    Plugin = 4096,
-    MusicAlbum = 8192,
-    Series = 16384,
-    Comic = 32768,
-    Beta = 65536,
+    Game = 1 << 0,
+    Application = 1 << 1,
+    Tool = 1 << 2,
+    Demo = 1 << 3,
+    Deprecated = 1 << 4,
+    DLC = 1 << 5,
+    Guide = 1 << 6,
+    Driver = 1 << 7,
+    Config = 1 << 8,
+    Hardware = 1 << 9,
+    Franchise = 1 << 10,
+    Video = 1 << 11,
+    Plugin = 1 << 12,
+    MusicAlbum = 1 << 13,
+    Series = 1 << 14,
+    Comic = 1 << 15,
+    Beta = 1 << 16,
     Shortcut = 1073741824,
 }
 
 export interface SteamAppOverviewAssociation {
-    type: AppAssociationType; // Default should be Invalid
+    type: EAppAssociationType; // Default should be Invalid
     name: string;
 }
 
-export enum AppAssociationType {
-    Invalid = 0,
-    Publisher = 1,
-    Developer = 2,
-    Franchise = 3,
+export enum EAppAssociationType {
+    Invalid,
+    Publisher,
+    Developer,
+    Franchise,
 }
 
-export enum AppControllerSupportLevel {
-    None = 0,
-    Partial = 1,
-    Full = 2,
+export enum EAppControllerSupportLevel {
+    None,
+    Partial,
+    Full,
 }
 
 export interface SteamAppOverviewClientData {
     clientid: string;
     client_name: string;
-    display_status: DisplayStatus; // Default should be Invalid
+    display_status: EDisplayStatus; // Default should be Invalid
     status_percentage: number;
     active_beta?: string;
     installed?: boolean;
@@ -1622,26 +1626,26 @@ export interface SteamAppOverviewClientData {
     is_available_on_current_platform: boolean;
     is_invalid_os_type?: boolean;
     playtime_left?: number;
-    cloud_status: AppCloudStatus;
+    cloud_status: EAppCloudStatus;
 }
 
-export enum SteamDeckCompatibilityCategory {
-    Unknown = 0,
-    Unsupported = 1,
-    Playable = 2,
-    Verified = 3,
+export enum ESteamDeckCompatibilityCategory {
+    Unknown,
+    Unsupported,
+    Playable,
+    Verified,
 }
 
-export enum AppCloudStatus {
-    Invalid = 0,
-    Disabled = 1,
-    Unknown = 2,
-    Synchronized = 3,
-    Checking = 4,
-    OutOfSync = 5,
-    Uploading = 6,
-    Downloading = 7,
-    SyncFailed = 8,
-    Conflict = 9,
-    PendingElsewhere = 10,
+export enum EAppCloudStatus {
+    Invalid,
+    Disabled,
+    Unknown,
+    Synchronized,
+    Checking,
+    OutOfSync,
+    Uploading,
+    Downloading,
+    SyncFailed,
+    Conflict,
+    PendingElsewhere,
 }

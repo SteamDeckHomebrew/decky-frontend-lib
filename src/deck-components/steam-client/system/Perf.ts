@@ -65,7 +65,7 @@ export interface SystemPerfLimits {
     perf_overlay_is_standalone: boolean | undefined;
     is_dynamic_vrs_available: boolean | undefined;
     is_manual_display_refresh_rate_available: boolean | undefined;
-    gpu_performance_levels_available: GPUPerformanceLevel[];
+    gpu_performance_levels_available: EGPUPerformanceLevel[];
     display_refresh_manual_hz_min: number | undefined;
     display_refresh_manual_hz_max: number | undefined;
     fps_limit_options: number[] | undefined;
@@ -81,37 +81,37 @@ export interface SystemPerfLimits {
     is_vrr_supported: boolean | undefined;
     is_dynamic_refresh_rate_in_steam_supported: boolean | undefined;
     is_split_scaling_and_filtering_supported: boolean | undefined;
-    split_scaling_filters_available: SplitScalingFilter[];
-    split_scaling_scalers_available: SplitScalingScaler[];
+    split_scaling_filters_available: ESplitScalingFilter[];
+    split_scaling_scalers_available: ESplitScalingScaler[];
     is_hdr_supported: boolean | undefined;
     display_refresh_manual_hz_oc_max: number | undefined;
     disable_refresh_rate_management: boolean | undefined;
 }
 
-export enum GPUPerformanceLevel {
-    Invalid = 0,
-    Auto = 1,
-    Manual = 2,
-    Low = 3,
-    High = 4,
-    Profiling = 5,
+export enum EGPUPerformanceLevel {
+    Invalid,
+    Auto,
+    Manual,
+    Low,
+    High,
+    Profiling,
 }
 
-export enum SplitScalingFilter {
-    Invalid = 0,
-    Linear = 1,
-    Nearest = 2,
-    FSR = 3,
-    NIS = 4,
+export enum ESplitScalingFilter {
+    Invalid,
+    Linear,
+    Nearest,
+    FSR,
+    NIS,
 }
 
-export enum SplitScalingScaler {
-    Invalid = 0,
-    Auto = 1,
-    Integer = 2,
-    Fit = 3,
-    Fill = 4,
-    Stretch = 5,
+export enum ESplitScalingScaler {
+    Invalid,
+    Auto,
+    Integer,
+    Fit,
+    Fill,
+    Stretch,
 }
 
 export interface SystemPerfSettings {
@@ -121,15 +121,15 @@ export interface SystemPerfSettings {
 
 export interface SystemPerfSettingsGlobal {
     diagnostic_update_rate: number;
-    system_trace_service_state: SystemServiceState;
-    graphics_profiling_service_state: SystemServiceState;
-    perf_overlay_service_state: SystemServiceState;
-    perf_overlay_level: GraphicsPerfOverlayLevel;
+    system_trace_service_state: ESystemServiceState;
+    graphics_profiling_service_state: ESystemServiceState;
+    perf_overlay_service_state: ESystemServiceState;
+    perf_overlay_level: EGraphicsPerfOverlayLevel;
     is_show_perf_overlay_over_steam_enabled: boolean;
     is_advanced_settings_enabled: boolean;
     allow_external_display_refresh_control: boolean;
     is_hdr_enabled: boolean;
-    hdr_on_sdr_tonemap_operator: HDRToneMapOperator;
+    hdr_on_sdr_tonemap_operator: EHDRToneMapOperator;
     is_hdr_debug_heatmap_enabled: boolean;
     force_hdr_wide_gammut_for_sdr: boolean;
     allow_experimental_hdr: boolean;
@@ -140,24 +140,24 @@ export interface SystemPerfSettingsGlobal {
     is_color_management_enabled: boolean;
 }
 
-export enum SystemServiceState {
-    Unavailable = 0,
-    Disabled = 1,
-    Enabled = 2,
+export enum ESystemServiceState {
+    Unavailable,
+    Disabled,
+    Enabled,
 }
 
-export enum GraphicsPerfOverlayLevel {
-    Hidden = 0,
-    Basic = 1,
-    Medium = 2,
-    Full = 3,
-    Minimal = 4,
+export enum EGraphicsPerfOverlayLevel {
+    Hidden,
+    Basic,
+    Medium,
+    Full,
+    Minimal,
 }
 
-export enum HDRToneMapOperator {
-    Invalid = 0,
-    Uncharted = 1,
-    Reinhard = 2,
+export enum EHDRToneMapOperator {
+    Invalid,
+    Uncharted,
+    Reinhard,
 }
 
 export interface SystemPerfSettingsPerApp {
@@ -166,7 +166,7 @@ export interface SystemPerfSettingsPerApp {
     is_variable_resolution_enabled: boolean | undefined;
     is_dynamic_refresh_rate_enabled: boolean | undefined;
     tdp_limit: number | undefined;
-    cpu_governor: CPUGovernor | undefined;
+    cpu_governor: ECPUGovernor | undefined;
     cpu_governor_manual_mhz: number | undefined;
     scaling_filter: number | undefined;
     fsr_sharpness: number | undefined;
@@ -175,7 +175,7 @@ export interface SystemPerfSettingsPerApp {
     is_low_latency_mode_enabled: boolean | undefined;
     display_refresh_manual_hz: number | undefined;
     is_game_perf_profile_enabled: boolean | undefined;
-    gpu_performance_level: GPUPerformanceLevel | undefined;
+    gpu_performance_level: EGPUPerformanceLevel | undefined;
     nis_sharpness: number | undefined;
     display_external_refresh_manual_hz: number | undefined;
     fps_limit_external: number | undefined;
@@ -184,13 +184,13 @@ export interface SystemPerfSettingsPerApp {
     is_composite_debug_enabled: boolean | undefined;
     force_composite: boolean | undefined;
     use_dynamic_refresh_rate_in_steam: boolean | undefined;
-    split_scaling_filter: SplitScalingFilter | undefined;
-    split_scaling_scaler: SplitScalingScaler | undefined;
+    split_scaling_filter: ESplitScalingFilter | undefined;
+    split_scaling_scaler: ESplitScalingScaler | undefined;
 }
 
-export enum CPUGovernor {
-    Invalid = 0,
-    Perf = 1,
-    Powersave = 2,
-    Manual = 3,
+export enum ECPUGovernor {
+    Invalid,
+    Perf,
+    Powersave,
+    Manual,
 }

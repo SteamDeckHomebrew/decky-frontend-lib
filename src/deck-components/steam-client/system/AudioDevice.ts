@@ -42,7 +42,7 @@ export interface MsgSystemAudioManagerNode {
     name: string | undefined;
     nick: string | undefined;
     description: string | undefined;
-    edirection: SystemAudioDirection | undefined;
+    edirection: ESystemAudioDirection | undefined;
     volume: MsgSystemAudioVolume | undefined;
 }
 
@@ -51,8 +51,8 @@ export interface MsgSystemAudioManagerPort {
     node_id: number | undefined;
     name: string | undefined;
     alias: string | undefined;
-    etype: SystemAudioPortType | undefined;
-    edirection: SystemAudioPortDirection | undefined;
+    etype: ESystemAudioPortType | undefined;
+    edirection: ESystemAudioPortDirection | undefined;
     is_physical: boolean | undefined;
     is_terminal: boolean | undefined;
     is_control: boolean | undefined;
@@ -65,7 +65,7 @@ export interface MsgSystemAudioVolume {
 }
 
 export interface MsgSystemAudioVolumeChannelEntry {
-    echannel: SystemAudioChannel | undefined;
+    echannel: ESystemAudioChannel | undefined;
     volume: number | undefined;
 }
 
@@ -82,35 +82,35 @@ export interface MsgSystemAudioManagerObject {
     rtime_last_update: number | undefined;
 }
 
-export enum SystemAudioDirection {
-    Invalid = 0,
-    Input = 1,
-    Output = 2,
+export enum ESystemAudioDirection {
+    Invalid,
+    Input,
+    Output,
 }
 
-export enum SystemAudioPortDirection {
-    Invalid = 0,
-    Input = 1,
-    Output = 2,
+export enum ESystemAudioPortDirection {
+    Invalid,
+    Input,
+    Output,
 }
 
-export enum SystemAudioPortType {
-    Invalid = 0,
-    Unknown = 1,
-    Audio32f = 2,
-    Midi8b = 3,
-    Video32RGBA = 4,
+export enum ESystemAudioPortType {
+    Invalid,
+    Unknown,
+    Audio32f,
+    Midi8b,
+    Video32RGBA,
 }
 
-export enum SystemAudioChannel {
-    Invalid = 0,
-    Aggregated = 1,
-    FrontLeft = 2,
-    FrontRight = 3,
-    LFE = 4,
-    BackLeft = 5,
-    BackRight = 6,
-    FrontCenter = 7,
-    Unknown = 8,
-    Mono = 9,
+export enum ESystemAudioChannel {
+    Invalid,
+    Aggregated,
+    FrontLeft,
+    FrontRight,
+    LFE,
+    BackLeft,
+    BackRight,
+    FrontCenter,
+    Unknown,
+    Mono,
 }

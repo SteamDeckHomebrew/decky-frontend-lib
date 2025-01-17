@@ -137,25 +137,25 @@ export interface AirplaneModeChange {
 
 export interface BatteryStateChange {
     bHasBattery: boolean;
-    eACState: ACState;
-    eBatteryState: BatteryState;
+    eACState: EACState;
+    eBatteryState: EBatteryState;
     flLevel: number; // Battery Percentage in floating point 0-1
     nSecondsRemaining: number; // Appears to be charge time remaining or time remaining on battery
     bShutdownRequested: boolean;
 }
 
-export enum ACState {
-    Unknown = 0,
-    Disconnected = 1,
-    Connected = 2,
-    ConnectedSlow = 3,
+export enum EACState {
+    Unknown,
+    Disconnected,
+    Connected,
+    ConnectedSlow,
 }
 
-export enum BatteryState {
-    Unknown = 0,
-    Discharging = 1,
-    Charging = 2,
-    Full = 3,
+export enum EBatteryState {
+    Unknown,
+    Discharging,
+    Charging,
+    Full,
 }
 
 export interface FileDialog {

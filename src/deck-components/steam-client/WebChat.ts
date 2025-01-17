@@ -67,7 +67,7 @@ export interface WebChat {
      * @todo Does not affect the keyboard?
      */
     RegisterForComputerActiveStateChange(
-        callback: (state: ComputerActiveState, time: number) => void,
+        callback: (state: EComputerActiveState, time: number) => void,
     ): Unregisterable;
 
     /**
@@ -125,10 +125,10 @@ export interface WebChat {
     UnregisterForMouseXButtonDown(callback: any): void;
 }
 
-export enum ComputerActiveState {
-    Invalid = 0,
-    Active = 1,
-    Idle = 2,
+export enum EComputerActiveState {
+    Invalid,
+    Active,
+    Idle,
 }
 
 export interface FriendChatDialog {

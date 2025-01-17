@@ -1,4 +1,4 @@
-import {TouchGestureType} from "../Browser";
+import {ETouchGesture} from "../Browser";
 
 export interface BrowserViewPopup {
     /**
@@ -54,7 +54,7 @@ export interface BrowserViewPopup {
     /**
      * @remarks `| number` is used for `BrowserViewContextMenu.custom_commands`.
      */
-    HandleContextMenuCommand(command: BrowserViewContextMenuCommand | number, param2: BrowserViewContextMenu): void;
+    HandleContextMenuCommand(command: EBrowserViewContextMenuCommand | number, param2: BrowserViewContextMenu): void;
 
     /**
      * Load the specified URL.
@@ -119,7 +119,7 @@ export interface BrowserViewPopup {
     /**
      * @todo unconfirmed
      */
-    SetTouchGesturesToCancel(gestures: TouchGestureType[]): void;
+    SetTouchGesturesToCancel(gestures: ETouchGesture[]): void;
 
     SetVRKeyboardVisibility(value: boolean): void;
 
@@ -319,12 +319,12 @@ export interface BrowserViewContextMenuCustomCommand {
     label: string;
 }
 
-export enum BrowserViewContextMenuCommand {
+export enum EBrowserViewContextMenuCommand {
     Close = -1,
     OpenDevTools = 26500,
-    CloseDevTools = 26501,
-    InspectElement = 26502,
-    OpenLinkInNewTab = 26503,
+    CloseDevTools,
+    InspectElement,
+    OpenLinkInNewTab,
 }
 
 export enum EWindowStackingOrder {

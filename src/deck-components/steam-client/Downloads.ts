@@ -1,5 +1,5 @@
 import {Unregisterable} from "./index";
-import {AppError} from "./App";
+import {EAppUpdateError} from "./App";
 
 /**
  * Represents functions related to managing downloads in Steam.
@@ -115,7 +115,7 @@ export interface DownloadItem {
      * Unlocalized and shouldn't be displayed to the user.
      */
     update_error: string;
-    update_result: AppError;
+    update_result: EAppUpdateError;
     update_type_info: UpdateTypeInfo[];
 }
 

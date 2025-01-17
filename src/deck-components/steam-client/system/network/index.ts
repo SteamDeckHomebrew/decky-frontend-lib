@@ -29,7 +29,7 @@ export interface Network {
      */
     RegisterForDeviceChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    SetFakeLocalSystemState(state: NetFakeLocalSystemState): void;
+    SetFakeLocalSystemState(state: ENetFakeLocalSystemState): void;
 
     SetProxyInfo(mode: number, address: string, port: number, excludeLocal: boolean): void;
 
@@ -41,19 +41,19 @@ export interface Network {
 }
 
 export interface ConnectivityTestChange {
-    eConnectivityTestResult: ConnectivityTestResult;
-    eFakeState: NetFakeLocalSystemState;
+    eConnectivityTestResult: EConnectivityTestResult;
+    eFakeState: ENetFakeLocalSystemState;
     bChecking: boolean;
 }
 
-export enum ConnectivityTestResult {
-    Unknown = 0,
-    Connected = 1,
-    CaptivePortal = 2,
-    TimedOut = 3,
-    Failed = 4,
-    WifiDisabled = 5,
-    NoLAN = 6,
+export enum EConnectivityTestResult {
+    Unknown,
+    Connected,
+    CaptivePortal,
+    TimedOut,
+    Failed,
+    WifiDisabled,
+    NoLAN,
 }
 
 export interface ProxyInfo {
@@ -63,13 +63,13 @@ export interface ProxyInfo {
     exclude_local: boolean;
 }
 
-export enum NetFakeLocalSystemState {
-    Normal = 0,
-    NoLAN = 1,
-    CaptivePortal_Redirected = 2,
-    CaptivePortal_InPlace = 3,
-    NoInternet = 4,
-    NoSteam = 5,
+export enum ENetFakeLocalSystemState {
+    Normal,
+    NoLAN,
+    CaptivePortal_Redirected,
+    CaptivePortal_InPlace,
+    NoInternet,
+    NoSteam,
 }
 
 /**
@@ -93,8 +93,8 @@ export interface NetworkDevice_Wireless {
 }
 
 export interface WirelessAP {
-    esecurity: WirelessAPSecurityFlags;
-    estrength: WirelessAPStrength;
+    esecurity: EWirelessSecurityFlags;
+    estrength: EWirelessEndpointStrength;
     id: number;
     is_active: boolean;
     is_autoconnect: boolean;
@@ -104,19 +104,19 @@ export interface WirelessAP {
     user_name?: string;
 }
 
-export enum WirelessAPSecurityFlags {
-    None = 0,
-    StaticWep = 1,
-    DynamicWep = 2,
-    Wpa = 4,
-    WpaEnterprise = 8,
-    Wpa2 = 16,
-    Wpa2Enterprise = 32,
+export enum EWirelessSecurityFlags {
+    None,
+    StaticWep = 1 << 0,
+    DynamicWep = 1 << 1,
+    Wpa = 1 << 2,
+    WpaEnterprise = 1 << 3,
+    Wpa2 = 1 << 4,
+    Wpa2Enterprise = 1 << 5,
     /**
      * Special value to indicate that this platform does not support
      * the security methods required to connect to an access point
      */
-    Unsupported = 32768,
+    Unsupported = 1 << 15,
 }
 
 export interface NetworkDevice_Wired {
@@ -126,8 +126,8 @@ export interface NetworkDevice_Wired {
 }
 
 export interface NetworkDevice {
-    estate: NetworkDeviceState;
-    etype: NetworkDeviceType;
+    estate: ENetworkDeviceState;
+    etype: ENetworkDeviceType;
     id: number;
     ipv4: NetworkDeviceIPv4;
     ipv6: NetworkDeviceIPv6;
@@ -169,27 +169,27 @@ export interface NetworkDeviceIPv6 extends NetworkDeviceIP {
     addresses: NetworkDeviceIPv6Address[];
 }
 
-export enum NetworkDeviceState {
-    NotPresent = 0,
-    Failed = 1,
-    Disconnected = 2,
-    Disconnecting = 3,
-    Connecting = 4,
-    Connected = 5,
-    Retrying = 6,
+export enum ENetworkDeviceState {
+    NotPresent,
+    Failed,
+    Disconnected,
+    Disconnecting,
+    Connecting,
+    Connected,
+    Retrying,
 }
 
-export enum NetworkDeviceType {
-    Unknown = 0,
-    Wired = 1,
-    Wireless = 2,
-    Virtual = 3,
+export enum ENetworkDeviceType {
+    Unknown,
+    Wired,
+    Wireless,
+    Virtual,
 }
 
-export enum WirelessAPStrength {
-    None = 0,
-    Weak = 1,
-    Ok = 2,
-    Good = 3,
-    Excellent = 4,
+export enum EWirelessEndpointStrength {
+    None,
+    Weak,
+    Ok,
+    Good,
+    Excellent,
 }

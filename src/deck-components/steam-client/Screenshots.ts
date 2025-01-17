@@ -111,7 +111,7 @@ export interface Screenshots {
     UploadLocalScreenshot(
         appId: string,
         localScreenshot_hHandle: number,
-        filePrivacyState: FilePrivacyState,
+        filePrivacyState: EUCMFilePrivacyState,
     ): Promise<boolean>;
 }
 
@@ -122,7 +122,7 @@ export interface Screenshot {
     nWidth: number;
     nHeight: number;
     nCreated: number; // timestamp
-    ePrivacy: FilePrivacyState;
+    ePrivacy: EUCMFilePrivacyState;
     strCaption: '';
     bSpoilers: boolean;
     strUrl: string;
@@ -140,10 +140,10 @@ export interface ScreenshotDeletionResponse {
     rgFailedRequestIndices: number[];
 }
 
-export enum FilePrivacyState {
+export enum EUCMFilePrivacyState {
     Invalid = -1,
-    Private = 2,
-    FriendsOnly = 4,
-    Public = 8,
-    Unlisted = 16,
+    Private = 1 << 1,
+    FriendsOnly = 1 << 2,
+    Public = 1 << 3,
+    Unlisted = 1 << 4,
 }

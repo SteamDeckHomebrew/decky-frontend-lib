@@ -1,4 +1,4 @@
-import {UIComposition} from "./Overlay";
+import {EUIComposition} from "./Overlay";
 
 /**
  * Represents functionality for managing Steam's windows.
@@ -11,7 +11,7 @@ import {UIComposition} from "./Overlay";
  * window you want to use (not SharedJSContext).
  */
 export interface Window {
-    BringToFront(forceOS?: WindowBringToFront): void;
+    BringToFront(forceOS?: EWindowBringToFront): void;
 
     /**
      * Closes the window.
@@ -127,7 +127,7 @@ export interface Window {
 
     SetAutoDisplayScale(value: boolean): void;
 
-    SetComposition(mode: UIComposition, appIdCompositionQueue: number[], windowId: number): void;
+    SetComposition(mode: EUIComposition, appIdCompositionQueue: number[], windowId: number): void;
 
     /**
      * Makes the window hide, but not close on pressing the close button.
@@ -190,10 +190,10 @@ export interface Window {
     ToggleMaximize(): void;
 }
 
-export enum WindowBringToFront {
-    Invalid = 0,
-    ForceOS = 1,
-    WithoutForcingOS = 2,
+export enum EWindowBringToFront {
+    Invalid,
+    AndForceOS,
+    WithoutForcingOS,
 }
 
 export type WindowLocation =

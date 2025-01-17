@@ -1,4 +1,4 @@
-import {Result, Unregisterable} from "./index";
+import {EResult, Unregisterable} from "./index";
 
 export interface Broadcast {
     /**
@@ -50,7 +50,7 @@ export interface BroadcastStatus {
     nRequests: number;
     bIsBroadcasting: boolean;
     bIsRecordingDesktop: boolean;
-    eBroadcastReady: Result;
+    eBroadcastReady: EResult;
     bBroadcastCapable: boolean;
     bMicrophoneEnabled: boolean;
     bMicrophoneActive: boolean;

@@ -58,13 +58,13 @@ export interface Authentication_DeviceDetails extends JsPbMessage {
 
     device_friendly_name(): string | undefined;
 
-    gaming_device_type(): GamingDeviceType | undefined;
+    gaming_device_type(): EGamingDeviceType | undefined;
 
     machine_id(): Uint8Array | string;
 
     os_type(): OSType | undefined;
 
-    platform_type(): AuthTokenPlatformType | undefined;
+    platform_type(): EAuthTokenPlatformType | undefined;
 
     set_client_count(): any;
 
@@ -79,19 +79,20 @@ export interface Authentication_DeviceDetails extends JsPbMessage {
     set_platform_type(): any;
 }
 
-export enum AuthTokenPlatformType {
-    Unknown = 0,
-    SteamClient = 1,
-    WebBrowser = 2,
-    MobileApp = 3,
+export enum EAuthTokenPlatformType {
+    Unknown,
+    SteamClient,
+    WebBrowser,
+    MobileApp,
 }
 
-export enum GamingDeviceType {
-    Unknown = 0,
-    StandardPC = 1,
+export enum EGamingDeviceType {
+    Unknown,
+    StandardPC,
     Console = 256,
     PS3 = 272,
     Steambox = 288,
+    Tesla = 320,
     Handheld = 512,
     Phone = 528,
     SteamDeck = 544,

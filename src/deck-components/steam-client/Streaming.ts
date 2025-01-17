@@ -1,4 +1,4 @@
-import {Unregisterable, type Result} from "./index";
+import {Unregisterable, type EResult} from "./index";
 import {LaunchOption} from "./App";
 
 export interface Streaming {
@@ -11,7 +11,7 @@ export interface Streaming {
      * @param callback The callback function to be called.
      * @returns An object that can be used to unregister the callback.
      */
-    RegisterForStreamingClientFinished(callback: (code: Result, result: string) => void): Unregisterable;
+    RegisterForStreamingClientFinished(callback: (code: EResult, result: string) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when there is progress in the launch of the streaming client.
@@ -34,7 +34,7 @@ export interface Streaming {
      * @param callback The callback function to be called.
      * @returns An object that can be used to unregister the callback.
      */
-    RegisterForStreamingLaunchComplete(callback: (code: Result, result: string) => void): Unregisterable;
+    RegisterForStreamingLaunchComplete(callback: (code: EResult, result: string) => void): Unregisterable;
 
     RegisterForStreamingShowEula(callback: (appId: number) => void): Unregisterable;
 

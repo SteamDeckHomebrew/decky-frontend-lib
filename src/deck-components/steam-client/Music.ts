@@ -48,7 +48,7 @@ export interface Music {
      * Sets the repeat status for music playback.
      * @param status The repeat status.
      */
-    SetPlayingRepeatStatus(status: MusicRepeatStatus): void;
+    SetPlayingRepeatStatus(status: EMusicPlayingRepeatStatus): void;
 
     /**
      * Sets the shuffle status for music playback.
@@ -76,24 +76,24 @@ export interface Music {
 
 export interface MusicTrack {
     uSoundtrackAppId: number;
-    ePlaybackStatus: MusicPlaybackStatus;
-    eRepeatStatus: MusicRepeatStatus;
+    ePlaybackStatus: EAudioPlayback;
+    eRepeatStatus: EMusicPlayingRepeatStatus;
     bShuffle: boolean;
     nVolume: number;
     nActiveTrack: number;
     nLengthInMsec: number;
 }
 
-export enum MusicPlaybackStatus {
-    Undefined = 0,
-    Playing = 1,
-    Paused = 2,
-    Idle = 3,
+export enum EAudioPlayback {
+    Undefined,
+    Playing,
+    Paused,
+    Idle,
 }
 
-export enum MusicRepeatStatus {
-    None = 0,
-    All = 1,
-    Once = 2,
-    Max = 3,
+export enum EMusicPlayingRepeatStatus {
+    None,
+    All,
+    Once,
+    Max,
 }

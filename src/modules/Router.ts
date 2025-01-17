@@ -1,6 +1,6 @@
 import Logger from '../logger';
 import { Export, findModuleExport } from '../webpack';
-import {DisplayStatus} from "../deck-components/steam-client/App";
+import {EDisplayStatus} from "../deck-components/steam-client/App";
 
 export enum SideMenu {
   None,
@@ -23,7 +23,7 @@ export enum QuickAccessTab {
 export type AppOverview = {
   appid: string;
   display_name: string;
-  display_status: DisplayStatus;
+  display_status: EDisplayStatus;
   sort_as: string;
 };
 
