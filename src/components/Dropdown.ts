@@ -3,6 +3,7 @@ import { ReactNode, FC } from 'react';
 import { CommonUIModule } from '../webpack';
 import { ItemProps } from './Item';
 import { createPropListRegex } from '../utils';
+import type { ContextMenuPositionOptions } from './Menu';
 
 export interface SingleDropdownOption {
   data: any;
@@ -20,11 +21,6 @@ export interface MultiDropdownOption {
 
 export type DropdownOption = SingleDropdownOption | MultiDropdownOption;
 
-export interface DropdownMenuPositionOptions {
-  [_: string]: unknown
-  bMatchWidth?: boolean
-}
-
 export interface DropdownProps {
   rgOptions: DropdownOption[];
   selectedOption: any;
@@ -32,7 +28,7 @@ export interface DropdownProps {
   onMenuWillOpen?(showMenu: () => void): void;
   onMenuOpened?(): void;
   onChange?(data: SingleDropdownOption): void;
-  contextMenuPositionOptions?: DropdownMenuPositionOptions;
+  contextMenuPositionOptions?: ContextMenuPositionOptions;
   menuLabel?: string;
   strDefaultLabel?: string;
   renderButtonValue?(element: ReactNode): ReactNode;
