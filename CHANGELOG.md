@@ -1,3 +1,10 @@
+## [4.9.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.9.0...v4.9.1) (2025-01-29)
+
+
+### Bug Fixes
+
+* **Menu:** add missing arg to showContextMenu and document it ([c03db3e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c03db3e0d55f2ba14a8d82ba1380e9838769efe1))
+
 # [4.9.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.8.3...v4.9.0) (2025-01-02)
 
 
