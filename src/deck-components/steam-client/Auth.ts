@@ -1,5 +1,5 @@
 import {JsPbMessage} from "./index";
-import {OSType} from "./system";
+import {EOSType} from "./system";
 
 export interface Auth {
     /**
@@ -62,7 +62,7 @@ export interface Authentication_DeviceDetails extends JsPbMessage {
 
     machine_id(): Uint8Array | string;
 
-    os_type(): OSType | undefined;
+    os_type(): EOSType | undefined;
 
     platform_type(): EAuthTokenPlatformType | undefined;
 

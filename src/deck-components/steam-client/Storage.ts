@@ -6,7 +6,7 @@ import {OperationResponse} from "./index";
  * SteamClient.Storage affects the "STEAMPATH/userdata/STEAMID3/config/localconfig.vdf" file.
  */
 export interface Storage {
-    DeleteKey(key: string): Promise<OperationResponse | void>;
+    DeleteKey(key: string): Promise<OperationResponse | undefined>;
 
     /**
      * @remarks Use {@link SetObject} to set.
@@ -18,7 +18,7 @@ export interface Storage {
     /**
      * @remarks Use {@link SetObject} to get.
      */
-    SetObject(key: string, value: any): Promise<OperationResponse | void>;
+    SetObject(key: string, value: object): Promise<OperationResponse | undefined>;
 
-    SetString(key: string, value: string): Promise<OperationResponse | void>;
+    SetString(key: string, value: string): Promise<OperationResponse | undefined>;
 }

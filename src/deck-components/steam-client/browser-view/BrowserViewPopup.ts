@@ -1,14 +1,13 @@
-import {ETouchGesture} from "../Browser";
+import {ETouchGesture} from '../Browser';
 
 export interface BrowserViewPopup {
     /**
-     * Blur the popup.
+     * Blur the popup contents.
      * @param enabled Is the blur enabled?
-     * @param backgroundColor
+     * @param useBackgroundColor
      * @param blur
-     * @todo backgroundColor is a bool? Whatever that means
      */
-    AddGlass(enabled: boolean, backgroundColor: boolean, blur: boolean): void;
+    AddGlass(enabled: boolean, useBackgroundColor: boolean, blur: boolean): void;
 
     /**
      * Indicates whether you can go backward in history or not.
@@ -69,6 +68,9 @@ export interface BrowserViewPopup {
      */
     Paste(): void;
 
+    /**
+     * @returns whether the operation was successful.
+     */
     PostMessage(message: string, args: string): boolean;
 
     /**
@@ -128,7 +130,7 @@ export interface BrowserViewPopup {
     SetWindowStackingOrder(order: EWindowStackingOrder): void;
 
     /**
-     * Stop the "find in page" function.
+     * Stop the 'find in page' function.
      */
     StopFindInPage(): void;
 
@@ -137,120 +139,126 @@ export interface BrowserViewPopup {
      * @param event The event to stop listening to.
      * @param callback The callback function to be called.
      */
-    off(event: BrowserViewEvent, callback: (args: any) => void): void;
+    off<K extends keyof BrowserViewEventMap>(event: K, callback: BrowserViewEventMap[K]): void;
 
     /**
      * Start listening for an event.
      * @param event The event to start listening to.
      * @param callback The callback function to be called.
      */
-    on(event: BrowserViewEvent, callback: (args: any) => void): void;
+    on<K extends keyof BrowserViewEventMap>(event: K, callback: BrowserViewEventMap[K]): void;
+}
 
+interface BrowserViewEventMap {
     /**
      * Fires when an `alert()` dialog appears.
      */
-    on(event: 'alert-dialog', callback: (message: string) => void): void;
+    'alert-dialog': (message: string) => void;
 
     /**
      * Fires when the browser is about to get destroyed.
      */
-    on(event: 'before-close', callback: () => void): void;
+    'before-close': () => void;
 
     /**
      * Fires when a URL gets blocked.
      * @todo not SetBlockedProtocols, maybe only steam links
      */
-    on(event: 'blocked-request', callback: (blockedURL: string) => void): void;
+    'blocked-request': (blockedURL: string) => void;
 
     /**
-     * Fires when `CanGoBack() or `CanGoForward()` state changes.
+     * Fires when {@link BrowserViewPopup.CanGoBackward} or
+     * {@link BrowserViewPopup.CanGoForward} state changes.
      */
-    on(event: 'can-go-back-forward-changed', callback: (canGoBackward: boolean, canGoForward: boolean) => void): void;
+    'can-go-back-forward-changed': (
+        canGoBackward: boolean,
+        canGoForward: boolean,
+    ) => void;
 
     /**
      * Fires when a `confirm()` dialog appears.
      */
-    on(event: 'confirm-dialog', callback: (message: string) => void): void;
+    'confirm-dialog': (message: string) => void;
 
     /**
      * Fires when the browser's favicon changes.
      */
-    on(event: 'favicon-urls-changed', callback: (faviconURLs: string[]) => void): void;
+    'favicon-urls-changed': (faviconURLs: string[]) => void;
 
     /**
-     * Fires when "Find in page" gets its results.
+     * Fires when 'Find in page' gets its results.
      */
-    on(event: 'find-in-page-results', callback: (results: number, activeResultIndex: number) => void): void;
+    'find-in-page-results': (results: number, activeResultIndex: number) => void;
 
     /**
      * Fires when the page finishes loading.
      */
-    on(event: 'finished-request', callback: (currentURL: string, previousURL: string) => void): void;
+    'finished-request': (currentURL: string, previousURL: string) => void;
 
     /**
      * Fires when the browser goes focused or vice versa.
      */
-    on(event: 'focus-changed', callback: (focused: boolean) => void): void;
+    'focus-changed': (focused: boolean) => void;
 
     /**
      * Fires when the browser goes fullscreen or vice versa.
      */
-    on(event: 'full-screen', callback: (fullscreen: boolean) => void): void;
+    'full-screen': (fullscreen: boolean) => void;
 
     /**
      * Fires when history changes occur.
      */
-    on(event: 'history-changed', callback: (history: BrowserViewHistory) => void): void;
+    'history-changed': (history: BrowserViewHistory) => void;
 
     /**
      * Fires when the URL fails to load.
      */
-    on(event: 'load-error', callback: (errorCode: number, errorURL: string, errorDescription: string) => void): void;
+    'load-error': (
+        errorCode: number,
+        errorURL: string,
+        errorDescription: string,
+    ) => void;
 
     /**
      * @todo Same as PostMessage?
      */
-    on(event: 'message', callback: (args: any) => void): void;
+    'message': (args: any) => void;
 
-    on(event: 'new-tab', callback: (args: any) => void): void;
+    'new-tab': (args: any) => void;
 
     /**
      * Fires when a node gets focused.
      */
-    on(
-        event: 'node-has-focus',
-        callback: (
-            elementIdOrTagName: string,
-            elementTag: string,
-            param2: any,
-            param3: string,
-            param4: boolean,
-        ) => void,
-    ): void;
+    'node-has-focus': (
+        elementIdOrTagName: string,
+        elementTag: string,
+        param2: any,
+        param3: string,
+        param4: boolean,
+    ) => void;
 
-    on(event: 'page-security', callback: (url: string, pageSecurity: BrowserViewPageSecurity) => void): void;
+    'page-security': (url: string, pageSecurity: BrowserViewPageSecurity) => void;
 
     /**
      * Fires when the page's `<title>` changes.
      */
-    on(event: 'set-title', callback: (title: string) => void): void;
+    'set-title': (title: string) => void;
 
     /**
      * Fires when the page starts loading.
      */
-    on(event: 'start-loading', callback: (url: string, param1: boolean) => void): void;
+    'start-loading': (url: string, param1: boolean) => void;
 
     /**
      * Fires when the page starts loading.
      */
-    on(event: 'start-request', callback: (url: string) => void): void;
+    'start-request': (url: string) => void;
 
     /**
-     * Fires when "Find in page" gets toggled.
+     * Fires when 'Find in page' gets toggled.
      */
-    on(event: 'toggle-find-in-page', callback: () => void): void;
+    'toggle-find-in-page': () => void;
 }
-
 
 export interface BrowserViewBounds {
     x: number;
@@ -264,49 +272,50 @@ export interface BrowserViewContextMenu {
      * Mouse X position inside the browser view.
      */
     coord_x: number;
+
     /**
      * Mouse Y position inside the browser view.
      */
     coord_y: number;
+
     custom_commands: BrowserViewContextMenuCustomCommand[];
+
     /**
      * Bitmask representing edit state.
      * @remarks Appears on editable elements like `<input>`, etc.
-     * @example
-     * May be used with BrowserViewContextMenuEditFlag:
-     * ```js
-     * edit_state_flags & BrowserViewContextMenuEditFlag.CanCut != 0 // Can cut text
-     * ```
+     * @see {@link EBrowserViewContextMenuEditFlag}
      */
     edit_state_flags?: number;
+
     /**
      * The misspelled word the cursor is on.
      * @remarks Appears on an editable element with text.
      */
     misspelled_word?: string;
+
     /**
      * Browser page URL.
      * @todo Appears when there is selected text?
      */
     link_url?: string;
+
     /**
      * Browser page URL.
      */
     page_url: string;
+
     /**
      * Selected text.
      * @remarks Appears when there is selected text.
      */
     selection_text?: string;
+
     /**
      * Bitmask representing context menu type.
-     * @example
-     * May be used with BrowserViewContextMenuTypeFlag:
-     * ```js
-     * type_flags & BrowserViewContextMenuTypeFlag.Selection != 0 // Selected text present
-     * ```
+     * @see {@link EBrowserViewContextMenuTypeFlag}
      */
     type_flags: number;
+
     /**
      * Browser page URL.
      * @todo Appears when there is selected text?
@@ -317,6 +326,28 @@ export interface BrowserViewContextMenu {
 export interface BrowserViewContextMenuCustomCommand {
     id: number;
     label: string;
+}
+
+export enum EBrowserViewContextMenuTypeFlag {
+    None,
+    Page = 1 << 0,
+    Frame = 1 << 1,
+    Link = 1 << 2,
+    Media = 1 << 3,
+    Selection = 1 << 4,
+    Editable = 1 << 5,
+}
+
+export enum EBrowserViewContextMenuEditFlag {
+    None,
+    CanUndo = 1 << 0,
+    CanRedo = 1 << 1,
+    CanCut = 1 << 2,
+    CanCopy = 1 << 3,
+    CanPaste = 1 << 4,
+    CanDelete = 1 << 5,
+    CanSelectAll = 1 << 6,
+    CanTranslate = 1 << 7,
 }
 
 export enum EBrowserViewContextMenuCommand {
@@ -331,29 +362,6 @@ export enum EWindowStackingOrder {
     Bottom,
     Top,
 }
-
-export type BrowserViewEvent =
-    | 'alert-dialog'
-    | 'before-close'
-    | 'blocked-request'
-    | 'can-go-back-forward-changed'
-    | 'confirm-dialog'
-    | 'favicon-urls-changed'
-    | 'find-in-page-results'
-    | 'finished-request'
-    | 'focus-changed'
-    | 'full-screen'
-    | 'history-changed'
-    | 'load-error'
-    | 'message'
-    | 'new-tab'
-    | 'node-has-focus'
-    | 'page-security'
-    | 'set-title'
-    | 'start-loading'
-    | 'start-request'
-    | 'toggle-find-in-page';
-
 
 export interface BrowserViewHistory {
     index: number;

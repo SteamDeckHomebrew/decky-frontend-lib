@@ -1,4 +1,4 @@
-import {Unregisterable} from "./index";
+import { Unregisterable } from "./index";
 
 export interface URL {
     /**
@@ -8,9 +8,9 @@ export interface URL {
     ExecuteSteamURL(url: string): void;
 
     /**
-     * @remarks The array may be empty.
+     * @param urls Additional URLs to get. May be empty.
      */
-    GetSteamURLList(param0: string[]): Promise<SteamURLs>;
+    GetSteamURLList(urls: SteamWebURL[]): Promise<SteamURLs>;
 
     GetWebSessionID(): Promise<string>;
 
@@ -25,6 +25,142 @@ export interface URL {
     RegisterForSteamURLChanges(callback: () => void): void;
 }
 
+export type SteamWebURL =
+    | "AllNotifications"
+    | "AppHoverPublic"
+    | "AppHoverPublicFull"
+    | "AppNewsPage"
+    | "AsyncGames"
+    | "AvatarBaseURL"
+    | "BaseURLSharedCDN"
+    | "Chat"
+    | "ChatRoot"
+    | "ClaimEntitlements"
+    | "ClanAssetCDN"
+    | "CommentNotifications"
+    | "CommunityHome"
+    | "CommunityAddFriends"
+    | "CommunityCDN"
+    | "CommunityFilePage"
+    | "CommunityFriendsThatPlay"
+    | "CommunityFrontPage"
+    | "CommunityGroupSearch"
+    | "CommunityImages"
+    | "CommunityInventory"
+    | "CommunityMarket"
+    | "CommunityMarketApp"
+    | "CommunityRecommendations"
+    | "CommunityScreenshots"
+    | "CommunitySingleScreenshot"
+    | "CurrentlyPlayedWith"
+    | "EventAnnouncementPage"
+    | "FamilyManagement"
+    | "FamilySharing"
+    | "GameHub"
+    | "GameHubBroadcasts"
+    | "GameHubDiscussions"
+    | "GameHubGuides"
+    | "GameHubNews"
+    | "GameHubReviews"
+    | "GlobalAchievementStatsPage"
+    | "GlobalLeaderboardsPage"
+    | "GroupSteamIDPage"
+    | "HardwareSurvey"
+    | "HelpAppPage"
+    | "HelpChangeEmail"
+    | "HelpChangePassword"
+    | "HelpFAQ"
+    | "HelpFrontPage"
+    | "HelpWithLogin"
+    | "HelpWithLoginInfo"
+    | "HelpWithSteamGuardCode"
+    | "HelpVacBans"
+    | "ItemStorePage"
+    | "ItemStoreDetailPage"
+    | "JoinTrade"
+    | "LegalInformation"
+    | "LibraryAppDetails"
+    | "LibraryAppReview"
+    | "LibraryFeaturedBroadcasts"
+    | "ManageGiftsPage"
+    | "ManageSteamGuard"
+    | "ModeratorMessages"
+    | "Mobile"
+    | "MyHelpRequests"
+    | "OfficialGameGroupPage"
+    | "NewsHomePage"
+    | "ParentalBlocked"
+    | "ParentalSetup"
+    | "PendingFriends"
+    | "PendingGift"
+    | "PointsShop"
+    | "PrivacyPolicy"
+    | "RecommendGame"
+    | "RedeemWalletVoucher"
+    | "RegisterKey"
+    | "RegisterKeyNoParams"
+    | "SSA"
+    | "SteamAnnouncements"
+    | "SteamClientBetaBugReports"
+    | "SteamClientBetaNewsPage"
+    | "SteamClientBetaNewsPageFancy"
+    | "SteamClientNewsPage"
+    | "SteamClientPatchNotes"
+    | "SteamClientBetaPatchNotes"
+    | "SteamDiscussions"
+    | "SteamIDAchievementsPage"
+    | "SteamIDAppTradingCardsPage"
+    | "SteamIDBadgeInfo"
+    | "SteamIDBadgePage"
+    | "SteamIDBroadcastPage"
+    | "SteamIDEditPage"
+    | "SteamIDEditPrivacyPage"
+    | "SteamIDFriendsList"
+    | "SteamIDFriendsPage"
+    | "SteamIDGroupsPage"
+    | "SteamIDMyProfile"
+    | "SteamIDPage"
+    | "SteamLanguage"
+    | "SteamPreferences"
+    | "SteamVRHMDHelp"
+    | "SteamWorkshop"
+    | "SteamWorkshopPage"
+    | "SteamWorkshopSubscriptions"
+    | "SteamWorkshopUpdatedSubscriptions"
+    | "StoreAccount"
+    | "StoreAddFundsPage"
+    | "StoreAppHover"
+    | "StoreAppImages"
+    | "StoreAppPage"
+    | "StoreAppPageAddToCart"
+    | "StoreCart"
+    | "StoreCDN"
+    | "StoreDlcPage"
+    | "StoreExplore"
+    | "StoreExploreNew"
+    | "StoreFreeToPlay"
+    | "StoreFrontPage"
+    | "StoreGameSearchPage"
+    | "StoreGreatOnDeck"
+    | "StorePublisherPage"
+    | "StoreSpecials"
+    | "StoreStats"
+    | "StoreVR"
+    | "StoreWebMicroTxnPage"
+    | "SupportMessages"
+    | "TextFilterSettings"
+    | "TodayPage"
+    | "TradeOffers"
+    | "VideoCDN"
+    | "UserAchievementsPage"
+    | "UserLeaderboardsPage"
+    | "UserStatsPage"
+    | "UserWishlist"
+    | "WatchVideo"
+    | "WebAPI"
+    | "WorkshopEula"
+    | "YearInReview";
+
 export interface SteamURL {
     url: string;
     /**
@@ -33,14 +169,6 @@ export interface SteamURL {
     feature: number;
 }
 
-export interface SteamURLs {
-    CommunityImages: SteamURL;
-    StoreAppImages: SteamURL;
-    BaseURLSharedCDN: SteamURL;
-    ClanAssetCDN: SteamURL;
-    CommunityCDN: SteamURL;
-    AvatarBaseURL: SteamURL;
-    StoreCDN: SteamURL;
-    WebAPI: SteamURL;
-    LocalSSA: SteamURL;
+export type SteamURLs = {
+    [url in SteamWebURL]: SteamURL;
 }

@@ -45,9 +45,9 @@ export interface System {
 
     FactoryReset(): any;
 
-    FormatStorage(forceFormat: boolean): any;
+    FormatStorage(force: boolean): any;
 
-    GetOSType(): Promise<OSType>;
+    GetOSType(): Promise<EOSType>;
 
     GetSystemInfo(): Promise<SystemInfo>;
 
@@ -198,7 +198,7 @@ export interface FileDialogFilter {
     bUseAsDefault?: boolean;
 }
 
-export enum OSType {
+export enum EOSType {
     Web = -700,
     Ios = -600,
     Android = -500,

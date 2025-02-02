@@ -1,5 +1,5 @@
 import {JsPbMessage, Unregisterable} from "../index";
-import {UpdaterState} from "../Updates";
+import {EUpdaterState} from "../Updates";
 
 // CMsgSystemDockUpdateFirmware, CMsgSystemDockState
 export interface Dock {
@@ -22,7 +22,7 @@ export interface MsgSystemDockState extends JsPbMessage {
 }
 
 export interface SystemDockUpdateState {
-    state: UpdaterState | undefined;
+    state: EUpdaterState | undefined;
     rtime_last_checked: number | undefined;
     version_current: string | undefined;
     version_available: string | undefined;

@@ -1,5 +1,5 @@
-import {UIMode, Unregisterable} from "./index";
-import {OSType} from "./system";
+import {EUIMode, Unregisterable} from "./index";
+import {EOSType} from "./system";
 
 export interface UI {
     EnsureMainWindowCreated(): void;
@@ -17,7 +17,7 @@ export interface UI {
      * Retrieves the current UI mode.
      * @returns A Promise that resolves to the current UI mode.
      */
-    GetUIMode(): Promise<UIMode>;
+    GetUIMode(): Promise<EUIMode>;
 
     NotifyAppInitialized(): void;
 
@@ -42,7 +42,7 @@ export interface UI {
      */
     RegisterForStartupFinished(callback: () => void): Unregisterable;
 
-    RegisterForUIModeChanged(callback: (mode: UIMode) => void): Unregisterable;
+    RegisterForUIModeChanged(callback: (mode: EUIMode) => void): Unregisterable;
 
     ResetErrorCondition(): void;
 
@@ -50,7 +50,7 @@ export interface UI {
      * Sets the UI mode to the specified value.
      * @param mode The UI mode to set.
      */
-    SetUIMode(mode: UIMode): void;
+    SetUIMode(mode: EUIMode): void;
 }
 
 export enum EWindowType {
@@ -67,7 +67,7 @@ export enum EWindowType {
 
 export interface OSEndOfLifeInfo {
     bOSWillBeUnsupported: boolean;
-    osType: OSType;
+    osType: EOSType;
 }
 
 /**

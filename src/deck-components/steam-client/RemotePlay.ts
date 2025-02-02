@@ -1,4 +1,4 @@
-import {ControllerType} from "./Input";
+import {EControllerType} from "./Input";
 import {Unregisterable} from "./index";
 
 export interface RemotePlay {
@@ -31,7 +31,7 @@ export interface RemotePlay {
 
     GetClientStreamingBitrate(): Promise<number>; //todo: -1 not streaming??
     GetClientStreamingQuality(): Promise<number>; //todo: -1 not streaming??
-    GetControllerType(param0: number): Promise<ControllerType>; // todo: param0 with value 0 is host controller type - param0 is likely an index of clients or guestId?
+    GetControllerType(param0: number): Promise<EControllerType>; // todo: param0 with value 0 is host controller type - param0 is likely an index of clients or guestId?
     GetGameSystemVolume(): Promise<number>;
 
     GetPerUserInputSettings(steam64Id: string): any;

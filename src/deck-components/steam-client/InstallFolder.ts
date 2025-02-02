@@ -46,7 +46,7 @@ export interface InstallFolder {
      * Refreshes the list of installed Steam Library folders.
      * @returns A Promise or response indicating the refresh operation.
      */
-    RefreshFolders(): any;
+    RefreshFolders(): void;
 
     /**
      * Registers a callback function to be called when changes occur in Steam Install Folders.

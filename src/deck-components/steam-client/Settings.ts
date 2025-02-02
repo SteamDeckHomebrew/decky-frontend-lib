@@ -381,9 +381,9 @@ export interface MsgClientSettings extends JsPbMessage {
 
     g_background_time_resolution(): number;
 
-    g_background_mk(): Hotkey;
+    g_background_mk(): CMsgHotkey;
 
-    g_background_tg(): Hotkey;
+    g_background_tg(): CMsgHotkey;
 
     g_max_fps(): number;
 
@@ -397,7 +397,7 @@ export interface MsgClientSettings extends JsPbMessage {
     gamerecording_export_limit_width(): number;
     gamerecording_export_limit_type(): EGRExportLimitType;
     gamerecording_force_mic_mono(): boolean;
-    gamerecording_hotkey_ic(): Hotkey;
+    gamerecording_hotkey_ic(): CMsgHotkey;
     gamerecording_ic_seconds(): number;
     gamerecording_video_bitrate(): string;
     gamerecording_video_maxheight(): number;
@@ -477,7 +477,7 @@ export interface MsgClientSettings extends JsPbMessage {
 
     overlay_fps_counter_high_contrast(): boolean;
 
-    overlay_key(): Hotkey;
+    overlay_key(): CMsgHotkey;
 
     overlay_restore_browser_tabs(): boolean;
 
@@ -507,7 +507,7 @@ export interface MsgClientSettings extends JsPbMessage {
 
     screenshot_items_per_row(): number;
 
-    screenshot_key(): Hotkey;
+    screenshot_key(): CMsgHotkey;
 
     screenshots_path(): string;
 
@@ -593,13 +593,22 @@ export interface MsgClientSettings extends JsPbMessage {
 
     voice_mic_input_gain(): number;
 
-    voice_push_to_talk_key(): Hotkey;
+    voice_push_to_talk_key(): CMsgHotkey;
 
     voice_push_to_talk_setting(): number;
 
     voice_speaker_output_gain(): number;
 
     web_browser_home(): string;
+}
+
+export interface CMsgHotkey extends JsPbMessage {
+    key_code(): number;
+    alt_key(): boolean;
+    shift_key(): boolean;
+    ctrl_key(): boolean;
+    meta_key(): boolean;
+    display_name(): string;
 }
 
 export enum EBroadcastEncoderSetting {
@@ -637,15 +646,6 @@ export enum EGRMode {
     Never,
     Always,
     Manual,
-}
-
-export interface Hotkey {
-    alt_key: boolean;
-    ctrl_key: boolean;
-    display_name: string;
-    key_code: number;
-    meta_key: boolean;
-    shift_key: boolean;
 }
 
 export enum EHDRVisualization {

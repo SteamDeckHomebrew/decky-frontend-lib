@@ -250,7 +250,7 @@ export interface Input {
      */
     SetControllerPersonalizationSettingFloat(param0: string, param1: number): any;
 
-    SetControllerRumbleSetting(controllerIndex: number, rumblePreference: any): any;
+    SetControllerRumbleSetting(controllerIndex: number, rumblePreference: EControllerRumbleSetting): any;
 
     SetControllerUseUniversalFaceButtonGlyphs(controllerIndex: number, value: boolean): void;
 
@@ -554,6 +554,20 @@ export enum EControllerConfigExportType {
     OfficialDefault,
 }
 
+export enum EControllerRumbleSetting {
+    ControllerPreference,
+    Off,
+    On,
+}
+
+// TODO: Not the actual name, but the enum is only represented in a dropdown
+// options vector, ty valve
+export enum EThirdPartyControllerConfiguration {
+    Off,
+    DefaultSetting,
+    On,
+}
+
 export interface ControllerInputMessage {
     nA: number;
     bS: boolean;
@@ -568,10 +582,10 @@ export interface ActiveAccount {
 
 export interface ControllerInfo {
     strName: string;
-    eControllerType: ControllerType;
+    eControllerType: EControllerType;
     nXInputIndex: number;
     nControllerIndex: number;
-    eRumblePreference: number; // ControllerRumbleSetting
+    eRumblePreference: EControllerRumbleSetting;
     bWireless: boolean;
     unUniqueID: number;
     unVendorID: number;
@@ -604,7 +618,7 @@ export interface ControllerInfo {
     vecAltAccounts: any[]; // The type for this property might need to be more specific based on the actual data structure
 }
 
-export enum ControllerType {
+export enum EControllerType {
     None = -1,
     Unknown,
     UnknownSteamController,
@@ -731,7 +745,9 @@ export interface GameKeyboardMessage {
     m_dwPID: number;
     m_dwOverlayPID: number;
     m_hPipe: number;
+    /** @todo enum */
     m_eInputMode: number;
+    /** @todo enum */
     m_eLineInputMode: number;
     m_pchDescription: string;
     m_unCharMax: number;

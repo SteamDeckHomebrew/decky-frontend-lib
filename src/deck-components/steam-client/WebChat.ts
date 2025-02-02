@@ -1,5 +1,5 @@
 import {OverlayBrowserInfo} from "./Overlay";
-import {UIMode, Unregisterable} from "./index";
+import {EUIMode, Unregisterable} from "./index";
 
 export interface WebChat {
     BSuppressPopupsInRestore(): Promise<boolean>;
@@ -43,7 +43,7 @@ export interface WebChat {
      * Retrieves the current UI mode.
      * @returns A Promise that resolves to the current UI mode.
      */
-    GetUIMode(): Promise<UIMode>;
+    GetUIMode(): Promise<EUIMode>;
 
     OnGroupChatUserStateChange(chatGroupId: any, accountId: any, action: any): any;
 
@@ -92,7 +92,7 @@ export interface WebChat {
      * @param callback The callback function to be called.
      * @returns An object that can be used to unregister the callback.
      */
-    RegisterForUIModeChange(callback: (mode: UIMode) => void): Unregisterable;
+    RegisterForUIModeChange(callback: (mode: EUIMode) => void): Unregisterable;
 
     RegisterOverlayChatBrowserInfoChanged(callback: any): Unregisterable;
 

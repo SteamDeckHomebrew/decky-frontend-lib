@@ -78,14 +78,14 @@ export interface Window {
      * @param y Window Y position.
      * @param dpi Screen DPI.
      */
-    MoveTo(x: number, y: number, dpi: number | undefined): void;
+    MoveTo(x: number, y: number, dpi?: number): void;
 
     /**
      * Moves the window to a given location.
      * @param location Window location.
      * @param offset X/Y offset.
      */
-    MoveToLocation(location: WindowLocation, offset: number | undefined): void;
+    MoveToLocation(location: WindowLocation, offset?: number): void;
 
     /**
      * Moves the window relatively to given details.

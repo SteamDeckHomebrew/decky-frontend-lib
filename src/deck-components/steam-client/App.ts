@@ -1,4 +1,5 @@
 import {JsPbMessage, OperationResponse, EResult, Unregisterable} from "./index";
+import type { EControllerRumbleSetting, EThirdPartyControllerConfiguration } from "./Input";
 import {EUCMFilePrivacyState, Screenshot} from "./Screenshots";
 
 /**
@@ -128,7 +129,12 @@ export interface Apps {
      */
     GetCachedAppDetails(appId: number): Promise<string>; // todo: Parsing nightmare
 
-    GetCloudPendingRemoteOperations(appId: number): Promise<any>;
+    /**
+     * @returns a ProtoBuf message. If deserialized, returns {@link CMsgCloudPendingRemoteOperations}.
+     */
+    GetCloudPendingRemoteOperations(appId: number): Promise<{
+        PendingOperations: ArrayBuffer;
+    }>;
 
     GetCompatExperiment(param0: number): Promise<any>;
 
@@ -542,9 +548,8 @@ export interface Apps {
      * @param appId The ID of the application.
      * @param details The details to be cached, a stringified object.
      * @returns A Promise that resolves when the details are successfully cached.
-     * todo: might return boolean?
      */
-    SetCachedAppDetails(appId: number, details: string): Promise<any>;
+    SetCachedAppDetails(appId: number, details: string): Promise<void>;
 
     SetControllerRumblePreference(appId: number, param1: number): any; // param1 - enum for preference
 
@@ -552,11 +557,10 @@ export interface Apps {
      * Sets the custom artwork for a given application.
      * @param appId The ID of the application to set custom artwork for.
      * @param base64Image Base64 encoded image.
-     * @param imageType "jpeg" or "png".
      * @param assetType The type of artwork to set.
      * @returns A Promise that resolves after the custom artwork is set.
      */
-    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: string, assetType: ELibraryAssetType): Promise<any>;
+    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: 'jpg' | 'png', assetType: ELibraryAssetType): Promise<any>;
 
     /**
      * Sets a custom logo position for a specific app.
@@ -647,7 +651,7 @@ export interface Apps {
      */
     SetStreamingClientForApp(appId: number, clientId: string): void;
 
-    SetThirdPartyControllerConfiguration(appId: number, param1: number): any;
+    SetThirdPartyControllerConfiguration(appId: number, value: EThirdPartyControllerConfiguration): void;
 
     /**
      * Sets the workshop items disabled state.
@@ -907,7 +911,7 @@ export interface LaunchOption {
      * @remarks This is an integer, despite the prefix. 0 if false, 1 if true.
      */
     bIsVRLaunchOption: number;
-    eType: AppLaunchOptionType;
+    eType: EAppLaunchOptionType;
     nIndex: number;
     /**
      * Label localization string.
@@ -930,7 +934,7 @@ export interface Playtime {
 
 export interface PrePurchaseApp {
     nAppID: number;
-    eState: AppReleaseState;
+    eState: EAppReleaseState;
 }
 
 export interface PrePurchaseInfo {
@@ -939,7 +943,7 @@ export interface PrePurchaseInfo {
 }
 
 
-export enum AppReleaseState {
+export enum EAppReleaseState {
     Unknown,
     Unavailable,
     Prerelease,
@@ -948,7 +952,7 @@ export enum AppReleaseState {
     Disabled,
 }
 
-export enum AppLaunchOptionType {
+export enum EAppLaunchOptionType {
     None,
     Default,
     SafeMode,
@@ -1136,6 +1140,14 @@ export enum EAppUpdateError {
     Max,
 }
 
+// TODO: not the actual name
+export enum ESteamInputController {
+    PlayStation = 1 << 0,
+    Xbox = 1 << 1,
+    Generic = 1 << 2,
+    NintendoSwitch = 1 << 3,
+}
+
 export interface AppDetails {
     achievements: AppAchievements;
     /** Indicates whether the application is available on the store. */
@@ -1166,24 +1178,22 @@ export interface AppDetails {
     bVRGameTheatreEnabled: boolean;
     bWorkshopVisible: boolean;
     deckDerivedProperties?: AppDeckDerivedProperties;
-    eAppOwnershipFlags: EAppOwnershipFlags | number; // is this a bitmask?
+    /**
+     * @see {@link EAppOwnershipFlags}
+     */
+    eAppOwnershipFlags: number;
     eAutoUpdateValue: EAppAutoUpdateBehavior;
     eBackgroundDownloads: EAppAllowDownloadsWhileRunningBehavior;
+    eCloudStatus: EAppCloudStatus;
     /**
      * @todo enum
      */
     eCloudSync: number;
-    /**
-     * @todo enum
-     */
-    eControllerRumblePreference: number; // ControllerRumbleSetting?
+    eControllerRumblePreference: EControllerRumbleSetting;
     eDisplayStatus: EDisplayStatus;
+    eEnableThirdPartyControllerConfiguration: EThirdPartyControllerConfiguration;
     /**
-     * @todo enum
-     */
-    eEnableThirdPartyControllerConfiguration: number;
-    /**
-     * @todo enum
+     * @see {@link ESteamInputController}
      */
     eSteamInputControllerMask: number;
     /**
@@ -1500,6 +1510,27 @@ export interface AppOverview_Change extends JsPbMessage {
     set_update_complete(param0: any): any;
 }
 
+export enum ECloudPendingRemoteOperation {
+    None,
+    AppSessionActive,
+    UploadInProgress,
+    UploadPending,
+    AppSessionSuspended,
+}
+
+export interface CCloud_PendingRemoteOperation {
+	operation(): ECloudPendingRemoteOperation;
+	machine_name(): string;
+	client_id(): number;
+	time_last_updated(): number;
+	os_type(): number;
+	device_type(): number;
+}
+
+export interface CMsgCloudPendingRemoteOperations extends JsPbMessage {
+    operations: CCloud_PendingRemoteOperation[];
+}
+
 // Appears to be all optional fields :disaster:
 export interface SteamAppOverview {
     appid: number;
@@ -1558,18 +1589,10 @@ export interface SteamAppOverview {
     ps4_controller_support?: EAppControllerSupportLevel;
     ps5_controller_support?: EAppControllerSupportLevel;
     gamepad_preferred?: boolean;
-
-    m_setStoreCategories: Set<number>;
-    m_setStoreTags: Set<number>;
     canonicalAppType: number;
     local_per_client_data: SteamAppOverviewClientData;
     most_available_per_client_data: SteamAppOverviewClientData;
     selected_per_client_data: SteamAppOverviewClientData;
-    m_strPerClientData: Set<any> | undefined;
-    m_strAssociations: Set<any> | undefined;
-
-    BIsModOrShortcut: () => boolean;
-    BIsShortcut: () => boolean;
 }
 
 export enum EAppType {

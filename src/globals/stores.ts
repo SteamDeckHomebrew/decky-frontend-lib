@@ -1,6 +1,20 @@
 import { WindowRouter } from '../modules/Router';
 import { AppDetails, LogoPosition, SteamAppOverview } from "../deck-components/steam-client/App";
-import {AppData} from "../deck-components/steam-client";
+
+interface AppData {
+  details: AppDetails;
+  // more
+}
+
+interface AppStoreAppOverview extends SteamAppOverview {
+  m_setStoreCategories: Set<number>;
+  m_setStoreTags: Set<number>;
+  m_strPerClientData: Set<any> | undefined;
+  m_strAssociations: Set<any> | undefined;
+
+  BIsModOrShortcut: () => boolean;
+  BIsShortcut: () => boolean;
+}
 
 declare global {
   interface Window {
@@ -33,22 +47,22 @@ declare global {
     };
     appStore: {
       GetAppOverviewByAppID: (appId: number) => SteamAppOverview | null;
-      GetCustomVerticalCapsuleURLs: (app: SteamAppOverview) => string[];
-      GetCustomLandcapeImageURLs: (app: SteamAppOverview) => string[];
-      GetCustomHeroImageURLs: (app: SteamAppOverview) => string[];
-      GetCustomLogoImageURLs: (app: SteamAppOverview) => string[];
-      GetLandscapeImageURLForApp: (app: SteamAppOverview) => string;
-      GetVerticalCapsuleURLForApp: (app: SteamAppOverview) => string;
-      GetCachedLandscapeImageURLForApp: (app: SteamAppOverview) => string;
-      GetCachedVerticalImageURLForApp: (app: SteamAppOverview) => string;
-      GetPregeneratedVerticalCapsuleForApp: (app: SteamAppOverview) => string;
-      GetIconURLForApp: (app: SteamAppOverview) => string;
+      GetCustomVerticalCapsuleURLs: (app: AppStoreAppOverview) => string[];
+      GetCustomLandcapeImageURLs: (app: AppStoreAppOverview) => string[];
+      GetCustomHeroImageURLs: (app: AppStoreAppOverview) => string[];
+      GetCustomLogoImageURLs: (app: AppStoreAppOverview) => string[];
+      GetLandscapeImageURLForApp: (app: AppStoreAppOverview) => string;
+      GetVerticalCapsuleURLForApp: (app: AppStoreAppOverview) => string;
+      GetCachedLandscapeImageURLForApp: (app: AppStoreAppOverview) => string;
+      GetCachedVerticalImageURLForApp: (app: AppStoreAppOverview) => string;
+      GetPregeneratedVerticalCapsuleForApp: (app: AppStoreAppOverview) => string;
+      GetIconURLForApp: (app: AppStoreAppOverview) => string;
     };
     appDetailsStore: {
       GetAppData: (appId: number) => AppData | null;
       GetAppDetails: (appId: number) => AppDetails | null;
-      GetCustomLogoPosition: (app: SteamAppOverview) => LogoPosition | null;
-      SaveCustomLogoPosition: (app: SteamAppOverview, logoPositions: LogoPosition) => any;
+      GetCustomLogoPosition: (app: AppStoreAppOverview) => LogoPosition | null;
+      SaveCustomLogoPosition: (app: AppStoreAppOverview, logoPositions: LogoPosition) => any;
     };
     SteamUIStore: {
       GetFocusedWindowInstance: () => WindowRouter;

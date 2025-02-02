@@ -1,4 +1,4 @@
-import {EBrowserType, UIMode, Unregisterable} from "./index";
+import {EBrowserType, EUIMode, Unregisterable} from "./index";
 
 export interface Overlay {
     /**
@@ -74,7 +74,7 @@ export enum ENotificationPosition {
 export interface OverlayBrowserInfo {
     appID: number;
     eBrowserType: EBrowserType;
-    eUIMode: UIMode;
+    eUIMode: EUIMode;
     flDisplayScale?: number;
     gameID: string;
     nBrowserID: number;

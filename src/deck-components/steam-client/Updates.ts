@@ -41,7 +41,7 @@ export enum EOSBranch {
  * CMsgSystemUpdateState
  */
 export interface MsgSystemUpdateState extends JsPbMessage {
-    state(): UpdaterState | undefined;
+    state(): EUpdaterState | undefined;
 
     progress(): UpdateProgress | undefined;
 
@@ -72,7 +72,7 @@ export interface UpdateProgress {
     rtime_estimated_completion: number | undefined;
 }
 
-export enum UpdaterState {
+export enum EUpdaterState {
     Invalid,
     // ty valve
     UpToDate = 2,
