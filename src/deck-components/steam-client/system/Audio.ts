@@ -1,4 +1,4 @@
-import {OperationResponse, Unregisterable} from "../index";
+import { OperationResponse, Unregisterable } from "../shared";
 
 /**
  * Represents various functions related to Steam system audio.

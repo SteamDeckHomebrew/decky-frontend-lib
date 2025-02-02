@@ -1,5 +1,5 @@
 import {EControllerType} from "./Input";
-import {Unregisterable} from "./index";
+import { Unregisterable } from "./shared";
 
 export interface RemotePlay {
     BCanAcceptInviteForGame: any;

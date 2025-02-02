@@ -1,4 +1,4 @@
-import {JsPbMessage, Unregisterable} from "./index";
+import { JsPbMessage, Unregisterable } from "./shared";
 
 /**
  * Everything is taken from here:

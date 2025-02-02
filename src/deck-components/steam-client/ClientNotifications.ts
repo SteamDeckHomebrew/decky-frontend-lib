@@ -1,4 +1,4 @@
-import { BrowserContext } from "./index";
+import { BrowserContext } from "./shared";
 
 export interface ClientNotifications {
     /**

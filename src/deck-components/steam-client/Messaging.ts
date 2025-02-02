@@ -1,4 +1,4 @@
-import {Unregisterable} from "./index";
+import { Unregisterable } from "./shared";
 
 export interface Messaging {
     // section - "ContentManagement", "JumpList", "PostToLibrary"

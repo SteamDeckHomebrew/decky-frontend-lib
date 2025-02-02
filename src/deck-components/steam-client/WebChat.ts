@@ -1,5 +1,5 @@
 import {OverlayBrowserInfo} from "./Overlay";
-import {EUIMode, Unregisterable} from "./index";
+import { EUIMode, Unregisterable } from "./shared";
 
 export interface WebChat {
     BSuppressPopupsInRestore(): Promise<boolean>;

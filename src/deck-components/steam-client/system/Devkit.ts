@@ -1,4 +1,4 @@
-import {Unregisterable} from "../index";
+import { Unregisterable } from "../shared";
 
 export interface Devkit {
     DeveloperModeChanged(state: boolean): any;

@@ -1,4 +1,4 @@
-import {JsPbMessage, OperationResponse, EResult, Unregisterable} from "./index";
+import { EResult, JsPbMessage, OperationResponse, Unregisterable } from "./shared";
 
 export interface Updates {
     ApplyUpdates(param0: string): Promise<OperationResponse>;

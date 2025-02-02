@@ -1,4 +1,4 @@
-import {Unregisterable} from "./index";
+import { Unregisterable } from "./shared";
 import {AppAchievements} from "./App";
 import { Screenshot } from "./Screenshots";
 

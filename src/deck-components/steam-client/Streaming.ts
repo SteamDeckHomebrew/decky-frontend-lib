@@ -1,4 +1,4 @@
-import {Unregisterable, type EResult} from "./index";
+import { EResult, Unregisterable } from "./shared";
 import {LaunchOption} from "./App";
 
 export interface Streaming {

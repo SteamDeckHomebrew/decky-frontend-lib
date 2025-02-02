@@ -1,4 +1,4 @@
-import type { JsPbMessage, Unregisterable } from "./index";
+import type { JsPbMessage, Unregisterable } from "./shared";
 
 export interface GameRecording {
   /**

@@ -1,4 +1,4 @@
-import {Unregisterable} from "./index";
+import { Unregisterable } from "./shared";
 
 /**
  * Represents the console functionality for executing commands and handling spew output.

@@ -1,4 +1,4 @@
-import {EBrowserType, EUIMode, Unregisterable} from "./index";
+import type { EBrowserType, ESteamRealm, EUIComposition, EUIMode, Unregisterable } from "./shared";
 
 export interface Overlay {
     /**
@@ -90,35 +90,4 @@ export interface OverlayBrowserProtocols {
     unAppID: number;
     strScheme: string;
     bAdded: boolean;
-}
-
-export enum ESteamRealm {
-    Unknown,
-    Global,
-    China,
-}
-
-/**
- * Controls how Gamescope renders the GamepadUI window when a game is running.
- */
-export enum EUIComposition {
-    /** Steam is not rendered on the screen. */
-    Hidden,
-    /**
-     * Transparent divs will allow pixels from the app behind Steam to penetrate.
-     * Input goes to **the app**.
-     */
-    Notification,
-    /**
-     * Transparent divs will allow pixels from the app behind Steam to penetrate.
-     * Input goes to **Steam**.
-     */
-    Overlay,
-    /** Take all of the pixels on the screen, nothing "behind" Steam is shown. */
-    Opaque,
-    /**
-     * Special composition mode that matches {@link Overlay}, but forwards synthetic keyboard
-     * events to the Gamescope foreground app (game) instead of Steam.
-     */
-    OverlayKeyboard,
 }

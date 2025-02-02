@@ -1,4 +1,4 @@
-import {JsPbMessage, OperationResponse} from "../index";
+import { JsPbMessage, OperationResponse } from "../shared";
 
 export interface Report {
     /**

@@ -1,4 +1,4 @@
-import {Unregisterable} from "../index";
+import { Unregisterable } from "../shared";
 
 export interface UI {
     CloseGameWindow(appId: number, windowId: number): void;

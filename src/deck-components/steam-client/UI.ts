@@ -1,4 +1,4 @@
-import {EUIMode, Unregisterable} from "./index";
+import { EUIMode, Unregisterable } from "./shared";
 import {EOSType} from "./system";
 
 export interface UI {

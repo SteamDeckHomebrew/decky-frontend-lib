@@ -1,4 +1,4 @@
-import { Unregisterable } from "./index";
+import { Unregisterable } from "./shared";
 
 /**
  * Represents functions related to managing friends in Steam.

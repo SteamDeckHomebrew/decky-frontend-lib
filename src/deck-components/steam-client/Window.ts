@@ -1,4 +1,4 @@
-import {EUIComposition} from "./Overlay";
+import { EUIComposition } from "./shared";
 
 /**
  * Represents functionality for managing Steam's windows.

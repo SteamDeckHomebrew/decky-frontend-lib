@@ -1,4 +1,4 @@
-import {EResult, Unregisterable} from "./index";
+import { EResult, Unregisterable } from "./shared";
 
 /**
  * Interface for managing parental control settings.

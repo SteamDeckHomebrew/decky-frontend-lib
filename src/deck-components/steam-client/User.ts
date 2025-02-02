@@ -1,4 +1,4 @@
-import {OperationResponse, Unregisterable} from "./index";
+import { OperationResponse, Unregisterable } from "./shared";
 
 export interface User {
     AuthorizeMicrotxn(txnId: any): any;

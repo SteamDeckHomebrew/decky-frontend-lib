@@ -1,5 +1,4 @@
-import {Unregisterable} from "./index";
-import {ESteamRealm} from "./Overlay";
+import { ESteamRealm, Unregisterable } from "./shared";
 
 /**
  * `hSharedConnection` is the number from {@link AllocateSharedConnection}.

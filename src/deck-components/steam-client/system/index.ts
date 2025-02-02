@@ -1,4 +1,4 @@
-import {JsPbMessage, OperationResponse, Unregisterable} from "../index";
+import { JsPbMessage, OperationResponse, Unregisterable } from "../shared";
 import {Audio} from "./Audio";
 import {AudioDevice} from "./AudioDevice";
 import {Bluetooth} from "./Bluetooth";

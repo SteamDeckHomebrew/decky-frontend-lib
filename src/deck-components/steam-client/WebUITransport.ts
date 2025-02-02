@@ -1,4 +1,4 @@
-import { OperationResponse } from "./index";
+import { OperationResponse } from "./shared";
 
 export interface WebUITransport {
     GetTransportInfo(): Promise<TransportInfo>;

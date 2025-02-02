@@ -1,4 +1,4 @@
-import {JsPbMessage} from "./index";
+import { JsPbMessage } from "./shared";
 import {EOSType} from "./system";
 
 export interface Auth {

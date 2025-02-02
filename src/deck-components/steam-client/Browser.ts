@@ -1,4 +1,4 @@
-import {Unregisterable} from "./index";
+import { Unregisterable } from "./shared";
 
 export interface Browser {
     AddWordToDictionary(word: string): void;

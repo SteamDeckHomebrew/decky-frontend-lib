@@ -1,5 +1,5 @@
 import {CompatibilityToolInfo} from "./App";
-import {JsPbMessage, OperationResponse, Unregisterable} from "./index";
+import { JsPbMessage, OperationResponse, Unregisterable } from "./shared";
 
 export interface Settings {
     AddClientBeta(name: string, password: string): void;

@@ -1,4 +1,4 @@
-import {JsPbMessage, Unregisterable} from "../index";
+import { JsPbMessage, Unregisterable } from "../shared";
 import {EUpdaterState} from "../Updates";
 
 // CMsgSystemDockUpdateFirmware, CMsgSystemDockState

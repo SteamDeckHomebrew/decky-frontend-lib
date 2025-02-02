@@ -1,4 +1,4 @@
-import {OperationResponse, Unregisterable} from "../index";
+import { OperationResponse, Unregisterable } from "../shared";
 
 /**
  * Provides functionality for managing Bluetooth devices and interactions.

@@ -1,4 +1,4 @@
-import {JsPbMessage, OperationResponse, EResult, Unregisterable} from "./index";
+import type { EResult, JsPbMessage, OperationResponse, Unregisterable } from "./shared";
 import type { EControllerRumbleSetting, EThirdPartyControllerConfiguration } from "./Input";
 import {EUCMFilePrivacyState, Screenshot} from "./Screenshots";
 

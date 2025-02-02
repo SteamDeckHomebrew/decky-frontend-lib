@@ -1,4 +1,4 @@
-import {OperationResponse} from "./index";
+import { OperationResponse } from "./shared";
 
 /**
  * SteamClient.MachineStorage affects the "STEAMPATH/config/config.vdf" file.
