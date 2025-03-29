@@ -16,7 +16,7 @@ export interface SidebarNavigationPage {
 }
 
 export interface SidebarNavigationProps {
-  title?: string;
+  title?: ReactNode;
   pages: (SidebarNavigationPage | 'separator')[];
   showTitle?: boolean;
   disableRouteReporting?: boolean;
