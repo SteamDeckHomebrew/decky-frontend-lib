@@ -1,3 +1,10 @@
+## [4.9.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.9.1...v4.9.2) (2025-03-29)
+
+
+### Bug Fixes
+
+* **SidebarNavigation:** change title to ReactNode type ([#117](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/117)) ([41d0555](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/41d0555d314f9f68d3cdcc45f454f13b952b4581))
+
 ## [4.9.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.9.0...v4.9.1) (2025-01-29)
 
 
