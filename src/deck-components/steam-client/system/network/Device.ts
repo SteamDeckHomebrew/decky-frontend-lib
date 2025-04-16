@@ -1,6 +1,11 @@
+import { OperationResponse } from "../../shared";
+
 export interface Device {
-    Connect(param0: any): any; // some base64 serialized string
-    Disconnect(deviceId: any): Promise<any>;
+    /**
+     * @param base64 Serialized base64 message from `CMsgNetworkDeviceConnect`.
+     */
+    Connect(base64: string): Promise<OperationResponse>;
+    Disconnect(deviceId: number): Promise<OperationResponse>;
 
     WirelessNetwork: WirelessNetwork;
 }

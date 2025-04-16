@@ -8,11 +8,20 @@ export interface Overlay {
 
     GetOverlayBrowserInfo(): Promise<OverlayBrowserInfo[]>;
 
-    HandleGameWebCallback(url: string): any;
+    // steam://gamewebcallback
+    HandleGameWebCallback(url: string): void;
 
-    HandleProtocolForOverlayBrowser(appId: number, protocol: string): any;
+    /**
+     * @param protocol Something like {@link OverlayBrowserProtocols.strScheme}
+     */
+    HandleProtocolForOverlayBrowser(appId: number, protocol: string): void;
 
-    RegisterForActivateOverlayRequests: Unregisterable;
+    /**
+     * Registers a callback function to be called when an overlay is activated from an app.
+     * @param callback The callback function to be called.
+     * @returns An object that can be used to unregister the callback.
+     */
+    RegisterForActivateOverlayRequests(callback: (request: ActivateOverlayRequest) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when a microtransaction authorization is requested.
@@ -31,7 +40,7 @@ export interface Overlay {
     RegisterForMicroTxnAuthDismiss(callback: (appId: number, microTxnId: string) => void): Unregisterable;
 
     RegisterForNotificationPositionChanged(
-        callback: (appId: any, position: ENotificationPosition, horizontalInset: number, verticalInset: number) => void,
+        callback: (appId: number, position: ENotificationPosition, horizontalInset: number, verticalInset: number) => void,
     ): Unregisterable;
 
     /**
@@ -60,8 +69,31 @@ export interface Overlay {
      */
     RegisterOverlayBrowserInfoChanged(callback: () => void): Unregisterable;
 
-    SetOverlayState(appId: number, uiComposition: EUIComposition): any;
+    SetOverlayState(appId: string, uiComposition: EUIComposition): void;
 }
+
+type OverlayRequestDialog_t =
+	| 'achievements'
+	| 'asyncnotificationsrequested'
+	| 'chat'
+	| 'community'
+	| 'friendadd'
+	| 'friendremove'
+	| 'friendrequestaccept'
+	| 'friendrequestignore'
+	| 'friendremove'
+	| 'jointrade'
+	| 'leaderboards'
+	| 'lobbyinvite'
+	| 'lobbyinviteconnectstring'
+	| 'officialgamegroup'
+	| 'requestplaytime'
+	| 'remoteplaytogether'
+	| 'remoteplaytogetherinvite'
+	| 'settings'
+	| 'stats'
+	| 'steamid'
+	| 'store';
 
 // EPosition
 export enum ENotificationPosition {
@@ -69,6 +101,42 @@ export enum ENotificationPosition {
     TopRight,
     BottomLeft,
     BottomRight,
+}
+
+export interface ActivateOverlayRequest {
+    /**
+     * The app ID that just had an overlay request.
+     */
+    appid: number;
+
+    /**
+     * `true` if webpage, and so {@link strDialog} will start with `https://`.
+     */
+    bWebPage: boolean;
+
+    eFlag: EOverlayToStoreFlag;
+
+    eWebPageMode: EActivateGameOverlayToWebPageMode;
+
+    /**
+     * Steam64 ID.
+     */
+    steamidTarget: string;
+
+    /**
+     * Game invites string for `Friends.InviteUserToGame`.
+     */
+    strConnectString: string;
+
+    /**
+     * Web page URL if starts with `https://`, so cast the type to `string` if it is.
+     */
+    strDialog: OverlayRequestDialog_t;
+
+    /**
+     * App ID of the requesting game.
+     */
+    unRequestingAppID: number;
 }
 
 export interface OverlayBrowserInfo {
@@ -90,4 +158,15 @@ export interface OverlayBrowserProtocols {
     unAppID: number;
     strScheme: string;
     bAdded: boolean;
+}
+
+export enum EActivateGameOverlayToWebPageMode {
+    Default,
+    Modal,
+}
+
+export enum EOverlayToStoreFlag {
+    None,
+    AddToCart,
+    AddToCartAndShow,
 }

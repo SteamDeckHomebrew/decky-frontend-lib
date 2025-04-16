@@ -16,8 +16,7 @@ export interface Friends {
      */
     GetCoplayData(): Promise<CoplayData>;
 
-    //(e.ConvertTo64BitString(), t.steamidTarget)
-    InviteUserToCurrentGame(steam64Id: string, param1: any): any;
+    InviteUserToCurrentGame(steam64Id: string, steamIdTarget: string): Promise<boolean>;
 
     /**
      * Invites a user to a specific game.
@@ -28,13 +27,18 @@ export interface Friends {
      */
     InviteUserToGame(steamId: string, appId: number, connectString: string): Promise<boolean>;
 
-    //(e.ConvertTo64BitString(), t.steamidTarget)
-    InviteUserToLobby(steam64Id: string, param1: any): any;
+    /**
+     * Invites a user to a specific lobby.
+     * @returns A Promise that resolves to true if the user was invited successfully, false otherwise.
+     */
+    InviteUserToLobby(steam64Id: string, steamIdTarget: string): Promise<boolean>;
 
-    //(e.ConvertTo64BitString())
-    InviteUserToRemotePlayTogetherCurrentGame(steam64Id: string): any;
+    InviteUserToRemotePlayTogetherCurrentGame(steam64Id: string): Promise<boolean>;
 
-    RegisterForMultiplayerSessionShareURLChanged(param0: any, param1: any): Unregisterable;
+    RegisterForMultiplayerSessionShareURLChanged(
+        appId: number,
+        callback: (param0: string, param1: string) => void,
+    ): Unregisterable;
 
     RegisterForVoiceChatStatus(callback: (status: VoiceChatStatus) => void): Unregisterable;
 

@@ -1,4 +1,4 @@
-import { JsPbMessage } from "./shared";
+import { EResult, JsPbMessage, OperationResponse } from "./shared";
 import {EOSType} from "./system";
 
 export interface Auth {
@@ -18,17 +18,17 @@ export interface Auth {
 
     GetRefreshInfo(): Promise<AuthRefreshInfo>;
 
-    GetSteamGuardData(param0: any): any;
+    GetSteamGuardData(param0: string): Promise<SteamGuardData>;
 
     IsSecureComputer(): Promise<boolean>;
 
     SetCachedSignInPin(pin: string): Promise<boolean>;
 
-    SetLoginToken(refreshToken: string, accountName: string): any;
+    SetLoginToken(refreshToken: string, accountName: string): Promise<OperationResponse>;
 
-    SetSteamGuardData(accountName: string, newGuardData: string): any;
+    SetSteamGuardData(accountName: string, newGuardData: string): void;
 
-    StartSignInFromCache(param0: any, login: string): Promise<any>;
+    StartSignInFromCache(accountName: string, offlineMode: boolean): Promise<OperationResponse | void>;
 
     UserHasCachedSignInPin(accountName: string): Promise<boolean>;
 
@@ -39,6 +39,11 @@ export interface AuthRefreshInfo {
     reason: number;
     account_name: string;
     login_id_token: string;
+}
+
+export interface SteamGuardData {
+  data: string;
+  eresult: EResult;
 }
 
 /**

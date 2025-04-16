@@ -7,7 +7,10 @@ export interface AudioDevice {
      */
     RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    UpdateSomething(param0: any): any; // e.UpdateSomething(t.serializeBase64String())
+    /**
+     * @param base64 Serialized base64 message from `CMsgSystemAudioManagerUpdateSomething`.
+     */
+    UpdateSomething(base64: string): void;
 }
 
 /**

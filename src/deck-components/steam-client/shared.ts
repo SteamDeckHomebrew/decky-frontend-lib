@@ -137,28 +137,6 @@ export enum EBrowserType {
   OpenVROverlay_Subview,
 }
 
-/**
- * @todo May be useful for ParentalSettings.feature ?
- */
-export enum EParentalFeature {
-  Invalid,
-  Store,
-  Community,
-  Profile,
-  Friends,
-  News,
-  Trading,
-  Settings,
-  Console,
-  Browser,
-  ParentalSetup,
-  Library,
-  Test,
-  SiteLicense,
-  KioskMode,
-  Max,
-}
-
 export enum ESteamRealm {
   Unknown,
   Global,

@@ -8,10 +8,15 @@ export interface UI {
     RegisterForFocusChangeEvents(callback: (event: FocusChangeEvent) => void): Unregisterable;
 
     // appId is 0 if unknown app is focused
-    RegisterForOverlayGameWindowFocusChanged(callback: (appId: number, param1: number) => void): Unregisterable;
+    RegisterForOverlayGameWindowFocusChanged(callback: (appId: number, overlayPid: number) => void): Unregisterable;
 
-    //event.eKey, event.nControllerIndex
-    RegisterForSystemKeyEvents(callback: (event: any) => void): Unregisterable; // eKey
+    RegisterForSystemKeyEvents(callback: (event: SystemKeyEvent) => void): Unregisterable;
+}
+
+interface SystemKeyEvent {
+    /** @todo enum */
+    eKey: number;
+    nControllerIndex: number;
 }
 
 export interface FocusChangeEvent {

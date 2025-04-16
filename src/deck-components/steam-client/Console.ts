@@ -22,8 +22,10 @@ export interface Console {
      * @param callback The callback function that will receive spew output.
      * @returns An object that can be used to unregister the callback.
      */
-    RegisterForSpewOutput(callback: (spewOutput: SpewOutput) => void): Unregisterable;
+    RegisterForSpewOutput(callback: (output: SpewOutput) => void): Unregisterable;
 }
+
+export type SpewType_t = "assert" | "error" | "warning" | "info" | "input";
 
 /**
  * Represents spew output information.
@@ -37,5 +39,5 @@ export interface SpewOutput {
     /**
      * The type or category of the spew output.
      */
-    spew_type: "error" | "info" | "input";
+    spew_type: SpewType_t;
 }

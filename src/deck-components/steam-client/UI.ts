@@ -33,6 +33,9 @@ export interface UI {
      */
     RegisterForClientConVar(convar: string, callback: (value: string) => void): Unregisterable;
 
+    /**
+     * @todo param{0,1} are enums
+     */
     RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable;
 
     RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;

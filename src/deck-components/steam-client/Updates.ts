@@ -1,7 +1,10 @@
 import { EResult, JsPbMessage, OperationResponse, Unregisterable } from "./shared";
 
 export interface Updates {
-    ApplyUpdates(param0: string): Promise<OperationResponse>;
+    /**
+     * @param base64 Serialized base64 message from `CMsgSystemUpdateApplyParams`.
+     */
+    ApplyUpdates(base64: string): Promise<OperationResponse>;
 
     CheckForUpdates(): Promise<OperationResponse>; // Checks for software updates
 
@@ -15,8 +18,10 @@ export interface Updates {
      */
     RegisterForUpdateStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    // 1 - Stable, 2 - Beta, 3 - Preview
-    SelectOSBranch(branch: number): any; // enum?
+    /**
+     * @param base64 Serialized base64 message from `CMsgSelectOSBranchParams`.
+     */
+    SelectOSBranch(base64: string): Promise<OperationResponse>;
 }
 
 

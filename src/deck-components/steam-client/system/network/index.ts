@@ -1,7 +1,6 @@
 import { JsPbMessage, OperationResponse, Unregisterable } from "../../shared";
 import {Device} from "./Device";
 
-
 export interface Network {
     Device: Device;
 
@@ -11,11 +10,11 @@ export interface Network {
 
     GetProxyInfo(): Promise<ProxyInfo>;
 
-    // data.nAppID, data.serializedMsg
-    RegisterForAppSummaryUpdate(callback: (data: any) => any): Unregisterable;
+    RegisterForAppSummaryUpdate(callback: (data: AppSummary) => void): Unregisterable;
 
     /**
-     * @todo {@link GameNetworkingUI_ConnectionState}, unconfirmed
+     * If `state` is deserialized, returns {@link GameNetworkingUI_ConnectionState}.
+     * @returns An object that can be used to unregister the callback.
      */
     RegisterForConnectionStateUpdate(callback: (state: ArrayBuffer) => void): Unregisterable;
 
@@ -63,6 +62,14 @@ export interface ProxyInfo {
     exclude_local: boolean;
 }
 
+interface AppSummary {
+    nAppID: number;
+    /**
+     * If deserialized, returns {@link CGameNetworkingUI_AppSummary}.
+     */
+    serializedMessage: ArrayBuffer;
+}
+
 export enum ENetFakeLocalSystemState {
     Normal,
     NoLAN,
@@ -81,6 +88,25 @@ export interface MsgNetworkDevicesData extends JsPbMessage {
     is_wifi_enabled(): boolean;
 
     is_wifi_scanning_enabled(): boolean;
+}
+
+export interface CGameNetworkingUI_ConnectionSummary {
+    transport_kind?: number;
+    connection_state?: number;
+    sdrpop_local?: number;
+    sdrpop_remote?: number;
+    ping_ms?: number;
+    packet_loss?: number;
+    ping_default_internet_route?: number;
+    ip_was_shared?: number;
+}
+
+export interface CGameNetworkingUI_AppSummary {
+    appid?: number;
+    ip_was_shared_with_friend?: boolean;
+    ip_was_shared_with_nonfriend?: boolean;
+    active_connections?: number;
+    main_cxn?: CGameNetworkingUI_ConnectionSummary;
 }
 
 export interface SteamDatagramLinkInstantaneousStats {

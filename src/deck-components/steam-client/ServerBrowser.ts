@@ -9,7 +9,7 @@ export interface ServerBrowser {
      * @param server The server to add.
      * @returns A Promise that resolves to an empty string if successful, `Invalid/missing IPv4?` if failed.
      */
-    AddFavoriteServer(server: ServerBrowserServerFull): Promise<string>;
+    AddFavoriteServer(server: GameServer): Promise<string>;
 
     /**
      * Adds a favorite server by IP.
@@ -29,7 +29,7 @@ export interface ServerBrowser {
     ConnectToServer(dialogId: number, password: string): Promise<EJoinServerError>;
 
     /**
-     * Creates a server info dialog, on which your friend is playing on.
+     * Creates a server info dialog for the server your friend is currently playing on.
      * @param pid 0
      * @param steamId A Steam64 ID of a friend.
      */
@@ -37,10 +37,10 @@ export interface ServerBrowser {
 
     /**
      * Creates a server info dialog.
-     * @param ip The IP to create a dialog for.
-     * @param port The IP's port.
+     * @param ip The server IP.
+     * @param port The server port.
      * @param queryPort
-     * @returns A Promise that resolves to the current dialog ID.
+     * @returns A Promise that resolves to the created dialog ID.
      */
     CreateServerGameInfoDialog(ip: string, port: number, queryPort: number): Promise<number>;
 
@@ -99,7 +99,7 @@ export interface ServerBrowser {
         appId: number,
         queryType: ServerBrowserTab,
         filters: string[],
-        serverCallback: (server: ServerBrowserServerFull) => void,
+        serverCallback: (server: GameServer) => void,
         requestCompletedCallback: (response: number) => void,
     ): Promise<number | OperationResponse>;
 
@@ -167,7 +167,7 @@ export interface ServerBrowser {
      */
     RegisterForPlayerDetails(
         dialogId: number,
-        callback: (player: ServerBrowserPlayer | ServerBrowserPlayerRefreshStatus) => void,
+        callback: (player: PlayerDetails) => void,
     ): Unregisterable;
 
     /**
@@ -176,19 +176,19 @@ export interface ServerBrowser {
      * @param callback The callback function to be called.
      * @returns An object that can be used to unregister the callback.
      */
-    RegisterForServerInfo(dialogId: number, callback: (server: ServerBrowserServerFull) => void): Unregisterable;
+    RegisterForServerInfo(dialogId: number, callback: (server: GameServer) => void): Unregisterable;
 
     /**
      * Removes a server from favorite servers.
      * @param server The server to remove.
      */
-    RemoveFavoriteServer(server: ServerBrowserServer): void;
+    RemoveFavoriteServer(server: GameServer): void;
 
     /**
      * Removes a server from history of played servers.
      * @param server The server to remove.
      */
-    RemoveHistoryServer(server: ServerBrowserServer): void;
+    RemoveHistoryServer(server: GameServer): void;
 
     /**
      * Requests player details for a specific dialog.
@@ -203,61 +203,7 @@ export interface ServerBrowser {
     SetServerListPreferences(prefs: ServerBrowserPreferences): void;
 }
 
-export interface ServerBrowserServer {
-    /** The ID of the game. */
-    appid: number;
-    /** The server IP. */
-    ip: string;
-    /** The server port. */
-    port: number;
-    queryPort: number;
-    /** Last time played as a UNIX timestamp. */
-    lastPlayed: number;
-}
 
-export interface ServerBrowserServerFull extends ServerBrowserServer {
-    /** Do not refresh if had unsuccessful response? */
-    bDoNotRefresh: boolean;
-    /** Found the server? */
-    bHadSuccessfulResponse: boolean;
-    /** Has password? */
-    bPassword: boolean;
-    /** Is VAC secured? */
-    bSecure: boolean;
-    /** How many bot players there currently are. */
-    botPlayers: number;
-    /** The server's game name/description. */
-    gameDesc: string;
-    /** The game folder. */
-    gameDir: string;
-    /** Server tags, separated by a comma. */
-    gameTags: string;
-    /** Current server map. */
-    map: string;
-    /** Max players on the server. */
-    maxPlayers: number;
-    /** The server name. */
-    name: string;
-    /** The latency to the server. */
-    ping: number;
-    /** How many players there currently are. */
-    players: number;
-    /** The server's game version it is running on. */
-    serverVersion: number;
-    steamID: string;
-}
-
-export enum EJoinServerError {
-    PingFailed = -3,
-    Connecting,
-    Pinging,
-    None,
-    VACBanned,
-    ServerFull,
-    ModNotInstalled,
-    AppNotFound,
-    NotInitialized,
-}
 
 export type ServerBrowserTab = 'internet' | 'favorites' | 'history' | 'lan' | 'friends';
 
@@ -277,13 +223,9 @@ export interface ServerBrowserPreferences {
     filters: ServerBrowserTabFilters;
 }
 
-export interface ServerBrowserTabFilters {
-    favorites: ServerBrowserGameFilter;
-    friends: ServerBrowserGameFilter;
-    history: ServerBrowserGameFilter;
-    internet: ServerBrowserGameFilter;
-    lan: ServerBrowserGameFilter;
-}
+export type ServerBrowserTabFilters = {
+    [tab in ServerBrowserTab]: ServerBrowserGameFilter;
+};
 
 export interface ServerBrowserGameFilter {
     /** Has users playing */
@@ -319,8 +261,8 @@ export enum EServerBrowserGameFilterPing {
 }
 
 export interface ServerBrowserFavoritesAndHistory {
-    favorites: ServerBrowserServer[];
-    history: ServerBrowserServer[];
+    favorites: GameServer[];
+    history: GameServer[];
 }
 
 export interface ServerBrowserFriendServer {
@@ -341,16 +283,90 @@ export interface ServerBrowserDialog {
     queryPort: number;
 }
 
-export interface ServerBrowserPlayerRefreshStatus {
-    bSuccess: boolean;
-    bRefreshComplete: boolean;
+export interface GameServer  {
+    /** The ID of the game. */
+    appid: number;
+    /** Do not refresh if had unsuccessful response? */
+    bDoNotRefresh?: boolean;
+    /** Found the server? */
+    bHadSuccessfulResponse: boolean;
+    /** Has password? */
+    bPassword: boolean;
+    /** Is VAC secured? */
+    bSecure: boolean;
+    /** How many bot players there currently are. */
+    botPlayers: number;
+    /** The server's game name/description. */
+    gameDesc: string;
+    /** The game folder. */
+    gameDir: string;
+    /** Server tags, separated by a comma. */
+    gameTags: string;
+    /** The server IP. */
+    ip: string;
+    /** Last time played as a UNIX timestamp. */
+    lastPlayed: number;
+    /** Current server map. */
+    map: string;
+    /** Max players on the server. */
+    maxPlayers: number;
+    /** The server name. */
+    name: string;
+    /** The latency to the server. */
+    ping: number;
+    /** How many players there currently are. */
+    players: number;
+    /** The server port. */
+    port: number;
+    queryPort: number;
+    /** The server's game version it is running on. */
+    serverVersion: number;
+    /** Game server account ID. */
+    steamID: string;
 }
 
-export interface ServerBrowserPlayer extends ServerBrowserPlayerRefreshStatus {
-    /** Player name. */
-    playerName: string;
-    /** Player score. */
-    score: number;
-    /** Time played on the server. */
-    timePlayed: number;
+export enum EJoinServerError {
+    PingFailed = -3,
+    Connecting,
+    Pinging,
+    None,
+    VACBanned,
+    ServerFull,
+    ModNotInstalled,
+    AppNotFound,
+    NotInitialized,
 }
+
+export interface PlayerDetails {
+    /**
+     * `true` is the server refresh is successful.
+     */
+    bSuccess: boolean;
+
+    /**
+     * `true` when the server refresh is done.
+     */
+    bRefreshComplete: boolean;
+
+    /**
+     * Player name.
+     * 
+     * @note Defined when {@link bRefreshComplete} is `true`.
+     */
+    playerName?: string;
+
+    /**
+     * Player score.
+     * 
+     * @note Defined when {@link bRefreshComplete} is `true`.
+     */
+    score?: number;
+
+    /**
+     * Time played on the server in seconds
+     * 
+     * @note Defined when {@link bRefreshComplete} is `true`.
+     */
+    timePlayed?: number;
+}
+

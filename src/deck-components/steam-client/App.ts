@@ -68,7 +68,7 @@ export interface Apps {
      */
     ClearCustomLogoPositionForApp(appId: number): Promise<void>;
 
-    ClearProton(appId: number): Promise<any>;
+    ClearProton(appId: number): Promise<void>;
 
     /**
      * Continues a specific game action.
@@ -98,6 +98,7 @@ export interface Apps {
      * @param start The start of the time range as a Unix timestamp.
      * @param end The end of the time range as a Unix timestamp.
      * @returns A Promise that resolves to an array of AppAchievement objects.
+     * @throws OperationResponse
      */
     GetAchievementsInTimeRange(appId: number, start: number, end: number): Promise<AppAchievement[]>;
 
@@ -125,9 +126,9 @@ export interface Apps {
     /**
      * Retrieves cached details for a specific application.
      * @param appId The ID of the application.
-     * @returns A Promise that resolves to a stringified object.
+     * @returns A Promise that resolves to a stringified object. Returns {@link CachedAppDetails} when parsed.
      */
-    GetCachedAppDetails(appId: number): Promise<string>; // todo: Parsing nightmare
+    GetCachedAppDetails(appId: number): Promise<string>;
 
     /**
      * @returns a ProtoBuf message. If deserialized, returns {@link CMsgCloudPendingRemoteOperations}.
@@ -136,7 +137,7 @@ export interface Apps {
         PendingOperations: ArrayBuffer;
     }>;
 
-    GetCompatExperiment(param0: number): Promise<any>;
+    GetCompatExperiment(param0: number): Promise<string>;
 
     GetConflictingFileTimestamps(appId: number): Promise<ConflictingFileTimestamp>;
 
@@ -163,7 +164,7 @@ export interface Apps {
      */
     GetDownloadedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
-    GetDurationControlInfo(appId: number): Promise<any>; // any - {"bApplicable": true} - overlay usage?
+    GetDurationControlInfo(appId: number): Promise<{ bApplicable: boolean; }>;
 
     /**
      * Retrieves achievement information for a specific application for a given friend.
@@ -289,10 +290,24 @@ export interface Apps {
      */
     GetSubscribedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
-    InstallFlatpakAppAndCreateShortcut(appName: string, appCommandLineOptions: string): Promise<any>; // returns {"appid":0,"strInstallOutput":""}
-    JoinAppContentBeta(appId: number, name: string): any;
+    InstallFlatpakAppAndCreateShortcut(appName: string, appCommandLineOptions: string): Promise<{
+        appid: number;
+        strInstallOutput: string;
+    }>;
 
-    JoinAppContentBetaByPassword(appId: number, accessCode: any): Promise<any>; // any.strName
+    /**
+     * Join an app beta.
+     * @param appId App ID of the beta to join.
+     * @param name Beta name. Empty to opt out of betas.
+     * @throws EResult if no beta found.
+     */
+    JoinAppContentBeta(appId: number, name: string): Promise<EResult>;
+
+    /**
+     * Join an app beta by password.
+     * @throws EResult if no beta found.
+     */
+    JoinAppContentBetaByPassword(appId: number, accessCode: string): Promise<any>; // any.strName
 
     ListFlatpakApps(): Promise<any>;
 
@@ -300,9 +315,9 @@ export interface Apps {
      * @throws if the user does not own the app or no EULA.
      */
     LoadEula(appId: number): Promise<EndUserLicenseAgreement[]>; // Doesn't bring up the EULA dialog, just returns the eula data
-    MarkEulaAccepted(param0: any, param1: any, param2: any): any;
+    MarkEulaAccepted(appId: number, id: string, version: number): void;
 
-    MarkEulaRejected: any;
+    MarkEulaRejected(appId: number, id: string, version: number): void;
 
     /**
      * Move specified workshop item load order.
@@ -358,15 +373,6 @@ export interface Apps {
      */
     RegisterForAppDetails(appId: number, callback: (appDetails: AppDetails) => void): Unregisterable;
 
-    /*
-
-    message CAppOverview_Change {
-        repeated .CAppOverview app_overview = 1;
-        repeated uint32 removed_appid = 2;
-        optional bool full_update = 3;
-        optional bool update_complete = 4;
-    }
-     */
     /**
      * If `data` is deserialized, returns {@link AppOverview_Change}.
      * @remarks This is not a mistake, it doesn't return anything.
@@ -374,7 +380,7 @@ export interface Apps {
     RegisterForAppOverviewChanges(callback: (data: ArrayBuffer) => void): void;
 
     RegisterForDRMFailureResponse(
-        callback: (appid: number, eResult: number, errorCode: number) => void,
+        callback: (appid: number, eResult: EResult, errorCode: number) => void,
     ): Unregisterable;
 
     /**
@@ -454,7 +460,7 @@ export interface Apps {
         callback: (appId: number, publishedFileId: string, param2: number) => void,
     ): Unregisterable;
 
-    RegisterForWorkshopItemInstalled: any;
+    RegisterForWorkshopItemInstalled(callback: (item: InstalledWorkshopItem) => void): Unregisterable;
 
     /**
      * Removes a non-Steam application shortcut from the Steam library.
@@ -466,9 +472,9 @@ export interface Apps {
 
     ReportMarketingMessageDialogShown(): void;
 
-    RequestIconDataForApp(appId: number): any;
+    RequestIconDataForApp(appId: number): void;
 
-    RequestLegacyCDKeysForApp(appId: number): any;
+    RequestLegacyCDKeysForApp(appId: number): void;
 
     /**
      * Runs a game with specified parameters. Focuses the game if already launched.
@@ -488,7 +494,7 @@ export interface Apps {
         JSON.stringify(this.m_achievementProgress, u)
       );
     */
-    SaveAchievementProgressCache(progress: string): any;
+    SaveAchievementProgressCache(progress: string): Promise<void>;
 
     /**
      * Scans the system for installed non-Steam applications.
@@ -541,7 +547,7 @@ export interface Apps {
      * @param appId The ID of the application to set the resolution override for.
      * @param resolution The resolution to be set for the application. It can be "Default", "Native", or other compatible resolutions for the user's monitor.
      */
-    SetAppResolutionOverride(appId: number, resolution: string): any;
+    SetAppResolutionOverride(appId: number, resolution: string): void;
 
     /**
      * Sets cached details for a specific application.
@@ -551,7 +557,7 @@ export interface Apps {
      */
     SetCachedAppDetails(appId: number, details: string): Promise<void>;
 
-    SetControllerRumblePreference(appId: number, param1: number): any; // param1 - enum for preference
+    SetControllerRumblePreference(appId: number, param1: number): void; // param1 - enum for preference
 
     /**
      * Sets the custom artwork for a given application.
@@ -560,7 +566,7 @@ export interface Apps {
      * @param assetType The type of artwork to set.
      * @returns A Promise that resolves after the custom artwork is set.
      */
-    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: 'jpg' | 'png', assetType: ELibraryAssetType): Promise<any>;
+    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: 'jpg' | 'png', assetType: ELibraryAssetType): Promise<void>;
 
     /**
      * Sets a custom logo position for a specific app.
@@ -584,7 +590,7 @@ export interface Apps {
      * @param hHandle The handle of the screenshot.
      * @param caption
      */
-    SetLocalScreenshotCaption(appId: string, hHandle: any, caption: string): void;
+    SetLocalScreenshotCaption(appId: string, hHandle: number, caption: string): void;
 
     /**
      * Set a local screenshot's privacy state.
@@ -592,7 +598,7 @@ export interface Apps {
      * @param hHandle The handle of the screenshot.
      * @param privacy Screenshot privacy state.
      */
-    SetLocalScreenshotPrivacy(appId: string, hHandle: any, privacy: EUCMFilePrivacyState): void;
+    SetLocalScreenshotPrivacy(appId: string, hHandle: number, privacy: EUCMFilePrivacyState): void;
 
     /**
      * Set a local screenshot's spoiler state.
@@ -600,7 +606,7 @@ export interface Apps {
      * @param hHandle The handle of the screenshot.
      * @param spoilered Is the screenshot spoilered?
      */
-    SetLocalScreenshotSpoiler(appId: string, hHandle: any, spoilered: boolean): void;
+    SetLocalScreenshotSpoiler(appId: string, hHandle: number, spoilered: boolean): void;
 
     /**
      * Sets the executable path for a non-Steam application shortcut.
@@ -681,7 +687,7 @@ export interface Apps {
      */
     ShowStore(appId: number): void;
 
-    SpecifyCompatExperiment: any;
+    SpecifyCompatExperiment(appId: number, param1: string): void;
 
     /**
      * Specifies a compatibility tool by its name for a given application. If strToolName is an empty string, the specified application will no longer use a compatibility tool.
@@ -708,7 +714,7 @@ export interface Apps {
     TerminateApp(appId: string, param1: boolean): void;
 
     // "#AppProperties_SteamInputDesktopConfigInLauncher"
-    ToggleAllowDesktopConfiguration(appId: number): any;
+    ToggleAllowDesktopConfiguration(appId: number): void;
 
     /**
      * Toggles the Steam Cloud synchronization for game saves for a specific application.
@@ -718,7 +724,7 @@ export interface Apps {
     ToggleAppSteamCloudEnabled(appId: number): void;
 
     // "#AppProperties_EnableSteamCloudSyncOnSuspend"
-    ToggleAppSteamCloudSyncOnSuspendEnabled(appId: number): any;
+    ToggleAppSteamCloudSyncOnSuspendEnabled(appId: number): void;
 
     /**
      * Toggles the Steam Overlay setting for a specific application.
@@ -727,7 +733,7 @@ export interface Apps {
     ToggleEnableSteamOverlayForApp(appId: number): void;
 
     // "#AppProperties_ResolutionOverride_Internal"
-    ToggleOverrideResolutionForInternalDisplay(appId: number): any;
+    ToggleOverrideResolutionForInternalDisplay(appId: number): void;
 
     UninstallFlatpakApp(app: string): Promise<boolean>;
 
@@ -735,7 +741,7 @@ export interface Apps {
      * Verifies the integrity of an app's files.
      * @param appId The ID of the app to verify.
      */
-    VerifyApp(appId: number): Promise<any>; // todo: returns {"nGameActionID":9}
+    VerifyApp(appId: number): Promise<{ nGameActionID: number; }>;
 }
 
 export enum ELibraryAssetType {
@@ -757,21 +763,22 @@ export type AppAchievements = {
 
 export interface AppAchievement {
     bAchieved: boolean;
+    /** Is it a hidden achievement before unlocking it? */
     bHidden: boolean;
     flMinProgress: number;
     flCurrentProgress: number;
     flMaxProgress: number;
-    /** How many players have this achievement, in percentage. */
+    /** How many players have this achievement, in 0-100 range. */
     flAchieved: number;
     /** When this achievement was unlocked. */
     rtUnlocked: number;
-    /** Achievement description. */
+    /** Localized achievement description. */
     strDescription: string;
     /** Achievement ID. */
     strID: string;
     /** Achievement icon. */
     strImage: string;
-    /** Achievement name. */
+    /** Localized achievement name. */
     strName: string;
 }
 
@@ -888,6 +895,13 @@ export interface DetailsForScreenshotUploads {
     strCloudTotal: string;
 }
 
+interface InstalledWorkshopItem {
+  appid: number;
+  legacy_content: string;
+  manifestid: string;
+  publishedfileid: string;
+}
+
 export interface WorkshopItem {
     unAppID: number;
     ulPublishedFileID: string;
@@ -898,7 +912,7 @@ export interface AppAchievementData {
 }
 
 export interface AppAchievementResponse {
-    result: number;
+    result: EResult;
     data: AppAchievementData;
 }
 
@@ -1245,12 +1259,81 @@ export interface AppDetails {
     vecDLC: AppDLC[];
     vecDeckCompatTestResults: DeckCompatTestResult[];
     vecLanguages: AppLanguage[];
-    vecLegacyCDKeys: any[];
+    vecLegacyCDKeys: LegacyCDKey[];
     vecMusicAlbums: AppSoundtrack[];
     /** windows | osx | linux */
     vecPlatforms: string[];
     vecScreenShots: Screenshot[];
     libraryAssets?: AppLibraryAssets;
+}
+
+interface AppAssociation {
+  strName: string;
+  strURL: string;
+}
+
+export interface AppAssociations {
+  rgDevelopers: AppAssociation[];
+  rgFranchises: AppAssociation[];
+  rgPublishers: AppAssociation[];
+}
+
+export interface BadgeCard {
+  nOwned: number;
+  strArtworkURL: string;
+  strImgURL: string;
+  strMarketHash: string;
+  strName: string;
+  strTitle: string;
+}
+
+export interface Badge {
+  bMaxed: 1 | 0;
+  dtNextRetry: number | null;
+  nLevel: number;
+  nMaxLevel: number;
+  nNextLevelXP: number;
+  nXP: number;
+  rgCards: BadgeCard[];
+  strIconURL: string;
+  strName: string;
+  strNextLevelName: string;
+}
+
+interface AppDescription {
+  /**
+   * Full app description. Note that it uses BB code and so must be rendered.
+   */
+  strFullDescription: string;
+
+  /**
+   * Short game description.
+   */
+  strSnippet: string;
+}
+
+interface CachedAppDetailMap {
+  /**
+   * Stringified JSON data of achievements.
+   */
+  achievementmap: string;
+  achievements: AppAchievements;
+  associations: AppAssociations;
+  badge: Badge;
+  descriptions: AppDescription;
+  gameactivity: any[];
+  /**
+   * Each string is a base64 encoded binary data.
+   */
+  usernews: string[];
+  workshop_trendy_items: any;
+}
+
+export type CachedAppDetails = {
+  [K in keyof CachedAppDetailMap]: {
+    version: number;
+    data: CachedAppDetailMap[K];
+  };
 }
 
 export interface AppDeckDerivedProperties {
@@ -1360,6 +1443,12 @@ export type AppLanguage = {
     /** A localization string for the language. */
     strShortName: string;
 };
+
+export interface LegacyCDKey {
+    eResult: EResult;
+    strKey: string;
+    strName: string;
+}
 
 export interface AppBeta {
     /** Beta name. */

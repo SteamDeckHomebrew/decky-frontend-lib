@@ -1,66 +1,84 @@
 import {EControllerType} from "./Input";
-import { Unregisterable } from "./shared";
+import { EParentalFeature } from "./Parental";
+import { EResult, Unregisterable } from "./shared";
 
 export interface RemotePlay {
-    BCanAcceptInviteForGame: any;
-    BCanCreateInviteForGame: any;
-
-    BCanHostIsolatedGameAudio(): Promise<boolean>;
-
-    BEnabled(): Promise<boolean>;
+    /**
+     * @param param1 TODO: Something about restrictions countries ? maybe it's games
+     */
+    BCanAcceptInviteForGame(gameId: string, param1: string): Promise<boolean>;
+    BCanCreateInviteForGame(gameId: string, param1: boolean): Promise<boolean>;
 
     BRemotePlayTogetherGuestOnPhoneOrTablet(steam64Id: string, guestId: number): Promise<boolean>;
 
     BRemotePlayTogetherGuestSupported(): Promise<boolean>;
 
-    CancelInviteAndSession(steam64Id: string): any;
+    // TODO: both calls have 1 arg, but it requires 2
+    CancelInviteAndSession(steam64Id: string, param1: number): Promise<EResult>;
 
-    CancelInviteAndSessionWithGuestID(steam64Id: string, guestId: number): any;
+    CancelInviteAndSessionWithGuestID(steam64Id: string, guestId: number): Promise<EResult>;
 
     CancelRemoteClientPairing(): void;
 
     CloseGroup(): Promise<number>;
 
-    CreateGroup: any;
+    CreateGroup(param0: string): Promise<EResult>;
 
-    CreateInviteAndSession(steam64Id: string, param1: any): any;
+    CreateInviteAndSession(steam64Id: string, param1: string): Promise<EResult>;
 
-    CreateInviteAndSessionWithGuestID(steam64Id: string, guestId: number, param2: any): any;
+    CreateInviteAndSessionWithGuestID(steam64Id: string, guestId: number, param2: string): Promise<EResult>;
 
     GetClientID(): Promise<string>;
 
-    GetClientStreamingBitrate(): Promise<number>; //todo: -1 not streaming??
-    GetClientStreamingQuality(): Promise<number>; //todo: -1 not streaming??
-    GetControllerType(param0: number): Promise<EControllerType>; // todo: param0 with value 0 is host controller type - param0 is likely an index of clients or guestId?
+    // TODO: -1 no preference? no idea where the settings are anyway lol
+    GetClientStreamingBitrate(): Promise<number>;
+    GetClientStreamingQuality(): Promise<number>;
+    GetControllerType(controllerIndex: number): Promise<EControllerType>;
+
+    /**
+     * @returns an integer from 0 to 100.
+     */
     GetGameSystemVolume(): Promise<number>;
 
-    GetPerUserInputSettings(steam64Id: string): any;
+    GetPerUserInputSettings(steam64Id: string): Promise<RemotePlayInputSettings>;
 
-    GetPerUserInputSettingsWithGuestID(steam64Id: string, guestId: number): any;
+    GetPerUserInputSettingsWithGuestID(steam64Id: string, guestId: number): Promise<RemotePlayInputSettings>;
 
-    IdentifyController(nControllerIndex: number): any;
+    IdentifyController(nControllerIndex: number): void;
 
-    InstallAudioDriver: any;
-    InstallInputDriver: any;
-    MoveControllerToSlot: any;
-    RegisterForAdditionalParentalBlocks: Unregisterable;
-    RegisterForAudioDriverPrompt: Unregisterable;
+    InstallAudioDriver(): void;
+    InstallInputDriver(): void;
+    MoveControllerToSlot(controllerIndex: number, slot: number): void;
+    RegisterForAdditionalParentalBlocks(callback: (blocks: EParentalFeature[]) => void): Unregisterable;
+    RegisterForAudioDriverPrompt(callback: () => void): Unregisterable;
+
+    /**
+     * @todo no mentions of it in Steam code
+     */
     RegisterForBitrateOverride: Unregisterable;
     RegisterForClearControllers(callback: () => void): Unregisterable;
-    RegisterForControllerIndexSet: Unregisterable;
+    RegisterForControllerIndexSet(
+      callback: (steamid: string, slot: number, guestid: number) => void
+    ): Unregisterable;
 
     RegisterForDevicesChanges(callback: (devicesChange: RemotePlayDevice[]) => void): Unregisterable;
 
-    RegisterForGroupCreated: Unregisterable;
-    RegisterForGroupDisbanded: Unregisterable;
-    RegisterForInputDriverPrompt: Unregisterable;
-    RegisterForInputDriverRestartNotice: Unregisterable;
+    RegisterForGroupCreated(callback: (steamId: string, appId: string) => void): Unregisterable;
+    RegisterForGroupDisbanded(callback: () => void): Unregisterable;
+    RegisterForInputDriverPrompt(callback: () => void): Unregisterable;
+    RegisterForInputDriverRestartNotice(callback: () => void): Unregisterable;
 
     RegisterForInputUsed(
         callback: (steam64Id: string, type: EClientUsedInputType, guestId: number) => void,
     ): Unregisterable; // only fires on host
 
-    RegisterForInviteResult: Unregisterable;
+    RegisterForInviteResult(
+      callback: (
+        steamId: string,
+        param1: any,
+        result: ERemoteClientLaunch,
+      ) => void
+    ): Unregisterable;
 
     RegisterForNetworkUtilizationUpdate(
         callback: (steam64Id: string, guestId: number, networkUtilization: number, networkDuration: number) => void,
@@ -68,15 +86,17 @@ export interface RemotePlay {
 
     RegisterForPlaceholderStateChanged(callback: (isShowingPlaceholder: boolean) => void): Unregisterable;
 
-    RegisterForPlayerInputSettingsChanged: Unregisterable;
+    RegisterForPlayerInputSettingsChanged(
+      callback: (steamId: string, settings: RemotePlayInputSettings, guestId: number) => void
+    ): Unregisterable;
 
     RegisterForQualityOverride(callback: (hostStreamingQualityOverride: number) => void): Unregisterable;
 
-    RegisterForRemoteClientLaunchFailed: Unregisterable;
+    RegisterForRemoteClientLaunchFailed(callback: (state: ERemoteClientLaunch) => void): Unregisterable;
 
-    RegisterForRemoteClientStarted(callback: (steam64Id: string, appId: number) => void): Unregisterable; // only fires on client
+    RegisterForRemoteClientStarted(callback: (steam64Id: string, appId: string) => void): Unregisterable; // only fires on client
 
-    RegisterForRemoteClientStopped(callback: (steam64Id: string, appId: number) => void): Unregisterable; // only fires on client
+    RegisterForRemoteClientStopped(callback: (steam64Id: string, appId: string) => void): Unregisterable; // only fires on client
 
     RegisterForRemoteDeviceAuthorizationCancelled(callback: () => void): Unregisterable;
 
@@ -86,11 +106,11 @@ export interface RemotePlay {
 
     RegisterForRestrictedSessionChanges(callback: (restrictedSession: boolean) => void): Unregisterable;
 
-    RegisterForSessionStopped(callback: (steam64Id: any, guestId: any, avatarHash: string) => void): Unregisterable;
+    RegisterForSessionStopped(callback: (steam64Id: string, guestId: number, avatarHash: string) => void): Unregisterable;
 
-    RegisterForSessionStarted(callback: (steam64Id: any, gameId: any, guestId: any) => void): Unregisterable;
+    RegisterForSessionStarted(callback: (steam64Id: string, gameId: string, guestId: number) => void): Unregisterable;
 
-    RegisterForSessionStopped(callback: (steam64Id: any, guestId: any) => void): Unregisterable;
+    RegisterForSessionStopped(callback: (steam64Id: string, guestId: number) => void): Unregisterable;
 
     RegisterForSettingsChanges(callback: (remotePlaySettings: RemotePlaySettings) => void): Unregisterable;
 
@@ -100,37 +120,37 @@ export interface RemotePlay {
 
     SetGameSystemVolume(volume: number): void;
 
-    SetPerUserControllerInputEnabled(steam64Id: string, enabled: boolean): any;
+    SetPerUserControllerInputEnabled(steam64Id: string, enabled: boolean): void;
 
-    SetPerUserControllerInputEnabledWithGuestID(steam64Id: string, guestId: number, enabled: boolean): any;
+    SetPerUserControllerInputEnabledWithGuestID(steam64Id: string, guestId: number, enabled: boolean): void;
 
-    SetPerUserKeyboardInputEnabled(steam64Id: string, enabled: boolean): any;
+    SetPerUserKeyboardInputEnabled(steam64Id: string, enabled: boolean): void;
 
-    SetPerUserKeyboardInputEnabledWithGuestID(steam64Id: string, guestId: number, enabled: boolean): any;
+    SetPerUserKeyboardInputEnabledWithGuestID(steam64Id: string, guestId: number, enabled: boolean): void;
 
-    SetPerUserMouseInputEnabled(steam64Id: string, enabled: boolean): any;
+    SetPerUserMouseInputEnabled(steam64Id: string, enabled: boolean): void;
 
-    SetPerUserMouseInputEnabledWithGuestID(steam64Id: string, guestId: number, enabled: boolean): any;
+    SetPerUserMouseInputEnabledWithGuestID(steam64Id: string, guestId: number, enabled: boolean): void;
 
-    SetRemoteDeviceAuthorized: any;
+    SetRemoteDeviceAuthorized(param0: boolean, param1: string): void;
 
     SetRemoteDevicePIN(pin: number): void;
 
     SetRemotePlayEnabled(enabled: boolean): void;
 
-    SetStreamingClientConfig: any;
-    SetStreamingClientConfigEnabled: any;
+    SetStreamingClientConfig(base64: string): void;
+    SetStreamingClientConfigEnabled(value: boolean): void;
 
-    SetStreamingDesktopToRemotePlayTogetherEnabled(enabled: boolean): any;
+    SetStreamingDesktopToRemotePlayTogetherEnabled(enabled: boolean): void;
 
-    SetStreamingP2PScope: any;
-    SetStreamingServerConfig: any;
-    SetStreamingServerConfigEnabled: any;
+    SetStreamingP2PScope(scope: EStreamP2PScope): void;
+    SetStreamingServerConfig(base64: string): void;
+    SetStreamingServerConfigEnabled(value: boolean): void;
 
     StopStreamingClient(): void;
 
-    StopStreamingSession: any;
-    StopStreamingSessionAndSuspendDevice: any;
+    StopStreamingSession(id: number): void;
+    StopStreamingSessionAndSuspendDevice(id: number): void;
 
     UnlockH264(): void;
 
@@ -145,30 +165,154 @@ export enum EClientUsedInputType {
 }
 
 export interface RemotePlayDevice {
+    clientId: string;
     clientName: string;
     status: string; // "Connected", "Paired",
     formFactor: number;
     unStreamingSessionID: number;
+    bCanSteamVR: boolean;
     bCanSuspend: boolean;
 }
 
+interface RemotePlayInputSettings {
+  bKeyboardEnabled: true;
+  bMouseEnabled: true;
+  bControllerEnabled: true;
+}
+
 export interface RemotePlaySettings {
+    bAV1DecodeAvailable: boolean;
+    bHEVCDecodeAvailable: boolean;
+    bRemotePlayDisabledBySystemPolicy: boolean;
     bRemotePlaySupported: boolean;
     bRemotePlayEnabled: boolean;
     eRemotePlayP2PScope: EStreamP2PScope;
     bRemotePlayServerConfigAvailable: boolean;
     bRemotePlayServerConfigEnabled: boolean;
-    RemotePlayServerConfig: any; // todo: document {}
     bRemotePlayClientConfigEnabled: boolean;
     unStreamingSessionID: number;
     strStreamingClientName: string;
-    RemotePlayClientConfig: any; // todo: document {}
+    /**
+     * If deserialized, returns {@link StreamingClientConfig}.
+     */
+    RemotePlayClientConfig: StreamingClientConfig;
+    /**
+     * If deserialized, returns {@link StreamingServerConfig}.
+     */
+    RemotePlayServerConfig: ArrayBuffer;
     nDefaultAudioChannels: number;
-    bDefaultEncodeNVIDIA: boolean;
-    bDefaultEncodeAMD: boolean;
-    bDefaultEncodeIntel: boolean;
     nAutomaticResolutionX: number;
     nAutomaticResolutionY: number;
+}
+
+export interface StreamingClientConfig {
+  quality?: EStreamQualityPreference;
+  desired_resolution_x?: number;
+  desired_resolution_y?: number;
+  desired_framerate_numerator?: number;
+  desired_framerate_denominator?: number;
+  desired_bitrate_kbps?: number;
+  enable_hardware_decoding?: boolean;
+  enable_performance_overlay?: boolean;
+  enable_video_streaming?: boolean;
+  enable_audio_streaming?: boolean;
+  enable_input_streaming?: boolean;
+  audio_channels?: number;
+  enable_video_hevc?: boolean;
+  enable_performance_icons?: boolean;
+  enable_microphone_streaming?: boolean;
+  controller_overlay_hotkey?: string;
+  enable_touch_controller_OBSOLETE?: boolean;
+  p2p_scope?: EStreamP2PScope;
+  enable_audio_uncompressed?: boolean;
+  display_limit?: StreamVideoLimit;
+  quality_limit?: StreamVideoLimit;
+  runtime_limit?: StreamVideoLimit;
+  decoder_limit: StreamVideoLimit[];
+}
+
+export interface StreamingServerConfig {
+  change_desktop_resolution?: boolean;
+  dynamically_adjust_resolution_OBSOLETE?: boolean;
+  enable_capture_nvfbc?: boolean;
+  enable_hardware_encoding_nvidia_OBSOLETE?: boolean;
+  enable_hardware_encoding_amd_OBSOLETE?: boolean;
+  enable_hardware_encoding_intel_OBSOLETE?: boolean;
+  software_encoding_threads?: number;
+  enable_traffic_priority?: boolean;
+  host_play_audio?: EStreamHostPlayAudioPreference;
+  enable_hardware_encoding?: boolean;
+}
+
+export interface StreamVideoLimit {
+  codec?: EStreamVideoCodec;
+  mode?: StreamVideoMode;
+  bitrate_kbps?: number;
+  burst_bitrate_kbps?: number;
+}
+
+export interface StreamVideoMode {
+  width?: number;
+  height?: number;
+  refresh_rate?: number;
+  refresh_rate_numerator?: number;
+  refresh_rate_denominator?: number;
+}
+
+export enum ERemoteClientLaunch {
+  OK = 1,
+  Fail,
+  RequiresUI,
+  RequiresLaunchOption,
+  RequiresEULA,
+  Timeout,
+  StreamTimeout,
+  StreamClientFail,
+  OtherGameRunning,
+  DownloadStarted,
+  DownloadNoSpace,
+  DownloadFiltered,
+  DownloadRequiresUI,
+  AccessDenied,
+  NetworkError,
+  Progress,
+  ParentalUnlockFailed,
+  ScreenLocked,
+  Unsupported,
+  DisabledLocal,
+  DisabledRemote,
+  Broadcasting,
+  Busy,
+  DriversNotInstalled,
+  TransportUnavailable,
+  Canceled,
+  Invisible,
+  RestrictedCountry,
+  Unauthorized,
+}
+
+export enum EStreamVideoCodec {
+  None,
+  Raw,
+  VP8,
+  VP9,
+  H264,
+  HEVC,
+  ORBX1,
+  ORBX2,
+  AV1,
+}
+
+export enum EStreamHostPlayAudioPreference {
+  Default,
+  Always,
+}
+
+export enum EStreamQualityPreference {
+  Automatic = -1,
+  Fast = 1,
+  Balanced,
+  Beautiful,
 }
 
 export enum EStreamP2PScope {

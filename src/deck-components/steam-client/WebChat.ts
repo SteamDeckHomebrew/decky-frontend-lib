@@ -1,5 +1,5 @@
 import {OverlayBrowserInfo} from "./Overlay";
-import { EUIMode, Unregisterable } from "./shared";
+import { EResult, EUIMode, Unregisterable } from "./shared";
 
 export interface WebChat {
     BSuppressPopupsInRestore(): Promise<boolean>;
@@ -45,16 +45,16 @@ export interface WebChat {
      */
     GetUIMode(): Promise<EUIMode>;
 
-    OnGroupChatUserStateChange(chatGroupId: any, accountId: any, action: any): any;
+    OnGroupChatUserStateChange(chatGroupId: number, accountId: number, action: number): void;
 
     OnNewGroupChatMsgAdded(
-        groupId: number,
-        chatId: number,
+        groupId: string,
+        chatId: string,
         accountId: number,
         timestamp: number,
         param4: number,
         message: string,
-    ): any;
+    ): void;
 
     // Opens the URL in default web browser, despite what the name says ?
     OpenURLInClient(url: string, pid: number, forceExternal: boolean): void;
@@ -78,7 +78,7 @@ export interface WebChat {
     /**
      * To unregister, use {@link UnregisterForMouseXButtonDown}.
      */
-    RegisterForMouseXButtonDown(callback: any): void;
+    RegisterForMouseXButtonDown(callback: (param0: number) => void): void;
 
     /**
      * Registers a callback function to be called when the push-to-talk state changes.
@@ -94,35 +94,32 @@ export interface WebChat {
      */
     RegisterForUIModeChange(callback: (mode: EUIMode) => void): Unregisterable;
 
-    RegisterOverlayChatBrowserInfoChanged(callback: any): Unregisterable;
+    RegisterOverlayChatBrowserInfoChanged(callback: () => void): Unregisterable;
 
-    SetActiveClanChatIDs(clanChatIds: any[]): any;
+    SetActiveClanChatIDs(clanChatIds: number[]): void;
 
     SetNumChatsWithUnreadPriorityMessages(size: number): void;
 
-    SetPersonaName: any;
+    SetPersonaName(value: string): Promise<SetPersonaNameResult>;
 
-    SetPushToMuteEnabled(value: boolean): any;
+    SetPushToMuteEnabled(value: boolean): void;
 
-    SetPushToTalkEnabled(value: boolean): any;
+    SetPushToTalkEnabled(value: boolean): void;
 
     SetPushToTalkHotKey(param0: number): void;
 
     SetPushToTalkMouseButton(param0: number): void;
 
-    SetVoiceChatActive: any;
-    SetVoiceChatStatus: any;
-    ShowChatRoomGroupDialog: any;
+    SetVoiceChatActive(value: boolean): void;
+    SetVoiceChatStatus(muted: boolean, deafened: boolean): void;
+    ShowChatRoomGroupDialog(param0: number, param1: number): void;
 
     /**
      * @todo Does not actually show the dialog.
      */
     ShowFriendChatDialog(steamid: string): void;
 
-    /**
-     * @todo does this take any args at all lol
-     */
-    UnregisterForMouseXButtonDown(callback: any): void;
+    UnregisterForMouseXButtonDown(): void;
 }
 
 export enum EComputerActiveState {
@@ -141,6 +138,14 @@ export interface FriendChatDialog {
 
 export interface FriendChatDialogData {
     data: FriendChatDialog;
+}
+
+interface SetPersonaNameResult {
+    eResult: EResult;
+    /**
+     * Localization token. Empty if success.
+     */
+    strMessageToken: string;
 }
 
 export interface PushToTalkInfo {

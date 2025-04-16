@@ -27,18 +27,43 @@ export interface Parental {
     UnlockParentalLock(pin: string, param1: boolean): Promise<EResult>;
 }
 
+export interface ParentalSettings {
+  ever_enabled: boolean;
+  locked: boolean;
+  /**
+   * If deserialized, returns {@link ParentalSettingsProtoMsg}.
+   */
+  settings: ArrayBuffer;
+  strPlaintextPassword: string;
+}
+
 /**
  * Represents the parental settings and restrictions.
+ * @todo This whole thing is unconfirmed as I do not have access to parental
+ * stuff and things
  */
-export interface ParentalSettings {
+export interface ParentalSettingsProtoMsg {
+    steamid?: number;
+    applist_base_id?: number;
+    applist_base_description?: string;
+    /**
+     * Base list.
+     */
+    applist_base: ParentalApp[];
+    /**
+     * Custom list of allowed applications.
+     */
+    applist_custom: ParentalApp[];
+    /**
+     * @todo enum ?
+     */
+    passwordhashtype?: number;
+    salt?: number;
+    passwordhash?: number;
     /**
      * Indicates whether parental settings are enabled.
      */
-    enabled: boolean;
-    /**
-     * Indicates whether parental settings are locked.
-     */
-    locked: boolean;
+    is_enabled?: boolean;
     /**
      * Bitmask representing enabled features.
      * - Bit 0: Unknown (@todo Please provide more details if known)
@@ -48,33 +73,58 @@ export interface ParentalSettings {
      * - Bit 4: Online content & features - Friends, chat, and groups
      * - Bit 5-11: Unknown (@todo Please provide more details if known)
      * - Bit 12: Library content - 0: Only games I choose, 1: All games
+     * @todo {@link EParentalFeature} ?
      */
-    features: number;
-    /**
-     * Indicates whether all apps are allowed.
-     */
-    allowallapps: boolean;
-    /**
-     * Base list (type not specified but an object).
-     * @todo Determine the type of this property.
-     */
-    baselist: any | undefined;
-    /**
-     * Custom list of allowed applications.
-     */
-    customlist: AppList;
+    enabled_features?: number;
     /**
      * Email for recovery (if applicable).
      */
-    recoveryemail: string | undefined;
+    recovery_email?: string;
+    is_site_license_lock?: boolean;
+    temporary_enabled_features?: number;
+    rtime_temporary_feature_expiration?: number;
+    playtime_restrictions?: ParentalPlaytimeRestrictions;
+    temporary_playtime_restrictions?: ParentalTemporaryPlaytimeRestrictions;
+    excluded_store_content_descriptors: number[];
+    excluded_community_content_descriptors: number[];
+    utility_appids: number[];
 }
 
-/**
- * Represents a list of applications with their IDs.
- */
-interface AppList {
-    /**
-     * Key-value pairs where the key is the `appId` (e.g., "App_123456") and the value indicates whether the appId is allowed during parental lock.
-     */
-    [appId: string]: number;
+interface ParentalApp {
+  appid: number;
+  is_allowed: boolean;
+}
+
+interface ParentalPlaytimeDay {
+  allowed_time_windows?: number;
+  allowed_daily_minutes?: number;
+}
+
+interface ParentalPlaytimeRestrictions {
+  apply_playtime_restrictions?: boolean;
+  playtime_days: ParentalPlaytimeDay[];
+}
+
+interface ParentalTemporaryPlaytimeRestrictions {
+  restrictions?: ParentalPlaytimeDay;
+  rtime_expires?: number;
+}
+
+export enum EParentalFeature {
+  Invalid,
+  Store,
+  Community,
+  Profile,
+  Friends,
+  News,
+  Trading,
+  Settings,
+  Console,
+  Browser,
+  ParentalSetup,
+  Library,
+  Test,
+  SiteLicense,
+  KioskMode,
+  Max,
 }

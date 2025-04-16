@@ -91,7 +91,7 @@ export interface System {
 
     RegisterForBatteryStateChanges(callback: (batteryStateChange: BatteryStateChange) => void): Unregisterable;
 
-    RegisterForFormatStorageProgress(callback: () => void): Unregisterable; // {"flProgress":0,"rtEstimatedCompletionTime":0,"eStage":1}
+    RegisterForFormatStorageProgress(callback: (progress: FormatStorageProgress) => void): Unregisterable;
 
     RegisterForOnResumeFromSuspend(callback: () => void): Unregisterable;
 
@@ -144,6 +144,12 @@ export interface BatteryStateChange {
     bShutdownRequested: boolean;
 }
 
+export interface FormatStorageProgress {
+  flProgress: number;
+  rtEstimatedCompletionTime: number;
+  eStage: EStorageFormatStage;
+}
+
 export enum EACState {
     Unknown,
     Disconnected,
@@ -156,6 +162,16 @@ export enum EBatteryState {
     Discharging,
     Charging,
     Full,
+}
+
+export enum EStorageFormatStage {
+  Invalid,
+  NotRunning,
+  Starting,
+  Testing,
+  Rescuing,
+  Formatting,
+  Finalizing,
 }
 
 export interface FileDialog {

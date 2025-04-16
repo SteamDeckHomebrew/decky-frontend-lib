@@ -2,10 +2,10 @@ import { JsPbMessage, OperationResponse } from "../shared";
 
 export interface Report {
     /**
-     * Generates a system report located in /tmp/steamXXXXXX (https://steamloopback.host/systemreports).
-     * @throws OperationResponse
+     * Generates a system report located in `/tmp/steamXXXXXX` (located in
+     * https://steamloopback.host/systemreports).
      */
-    GenerateSystemReport(): Promise<SystemReportReply | OperationResponse>;
+    GenerateSystemReport(): Promise<SystemReportReply>;
 
     /**
      * Saves a report in the Desktop directory.
@@ -23,8 +23,10 @@ export interface Report {
 export interface SystemReportReply extends OperationResponse {
     /**
      * If deserialized, returns {@link MsgGenerateSystemReportReply}.
+     * 
+     * Optional, since {@link Report.GenerateSystemReport} throws without this.
      */
-    reply: ArrayBuffer;
+    reply?: ArrayBuffer;
 }
 
 /**

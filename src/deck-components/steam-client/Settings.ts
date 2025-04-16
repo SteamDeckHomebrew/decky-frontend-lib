@@ -65,8 +65,7 @@ export interface Settings {
 
     RequestDeviceAuthInfo(): void;
 
-    //
-    SelectClientBeta(nBetaID: any): any;
+    SelectClientBeta(nBetaID: number): void;
 
     // Get from available languages
     SetCurrentLanguage(strShortName: string): void;
@@ -75,13 +74,13 @@ export interface Settings {
 
     SetHostname(hostname: string): void;
 
-    SetMicTestMode: any;
+    SetMicTestMode(value: boolean): void;
 
     SetOOBETestMode(value: boolean): void;
 
     SetPreferredMonitor(monitor: string): void;
 
-    SetRegisteredSteamDeck: any;
+    SetRegisteredSteamDeck(steam64Id: string, serialNumber: string): void;
 
     /**
      * Sets the "Don't save account credentials on this computer" option.
@@ -89,7 +88,11 @@ export interface Settings {
      */
     SetSaveAccountCredentials(value: boolean): void;
 
-    SetSetting(serializedBase64: string): any;
+    /**
+     * @param serializedBase64 Serialized base64 message from `CMsgClientSettings`.
+     * @returns a boolean indicating whether the operation was successful.
+     */
+    SetSetting(serializedBase64: string): Promise<boolean>;
 
     SetTimeZone(timezoneId: string): void; // You can get valid timezoneIds from GetAvailableTimeZones()
 

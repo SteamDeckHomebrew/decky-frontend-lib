@@ -2,7 +2,7 @@ import { EResult, Unregisterable } from "./shared";
 import {LaunchOption} from "./App";
 
 export interface Streaming {
-    AcceptStreamingEULA(param0: any, param1: any, param2: any): any;
+    AcceptStreamingEULA(appId: number, id: string, version: number): void;
 
     CancelStreamGame(): void; // existing stream
 

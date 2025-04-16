@@ -590,6 +590,7 @@ export interface ControllerInfo {
     unUniqueID: number;
     unVendorID: number;
     unProductID: number;
+    /** Bitmask */
     unCapabilities: number;
     strFirmwareBuildTime: string;
     strSerialNumber: string;

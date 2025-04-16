@@ -41,7 +41,7 @@ export interface Browser {
 
     RegisterForOpenNewTab: Unregisterable;
 
-    ReplaceMisspelling: any;
+    ReplaceMisspelling(param0: string): void;
 
     /**
      * Restarts the Steam JS context.
@@ -52,7 +52,7 @@ export interface Browser {
 
     SetPendingFilePath(path: string): Promise<boolean>;
 
-    SetShouldExitSteamOnBrowserClosed(value: boolean): any;
+    SetShouldExitSteamOnBrowserClosed(value: boolean): Promise<void>;
 
     SetTouchGesturesToCancel(gestures: ETouchGesture[]): void;
 

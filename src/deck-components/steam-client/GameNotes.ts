@@ -1,30 +1,73 @@
+import { EResult, OperationResponse } from "./shared";
+
 export interface GameNotes {
-    DeleteImage(param0: any): any;
-
-    DeleteNotes: any;
-    /*
-        FilenameForNotes(e) {
-        return "appid" in e ? `notes_${Number(e.appid)}` : `notes_shortcut_${h(e.shortcut)}`
-    }
-    DirectoryForNoteImages(e) {
-        return "appid" in e ? `notes_${Number(e.appid)}_images/` : `notes_shortcut_${h(e.shortcut)}_images/`
-    }
+    /**
+     * @returns a boolean indicating whether the operation was successful.
      */
-    // {"result":1,"notes":"<escaped json>"}
-    // <escaped json> example: {"notes":[{"id":"lmuudzqn","appid":1716740,"ordinal":0,"time_created":1695401684,"time_modified":1695403395,"title":"Old Earth Cuisine 1:","content":"[h1]Old Earth Cuisine 1:[/h1][list][*][p]Red Meat[/p][/*][/list][h1]Beverage Development 2:[/h1][list][*][p]Tranquilitea Sunray[/p][/*][/list][p][/p]"}]}
-    GetNotes(filenameForNotes: string, directoryForNoteImages: string): Promise<any>;
+    DeleteImage(param0: string): Promise<boolean>;
 
-    GetNotesMetadata: any;
-    GetNumNotes: any;
-    GetQuota: any;
+    /**
+     * @returns a boolean indicating whether the operation was successful.
+     */
+    DeleteNotes(param0: string): Promise<boolean>;
 
-    IterateNotes(appId: number, length: number): any; // Results array of {"result":1,"filename":"","filesize":0,"timestamp":0}
-    ResolveSyncConflicts: any;
+    GetNotes(filenameForNotes: string, directoryForNoteImages: string): Promise<Notes>;
 
-    SaveNotes(filenameForNotes: string, param1: string): Promise<any>; // param1 - notes like escaped json in GetNotes
-    SyncToClient(): Promise<any>;
+    GetNotesMetadata(note: string): Promise<NoteMetadata>;
+    GetNumNotes(): Promise<number>;
+    GetQuota: Promise<NotesQuota>;
 
-    SyncToServer(): Promise<any>;
+    IterateNotes(appId: number, length: number): Promise<NoteMetadata[]>;
+    ResolveSyncConflicts(param0: boolean): Promise<EResult>;
 
-    UploadImage: any;
+    /**
+     * @param notes Escaped JSON array of {@link Note}.
+     */
+    SaveNotes(filenameForNotes: string, notes: string): Promise<EResult>;
+    SyncToClient(): Promise<EResult>;
+
+    SyncToServer(): Promise<EResult>;
+
+    /**
+     * @param mimeType Image MIME type.
+     * @param base64 Image contents in base64.
+     * @returns an image file name with its extension that's meant to be used as a part of some URL. (todo)
+     * @throws OperationResponse if invalid MIME type or unable to parse base64 BUT NOT if it failed.
+     */
+    UploadImage(imageFileNamePrefix: string, mimeType: string, base64: string): Promise<EResult | OperationResponse>;
+}
+
+export interface Note {
+    appid: number;
+    id: string;
+    /**
+     * Note contents in BB code.
+     */
+    content: string;
+    ordinal: number;
+    time_created: number;
+    time_modified: number;
+    title: string;
+}
+
+interface Notes {
+    result: EResult;
+    /**
+     * Escaped JSON array of {@link Note}. Not present if {@link result} is {@link EResult.FileNotFound}.
+     */
+    notes?: string;
+}
+
+interface NoteMetadata {
+    filename: string;
+    filesize: number;
+    result: EResult;
+    timestamp: number;
+}
+
+interface NotesQuota {
+    bytes: number;
+    bytesAvailable: number;
+    numFiles: number;
+    numFilesAvailable: number;
 }

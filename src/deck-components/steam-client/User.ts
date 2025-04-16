@@ -1,11 +1,11 @@
-import { OperationResponse, Unregisterable } from "./shared";
+import { EResult, OperationResponse, Unregisterable } from "./shared";
 
 export interface User {
-    AuthorizeMicrotxn(txnId: any): any;
+    AuthorizeMicrotxn(txnId: number | string): void;
 
-    CancelLogin: any;
+    CancelLogin(): void;
 
-    CancelMicrotxn(txnId: any): any;
+    CancelMicrotxn(txnId: number | string): void;
 
     /**
      * Tries to cancel Steam shutdown.
@@ -41,6 +41,9 @@ export interface User {
      */
     GetIPCountry(): Promise<string>;
 
+    /**
+     * @todo param0 mirrors param3 of {@link RegisterForLoginStateChange}
+     */
     GetLoginProgress(callback: (param0: number, param1: number) => void): Unregisterable;
 
     GetLoginUsers(): Promise<LoginUser[]>;
@@ -51,7 +54,9 @@ export interface User {
 
     OptOutOfSurvey(): void;
 
-    PrepareForSystemSuspend(): any;
+    PrepareForSystemSuspend(): Promise<{
+        result: EResult;
+    }>;
 
     Reconnect(): void;
 
@@ -59,25 +64,48 @@ export interface User {
 
     RegisterForCurrentUserChanges(callback: (user: CurrentUser) => void): void;
 
-    RegisterForLoginStateChange(callback: (accountName: string, loginState: ELoginState, loginResult: number, loginPercentage: number, param4: number) => void): Unregisterable;
+    RegisterForLoginStateChange(
+        callback: (
+            /**
+             * Empty if not logged in.
+             */
+            accountName: string,
+            state: ELoginState,
+            result: EResult,
+            param3: number,
+            percentage: number,
+            /**
+             * @todo name is from CLoginStore, but it's always empty, unused ?
+             */
+            emailDomain: string,
+        ) => void
+    ): Unregisterable;
 
-    RegisterForPrepareForSystemSuspendProgress(callback: (data: any) => void): Unregisterable;
+    RegisterForPrepareForSystemSuspendProgress(callback: (progress: SuspendProgress) => void): Unregisterable;
 
-    RegisterForResumeSuspendedGamesProgress: Unregisterable;
+    RegisterForResumeSuspendedGamesProgress(callback: (progress: SuspendProgress) => void): Unregisterable;
 
     RegisterForShowHardwareSurvey(callback: () => void): Unregisterable;
 
-    RegisterForShutdownDone(callback: () => void): Unregisterable;
+    /**
+     * Register a function to be executed when shutdown completes.
+     * @param callback The function to be executed on completion.
+     */
+    RegisterForShutdownDone(callback: (state: EShutdownStep, appid: number, param2: boolean) => void): Unregisterable;
 
-    RegisterForShutdownFailed: Unregisterable;
+    RegisterForShutdownFailed(callback: (state: EShutdownStep, appid: number, success: boolean) => void): Unregisterable;
 
     /**
-     * Register a function to be executed when a shutdown start is detected.
+     * Register a function to be executed when Steam starts shutting down.
      * @param callback The function to be executed on shutdown start.
      */
-    RegisterForShutdownStart(callback: () => void): Unregisterable;
+    RegisterForShutdownStart(callback: (param0: boolean) => void): Unregisterable;
 
-    RegisterForShutdownState: Unregisterable;
+    /**
+     * Register a function to be executed when shutdown state changes.
+     * @param callback The function to be executed on change.
+     */
+    RegisterForShutdownState(callback: (state: EShutdownStep, appid: number, allowForceQuit: boolean) => void): Unregisterable;
 
     /**
      * Removes an account from remembered users.
@@ -89,14 +117,14 @@ export interface User {
         bSuccess: boolean;
     }>;
 
-    ResumeSuspendedGames(param0: boolean): any;
+    ResumeSuspendedGames(param0: boolean): Promise<ResumeSuspendedGamesResult>;
 
     // Hardware survey information
     RunSurvey(callback: (surveySections: SurveySection[]) => void): void;
 
     SendSurvey(): void;
 
-    SetAsyncNotificationEnabled(appId: number, enable: boolean): any;
+    SetAsyncNotificationEnabled(appId: number, enable: boolean): void;
 
     /**
      * Sets given login credentials, but don't log in to that account.
@@ -115,17 +143,33 @@ export interface User {
      */
     SignOutAndRestart(): void;
 
+    /**
+     * Relogin after disabling offline mode. Not sure what else it's useful for,
+     * there isn't even a single mention of it in steam's js, lol
+     */
     StartLogin(): void;
 
-    // is param0 offline mode?
-    StartOffline(param0: boolean): any;
+    /**
+     * Toggles offline mode.
+     *
+     * Note that after disabling offline mode, you have to relogin with
+     * {@link StartLogin}.
+     */
+    StartOffline(value: boolean): void;
 
     /**
      * Restarts the Steam client.
+     *
+     * @todo I don't remember what the arg is, but IIRC with `true` it disables
+     * some ldd check or whatever, really it's only noticeable on slow PCs.
      */
-    StartRestart(): any;
+    StartRestart(force: boolean): void;
 
-    StartShutdown(flag: boolean): any;
+    /**
+     * @todo I don't remember what the arg is, but IIRC with `true` it disables
+     * some ldd check or whatever, really it's only noticeable on slow PCs.
+     */
+    StartShutdown(force: boolean): void;
 }
 
 export interface ConnectionAttempt {
@@ -171,11 +215,44 @@ export enum ELoginState {
     Quit,
 }
 
+export enum EShutdownStep {
+  None,
+  Start,
+  WaitForGames,
+  WaitForCloud,
+  FinishingDownload,
+  WaitForDownload,
+  WaitForServiceApps,
+  WaitForLogOff,
+  Done,
+  // TODO: RegisterForShutdownDone outputs 9 here
+}
+
+export enum ESuspendResumeProgressState {
+  Invalid,
+  Complete,
+  CloudSync,
+  LoggingIn,
+  WaitingForApp,
+  Working,
+}
+
 export interface LoginUser {
     personaName: string;
     accountName: string;
+    hasPin: boolean;
     rememberPassword: boolean;
     avatarUrl: string;
+}
+
+export interface ResumeSuspendedGamesResult {
+  nAppIDPlayingElsewhere: number;
+  result: EResult;
+}
+
+export interface SuspendProgress {
+  bGameSuspended: boolean;
+  state: ESuspendResumeProgressState;
 }
 
 export interface SurveyEntry {

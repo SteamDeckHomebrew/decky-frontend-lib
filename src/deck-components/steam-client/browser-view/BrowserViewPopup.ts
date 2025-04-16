@@ -224,16 +224,28 @@ interface BrowserViewEventMap {
      */
     'message': (args: any) => void;
 
-    'new-tab': (args: any) => void;
+    'new-tab': (url: string, param1: boolean) => void;
 
     /**
      * Fires when a node gets focused.
      */
     'node-has-focus': (
+        /**
+         * Same as {@link Element.tagName}, but the value is the element's ID when exists.
+         */
         elementIdOrTagName: string,
+        /**
+         * Same as {@link Element.tagName}.
+         */
         elementTag: string,
-        param2: any,
-        param3: string,
+        /**
+         * The `type` attribute of an `<input>` element.
+         */
+        inputType: string,
+        /**
+         * Localization token... that doesn't seem to exist? (#Web_FormSubmit)
+         */
+        token: string,
         param4: boolean,
     ) => void;
 
