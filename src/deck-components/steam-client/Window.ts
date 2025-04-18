@@ -85,7 +85,7 @@ export interface Window {
      * @param location Window location.
      * @param offset X/Y offset.
      */
-    MoveToLocation(location: WindowLocation, offset?: number): void;
+    MoveToLocation(location: WindowLocation_t, offset?: number): void;
 
     /**
      * Moves the window relatively to given details.
@@ -106,7 +106,7 @@ export interface Window {
     PositionWindowRelative(details: string, x: number, y: number, width: number, height: number): void;
 
     /**
-     * @returns true if yje naun [tpcess od about to shut down.]
+     * @returns `true` if yje naun [tpcess od about to shut down.]
      */
     ProcessShuttingDown(): Promise<boolean>;
 
@@ -167,7 +167,7 @@ export interface Window {
      * Set the window's icon.
      * @param icon The window icon to be used.
      */
-    SetWindowIcon(icon: WindowIcon): void;
+    SetWindowIcon(icon: WindowIcon_t): void;
 
     /**
      * Shows the window.
@@ -196,7 +196,7 @@ export enum EWindowBringToFront {
     WithoutForcingOS,
 }
 
-export type WindowLocation =
+export type WindowLocation_t =
     | 'upper-left'
     | 'lower-left'
     | 'center-top'
@@ -204,7 +204,7 @@ export type WindowLocation =
     | 'upper-right'
     | 'lower-right';
 
-export type WindowIcon = 'steam' | 'messages' | 'voice';
+export type WindowIcon_t = 'steam' | 'messages' | 'voice';
 
 /**
  * "Usable" here refers to space that is not taken by the taskbar.

@@ -7,7 +7,7 @@ import { JsPbMessage, Unregisterable } from "./shared";
 export interface Notifications {
     /**
      * If `data` is deserialized, returns one of the following here: {@link Notifications}
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForNotifications(
         callback: (notificationIndex: number, type: EClientNotificationType, data: ArrayBuffer) => void,

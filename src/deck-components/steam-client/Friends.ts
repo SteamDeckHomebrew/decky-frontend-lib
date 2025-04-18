@@ -7,7 +7,7 @@ export interface Friends {
     /**
      * Adds a user to the friend list.
      * @param steamId The Steam ID of the user to add as a friend.
-     * @returns A Promise that resolves to true if the friend was added successfully, false otherwise.
+     * @returns `true` if the friend was added successfully.
      */
     AddFriend(steamId: string): Promise<boolean>;
 
@@ -23,13 +23,13 @@ export interface Friends {
      * @param steamId The Steam ID of the user to invite.
      * @param appId The ID of the game to invite the user to.
      * @param connectString Additional parameters for the invitation.
-     * @returns A Promise that resolves to true if the user was invited successfully, false otherwise.
+     * @returns `true` if the user was invited successfully.
      */
     InviteUserToGame(steamId: string, appId: number, connectString: string): Promise<boolean>;
 
     /**
      * Invites a user to a specific lobby.
-     * @returns A Promise that resolves to true if the user was invited successfully, false otherwise.
+     * @returns `true` if the user was invited successfully.
      */
     InviteUserToLobby(steam64Id: string, steamIdTarget: string): Promise<boolean>;
 
@@ -45,7 +45,7 @@ export interface Friends {
     /**
      * Removes a user from the friend list.
      * @param steamId The Steam ID of the user to remove from the friend list.
-     * @returns A Promise that resolves to true if the friend was removed successfully, false otherwise.
+     * @returns `true` if the friend was removed successfully.
      */
     RemoveFriend(steamId: string): Promise<boolean>;
 

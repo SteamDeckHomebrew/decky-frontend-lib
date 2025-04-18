@@ -4,24 +4,24 @@ import { Unregisterable } from "../shared";
 // CMsgSystemPerfUpdateSettings, CMsgSystemPerfState, CMsgSystemPerfSettings
 export interface Perf {
     /**
-     * If `data` is deserialized, returns {@link MsgSystemPerfDiagnosticInfo}.
-     * @returns An object that can be used to unregister the callback.
+     * If `data` is deserialized, returns {@link CMsgSystemPerfDiagnosticInfo}.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForDiagnosticInfoChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
     /**
-     * If `data` is deserialized, returns {@link MsgSystemPerfState}.
-     * @returns An object that can be used to unregister the callback.
+     * If `data` is deserialized, returns {@link CMsgSystemPerfState}.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    UpdateSettings(base64: string): any; // serialize
+    /**
+     * @param base64 Serialized base64 message from `CMsgSystemPerfUpdateSettings`.
+     */
+    UpdateSettings(base64: string): any;
 }
 
-/**
- * CMsgSystemPerfDiagnosticInfo
- */
-export interface MsgSystemPerfDiagnosticInfo extends JsPbMessage {
+export interface CMsgSystemPerfDiagnosticInfo extends JsPbMessage {
     battery_temp_c(): number | undefined;
 
     entries(): SystemPerfDiagnosticEntry[] | undefined;
@@ -43,10 +43,7 @@ export interface SystemPerfNetworkInterface {
     rx_bytes_per_sec: number | undefined;
 }
 
-/**
- * CMsgSystemPerfState
- */
-export interface MsgSystemPerfState extends JsPbMessage {
+export interface CMsgSystemPerfState extends JsPbMessage {
     active_profile_game_id(): string | undefined;
 
     current_game_id(): string | undefined;

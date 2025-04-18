@@ -1,17 +1,19 @@
 import { JsPbMessage, Unregisterable } from "../shared";
 import {EUpdaterState} from "../Updates";
 
-// CMsgSystemDockUpdateFirmware, CMsgSystemDockState
 export interface Dock {
     DisarmSafetyNet(): void;
 
     /**
      * If `data` is deserialized, returns {@link MsgSystemDockState}.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    UpdateFirmware(base64String: string): any; // serialize base64 string
+    /**
+     * @param base64 Serialized base64 message from `CMsgSystemDockUpdateFirmware`.
+     */
+    UpdateFirmware(base64: string): any;
 }
 
 /**

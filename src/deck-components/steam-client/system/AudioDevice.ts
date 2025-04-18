@@ -2,8 +2,8 @@ import { JsPbMessage, Unregisterable } from "../shared";
 
 export interface AudioDevice {
     /**
-     * If `data` is deserialized, returns {@link MsgSystemAudioManagerState}.
-     * @returns An object that can be used to unregister the callback.
+     * If `data` is deserialized, returns {@link CMsgSystemAudioManagerState}.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
@@ -13,10 +13,7 @@ export interface AudioDevice {
     UpdateSomething(base64: string): void;
 }
 
-/**
- * CMsgSystemAudioManagerState
- */
-export interface MsgSystemAudioManagerState extends JsPbMessage {
+export interface CMsgSystemAudioManagerState extends JsPbMessage {
     counter(): number | undefined;
 
     hw(): MsgSystemAudioManagerStateHW | undefined;

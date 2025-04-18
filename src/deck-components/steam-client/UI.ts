@@ -15,7 +15,7 @@ export interface UI {
 
     /**
      * Retrieves the current UI mode.
-     * @returns A Promise that resolves to the current UI mode.
+     * @returns the current UI mode.
      */
     GetUIMode(): Promise<EUIMode>;
 

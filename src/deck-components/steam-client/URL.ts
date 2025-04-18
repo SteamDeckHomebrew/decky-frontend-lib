@@ -10,7 +10,7 @@ export interface URL {
     /**
      * @param urls Additional URLs to get. May be empty.
      */
-    GetSteamURLList(urls: SteamWebURL[]): Promise<SteamURLs>;
+    GetSteamURLList(urls: SteamWebURL_t[]): Promise<SteamURLs>;
 
     GetWebSessionID(): Promise<string>;
 
@@ -18,14 +18,14 @@ export interface URL {
      * Registers a callback to be called when a steam:// URL gets executed.
      * @param section `rungameid`, `open`, etc.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForRunSteamURL(section: string, callback: (param0: number, url: string) => void): Unregisterable;
 
     RegisterForSteamURLChanges(callback: () => void): void;
 }
 
-export type SteamWebURL =
+export type SteamWebURL_t =
     | "AllNotifications"
     | "AppHoverPublic"
     | "AppHoverPublicFull"
@@ -170,5 +170,5 @@ export interface SteamURL {
 }
 
 export type SteamURLs = {
-    [url in SteamWebURL]: SteamURL;
+    [url in SteamWebURL_t]: SteamURL;
 }

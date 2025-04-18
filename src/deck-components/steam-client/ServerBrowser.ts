@@ -7,14 +7,14 @@ export interface ServerBrowser {
     /**
      * Adds a favorite server.
      * @param server The server to add.
-     * @returns A Promise that resolves to an empty string if successful, `Invalid/missing IPv4?` if failed.
+     * @returns an empty string if successful, `Invalid/missing IPv4?` if failed.
      */
     AddFavoriteServer(server: GameServer): Promise<string>;
 
     /**
      * Adds a favorite server by IP.
      * @param ip The IP to add to favorite servers.
-     * @returns A Promise that resolves to an empty string if successful, localization string if failed.
+     * @returns an empty string if successful, localization string if failed.
      */
     AddFavoriteServersByIP(ip: string): Promise<string>;
 
@@ -24,7 +24,7 @@ export interface ServerBrowser {
      * Connects to a server from a given dialog.
      * @param dialogId The dialog ID to use.
      * @param password Server password, empty if none.
-     * @returns A Promise that resolves to a connection status.
+     * @returns a connection status.
      */
     ConnectToServer(dialogId: number, password: string): Promise<EJoinServerError>;
 
@@ -40,7 +40,7 @@ export interface ServerBrowser {
      * @param ip The server IP.
      * @param port The server port.
      * @param queryPort
-     * @returns A Promise that resolves to the created dialog ID.
+     * @returns the created dialog ID.
      */
     CreateServerGameInfoDialog(ip: string, port: number, queryPort: number): Promise<number>;
 
@@ -51,7 +51,7 @@ export interface ServerBrowser {
      * @param filters Server filters.
      * @param serverCallback What to do with the found server?
      * @param requestCompletedCallback The callback function to be called when the request is completed.
-     * @returns A Promise that resolves to the current server list request ID.
+     * @returns the current server list request ID.
      * @throws Throws if the query type is unknown.
      * @throws Throws if the filter list isn't key/value pairs, i.e. of an even length.
      * @remarks Stops at 10000 if there are more servers to be found.
@@ -97,7 +97,7 @@ export interface ServerBrowser {
     */
     CreateServerListRequest(
         appId: number,
-        queryType: ServerBrowserTab,
+        queryType: ServerBrowserTab_t,
         filters: string[],
         serverCallback: (server: GameServer) => void,
         requestCompletedCallback: (response: number) => void,
@@ -118,13 +118,13 @@ export interface ServerBrowser {
 
     /**
      * Gets a list of games that support the server browser feature.
-     * @returns A Promise that resolves to a list of games.
+     * @returns a list of games.
      */
     GetMultiplayerGames(): Promise<ServerBrowserGame[]>;
 
     /**
      * Gets the server browser preferences.
-     * @returns A Promise that resolves to server browser preferences.
+     * @returns server browser preferences.
      */
     GetServerListPreferences(): Promise<ServerBrowserPreferences>;
 
@@ -137,7 +137,7 @@ export interface ServerBrowser {
     /**
      * Registers a callback function to be called when a server gets added to favorite servers.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForFavorites(callback: (list: ServerBrowserFavoritesAndHistory) => void): Unregisterable;
 
@@ -145,7 +145,7 @@ export interface ServerBrowser {
      * Registers a callback function to be called when idk
      * @param dialogId The dialog ID to use.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForFriendGamePlayed(
         dialogId: number,
@@ -155,7 +155,7 @@ export interface ServerBrowser {
     /**
      * Registers a callback function to be called when a server info dialog opens.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForGameInfoDialogs(callback: (dialogs: ServerBrowserDialog[]) => void): Unregisterable;
 
@@ -163,7 +163,7 @@ export interface ServerBrowser {
      * Registers a callback function to be called when player details get requested.
      * @param dialogId The dialog ID to use.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForPlayerDetails(
         dialogId: number,
@@ -174,7 +174,7 @@ export interface ServerBrowser {
      * Registers a callback function to be called when a server gets pinged.
      * @param dialogId The dialog ID to use.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForServerInfo(dialogId: number, callback: (server: GameServer) => void): Unregisterable;
 
@@ -205,7 +205,7 @@ export interface ServerBrowser {
 
 
 
-export type ServerBrowserTab = 'internet' | 'favorites' | 'history' | 'lan' | 'friends';
+export type ServerBrowserTab_t = 'internet' | 'favorites' | 'history' | 'lan' | 'friends';
 
 export interface ServerBrowserGame {
     /** The ID of the game. */
@@ -224,7 +224,7 @@ export interface ServerBrowserPreferences {
 }
 
 export type ServerBrowserTabFilters = {
-    [tab in ServerBrowserTab]: ServerBrowserGameFilter;
+    [tab in ServerBrowserTab_t]: ServerBrowserGameFilter;
 };
 
 export interface ServerBrowserGameFilter {

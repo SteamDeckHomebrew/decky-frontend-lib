@@ -12,7 +12,7 @@ export interface Auth {
     GetLocalHostname(): Promise<string>;
 
     /**
-     * @returns A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link Authentication_DeviceDetails}.
+     * @returns a ProtoBuf message. If deserialized, returns {@link CAuthentication_DeviceDetails}.
      */
     GetMachineID(): Promise<ArrayBuffer>;
 
@@ -20,6 +20,9 @@ export interface Auth {
 
     GetSteamGuardData(param0: string): Promise<SteamGuardData>;
 
+    /**
+     * "Secured" refers to unshared.
+     */
     IsSecureComputer(): Promise<boolean>;
 
     SetCachedSignInPin(pin: string): Promise<boolean>;
@@ -47,8 +50,6 @@ export interface SteamGuardData {
 }
 
 /**
- * CAuthentication_DeviceDetails
- *
  * `deserializeBinary` argument:
  * ```
  * [
@@ -58,7 +59,7 @@ export interface SteamGuardData {
  * ];
  * ```
  */
-export interface Authentication_DeviceDetails extends JsPbMessage {
+export interface CAuthentication_DeviceDetails extends JsPbMessage {
     client_count(): number | undefined;
 
     device_friendly_name(): string | undefined;

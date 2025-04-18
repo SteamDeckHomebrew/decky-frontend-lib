@@ -11,13 +11,13 @@ export interface BrowserViewPopup {
 
     /**
      * Indicates whether you can go backward in history or not.
-     * @returns true if you can go backward in history, false otherwise.
+     * @returns `true` if you can go backward in history.
      */
     CanGoBackward(): boolean;
 
     /**
      * Indicates whether you can go forward in history or not.
-     * @returns true if you can go forward in history, false otherwise.
+     * @returns `true` if you can go forward in history.
      */
     CanGoForward(): boolean;
 
@@ -29,14 +29,14 @@ export interface BrowserViewPopup {
     /**
      * Find a string in the page.
      * @param input The string to find.
-     * @param param1 Additional parameter (exact usage may vary).
+     * @param param1
      * @param previous `true` for previous match, `false` for next match.
      */
     FindInPage(input: string, param1: boolean, previous: boolean): void;
 
     /**
      * Get the current popup position.
-     * @returns The window position.
+     * @returns the window position.
      */
     GetBounds(): BrowserViewBounds;
 
@@ -51,9 +51,9 @@ export interface BrowserViewPopup {
     GoForward(): void;
 
     /**
-     * @remarks `| number` is used for `BrowserViewContextMenu.custom_commands`.
+     * @param command See {@link BrowserViewContextMenu.custom_commands}.
      */
-    HandleContextMenuCommand(command: EBrowserViewContextMenuCommand | number, param2: BrowserViewContextMenu): void;
+    HandleContextMenuCommand(command: number, param2: BrowserViewContextMenu): void;
 
     /**
      * Load the specified URL.
@@ -69,7 +69,7 @@ export interface BrowserViewPopup {
     Paste(): void;
 
     /**
-     * @returns whether the operation was successful.
+     * @returns a boolean indicating whether the operation was successful.
      */
     PostMessage(message: string, args: string): boolean;
 
@@ -114,9 +114,9 @@ export interface BrowserViewPopup {
     SetShowContextMenuCallback(callback: (data: BrowserViewContextMenu) => void): void;
 
     /**
-     * Registers a callback to be called when a steam:// protocol URL is loaded.
+     * Registers a callback to be called when a steam:// URL is loaded.
      */
-    SetSteamURLCallback(callback: (steamURL: string) => void): void;
+    SetSteamURLCallback(callback: (url: string) => void): void;
 
     /**
      * @todo unconfirmed
@@ -243,7 +243,7 @@ interface BrowserViewEventMap {
          */
         inputType: string,
         /**
-         * Localization token... that doesn't seem to exist? (#Web_FormSubmit)
+         * @todo Localization token that doesn't seem to exist? (#Web_FormSubmit)
          */
         token: string,
         param4: boolean,
@@ -293,15 +293,13 @@ export interface BrowserViewContextMenu {
     custom_commands: BrowserViewContextMenuCustomCommand[];
 
     /**
-     * Bitmask representing edit state.
-     * @remarks Appears on editable elements like `<input>`, etc.
+     * Bitmask representing edit state. Appears on editable elements like `<input>`, etc.
      * @see {@link EBrowserViewContextMenuEditFlag}
      */
     edit_state_flags?: number;
 
     /**
-     * The misspelled word the cursor is on.
-     * @remarks Appears on an editable element with text.
+     * The misspelled word the cursor is on. Appears on an editable element with text.
      */
     misspelled_word?: string;
 
@@ -317,8 +315,7 @@ export interface BrowserViewContextMenu {
     page_url: string;
 
     /**
-     * Selected text.
-     * @remarks Appears when there is selected text.
+     * Selected text. Appears when there is selected text.
      */
     selection_text?: string;
 

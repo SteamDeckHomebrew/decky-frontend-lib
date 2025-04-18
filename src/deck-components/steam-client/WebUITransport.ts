@@ -4,13 +4,13 @@ export interface WebUITransport {
     GetTransportInfo(): Promise<TransportInfo>;
 
     /**
-     * *Possibly* notifies websocket of failure and tries to reconnect to it.
+     * Tells Steam the websocket failed and opens a troubleshooting dialog.
      *
      * The responsible message for this is `CMsgWebUITransportFailure`.
      *
-     * @param serializedBase64 Serialized ProtoBuf message.
+     * @param base64 Serialized ProtoBuf message.
      */
-    NotifyTransportFailure(serializedBase64: string): Promise<OperationResponse>;
+    NotifyTransportFailure(base64: string): Promise<OperationResponse>;
 }
 
 export interface TransportInfo {

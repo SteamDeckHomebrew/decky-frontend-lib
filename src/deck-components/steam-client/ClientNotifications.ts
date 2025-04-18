@@ -15,7 +15,7 @@ export interface ClientNotifications {
 
     /**
      * @param notificationId The ID of the notification to handle.
-     * @param handleAction `true` to execute the callback function associated with the notification, `false` otherwise.
+     * @param handleAction `true` to execute the callback function associated with the notification.
      */
     OnRespondToClientNotification(notificationId: number, handleAction: boolean): void;
 }

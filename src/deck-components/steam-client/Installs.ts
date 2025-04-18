@@ -17,9 +17,8 @@ export interface Installs {
 
     /**
      * Retrieves information from the last opened or currently opened installation wizard.
-     * @returns A Promise that resolves to the InstallInfo.
      */
-    GetInstallManagerInfo(): Promise<InstallInfo>;
+    GetInstallManagerInfo(): Promise<InstallMgrInfo>;
 
     /**
      * Opens the restore from backup installer wizard for a specific app.
@@ -45,16 +44,16 @@ export interface Installs {
     /**
      * Registers a callback function to be called when the "Failed Uninstall" dialog is shown.
      * @param callback The callback function to be called when the dialog is shown.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForShowFailedUninstall(callback: (appId: number, reason: EAppUpdateError) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when the installation wizard is shown.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForShowInstallWizard(callback: (data: InstallInfo) => void): Unregisterable;
+    RegisterForShowInstallWizard(callback: (data: InstallMgrInfo) => void): Unregisterable;
 
     RegisterForShowRegisterCDKey: any;
 
@@ -81,7 +80,7 @@ export interface Installs {
     SetInstallFolder(folderIndex: number): void;
 }
 
-export interface InstallInfo {
+export interface InstallMgrInfo {
     rgAppIDs: InstallInfoApps[];
     eInstallState: EInstallMgrState;
     nDiskSpaceRequired: number;
@@ -100,6 +99,7 @@ export interface InstallInfo {
     bSystemMenuShortcut: boolean;
     bDesktopShortcut: boolean;
     bIsBackupInstall: boolean;
+    // device/hostname
     strPeerContentServer: string;
     bPeerContentServerOnline: boolean;
     bPeerContentServerAvailable: boolean;

@@ -14,7 +14,7 @@ export interface Updates {
 
     /**
      * If `data` is deserialized, returns {@link MsgSystemUpdateState}.
-     * @returns A Promise that resolves to a ProtoBuf message.
+     * @returns a ProtoBuf message.
      */
     RegisterForUpdateStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 

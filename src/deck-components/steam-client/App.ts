@@ -1,4 +1,4 @@
-import type { EResult, JsPbMessage, OperationResponse, Unregisterable } from "./shared";
+import type { EResult, JsPbMessage, OperationResponse, Unregisterable, VDFBoolean_t } from "./shared";
 import type { EControllerRumbleSetting, EThirdPartyControllerConfiguration } from "./Input";
 import {EUCMFilePrivacyState, Screenshot} from "./Screenshots";
 
@@ -12,17 +12,17 @@ export interface Apps {
      * @param executablePath The path to the executable file of the non-Steam application.
      * @param directory The working directory for the non-Steam application.
      * @param launchOptions Options to be passed when launching the non-Steam application.
-     * @returns A Promise that resolves to a unique AppID assigned to the added non-Steam application shortcut.
+     * @returns a unique AppID assigned to the added non-Steam application shortcut.
      */
     AddShortcut(appName: string, executablePath: string, directory: string, launchOptions: string): Promise<number>;
 
     /**
      * Backups an app to the specified path.
      * @param appId The ID of the application to back up.
-     * @param backupToPath The path to store the backup.
-     * @returns A Promise that resolves to a number. This value may be "20" for backup busy and "0" for success.
+     * @param backupPath The path to store the backup.
+     * @returns a number. This value may be "20" for backup busy and "0" for success.
      */
-    BackupFilesForApp(appId: number, backupToPath: string): Promise<number>;
+    BackupFilesForApp(appId: number, backupPath: string): Promise<number>;
 
     /**
      * Opens the screenshot folder for a specific app.
@@ -88,7 +88,6 @@ export interface Apps {
      * Download a workshop item.
      * @param appId The ID of the application.
      * @param itemId The ID of the workshop item.
-     * @param param1 Additional parameter (exact usage may vary).
      */
     DownloadWorkshopItem(appId: number, itemId: string, param1: boolean): void;
 
@@ -97,28 +96,28 @@ export interface Apps {
      * @param appId The ID of the application.
      * @param start The start of the time range as a Unix timestamp.
      * @param end The end of the time range as a Unix timestamp.
-     * @returns A Promise that resolves to an array of AppAchievement objects.
+     * @returns an array of AppAchievement objects.
      * @throws OperationResponse
      */
     GetAchievementsInTimeRange(appId: number, start: number, end: number): Promise<AppAchievement[]>;
 
     /**
      * Retrieves a list of active game actions, such as launching an application.
-     * @returns A Promise that resolves to an array of active game actions.
+     * @returns an array of active game actions.
      */
     GetActiveGameActions(): Promise<GameAction[]>;
 
     /**
      * Retrieves a list of available compatibility tools for a specific application.
      * @param appId The ID of the application to retrieve compatibility tools for.
-     * @returns A Promise that resolves to an array of CompatibilityToolInfo objects.
+     * @returns an array of CompatibilityToolInfo objects.
      */
-    GetAvailableCompatTools(appId: number): Promise<CompatibilityToolInfo[]>;
+    GetAvailableCompatTools(appId: number): Promise<CompatibilityTool[]>;
 
     /**
      * Represents a function to retrieve the name of the application in a backup folder.
      * @param appBackupPath The path to the application's backup folder.
-     * @returns A Promise that resolves to the name of the application in the backup folder, or undefined if the path is invalid.
+     * @returns the name of the application in the backup folder, or undefined if the path is invalid.
      * @remarks This function checks for the "sku.sis" file in that path.
      */
     GetBackupsInFolder(appBackupPath: string): Promise<string | undefined>;
@@ -126,7 +125,7 @@ export interface Apps {
     /**
      * Retrieves cached details for a specific application.
      * @param appId The ID of the application.
-     * @returns A Promise that resolves to a stringified object. Returns {@link CachedAppDetails} when parsed.
+     * @returns a stringified object. Returns {@link CachedAppDetails} when parsed.
      */
     GetCachedAppDetails(appId: number): Promise<string>;
 
@@ -145,22 +144,22 @@ export interface Apps {
      * Retrieves details for a specific screenshot upload.
      * @param appId The ID of the application.
      * @param hHandle The handle of the screenshot upload.
-     * @returns A Promise that resolves to details about the screenshot upload.
+     * @returns details about the screenshot upload.
      */
-    GetDetailsForScreenshotUpload(appId: string, hHandle: number): Promise<DetailsForScreenshotUpload>;
+    GetDetailsForScreenshotUpload(appId: string, hHandle: number): Promise<ScreenshotUploadDetails>;
 
     /**
      * Retrieves details for multiple screenshot uploads.
      * @param appId The ID of the application.
      * @param hHandles An array of handles of the screenshot uploads.
-     * @returns A Promise that resolves to details about the screenshot uploads.
+     * @returns details about the screenshot uploads.
      */
-    GetDetailsForScreenshotUploads(appId: string, hHandles: number[]): Promise<DetailsForScreenshotUploads>;
+    GetDetailsForScreenshotUploads(appId: string, hHandles: number[]): Promise<ScreenshotUploadsDetails>;
 
     /**
      * Retrieves a list of downloaded workshop items for a specific application.
      * @param appId The ID of the application to retrieve downloaded workshop items for.
-     * @returns A Promise that resolves to an array of downloaded workshop items for the specified application.
+     * @returns an array of downloaded workshop items for the specified application.
      */
     GetDownloadedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
@@ -170,14 +169,14 @@ export interface Apps {
      * Retrieves achievement information for a specific application for a given friend.
      * @param appId The ID of the application to retrieve achievement information for.
      * @param friendSteam64Id The Steam64 ID of the friend for whom to retrieve achievement information.
-     * @returns A Promise that resolves to an object containing achievement information for the specified friend and application.
+     * @returns an object containing achievement information for the specified friend and application.
      */
     GetFriendAchievementsForApp(appId: string, friendSteam64Id: string): Promise<AppAchievementResponse>;
 
     /**
      * Retrieves a list of friends who play the specified application.
      * @param appId The ID of the application.
-     * @returns A Promise that resolves to an array of Steam64 IDs representing friends who play the application.
+     * @returns an array of Steam64 IDs representing friends who play the application.
      */
     GetFriendsWhoPlay(appId: number): Promise<string[]>;
 
@@ -194,11 +193,8 @@ export interface Apps {
         appId: string,
         callback: (
             gameActionId: number,
-            /**
-             * This parameter is a number only with the value `0`.
-             */
-            appId: number | string,
-            taskName: AppAction,
+            appId: 0 | string,
+            taskName: AppAction_t,
         ) => void,
     ): void;
 
@@ -207,26 +203,26 @@ export interface Apps {
      * These options may include different configurations or settings for launching the application, such as DirectX, Vulkan, OpenGL, 32-bit, 64-bit, etc.
      * This function does not retrieve launch/argument options inputted by the user.
      * @param appId The ID of the application.
-     * @returns A Promise that resolves to an array of launch options for the specified application.
+     * @returns an array of launch options for the specified application.
      */
     GetLaunchOptionsForApp(appId: number): Promise<LaunchOption[]>;
 
     /**
-     * @returns A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link LibraryBootstrapData}.
+     * @returns a ProtoBuf message. If deserialized, returns {@link CLibraryBootstrapData}.
      */
     GetLibraryBootstrapData(): Promise<ArrayBuffer>;
 
     /**
      * Retrieves achievement information for the authenticated user in a specific Steam application.
      * @param appId The ID of the application to retrieve achievement information for.
-     * @returns A Promise that resolves to an AppAchievementResponse object containing the achievement information for the authenticated user in the specified application.
+     * @returns an AppAchievementResponse object containing the achievement information for the authenticated user in the specified application.
      */
     GetMyAchievementsForApp(appId: string): Promise<AppAchievementResponse>;
 
     /**
      * Retrieves the playtime information for a specific application.
      * @param appId The ID of the application to get playtime information for.
-     * @returns A Promise that resolves to playtime information or undefined if not available.
+     * @returns playtime information or undefined if not available.
      */
     GetPlaytime(appId: number): Promise<Playtime | undefined>;
 
@@ -235,7 +231,7 @@ export interface Apps {
     /**
      * Retrieves the resolution override for a specific application.
      * @param appId The ID of the application to retrieve the resolution override for.
-     * @returns A Promise that resolves to a string of the resolution override.
+     * @returns a string of the resolution override.
      */
     GetResolutionOverrideForApp(appId: number): Promise<string>;
 
@@ -243,7 +239,7 @@ export interface Apps {
      * Represents a function to retrieve detailed information about a specific screenshot.
      * @param appId The ID of the application the screenshot belongs to.
      * @param hHandle The handle of the screenshot.
-     * @returns A Promise that resolves to detailed information about the specified screenshot.
+     * @returns detailed information about the specified screenshot.
      */
     GetScreenshotInfo(appId: string, hHandle: number): Promise<Screenshot>;
 
@@ -252,14 +248,14 @@ export interface Apps {
      * @param appId The ID of the application.
      * @param start The start of the time range as a Unix timestamp.
      * @param end The end of the time range as a Unix timestamp.
-     * @returns A Promise that resolves to an array of screenshots taken within the specified time range.
+     * @returns an array of screenshots taken within the specified time range.
      */
     GetScreenshotsInTimeRange(appId: number, start: number, end: number): Promise<Screenshot[]>;
 
     /**
      * Retrieves shortcut data for a given shortcut file path.
      * @param pathToShortcut The path to the shortcut file.
-     * @returns A Promise that resolves to the shortcut data.
+     * @returns the shortcut data.
      */
     GetShortcutDataForPath(pathToShortcut: string): Promise<Shortcut>;
 
@@ -267,7 +263,7 @@ export interface Apps {
      * Represents a function to retrieve details about a soundtrack associated with a soundtrack application.
      * The soundtrack has to be installed.
      * @param appId The ID of the soundtrack application.
-     * @returns A Promise that resolves to the details of the soundtrack associated with the specified soundtrack application.
+     * @returns the details of the soundtrack associated with the specified soundtrack application.
      */
     GetSoundtrackDetails(appId: number): Promise<SoundtrackDetails>;
 
@@ -278,15 +274,15 @@ export interface Apps {
      * Retrieves a list of subscribed workshop item details for a specific application.
      * @param appId The ID of the application to retrieve subscribed workshop item details for.
      * @param itemIds Workshop item IDs to retrieve details for.
-     * @returns A Promise that resolves to an array of subscribed workshop item details for the specified application.
+     * @returns an array of subscribed workshop item details for the specified application.
      * @throws Throws if the query failed.
      */
-    GetSubscribedWorkshopItemDetails(appId: number, itemIds: string[]): Promise<WorkshopItemDetails[] | OperationResponse>;
+    GetSubscribedWorkshopItemDetails(appId: number, itemIds: string[]): Promise<WorkshopItem[] | OperationResponse>;
 
     /**
      * Retrieves a list of subscribed workshop items for a specific application.
      * @param appId The ID of the application to retrieve subscribed workshop items for.
-     * @returns A Promise that resolves to an array of subscribed workshop items for the specified application.
+     * @returns an array of subscribed workshop items for the specified application.
      */
     GetSubscribedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
@@ -338,10 +334,8 @@ export interface Apps {
     /**
      * Raises the window for a given application.
      * @param appId The ID of the application to raise the window of.
-     * @returns A Promise that resolves to a number.
-     * @todo Returns a result enum? 1 if ok, 2 if not running
      */
-    RaiseWindowForGame(appId: number): Promise<number>; // ResumeGameInProgress
+    RaiseWindowForGame(appId: number): Promise<ERaiseGameWindowResult>; // ResumeGameInProgress
 
     /*
     "CMsgAchievementChange"
@@ -359,22 +353,22 @@ export interface Apps {
     /**
      * Registers a callback function to be called when achievement changes occur.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForAchievementChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    RegisterForAppBackupStatus(callback: (appBackupStatus: AppBackupStatus) => void): Unregisterable;
+    RegisterForAppBackupStatus(callback: (status: AppBackupStatus) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when app details change.
      * @param appId The ID of the application to monitor.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForAppDetails(appId: number, callback: (appDetails: AppDetails) => void): Unregisterable;
+    RegisterForAppDetails(appId: number, callback: (data: AppDetails) => void): Unregisterable;
 
     /**
-     * If `data` is deserialized, returns {@link AppOverview_Change}.
+     * If `data` is deserialized, returns {@link CAppOverview_Change}.
      * @remarks This is not a mistake, it doesn't return anything.
      */
     RegisterForAppOverviewChanges(callback: (data: ArrayBuffer) => void): void;
@@ -386,37 +380,47 @@ export interface Apps {
     /**
      * Registers a callback function to be called when a game action ends.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForGameActionEnd(callback: (gameActionIdentifier: number) => void): Unregisterable;
+    RegisterForGameActionEnd(callback: (gameActionId: number) => void): Unregisterable;
 
-    // "error" is a localization token
-    RegisterForGameActionShowError(callback: (gameActionId: number, appId: string, actionName: string, error: string, param4: string) => void): Unregisterable;
+    RegisterForGameActionShowError(
+        callback: (
+            gameActionId: number,
+            appId: string,
+            actionName: string,
+            /**
+             * Localization token.
+             */
+            error: string,
+            param4: string,
+        ) => void
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when a game action UI is shown.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForGameActionShowUI(callback: () => void): Unregisterable; // todo: no idea what this callback is from
 
     /**
      * Registers a callback function to be called when a game action starts.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForGameActionStart(
-        callback: (gameActionIdentifier: number, appId: string, action: string, param3: ELaunchSource) => void,
+        callback: (gameActionId: number, appId: string, action: string, param3: ELaunchSource) => void,
     ): Unregisterable;
 
     /**
      * Registers a callback function to be called when a game action task changes.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForGameActionTaskChange(
         callback: (
-            gameActionIdentifier: number,
+            gameActionId: number,
             appId: string,
             action: string,
             requestedAction: string,
@@ -427,11 +431,11 @@ export interface Apps {
     /**
      * Registers a callback function to be called when a user requests a game action.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForGameActionUserRequest(
         callback: (
-            gameActionIdentifier: number,
+            gameActionId: number,
             appId: string,
             action: string,
             requestedAction: string,
@@ -439,19 +443,13 @@ export interface Apps {
         ) => void,
     ): Unregisterable;
 
-    /**
-     * @todo returns undefined (now)?
-     * @todo does not exist on Steam Version:  1718064497
-     */
-    RegisterForLocalizationChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
-
     RegisterForPrePurchasedAppChanges(callback: () => void): Unregisterable; // Unknown, did have it show up a few times, but not callback parameters
     RegisterForShowMarketingMessageDialog: Unregisterable;
 
     /**
      * Registers a callback function to be notified when workshop items are added or removed from a Steam application.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForWorkshopChanges(callback: (appId: number) => void): Unregisterable;
 
@@ -498,7 +496,7 @@ export interface Apps {
 
     /**
      * Scans the system for installed non-Steam applications.
-     * @returns A Promise that resolves to an array of NonSteamApp objects representing installed non-Steam applications.
+     * @returns an array of NonSteamApp objects representing installed non-Steam applications.
      * @remarks This function scans the user's system for installed applications that are not part of the Steam library. It does not scan for shortcuts added to the Steam library.
      *
      * On Linux, it scans inside /usr/share/applications and $XDG_DATA_HOME/applications.
@@ -557,16 +555,16 @@ export interface Apps {
      */
     SetCachedAppDetails(appId: number, details: string): Promise<void>;
 
-    SetControllerRumblePreference(appId: number, param1: number): void; // param1 - enum for preference
+    SetControllerRumblePreference(appId: number, value: EControllerRumbleSetting): void;
 
     /**
      * Sets the custom artwork for a given application.
      * @param appId The ID of the application to set custom artwork for.
-     * @param base64Image Base64 encoded image.
+     * @param base64 Base64 encoded image.
      * @param assetType The type of artwork to set.
      * @returns A Promise that resolves after the custom artwork is set.
      */
-    SetCustomArtworkForApp(appId: number, base64Image: string, imageType: 'jpg' | 'png', assetType: ELibraryAssetType): Promise<void>;
+    SetCustomArtworkForApp(appId: number, base64: string, imageType: 'jpg' | 'png', assetType: ELibraryAssetType): Promise<void>;
 
     /**
      * Sets a custom logo position for a specific app.
@@ -611,16 +609,16 @@ export interface Apps {
     /**
      * Sets the executable path for a non-Steam application shortcut.
      * @param appId The ID of the application to set the shortcut executable for.
-     * @param exePath The path to the executable.
+     * @param path The path to the executable.
      */
-    SetShortcutExe(appId: number, exePath: string): void;
+    SetShortcutExe(appId: number, path: string): void;
 
     /**
      * Sets the icon for a non-Steam application shortcut.
      * @param appId The ID of the application to set the shortcut icon for.
-     * @param iconPath The path to the icon image (can be png or tga format).
+     * @param path The path to the icon image (can be png or tga format).
      */
-    SetShortcutIcon(appId: number, iconPath: string): void;
+    SetShortcutIcon(appId: number, path: string): void;
 
     /**
      * Sets whether a non-Steam application shortcut should be included in the VR library.
@@ -632,16 +630,16 @@ export interface Apps {
     /**
      * Sets launch options for a non-Steam application shortcut.
      * @param appId The ID of the application to set the launch options for.
-     * @param launchOptions The launch options to be used when starting the application.
+     * @param options The launch options to be used when starting the application.
      */
-    SetShortcutLaunchOptions(appId: number, launchOptions: string): void;
+    SetShortcutLaunchOptions(appId: number, options: string): void;
 
     /**
      * Sets the name for a non-Steam application shortcut.
      * @param appId The ID of the application to set the shortcut name for.
-     * @param shortcutName The name to be displayed for the application shortcut.
+     * @param name The name to be displayed for the application shortcut.
      */
-    SetShortcutName(appId: number, shortcutName: string): void;
+    SetShortcutName(appId: number, name: string): void;
 
     /**
      * Sets the starting directory for a non-Steam application shortcut.
@@ -670,8 +668,7 @@ export interface Apps {
     /**
      * Sets the workshop items load order for a specified application.
      * @param appId The ID of the application.
-     * @param itemIds Workshop item IDs.
-     * @remarks `itemIds` has to be the full list of subscribed items, otherwise the specified items get moved to the last position.
+     * @param itemIds Workshop item IDs. Has to be the full list of subscribed items, otherwise the specified items get moved to the last position.
      */
     SetWorkshopItemsLoadOrder(appId: number, itemIds: string[]): void;
 
@@ -753,13 +750,13 @@ export enum ELibraryAssetType {
     HeroBlur,
 }
 
-export type AppAchievements = {
+export interface AppAchievements {
     nAchieved: number;
     nTotal: number;
     vecAchievedHidden: AppAchievement[];
     vecHighlight: AppAchievement[];
     vecUnachieved: AppAchievement[];
-};
+}
 
 export interface AppAchievement {
     bAchieved: boolean;
@@ -782,9 +779,9 @@ export interface AppAchievement {
     strName: string;
 }
 
-export type AppAction = "LaunchApp" | "VerifyApp";
+export type AppAction_t = "LaunchApp" | "VerifyApp";
 
-export type LaunchAppTask =
+export type LaunchAppTask_t =
     | "None"
     | "Completed"
     | "Cancelled"
@@ -829,8 +826,8 @@ export type LaunchAppTask =
 export interface GameAction {
     nGameActionID: number;
     gameid: string;
-    strActionName: AppAction;
-    strTaskName: LaunchAppTask;
+    strActionName: AppAction_t;
+    strTaskName: LaunchAppTask_t;
     strTaskDetails: string;
     nLaunchOption: number;
     nSecondsRemaing: number; //fixme: not a typo, actually valve
@@ -847,7 +844,7 @@ export interface ConflictingFileTimestamp {
 /**
  * Represents information about a compatibility tool.
  */
-export interface CompatibilityToolInfo {
+export interface CompatibilityTool {
     /** Name of the compatibility tool. */
     strToolName: string;
     /** Display name of the compatibility tool. */
@@ -858,7 +855,7 @@ export interface CompatibilityToolInfo {
 /**
  * Represents details about a single screenshot upload.
  */
-export interface DetailsForScreenshotUpload {
+export interface ScreenshotUploadDetails {
     /**
      * The size of the screenshot upload on disk (including thumbnail).
      */
@@ -878,7 +875,7 @@ export interface DetailsForScreenshotUpload {
 /**
  * Represents details about multiple screenshot uploads.
  */
-export interface DetailsForScreenshotUploads {
+export interface ScreenshotUploadsDetails {
     /**
      * The total size of all screenshot uploads on disk (sum of sizes including thumbnails).
      */
@@ -917,18 +914,12 @@ export interface AppAchievementResponse {
 }
 
 export interface LaunchOption {
-    /**
-     * @remarks This is an integer, despite the prefix. 0 if false, 1 if true.
-     */
-    bIsLaunchOptionTypeExemptFromGameTheater: number;
-    /**
-     * @remarks This is an integer, despite the prefix. 0 if false, 1 if true.
-     */
-    bIsVRLaunchOption: number;
+    bIsLaunchOptionTypeExemptFromGameTheater: VDFBoolean_t;
+    bIsVRLaunchOption: VDFBoolean_t;
     eType: EAppLaunchOptionType;
     nIndex: number;
     /**
-     * Label localization string.
+     * @note May be a localization string.
      */
     strDescription: string;
     strGameName: string;
@@ -987,25 +978,14 @@ export enum EAppLaunchOptionType {
     Dialog = 1e3,
 }
 
-export interface Shortcut {
-    bIsApplication: boolean;
-    strAppName: string;
-    strExePath: string;
-    strArguments: string;
-    strCmdline: string;
-    strShortcutPath: string | undefined;
-    strSortAs: string | undefined;
-    strIconDataBase64: string | undefined;
-}
-
 export interface SoundtrackDetails {
-    tracks: Track[];
+    tracks: SoundtrackTrack[];
     metadata: SoundtrackMetadata;
     vecAdditionalImageAssetURLs: string[];
     strCoverImageAssetURL: string;
 }
 
-export interface Track {
+export interface SoundtrackTrack {
     discNumber: number;
     trackNumber: number;
     durationSeconds: number;
@@ -1021,7 +1001,7 @@ export interface StoreTagLocalization {
     string: string;
 }
 
-export interface WorkshopItemDetails {
+export interface WorkshopItem {
     /**
      * Required items' IDs.
      */
@@ -1162,6 +1142,8 @@ export enum ESteamInputController {
     NintendoSwitch = 1 << 3,
 }
 
+type AppPlatform_t = 'windows' | 'osx' | 'linux';
+
 export interface AppDetails {
     achievements: AppAchievements;
     /** Indicates whether the application is available on the store. */
@@ -1261,10 +1243,9 @@ export interface AppDetails {
     vecLanguages: AppLanguage[];
     vecLegacyCDKeys: LegacyCDKey[];
     vecMusicAlbums: AppSoundtrack[];
-    /** windows | osx | linux */
-    vecPlatforms: string[];
+    vecPlatforms: AppPlatform_t[];
     vecScreenShots: Screenshot[];
-    libraryAssets?: AppLibraryAssets;
+    libraryAssets?: AppLibraryAsset;
 }
 
 interface AppAssociation {
@@ -1288,7 +1269,7 @@ export interface BadgeCard {
 }
 
 export interface Badge {
-  bMaxed: 1 | 0;
+  bMaxed: VDFBoolean_t;
   dtNextRetry: number | null;
   nLevel: number;
   nMaxLevel: number;
@@ -1376,9 +1357,9 @@ export enum EAppOwnershipFlags {
 }
 
 export enum EAppAutoUpdateBehavior {
-    Always, // (Always keep this game updated)
-    Launch, // (Only update this game when I launch it)
-    HighPriority, // (High priority)
+    Always,
+    Launch,
+    HighPriority,
 }
 
 export enum EAppAllowDownloadsWhileRunningBehavior {
@@ -1438,11 +1419,11 @@ export enum ESteamDeckCompatibilityTestResult {
     FailMinor,
 }
 
-export type AppLanguage = {
+export interface AppLanguage {
     strDisplayName: string;
     /** A localization string for the language. */
     strShortName: string;
-};
+}
 
 export interface LegacyCDKey {
     eResult: EResult;
@@ -1494,7 +1475,7 @@ export interface AppSoundtrack {
     unAppID: number;
 }
 
-export interface AppLibraryAssets {
+export interface AppLibraryAsset {
     logoPosition?: LogoPosition;
     strCapsuleImage: string;
     strHeroBlurImage: string;
@@ -1503,12 +1484,12 @@ export interface AppLibraryAssets {
 }
 
 export interface LogoPosition {
-    pinnedPosition: LogoPinPositions;
+    pinnedPosition: LogoPinPosition_t;
     nWidthPct: number;
     nHeightPct: number;
 }
 
-export type LogoPinPositions = 'BottomLeft' | 'UpperLeft' | 'CenterCenter' | 'UpperCenter' | 'BottomCenter';
+export type LogoPinPosition_t = 'BottomLeft' | 'UpperLeft' | 'CenterCenter' | 'UpperCenter' | 'BottomCenter';
 
 export enum ELaunchSource {
     None,
@@ -1549,7 +1530,12 @@ export interface NonSteamApp {
     strExePath: string;
     strArguments: string;
     strCmdline: string;
-    strIconDataBase64: string;
+    strIconDataBase64: string | undefined;
+}
+
+export interface Shortcut extends NonSteamApp {
+    strShortcutPath: string | undefined;
+    strSortAs: string | undefined;
 }
 
 export interface LogoPositionForApp {
@@ -1557,10 +1543,7 @@ export interface LogoPositionForApp {
     logoPosition: LogoPosition;
 }
 
-/**
- * CLibraryBootstrapData
- */
-export interface LibraryBootstrapData extends JsPbMessage {
+export interface CLibraryBootstrapData extends JsPbMessage {
     app_data(): AppBootstrapData[];
 
     add_app_data(param0: any, param1: any): any;
@@ -1574,10 +1557,7 @@ export interface AppBootstrapData {
     user_tag: string[];
 }
 
-/**
- * CAppOverview_Change
- */
-export interface AppOverview_Change extends JsPbMessage {
+export interface CAppOverview_Change extends JsPbMessage {
     app_overview(): SteamAppOverview[];
 
     full_update(): boolean;
@@ -1653,7 +1633,7 @@ export interface SteamAppOverview {
     icon_data_format?: string;
     gameid: string;
     library_capsule_filename?: string;
-    per_client_data: SteamAppOverviewClientData[];
+    per_client_data: SteamAppOverviewRemoteClientData[];
     most_available_clientid: string;
     selected_clientid?: string;
     rt_store_asset_mtime: number;
@@ -1679,9 +1659,9 @@ export interface SteamAppOverview {
     ps5_controller_support?: EAppControllerSupportLevel;
     gamepad_preferred?: boolean;
     canonicalAppType: number;
-    local_per_client_data: SteamAppOverviewClientData;
-    most_available_per_client_data: SteamAppOverviewClientData;
-    selected_per_client_data: SteamAppOverviewClientData;
+    local_per_client_data: SteamAppOverviewRemoteClientData;
+    most_available_per_client_data: SteamAppOverviewRemoteClientData;
+    selected_per_client_data: SteamAppOverviewRemoteClientData;
 }
 
 export enum EAppType {
@@ -1725,7 +1705,7 @@ export enum EAppControllerSupportLevel {
     Full,
 }
 
-export interface SteamAppOverviewClientData {
+export interface SteamAppOverviewRemoteClientData {
     clientid: string;
     client_name: string;
     display_status: EDisplayStatus; // Default should be Invalid
@@ -1760,4 +1740,10 @@ export enum EAppCloudStatus {
     SyncFailed,
     Conflict,
     PendingElsewhere,
+}
+
+export enum ERaiseGameWindowResult {
+    NotRunning = 1,
+    Success,
+    Failure,
 }

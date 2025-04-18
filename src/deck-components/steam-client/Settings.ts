@@ -1,4 +1,4 @@
-import {CompatibilityToolInfo} from "./App";
+import {CompatibilityTool as CompatibilityTool} from "./App";
 import { JsPbMessage, OperationResponse, Unregisterable } from "./shared";
 
 export interface Settings {
@@ -25,10 +25,10 @@ export interface Settings {
     // Returns the current language "english"
     GetCurrentLanguage(): Promise<string>;
 
-    GetGlobalCompatTools(): Promise<CompatibilityToolInfo[]>;
+    GetGlobalCompatTools(): Promise<CompatibilityTool[]>;
 
     /**
-     * @returns A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgMonitorInfo}.
+     * @returns a ProtoBuf message. If deserialized, returns {@link MsgMonitorInfo}.
      */
     GetMonitorInfo(): Promise<ArrayBuffer>;
 
@@ -52,11 +52,11 @@ export interface Settings {
 
     /**
      * If `data` is deserialized, returns {@link MsgClientSettings}.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForSettingsArrayChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
-    RegisterForSettingsChanges(callback: (steamSettings: SteamSettings) => void): Unregisterable;
+    RegisterForSettingsChanges(callback: (settings: SteamSettings) => void): Unregisterable;
 
     RegisterForTimeZoneChange(callback: (timezoneId: string) => void): Unregisterable; // When timezone is changed from settings, callback will return new timezoneId
     ReinitMicSettings(): void;
@@ -89,12 +89,15 @@ export interface Settings {
     SetSaveAccountCredentials(value: boolean): void;
 
     /**
-     * @param serializedBase64 Serialized base64 message from `CMsgClientSettings`.
+     * @param base64 Serialized base64 message from `CMsgClientSettings`.
      * @returns a boolean indicating whether the operation was successful.
      */
-    SetSetting(serializedBase64: string): Promise<boolean>;
+    SetSetting(base64: string): Promise<boolean>;
 
-    SetTimeZone(timezoneId: string): void; // You can get valid timezoneIds from GetAvailableTimeZones()
+    /**
+     * You can get valid timezoneIds from {@link GetAvailableTimeZones}.
+     */
+    SetTimeZone(timezoneId: string): void;
 
     SetUseNintendoButtonLayout(controllerIndex: number, value: boolean): void;
 

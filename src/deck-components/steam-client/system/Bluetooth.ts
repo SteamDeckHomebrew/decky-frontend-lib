@@ -8,7 +8,6 @@ export interface Bluetooth {
      * Cancels an ongoing pairing request with a Bluetooth device.
      * @param adapterId The ID of the Bluetooth adapter.
      * @param deviceId The ID of the Bluetooth device to cancel pairing with.
-     * @returns A Promise that resolves with the result of the cancellation.
      */
     CancelPairing(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
@@ -16,7 +15,6 @@ export interface Bluetooth {
      * Connects to a paired Bluetooth device using the specified adapter.
      * @param adapterId The ID of the Bluetooth adapter.
      * @param deviceId The ID of the paired Bluetooth device to connect to.
-     * @returns A Promise that resolves with the result of the connection attempt.
      */
     Connect(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
@@ -24,7 +22,6 @@ export interface Bluetooth {
      * Disconnects from a currently connected Bluetooth device using the specified adapter.
      * @param adapterId The ID of the Bluetooth adapter.
      * @param deviceId The ID of the connected Bluetooth device to disconnect from.
-     * @returns A Promise that resolves with the result of the disconnection.
      */
     Disconnect(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
@@ -32,37 +29,33 @@ export interface Bluetooth {
      * Initiates pairing with a Bluetooth device using the specified adapter.
      * @param adapterId The ID of the Bluetooth adapter.
      * @param deviceId The ID of the Bluetooth device to initiate pairing with.
-     * @returns A Promise that resolves with the result of the pairing attempt.
      */
     Pair(adapterId: number, deviceId: number): Promise<OperationResponse>;
 
     /**
      * Registers a callback function to be called when the Bluetooth state changes.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForStateChanges(callback: (bluetoothStateChange: BluetoothStateChange) => void): Unregisterable;
+    RegisterForStateChanges(callback: (state: BluetoothState) => void): Unregisterable;
 
     /**
      * Sets whether the Bluetooth adapter should be in discovering mode.
      * @param adapterId The ID of the Bluetooth adapter.
      * @param value `true` to enable discovering mode, `false` to disable it.
-     * @returns A Promise that resolves with the result of the operation.
      */
     SetAdapterDiscovering(adapterId: number, value: boolean): Promise<OperationResponse>;
 
     /**
      * Enables or disables Bluetooth functionality.
-     * @param bluetooth `true` to enable Bluetooth, `false` to disable it.
-     * @returns A Promise that resolves with the result of the operation.
+     * @param value `true` to enable Bluetooth, `false` to disable it.
      */
-    SetEnabled(bluetooth: boolean): Promise<OperationResponse>;
+    SetEnabled(value: boolean): Promise<OperationResponse>;
 
     /**
      * Unpairs a Bluetooth device from the adapter.
      * @param adapterId The ID of the Bluetooth adapter.
      * @param deviceId The ID of the Bluetooth device to unpair with.
-     * @returns A Promise that resolves with the result of the unpairing request.
      */
     UnPair(adapterId: number, deviceId: number): Promise<OperationResponse>;
 }
@@ -70,7 +63,7 @@ export interface Bluetooth {
 /**
  * Represents a change in the state of Bluetooth adapters and devices.
  */
-export interface BluetoothStateChange {
+export interface BluetoothState {
     /**
      * An array of Bluetooth adapters with their current state.
      */

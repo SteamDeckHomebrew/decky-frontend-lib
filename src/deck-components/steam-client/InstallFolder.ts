@@ -7,10 +7,10 @@ import {EAppUpdateError} from "./App";
 export interface InstallFolder {
     /**
      * Adds a Steam Library folder to the Steam client.
-     * @param steamLibraryPath The path of the Steam Library folder to be added.
-     * @returns A Promise that resolves to the index of the added folder.
+     * @param path The path of the Steam Library folder to be added.
+     * @returns the index of the added folder.
      */
-    AddInstallFolder(steamLibraryPath: string): Promise<number>;
+    AddInstallFolder(path: string): Promise<number>;
 
     /**
      * Opens the file explorer to browse files in a specific Steam Library folder.
@@ -25,13 +25,13 @@ export interface InstallFolder {
 
     /**
      * Retrieves a list of installed Steam Library folders.
-     * @returns A Promise that resolves to an array of SteamInstallFolder objects.
+     * @returns an array of SteamInstallFolder objects.
      */
     GetInstallFolders(): Promise<SteamInstallFolder[]>;
 
     /**
      * Retrieves a list of potential Steam Library folders that can be added.
-     * @returns A Promise that resolves to an array of PotentialInstallFolder objects.
+     * @returns an array of PotentialInstallFolder objects.
      */
     GetPotentialFolders(): Promise<PotentialInstallFolder[]>;
 
@@ -44,30 +44,29 @@ export interface InstallFolder {
 
     /**
      * Refreshes the list of installed Steam Library folders.
-     * @returns A Promise or response indicating the refresh operation.
      */
     RefreshFolders(): void;
 
     /**
      * Registers a callback function to be called when changes occur in Steam Install Folders.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForInstallFolderChanges(callback: (folderChange: FolderChange) => void): Unregisterable;
+    RegisterForInstallFolderChanges(callback: (change: FolderChange) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when moving game content progresses.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForMoveContentProgress(callback: (moveContentProgress: MoveContentProgress) => void): Unregisterable;
+    RegisterForMoveContentProgress(callback: (progress: MoveContentProgress) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when repairing an install folder is finished.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForRepairFolderFinished(callback: (folderChange: FolderChange) => void): Unregisterable;
+    RegisterForRepairFolderFinished(callback: (change: FolderChange) => void): Unregisterable;
 
     /**
      * Removes a Steam Library folder from the Steam client.
@@ -90,9 +89,9 @@ export interface InstallFolder {
     /**
      * Sets a user-defined label for a specific Steam Library folder.
      * @param folderIndex The index of the folder to be labeled.
-     * @param userLabel The label to be assigned to the folder.
+     * @param label The label to be assigned to the folder.
      */
-    SetFolderLabel(folderIndex: number, userLabel: string): void;
+    SetFolderLabel(folderIndex: number, label: string): void;
 }
 
 /**

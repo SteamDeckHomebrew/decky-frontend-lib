@@ -6,19 +6,19 @@ export interface WebChat {
 
     /**
      * Gets your Steam3 ID.
-     * @returns A Promise that resolves to a Steam3 ID.
+     * @returns a Steam3 ID.
      */
     GetCurrentUserAccountID(): Promise<number>;
 
     /**
      * Gets the current user's 64x64 avatar as a data URL.
-     * @returns A Promise that resolves to the data URL.
+     * @returns the data URL.
      */
     GetLocalAvatarBase64(): Promise<string>;
 
     /**
      * Gets the current user's nickname.
-     * @returns A Promise that resolves to the nickname.
+     * @returns the nickname.
      */
     GetLocalPersonaName(): Promise<string>;
 
@@ -35,13 +35,13 @@ export interface WebChat {
 
     /**
      * Gets the "Sign in to friends when Steam starts" option value.
-     * @returns A Promise that resolves to a boolean indicating whether the option is enabled or not.
+     * @returns a boolean indicating whether the option is enabled or not.
      */
     GetSignIntoFriendsOnStart(): Promise<boolean>;
 
     /**
      * Retrieves the current UI mode.
-     * @returns A Promise that resolves to the current UI mode.
+     * @returns the current UI mode.
      */
     GetUIMode(): Promise<EUIMode>;
 
@@ -62,7 +62,7 @@ export interface WebChat {
     /**
      * Registers a callback function to be called when the computer's active state changes.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      * @todo Changes to 2 after 10 seconds?
      * @todo Does not affect the keyboard?
      */
@@ -83,14 +83,14 @@ export interface WebChat {
     /**
      * Registers a callback function to be called when the push-to-talk state changes.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForPushToTalkStateChange(callback: (state: boolean) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when the UI mode is changed.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForUIModeChange(callback: (mode: EUIMode) => void): Unregisterable;
 

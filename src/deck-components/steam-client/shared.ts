@@ -149,18 +149,22 @@ export enum ESteamRealm {
 export enum EUIComposition {
   /** Steam is not rendered on the screen. */
   Hidden,
+
   /**
    * Transparent divs will allow pixels from the app behind Steam to penetrate.
    * Input goes to **the app**.
    */
   Notification,
+
   /**
    * Transparent divs will allow pixels from the app behind Steam to penetrate.
    * Input goes to **Steam**.
    */
   Overlay,
+
   /** Take all of the pixels on the screen, nothing "behind" Steam is shown. */
   Opaque,
+
   /**
    * Special composition mode that matches {@link Overlay}, but forwards synthetic keyboard
    * events to the Gamescope foreground app (game) instead of Steam.
@@ -174,6 +178,9 @@ export enum EUIMode {
   Desktop = 7,
 }
 
+/** 0 - false, 1 - true */
+export type VDFBoolean_t = 0 | 1;
+
 export interface BrowserContext {
   /**
    * Window type.
@@ -186,7 +193,7 @@ export interface BrowserContext {
   m_eUIMode?: EUIMode;
 
   /**
-   * @todo Appears when EBrowserType == 0 ?
+   * @todo Appears when {@link m_eBrowserType} == 0 ?
    */
   m_gameID?: string;
 
@@ -216,7 +223,7 @@ export interface OperationResponse {
   result: EResult;
 
   /**
-   * A message describing the result of the operation.
+   * An unlocalized message describing the result of the operation.
    */
   message: string;
 }

@@ -3,13 +3,13 @@ import { Unregisterable } from "../shared";
 export interface Display {
     EnableUnderscan(param0: boolean): any;
 
-    RegisterForBrightnessChanges(callback: (brightnessChanges: BrightnessChange) => void): Unregisterable;
+    RegisterForBrightnessChanges(callback: (state: BrightnessState) => void): Unregisterable;
 
     SetBrightness(brightness: number): any;
 
     SetUnderscanLevel(param0: any): any;
 }
 
-export interface BrightnessChange {
+export interface BrightnessState {
     flBrightness: number;
 }

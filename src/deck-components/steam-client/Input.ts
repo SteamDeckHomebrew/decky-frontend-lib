@@ -24,8 +24,8 @@ export interface Input {
 
     /**
      * Sets a specified key's pressed state.
-     * @param keyIndex The key index to set the state for.
-     * @param state true for pressed, false otherwise.
+     * @param key The key index to set the state for.
+     * @param state `true` for pressed, `false` otherwise.
      * @example
      * Send paste command:
      * ```
@@ -35,7 +35,7 @@ export interface Input {
      * SteamClient.Input.ControllerKeyboardSetKeyState(EHIDKeyboardKey.LControl, false);
      * ```
      */
-    ControllerKeyboardSetKeyState(keyIndex: EHIDKeyboardKey, state: boolean): void;
+    ControllerKeyboardSetKeyState(key: EHIDKeyboardKey, state: boolean): void;
 
     DecrementCloudedControllerConfigsCounter(): any;
 
@@ -59,7 +59,7 @@ export interface Input {
     /**
      * Retrieves the controller mapping string for the specified controller index.
      * @param unControllerIndex The controller index.
-     * @returns A Promise that resolves to the controller mapping string.
+     * @returns the controller mapping string.
      */
     GetControllerMappingString(unControllerIndex: number): Promise<string>;
 
@@ -94,43 +94,43 @@ export interface Input {
     RegisterForControllerAccountChanges: Unregisterable;
 
     RegisterForControllerAnalogInputMessages(
-        callback: (controllerAnalogInputMessages: ControllerAnalogInputMessage[]) => void,
+        callback: (msgs: ControllerAnalogInputMessage[]) => void,
     ): Unregisterable;
 
     RegisterForControllerBatteryChanges(callback: any): Unregisterable;
 
     RegisterForControllerCommandMessages(
-        callback: (controllerCommandMessage: ControllerCommandMessage) => void,
+        callback: (msg: ControllerCommandMessage) => void,
     ): Unregisterable;
 
     /**
      * Registers a callback for changes in controller configuration cloud state.
      * @param callback The callback function for config cloud state changes.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForControllerConfigCloudStateChanges(
-        callback: (controllerConfigCloudStateChange: ControllerConfigCloudStateChange) => void,
+        callback: (state: ControllerConfigCloudState) => void,
     ): Unregisterable;
 
     /**
      * Registers a callback for receiving controller configuration info messages (controller layouts query, personal controller layout query).
      * @param callback The callback function for controller config info messages.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      * @remarks Do Not Use, this will break the controller layout selection unless you know what you are doing.
      */
     RegisterForControllerConfigInfoMessages(
         callback: (
-            controllerConfigInfoMessages: ControllerConfigInfoMessageList[] | ControllerConfigInfoMessageQuery[],
+            msgs: ControllerConfigInfoMessageList[] | ControllerConfigInfoMessageQuery[],
         ) => void,
     ): Unregisterable;
 
     /**
      * Registers a callback function to be invoked when controller input messages are received.
      * @param callback The callback function to be invoked when controller input messages are received.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForControllerInputMessages(
-        callback: (controllerInputMessages: ControllerInputMessage[]) => void,
+        callback: (msgs: ControllerInputMessage[]) => void,
     ): Unregisterable;
 
     RegisterForControllerListChanges(callback: (controllerListChanges: ControllerInfo[]) => void): Unregisterable;
@@ -138,10 +138,10 @@ export interface Input {
     /**
      * Registers a callback for changes in the controller state (buttons presses, triggers presses, joystick changes etc...).
      * @param callback The callback function for controller state changes.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForControllerStateChanges(
-        callback: (controllerStateChanges: ControllerStateChange[]) => void,
+        callback: (changes: ControllerStateChange[]) => void,
     ): Unregisterable;
 
     RegisterForDualSenseUpdateNotification(callback: (m_strDualSenseUpdateProduct: string) => void): Unregisterable;
@@ -149,9 +149,9 @@ export interface Input {
     /**
      * Registers a callback for receiving game keyboard messages (text field popup for inputting text for games when in character creation or etc...).
      * @param callback The callback function for game keyboard messages.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForGameKeyboardMessages(callback: (gameKeyboardMessage: GameKeyboardMessage) => void): Unregisterable;
+    RegisterForGameKeyboardMessages(callback: (msg: GameKeyboardMessage) => void): Unregisterable;
 
     RegisterForRemotePlayConfigChanges(callback: () => void): Unregisterable;
 
@@ -168,7 +168,7 @@ export interface Input {
      */
     RegisterForTouchMenuInputMessages(callback: (inputs: number[]) => void): Unregisterable;
 
-    RegisterForTouchMenuMessages(callback: (touchMenuMessage: TouchMenuMessage) => void): Unregisterable;
+    RegisterForTouchMenuMessages(callback: (msg: TouchMenuMessage) => void): Unregisterable;
 
     //param0 - index?
     RegisterForUIVisualization(param0: any, param1: any, param2: any): Unregisterable;
@@ -506,7 +506,7 @@ export interface ControllerCommandMessage {
     nControllerIndex: number;
 }
 
-export interface ControllerConfigCloudStateChange {
+export interface ControllerConfigCloudState {
     bSyncDone: boolean;
     bSyncConflict: boolean;
     bSyncError: boolean;

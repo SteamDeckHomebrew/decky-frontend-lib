@@ -31,7 +31,7 @@ export interface System {
     /**
      * Creates a temporary folder.
      * @param path The folder to create.
-     * @returns The created path.
+     * @returns the created path.
      * @todo Does this support relative paths ? this has some weird behavior
      */
     CreateTempPath(path: string): Promise<string>;
@@ -70,8 +70,8 @@ export interface System {
     /**
      * Open a dialog for choosing a file.
      * @param prefs Dialog preferences.
-     * @returns A Promise that resolves to the selected file name.
-     * @throws Throws if no file was selected.
+     * @returns the selected file name.
+     * @throws OperationResponse if no file was selected.
      */
     OpenFileDialog(prefs: FileDialog): Promise<string | OperationResponse>;
 
@@ -80,16 +80,16 @@ export interface System {
      */
     OpenInSystemBrowser(url: string): void;
 
-    OpenLocalDirectoryInSystemExplorer(directory: string): void; // Opens local directory in system explorer
+    OpenLocalDirectoryInSystemExplorer(directory: string): void;
     Perf: Perf;
 
     RebootToAlternateSystemPartition(): any;
 
     RebootToFactoryTestImage(param0: any): any;
 
-    RegisterForAirplaneModeChanges(callback: (airplaneModeChange: AirplaneModeChange) => void): Unregisterable;
+    RegisterForAirplaneModeChanges(callback: (state: AirplaneModeState) => void): Unregisterable;
 
-    RegisterForBatteryStateChanges(callback: (batteryStateChange: BatteryStateChange) => void): Unregisterable;
+    RegisterForBatteryStateChanges(callback: (state: BatteryState) => void): Unregisterable;
 
     RegisterForFormatStorageProgress(callback: (progress: FormatStorageProgress) => void): Unregisterable;
 
@@ -98,7 +98,7 @@ export interface System {
     RegisterForOnSuspendRequest(callback: () => void): Unregisterable;
 
     /**
-     * @returns A Promise that resolves to a ProtoBuf message. If deserialized, returns {@link MsgSystemManagerSettings}.
+     * @returns a ProtoBuf message. If deserialized, returns {@link CMsgSystemManagerSettings}.
      */
     RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
@@ -131,16 +131,22 @@ export interface System {
     VideoRecordingDriverCheck(): any;
 }
 
-export interface AirplaneModeChange {
+export interface AirplaneModeState {
     bEnabled: boolean;
 }
 
-export interface BatteryStateChange {
+export interface BatteryState {
     bHasBattery: boolean;
     eACState: EACState;
     eBatteryState: EBatteryState;
-    flLevel: number; // Battery Percentage in floating point 0-1
-    nSecondsRemaining: number; // Appears to be charge time remaining or time remaining on battery
+    /**
+     * Battery Percentage in floating point 0-1.
+     */
+    flLevel: number;
+    /**
+     * Appears to be charge time remaining or time remaining on battery.
+     */
+    nSecondsRemaining: number;
     bShutdownRequested: boolean;
 }
 
@@ -325,10 +331,7 @@ export interface SystemInfo {
     bIsUnsupportedPrototypeHardware: boolean;
 }
 
-/**
- * CMsgSystemManagerSettings
- */
-export interface MsgSystemManagerSettings extends JsPbMessage {
+export interface CMsgSystemManagerSettings extends JsPbMessage {
     display_adaptive_brightness_enabled(): boolean;
 
     display_colorgamut(): number;

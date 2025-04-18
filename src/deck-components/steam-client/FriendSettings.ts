@@ -1,10 +1,12 @@
+import { VDFBoolean_t } from "./shared";
+
 /**
  * Represents friend settings and configuration.
  */
 export interface FriendSettings {
     /**
      * Retrieves a list of enabled friend settings features.
-     * @returns A Promise that resolves to an array of enabled friend settings features.
+     * @returns an array of enabled friend settings features.
      */
     GetEnabledFeatures(): Promise<FriendSettingsFeatureObject[]>;
 
@@ -16,13 +18,10 @@ export interface FriendSettings {
     RegisterForSettingsChanges(callback: (settings: string) => void): void;
 
     /**
-     * @param details String received from {@link FriendSettings.RegisterForSettingsChanges}.
+     * @param details Stringified {@link FriendSettingsChange}.
      */
     SetFriendSettings(details: string): void;
 }
-
-/** 0 - false, 1 - true */
-type VDFBoolean = 0 | 1;
 
 export enum EChatFlashMode {
     Always,
@@ -31,11 +30,11 @@ export enum EChatFlashMode {
 }
 
 export interface FriendSettingsFeatureObject {
-    feature: FriendSettingsFeature;
+    feature: FriendSettingsFeature_t;
     bEnabled: boolean;
 }
 
-export type FriendSettingsFeature =
+export type FriendSettingsFeature_t =
     | "DoNotDisturb"
     | "FriendsFilter"
     | "LoaderWindowSynchronization"
@@ -46,36 +45,36 @@ export type FriendSettingsFeature =
     | "SteamworksChatAPI";
 
 export type FriendSettingsEnabledFeatures<T> = {
-    [feature in FriendSettingsFeature]: T;
+    [feature in FriendSettingsFeature_t]: T;
 };
 
 export interface FriendSettingsChange {
-    bNotifications_ShowIngame: VDFBoolean;
-    bNotifications_ShowOnline: VDFBoolean;
-    bNotifications_ShowMessage: VDFBoolean;
-    bNotifications_EventsAndAnnouncements: VDFBoolean;
-    bSounds_PlayIngame: VDFBoolean;
-    bSounds_PlayOnline: VDFBoolean;
-    bSounds_PlayMessage: VDFBoolean;
-    bSounds_EventsAndAnnouncements: VDFBoolean;
-    bAlwaysNewChatWindow: VDFBoolean;
-    bForceAlphabeticFriendSorting: VDFBoolean;
+    bNotifications_ShowIngame: VDFBoolean_t;
+    bNotifications_ShowOnline: VDFBoolean_t;
+    bNotifications_ShowMessage: VDFBoolean_t;
+    bNotifications_EventsAndAnnouncements: VDFBoolean_t;
+    bSounds_PlayIngame: VDFBoolean_t;
+    bSounds_PlayOnline: VDFBoolean_t;
+    bSounds_PlayMessage: VDFBoolean_t;
+    bSounds_EventsAndAnnouncements: VDFBoolean_t;
+    bAlwaysNewChatWindow: VDFBoolean_t;
+    bForceAlphabeticFriendSorting: VDFBoolean_t;
     nChatFlashMode: EChatFlashMode;
-    bRememberOpenChats: VDFBoolean;
-    bCompactQuickAccess: VDFBoolean;
-    bCompactFriendsList: VDFBoolean;
-    bNotifications_ShowChatRoomNotification: VDFBoolean;
-    bSounds_PlayChatRoomNotification: VDFBoolean;
-    bHideOfflineFriendsInTagGroups: VDFBoolean;
-    bHideCategorizedFriends: VDFBoolean;
-    bCategorizeInGameFriendsByGame: VDFBoolean;
+    bRememberOpenChats: VDFBoolean_t;
+    bCompactQuickAccess: VDFBoolean_t;
+    bCompactFriendsList: VDFBoolean_t;
+    bNotifications_ShowChatRoomNotification: VDFBoolean_t;
+    bSounds_PlayChatRoomNotification: VDFBoolean_t;
+    bHideOfflineFriendsInTagGroups: VDFBoolean_t;
+    bHideCategorizedFriends: VDFBoolean_t;
+    bCategorizeInGameFriendsByGame: VDFBoolean_t;
     nChatFontSize: number;
-    b24HourClock: VDFBoolean;
-    bDoNotDisturbMode: VDFBoolean;
-    bDisableEmbedInlining: VDFBoolean;
-    bSignIntoFriends: VDFBoolean;
-    bDisableSpellcheck: VDFBoolean;
-    bDisableRoomEffects: VDFBoolean;
-    bAnimatedAvatars: VDFBoolean;
-    featuresEnabled: FriendSettingsEnabledFeatures<VDFBoolean>;
+    b24HourClock: VDFBoolean_t;
+    bDoNotDisturbMode: VDFBoolean_t;
+    bDisableEmbedInlining: VDFBoolean_t;
+    bSignIntoFriends: VDFBoolean_t;
+    bDisableSpellcheck: VDFBoolean_t;
+    bDisableRoomEffects: VDFBoolean_t;
+    bAnimatedAvatars: VDFBoolean_t;
+    featuresEnabled: FriendSettingsEnabledFeatures<VDFBoolean_t>;
 }

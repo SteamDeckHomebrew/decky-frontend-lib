@@ -14,15 +14,14 @@ export interface Parental {
     /**
      * Registers a callback function to be invoked when parental settings change.
      * @param callback The callback function to be invoked when parental settings change.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForParentalSettingsChanges(callback: (parentalSettings: ParentalSettings) => void): Unregisterable;
+    RegisterForParentalSettingsChanges(callback: (settings: ParentalSettings) => void): Unregisterable;
 
     /**
      * Unlocks the parental lock with the provided PIN.
      * @param pin The 4-digit PIN to unlock the parental lock.
-     * @param param1 Additional parameter. // Todo: Unknown usage.
-     * @returns A Promise that resolves to a number representing the result of the unlock operation.
+     * @returns a number representing the result of the unlock operation.
      */
     UnlockParentalLock(pin: string, param1: boolean): Promise<EResult>;
 }

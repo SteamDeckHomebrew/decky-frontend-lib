@@ -31,13 +31,13 @@ export interface User {
     /**
      * Forgets an account's password.
      * @param accountName Login of the account to forget.
-     * @returns A Promise that resolves to a boolean indicating whether the operation succeeded or not.
+     * @returns a boolean indicating whether the operation succeeded or not.
      */
     ForgetPassword(accountName: string): Promise<boolean>;
 
     /**
      * Gets your country code.
-     * @returns A Promise that resolves to a string containing your country code.
+     * @returns a string containing your country code.
      */
     GetIPCountry(): Promise<string>;
 

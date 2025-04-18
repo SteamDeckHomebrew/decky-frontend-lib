@@ -34,7 +34,7 @@ export interface Downloads {
     /**
      * Registers a callback function to be called when download items change.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForDownloadItems(
         callback: (isDownloading: boolean, downloadItems: DownloadItem[]) => void,
@@ -43,9 +43,9 @@ export interface Downloads {
     /**
      * Registers a callback function to be called when download overview changes.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
-    RegisterForDownloadOverview(callback: (downloadOverview: DownloadOverview) => void): Unregisterable;
+    RegisterForDownloadOverview(callback: (overview: DownloadOverview) => void): Unregisterable;
 
     /**
      * Removes the update for a specific app from the download list and places it in the unscheduled list.

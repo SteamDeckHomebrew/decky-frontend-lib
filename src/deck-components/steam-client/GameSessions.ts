@@ -9,28 +9,28 @@ export interface GameSessions {
     /**
      * Registers a callback function to be called when an achievement notification is received.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForAchievementNotification(
-        callback: (achievementNotification: AchievementNotification) => void,
+        callback: (notification: AchievementNotification) => void,
     ): Unregisterable;
 
     /**
      * Registers a callback function to be called when an app lifetime notification is received.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForAppLifetimeNotifications(
-        callback: (appLifetimeNotification: AppLifetimeNotification) => void,
+        callback: (notification: AppLifetimeNotification) => void,
     ): Unregisterable;
 
     /**
      * Registers a callback function to be called when a screenshot notification is received.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForScreenshotNotification(
-        callback: (screenshotNotification: ScreenshotNotification) => void,
+        callback: (notification: ScreenshotNotification) => void,
     ): Unregisterable;
 }
 

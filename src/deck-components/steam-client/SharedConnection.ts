@@ -27,7 +27,7 @@ export interface SharedConnection {
 }
 
 export interface LogonInfo {
-    /** `true` if logged on, `false` otherwise. */
+    /** `true` if logged on. */
     bLoggedOn: boolean;
     eUniverse: ESteamRealm;
     /** Account username. Empty if not logged on. */

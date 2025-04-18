@@ -61,7 +61,7 @@ export interface RemotePlay {
       callback: (steamid: string, slot: number, guestid: number) => void
     ): Unregisterable;
 
-    RegisterForDevicesChanges(callback: (devicesChange: RemotePlayDevice[]) => void): Unregisterable;
+    RegisterForDevicesChanges(callback: (devices: RemotePlayDevice[]) => void): Unregisterable;
 
     RegisterForGroupCreated(callback: (steamId: string, appId: string) => void): Unregisterable;
     RegisterForGroupDisbanded(callback: () => void): Unregisterable;
@@ -134,17 +134,32 @@ export interface RemotePlay {
 
     SetRemoteDeviceAuthorized(param0: boolean, param1: string): void;
 
-    SetRemoteDevicePIN(pin: number): void;
+    SetRemoteDevicePIN(pin: string): void;
 
     SetRemotePlayEnabled(enabled: boolean): void;
 
-    SetStreamingClientConfig(base64: string): void;
+    /**
+     * @param base64 Serialized base64 message from {@link StreamingClientConfig}.
+     */
+    SetStreamingClientConfig(base64: string, sessionId: number): void;
+  
+    /**
+     * Enables advanced client options.
+     */
     SetStreamingClientConfigEnabled(value: boolean): void;
 
     SetStreamingDesktopToRemotePlayTogetherEnabled(enabled: boolean): void;
 
     SetStreamingP2PScope(scope: EStreamP2PScope): void;
-    SetStreamingServerConfig(base64: string): void;
+
+    /**
+     * @param base64 Serialized base64 message from {@link StreamingServerConfig}.
+     */
+    SetStreamingServerConfig(base64: string, sessionId: number): void;
+
+    /**
+     * Enables advanced host options.
+     */
     SetStreamingServerConfigEnabled(value: boolean): void;
 
     StopStreamingClient(): void;
@@ -154,7 +169,10 @@ export interface RemotePlay {
 
     UnlockH264(): void;
 
-    UnpairRemoteDevices(): void; // unpairs all devices
+    /**
+     * Unpairs all devices.
+     */
+    UnpairRemoteDevices(): void;
 }
 
 export enum EClientUsedInputType {

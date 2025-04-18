@@ -27,14 +27,14 @@ export interface Music {
     /**
      * Registers a callback function to be called when music playback changes.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForMusicPlaybackChanges(callback: (param0: boolean | MusicTrack) => void): Unregisterable;
 
     /**
      * Registers a callback function to be called when the music playback position changes.
      * @param callback The callback function to be called.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForMusicPlaybackPosition(callback: (position: number) => void): Unregisterable;
 

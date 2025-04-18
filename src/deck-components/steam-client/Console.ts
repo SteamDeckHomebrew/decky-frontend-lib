@@ -13,14 +13,14 @@ export interface Console {
     /**
      * Retrieves autocomplete suggestions for a given console command.
      * @param command The console command to provide autocomplete suggestions for.
-     * @returns A Promise that resolves to an array of autocomplete suggestions.
+     * @returns an array of autocomplete suggestions.
      */
     GetAutocompleteSuggestions(command: string): Promise<string[]>;
 
     /**
      * Registers a callback function to receive spew output.
      * @param callback The callback function that will receive spew output.
-     * @returns An object that can be used to unregister the callback.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForSpewOutput(callback: (output: SpewOutput) => void): Unregisterable;
 }

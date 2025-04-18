@@ -13,18 +13,16 @@ export interface Network {
     RegisterForAppSummaryUpdate(callback: (data: AppSummary) => void): Unregisterable;
 
     /**
-     * If `state` is deserialized, returns {@link GameNetworkingUI_ConnectionState}.
-     * @returns An object that can be used to unregister the callback.
+     * If `state` is deserialized, returns {@link CGameNetworkingUI_ConnectionState}.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForConnectionStateUpdate(callback: (state: ArrayBuffer) => void): Unregisterable;
 
-    RegisterForConnectivityTestChanges(
-        callback: (connectivityTestChange: ConnectivityTestChange) => void,
-    ): Unregisterable;
+    RegisterForConnectivityTestChanges(callback: (connectivityTest: ConnectivityTest) => void): Unregisterable;
 
     /**
-     * If `data` is deserialized, returns {@link MsgNetworkDevicesData}.
-     * @returns An object that can be used to unregister the callback.
+     * If `data` is deserialized, returns {@link CMsgNetworkDevicesData}.
+     * @returns an object that can be used to unregister the callback.
      */
     RegisterForDeviceChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
 
@@ -39,7 +37,7 @@ export interface Network {
     StopScanningForNetworks(): Promise<OperationResponse>;
 }
 
-export interface ConnectivityTestChange {
+export interface ConnectivityTest {
     eConnectivityTestResult: EConnectivityTestResult;
     eFakeState: ENetFakeLocalSystemState;
     bChecking: boolean;
@@ -79,10 +77,7 @@ export enum ENetFakeLocalSystemState {
     NoSteam,
 }
 
-/**
- * CMsgNetworkDevicesData
- */
-export interface MsgNetworkDevicesData extends JsPbMessage {
+export interface CMsgNetworkDevicesData extends JsPbMessage {
     devices(): NetworkDevice[];
 
     is_wifi_enabled(): boolean;
@@ -244,10 +239,7 @@ export interface SteamDatagramP2PRoutingSummary {
     sdr: SteamNetworkingP2PSDRRoutingSummary | undefined;
 }
 
-/**
- * CGameNetworkingUI_ConnectionState
- */
-export interface GameNetworkingUI_ConnectionState extends JsPbMessage {
+export interface CGameNetworkingUI_ConnectionState extends JsPbMessage {
     connection_key(): string;
 
     appid(): number;
@@ -349,8 +341,12 @@ export interface NetworkDevice {
     estate: ENetworkDeviceState;
     etype: ENetworkDeviceType;
     id: number;
-    ipv4: NetworkDeviceIPv4;
-    ipv6: NetworkDeviceIPv6;
+    ipv4: {
+        addresses: NetworkDeviceIPv4Address[];
+    };
+    ipv6: {
+        addresses: NetworkDeviceIPv6Address[];
+    };
     mac: string;
     product: string;
     vendor: string;
@@ -379,14 +375,6 @@ export interface NetworkDeviceIP {
     is_default_route: boolean;
     is_dhcp_enabled: boolean;
     is_enabled: boolean;
-}
-
-export interface NetworkDeviceIPv4 extends NetworkDeviceIP {
-    addresses: NetworkDeviceIPv4Address[];
-}
-
-export interface NetworkDeviceIPv6 extends NetworkDeviceIP {
-    addresses: NetworkDeviceIPv6Address[];
 }
 
 export enum ENetworkDeviceState {
