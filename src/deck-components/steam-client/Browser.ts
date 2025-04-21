@@ -35,10 +35,14 @@ export interface Browser {
     Paste(): void;
 
     /**
+     * @note Not available on a created BrowserView.
      * @todo unconfirmed
      */
     RegisterForGestureEvents(callback: (gesture: TouchGesture) => void): Unregisterable;
 
+    /**
+     * @note Not available on a created BrowserView.
+     */
     RegisterForOpenNewTab: Unregisterable;
 
     ReplaceMisspelling(param0: string): void;

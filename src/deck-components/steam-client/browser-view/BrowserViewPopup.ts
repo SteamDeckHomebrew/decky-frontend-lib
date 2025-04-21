@@ -1,4 +1,5 @@
 import {ETouchGesture} from '../Browser';
+import { BrowserView } from '.';
 
 export interface BrowserViewPopup {
     /**
@@ -10,13 +11,11 @@ export interface BrowserViewPopup {
     AddGlass(enabled: boolean, useBackgroundColor: boolean, blur: boolean): void;
 
     /**
-     * Indicates whether you can go backward in history or not.
      * @returns `true` if you can go backward in history.
      */
     CanGoBackward(): boolean;
 
     /**
-     * Indicates whether you can go forward in history or not.
      * @returns `true` if you can go forward in history.
      */
     CanGoForward(): boolean;
@@ -35,7 +34,7 @@ export interface BrowserViewPopup {
     FindInPage(input: string, param1: boolean, previous: boolean): void;
 
     /**
-     * Get the current popup position.
+     * Get the current popup position. Only updates when using {@link SetBounds}!
      * @returns the window position.
      */
     GetBounds(): BrowserViewBounds;
@@ -69,7 +68,9 @@ export interface BrowserViewPopup {
     Paste(): void;
 
     /**
-     * @returns a boolean indicating whether the operation was successful.
+     * @returns a boolean indicating whether the operation was successful. Will
+     * always be `false` if there are no listeners created by
+     * {@link BrowserView.RegisterForMessageFromParent}.
      */
     PostMessage(message: string, args: string): boolean;
 
@@ -127,7 +128,7 @@ export interface BrowserViewPopup {
 
     SetVisible(value: boolean): void;
 
-    SetWindowStackingOrder(order: EWindowStackingOrder): void;
+    SetWindowStackingOrder(value: EWindowStackingOrder): void;
 
     /**
      * Stop the 'find in page' function.
@@ -220,9 +221,9 @@ interface BrowserViewEventMap {
     ) => void;
 
     /**
-     * @todo Same as PostMessage?
+     * Fires when a message gets sent with {@link BrowserView.PostMessageToParent}.
      */
-    'message': (args: any) => void;
+    'message': (message: string, args: string, currentURL: string) => void;
 
     'new-tab': (url: string, param1: boolean) => void;
 
@@ -267,7 +268,7 @@ interface BrowserViewEventMap {
     'start-request': (url: string) => void;
 
     /**
-     * Fires when 'Find in page' gets toggled.
+     * Fires when "Find in page" gets toggled.
      */
     'toggle-find-in-page': () => void;
 }

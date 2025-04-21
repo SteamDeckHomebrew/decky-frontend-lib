@@ -3,10 +3,9 @@ import { Unregisterable } from "./shared";
 export interface Messaging {
     // section - "ContentManagement", "JumpList", "PostToLibrary"
     // seems multipurpose
-    // callback arguments are the same as in PostMessage
     RegisterForMessages<T extends string>(
-        section: T,
-        callback: (section: T, param1: string, message: string) => void,
+        message: T,
+        callback: (message: T, section: string, args: string) => void,
     ): Unregisterable;
 
     /*
@@ -17,5 +16,5 @@ export interface Messaging {
     }
     SteamClient.Messaging.PostMessage("FriendsUI", "AcceptedRemotePlayInvite", JSON.stringify({id: this.appID})) : SteamClient.Messaging.PostMessage("FriendsUI", "AcceptedGameInvite", JSON.stringify({id: this.appID}))
      */
-    PostMessage(section: string, param1: string, message: string): void;
+    PostMessage(message: string, section: string, args: string): void;
 }
