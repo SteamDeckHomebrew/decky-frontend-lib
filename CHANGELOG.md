@@ -1,3 +1,10 @@
+# [4.10.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.9.2...v4.10.0) (2025-04-23)
+
+
+### Features
+
+* **globals:** Steam client reference ([#92](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/92)) ([131ab4c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/131ab4cc1190e2bd0cf561fe6dd70049a7921fc5))
+
 ## [4.9.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.9.1...v4.9.2) (2025-03-29)
 
 
