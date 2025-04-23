@@ -56,7 +56,11 @@ export interface WebChat {
         message: string,
     ): void;
 
-    // Opens the URL in default web browser, despite what the name says ?
+    /**
+     * Opens a provided URL in the Steam client. Does NOT work on desktop mode -
+     * will open in default web browser instead!
+     * @param url The URL to open.
+     */
     OpenURLInClient(url: string, pid: number, forceExternal: boolean): void;
 
     /**
@@ -114,10 +118,7 @@ export interface WebChat {
     SetVoiceChatStatus(muted: boolean, deafened: boolean): void;
     ShowChatRoomGroupDialog(param0: number, param1: number): void;
 
-    /**
-     * @todo Does not actually show the dialog.
-     */
-    ShowFriendChatDialog(steamid: string): void;
+    ShowFriendChatDialog(steamid64: string): void;
 
     UnregisterForMouseXButtonDown(): void;
 }

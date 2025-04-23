@@ -123,7 +123,7 @@ export interface Screenshot {
     nHeight: number;
     nCreated: number; // timestamp
     ePrivacy: EUCMFilePrivacyState;
-    strCaption: '';
+    strCaption: string;
     bSpoilers: boolean;
     strUrl: string;
     bUploaded: boolean;
