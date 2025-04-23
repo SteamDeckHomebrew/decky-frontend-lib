@@ -1,6 +1,6 @@
 import Logger from '../logger';
 import { Export, findModuleExport } from '../webpack';
-import {EDisplayStatus} from "../deck-components/steam-client/App";
+import {EDisplayStatus} from "../globals/steam-client/App";
 
 export enum SideMenu {
   None,

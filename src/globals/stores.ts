@@ -1,5 +1,5 @@
 import { WindowRouter } from '../modules/Router';
-import { AppDetails, LogoPosition, SteamAppOverview } from "../deck-components/steam-client/App";
+import { AppDetails, LogoPosition, SteamAppOverview } from "./steam-client/App";
 
 interface AppData {
   details: AppDetails;

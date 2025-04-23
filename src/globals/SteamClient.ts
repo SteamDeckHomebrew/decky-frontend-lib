@@ -1,4 +1,4 @@
-import {SteamClient} from "../deck-components/steam-client";
+import {SteamClient} from "./steam-client";
 
 declare global {
     var SteamClient: SteamClient;
