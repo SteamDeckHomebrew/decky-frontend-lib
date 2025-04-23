@@ -1,5 +1,6 @@
 import Logger from '../logger';
 import { Export, findModuleExport } from '../webpack';
+import {EDisplayStatus} from "../globals/steam-client/App";
 
 export enum SideMenu {
   None,
@@ -19,49 +20,10 @@ export enum QuickAccessTab {
   Decky = 999,
 }
 
-export enum DisplayStatus {
-  Invalid = 0,
-  Launching = 1,
-  Uninstalling = 2,
-  Installing = 3,
-  Running = 4,
-  Validating = 5,
-  Updating = 6,
-  Downloading = 7,
-  Synchronizing = 8,
-  ReadyToInstall = 9,
-  ReadyToPreload = 10,
-  ReadyToLaunch = 11,
-  RegionRestricted = 12,
-  PresaleOnly = 13,
-  InvalidPlatform = 14,
-  PreloadComplete = 16,
-  BorrowerLocked = 17,
-  UpdatePaused = 18,
-  UpdateQueued = 19,
-  UpdateRequired = 20,
-  UpdateDisabled = 21,
-  DownloadPaused = 22,
-  DownloadQueued = 23,
-  DownloadRequired = 24,
-  DownloadDisabled = 25,
-  LicensePending = 26,
-  LicenseExpired = 27,
-  AvailForFree = 28,
-  AvailToBorrow = 29,
-  AvailGuestPass = 30,
-  Purchase = 31,
-  Unavailable = 32,
-  NotLaunchable = 33,
-  CloudError = 34,
-  CloudOutOfDate = 35,
-  Terminating = 36,
-}
-
 export type AppOverview = {
   appid: string;
   display_name: string;
-  display_status: DisplayStatus;
+  display_status: EDisplayStatus;
   sort_as: string;
 };
 
