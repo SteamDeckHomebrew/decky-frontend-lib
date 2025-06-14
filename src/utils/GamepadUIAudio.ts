@@ -98,6 +98,11 @@ export interface AudioPlaybackManager {
   OnAudioContextStateChange: () => void;
 }
 
+export function playUISound(path: SFXPath) {
+    //@ts-ignore
+    if (settingsStore?.m_ClientSettings?.enable_ui_sounds) GamepadUIAudio.AudioPlaybackManager.PlayAudioURL(path);
+}
+
 export const GamepadUIAudio: GamepadUIAudio = findModuleChild((m: Module) => {
   if (typeof m !== "object") return undefined;
   for (let prop in m) {

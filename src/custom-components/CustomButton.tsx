@@ -1,8 +1,8 @@
-import { ReactNode, FC, useState } from "react";
-import { FocusableProps, Focusable, DialogButton } from '../deck-components';
-import { GamepadUIAudio, SFXPath, SoundFile, joinClassNames } from '../utils';
+import { ReactNode, FC, useState, CSSProperties } from "react";
+import { FocusableProps, Focusable, DialogButton, GamepadEvent } from '../deck-components';
+import { SFXPath, SoundFile, joinClassNames, playUISound } from '../utils';
 
-export interface CustomButtonProps extends Omit<FocusableProps, 'focusWithinClassName' | 'flow-children' | 'onActivate' | 'onCancel' | 'onClick' | 'children' | 'noFocusRing' | 'onChange'> {
+export interface CustomButtonProps extends Omit<FocusableProps, 'focusWithinClassName' | 'flow-children' | 'onActivate' | 'onCancel' | 'onClick' | 'children' | 'noFocusRing' | 'onChange' | 'onFocus' | 'onBlur'> {
   /** The sound effect to use when clicking @default 'deck_ui_default_activation.wav' */
   audioSFX?: SoundFile;
 
@@ -22,7 +22,7 @@ export interface CustomButtonProps extends Omit<FocusableProps, 'focusWithinClas
   containerClassName?: string;
 
   /** CSS style for the button's container div */
-  containerStyle?: React.CSSProperties;
+  containerStyle?: CSSProperties;
 
   /** Whether or not the button should be diabled @default false */
   disabled?: boolean;
@@ -32,6 +32,12 @@ export interface CustomButtonProps extends Omit<FocusableProps, 'focusWithinClas
 
   /** Child elements of the component */
   children?: ReactNode;
+
+  /** Callback to call when element takes focus */
+  onFocus?: (evt: GamepadEvent) => void;
+
+  /** Callback to call when element loses focus */
+  onBlur?: (evt: GamepadEvent) => void;
 }
 
 /** Type of indicator to use when CustomButton is focused*/
@@ -55,7 +61,9 @@ export const CustomButton: FC<CustomButtonProps> = ({
   transparent,
   focusMode,
   onFocus,
+  onGamepadFocus,
   onBlur,
+  onGamepadBlur,
   onClick,
   style,
   className,
@@ -73,7 +81,7 @@ export const CustomButton: FC<CustomButtonProps> = ({
 
   const onClicked = (e: CustomEvent) => {
     if (!disabled) {
-      !noAudio && GamepadUIAudio.AudioPlaybackManager.PlayAudioURL(audioPath);
+      !noAudio && playUISound(audioPath);
       onClick?.(e);
     }
   };
@@ -85,8 +93,8 @@ export const CustomButton: FC<CustomButtonProps> = ({
       className={joinClassNames(CustomButtonClasses.buttonContainer, containerClassName)}
       style={containerStyle}
       onActivate={focusable ?? true ? onClicked : undefined}
-      onFocus={(e) => { setFocused(true); onFocus?.(e); }}
-      onBlur={(e) => { setFocused(false); onBlur?.(e); }}
+      onGamepadFocus={(e) => { setFocused(true); onFocus?.(e); onGamepadFocus?.(e); }}
+      onGamepadBlur={(e) => { setFocused(false); onBlur?.(e); onGamepadBlur?.(e); }}
       noFocusRing={!(focusMode ?? false)}
       onOKActionDescription={disabled ? '' : onOKActionDescription}
       {...focusableProps}
