@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 
-import { Export, findModuleByExport, findModuleExport } from '../webpack';
+import { Export, findModuleByExport, findModuleDetailsByExport, findModuleExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
 
 interface PopupCreationOptions {
@@ -134,9 +134,11 @@ export interface MenuProps extends FooterLegendProps {
   children?: ReactNode;
 }
 
-export const Menu: FC<MenuProps> = findModuleExport(
-  (e: Export) => e?.prototype?.HideIfSubmenu && e?.prototype?.HideMenu,
-);
+const MenuModule = findModuleDetailsByExport((e: Export) => e?.render?.toString()?.includes('bPlayAudio:') || (e?.prototype?.OnOKButton && e?.prototype?.OnMouseEnter));
+
+export const Menu: FC<MenuProps> =
+	findModuleExport((e: Export) => e?.prototype?.HideIfSubmenu && e?.prototype?.HideMenu) || // Legacy Menu
+	(Object.values(MenuModule?.[0]).find((e) => e?.toString().includes(`useId`) && e?.toString().includes(`labelId`)) as FC<MenuProps>); // New Menu 6/15/2025
 
 export interface MenuGroupProps {
   label: string;
@@ -159,10 +161,7 @@ export interface MenuItemProps extends FooterLegendProps {
   children?: ReactNode;
 }
 
-export const MenuItem: FC<MenuItemProps> = findModuleExport(
-  (e: Export) =>
-    e?.render?.toString?.()?.includes('bPlayAudio:') || (e?.prototype?.OnOKButton && e?.prototype?.OnMouseEnter),
-);
+export const MenuItem: FC<MenuItemProps> = MenuModule?.[1];
 
 export const MenuSeparator: FC = findModuleExport(
   (e: Export) => typeof e === 'function' && /className:.+?\.ContextMenuSeparator/.test(e.toString()),
