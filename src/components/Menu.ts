@@ -138,7 +138,7 @@ const MenuModule = findModuleDetailsByExport((e: Export) => e?.render?.toString(
 
 export const Menu: FC<MenuProps> =
 	findModuleExport((e: Export) => e?.prototype?.HideIfSubmenu && e?.prototype?.HideMenu) || // Legacy Menu
-	(Object.values(MenuModule?.[0]).find((e) => e?.toString().includes(`useId`) && e?.toString().includes(`labelId`)) as FC<MenuProps>); // New Menu 6/15/2025
+	(Object.values(MenuModule?.[0] ?? {}).find((e) => e?.toString()?.includes?.(`useId`) && e?.toString()?.includes?.(`labelId`)) as FC<MenuProps>); // New Menu 6/15/2025
 
 export interface MenuGroupProps {
   label: string;
