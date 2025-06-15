@@ -1,3 +1,10 @@
+## [4.10.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.0...v4.10.1) (2025-06-15)
+
+
+### Bug Fixes
+
+* fix <Menu /> for new Steam Client Beta ([fc5cde9](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/fc5cde95d6475c82856769c86ab648dfb22a4b10))
+
 # [4.10.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.9.2...v4.10.0) (2025-04-23)
 
 
