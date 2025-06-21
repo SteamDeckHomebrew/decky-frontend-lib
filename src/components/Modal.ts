@@ -1,19 +1,51 @@
-import { FC, ReactNode } from 'react';
-
+import type { FC, ReactNode } from 'react';
+import type { BrowserContext } from '../globals/shared';
 import { findSP } from '../utils';
-import { Export, findModule, findModuleDetailsByExport, findModuleExport } from '../webpack';
+import { type Export, findModule, findModuleDetailsByExport, findModuleExport } from '../webpack';
 
-// All of the popout options + strTitle are related. Proper usage is not yet known...
 export interface ShowModalProps {
-  browserContext?: unknown;
+  browserContext?: BrowserContext;
+
+  /**
+   * @todo Opposite of {@link bNeverPopOut}.
+   */
   bForcePopOut?: boolean;
+
+  /**
+   * @todo seems unused ?
+   */
   bHideActionIcons?: boolean;
+
+  /**
+   * Desktop behavior - dim (not hide) the main window when showing this modal.
+   */
   bHideMainWindowForPopouts?: boolean;
+
+  /**
+   * @todo Opposite of {@link bForcePopOut}.
+   */
   bNeverPopOut?: boolean;
-  fnOnClose?: () => void; // Seems to be the same as "closeModal" callback, but only when the modal is a popout. Will no longer work after "Update" invocation!
+
+  /**
+   * Seems to be the same as "closeModal" callback, but only when the modal is a
+   * popout.
+   * @note Will no longer work after "Update" invocation!
+   */
+  fnOnClose?: () => void;
+
   popupHeight?: number;
   popupWidth?: number;
-  promiseRenderComplete?: Promise<void>; // Invoked once the render is complete. Currently, it seems to be used as image loading success/error callback...
+
+  /**
+   * Invoked once the render is complete. Currently, it seems to be used as
+   * image loading success/error callback...
+   */
+  promiseRenderComplete?: Promise<void>;
+
+  /**
+   * Document title. For modal title use the component's title, i.e. for
+   * {@link ConfirmModal} pass `strTitle`.
+   */
   strTitle?: string;
 }
 
@@ -34,7 +66,7 @@ const showModalRaw: (
   parent?: EventTarget,
   title?: string,
   props?: ShowModalProps,
-  unknown1?: unknown,
+  browserContext?: BrowserContext,
   hideActions?: { bHideActions?: boolean },
   modalManager?: unknown,
 ) => ShowModalResult = findModuleExport(
@@ -90,7 +122,7 @@ export const ModalRoot = Object.values(
   findModule((m: any) => {
     if (typeof m !== 'object') return false;
 
-    for (let prop in m) {
+    for (const prop in m) {
       if (m[prop]?.m_mapModalManager && Object.values(m)?.find((x: any) => x?.type)) {
         return true;
       }
@@ -105,7 +137,10 @@ interface SimpleModalProps {
   children: ReactNode;
 }
 
-const [ModalModule, _ModalPosition] = findModuleDetailsByExport((e: Export) => e?.toString().includes('.ModalPosition'), 5)
+const [ModalModule, _ModalPosition] = findModuleDetailsByExport(
+  (e: Export) => e?.toString().includes('.ModalPosition'),
+  5,
+);
 
 const ModalModuleProps = ModalModule ? Object.values(ModalModule) : [];
 
