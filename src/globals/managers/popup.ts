@@ -76,7 +76,6 @@ export interface SteamPopupParameters {
   strRestoreDetails: string;
   strUserAgent: string;
   strVROverlayKey: string;
-  // @v
   /**
    * These parameters are interpreted by the Steam process to open popups
    * in the Steam overlay or SteamVR dashboard instead of on the desktop.
@@ -96,7 +95,6 @@ export interface SteamPopupParameters {
   window_opener_id: number;
 }
 
-// @v
 /**
  * Helper to track when all links for a newly created popup have loaded.
  * Supports CPopup replacement too.

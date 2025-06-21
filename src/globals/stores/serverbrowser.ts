@@ -1,19 +1,18 @@
 import type { CSteamID } from '../shared/steamid';
+import type { EJoinServerError, GameServer, PlayerDetails, ServerBrowserDialog } from '../steam-client/ServerBrowser';
 
 export interface GameInfoDialog {
   m_autoRetry: 'None' | 'AutoRetryAlert' | 'AutoRetryJoin';
   m_bInitialPingAttempt: boolean;
   m_dialogID: number;
-  //JoinServerError
-  m_eConnectAttemptStatus: number;
+  m_eConnectAttemptStatus: EJoinServerError;
   m_gameInfo: any | null;
-  m_gameServerItem: any /*ServerBrowserServerFull*/;
+  m_gameServerItem: GameServer;
   m_hQueryPlayerList: number;
   m_hQueryServer: number;
   m_pid: number;
-  /* These 2 below are ServerBrowserPlayer*/
-  m_playerList: any[];
-  m_playerListPending: any[];
+  m_playerList: PlayerDetails[];
+  m_playerListPending: PlayerDetails[];
   m_steamID: any | null;
   m_strPassword: string;
   m_window: Window;
@@ -24,10 +23,9 @@ export interface GameInfoDialog {
   BringToFront(): void;
   ClearConnectAttemptStatus(): void;
   /**
-   * @returns JoinSertevrError
    * @todo param is force ?
    */
-  Connect(hadSuccessfulResponse: boolean): Promise<any>;
+  Connect(hadSuccessfulResponse: boolean): Promise<EJoinServerError>;
   /**
    * `SteamClient.ServerBrowser.DestroyGameInfoDialog`
    */
@@ -54,6 +52,6 @@ export interface ServerBrowserStore {
   ConnectToFriendsGame(steamId: CSteamID, window: Window): void;
   ConnectToFriendsGameBySteamID(steamId: CSteamID, window: Window): void;
   GetGameInfoDialogs(pid: number): GameInfoDialog[];
-  ShowServerGameInfoDialog(dialog: any /*ServerBrowserDialog*/): Promise<GameInfoDialog>;
+  ShowServerGameInfoDialog(dialog: ServerBrowserDialog): Promise<GameInfoDialog>;
   ShowUserGameInfoDialog(pid: number, steamId: CSteamID): void;
 }

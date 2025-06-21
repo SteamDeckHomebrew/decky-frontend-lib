@@ -1,7 +1,7 @@
-import { LocalizationManager, MainWindowBrowserManager, PopupManager } from './managers';
-import { SteamClient } from './steam-client';
-import { AppDetails, LogoPosition, SteamAppOverview } from './steam-client/App';
-import { App, ConsoleStore, NotificationStore, ServerBrowserStore, SettingsStore, SteamUIStore } from './stores';
+import type { LocalizationManager, MainWindowBrowserManager, PopupManager } from './managers';
+import type { SteamClient } from './steam-client';
+import type { AppDetails, LogoPosition, SteamAppOverview } from './steam-client/App';
+import type { App, ConsoleStore, NotificationStore, ServerBrowserStore, SettingsStore, SteamUIStore } from './stores';
 
 interface AppData {
   details: AppDetails;

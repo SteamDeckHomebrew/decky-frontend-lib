@@ -1,5 +1,6 @@
 import type { ESteamRealm } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
+import type { ELanguage } from '../steam-client/Settings';
 
 export interface LocalizationManager {
   m_cbkTokensChanged: CCallbackList;
@@ -11,7 +12,7 @@ export interface LocalizationManager {
    * Adds `dict` to {@link m_mapTokens}
    * and adds `fallback` to {@link m_mapFallbackTokens}.
    */
-  AddTokens(dict: any, fallback?: any): void;
+  AddTokens(dict: Record<string, string>, fallback?: Record<string, string>): void;
 
   /**
    * @returns `true` if the string looks like a token (starts with a "#"),
@@ -19,7 +20,7 @@ export interface LocalizationManager {
    */
   BLooksLikeToken(value: string): boolean;
 
-  GetELanguageFallbackOrder(realm?: ESteamRealm): any[]; // ELanguage
+  GetELanguageFallbackOrder(realm?: ESteamRealm): ELanguage[];
   GetPreferredLocales(): string[];
   GetTokensChangedCallbackList(): CCallbackList;
 

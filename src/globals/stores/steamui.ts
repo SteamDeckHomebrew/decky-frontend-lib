@@ -1,3 +1,4 @@
+import type { WindowRouter } from '../../modules';
 import type { BrowserContext, CCallbackList, SubscribableValue } from '../shared/interfaces';
 
 /** @todo Move to SteamClient.Notifications or whatever */
@@ -269,6 +270,7 @@ export interface SteamUIWindow {
 }
 
 export interface SteamUIStore {
+  GetFocusedWindowInstance(): WindowRouter;
   WindowStore: {
     OverlayWindows: SteamUIWindow[];
     SteamUIWindows: SteamUIWindow[];

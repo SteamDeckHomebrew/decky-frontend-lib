@@ -1,3 +1,4 @@
+import type { JsPbMessageClass } from '../steam-client/shared';
 import type { CCallbackList, UnknownFn_t } from './interfaces';
 import type { CSteamID } from './steamid';
 
@@ -37,7 +38,7 @@ export interface ServiceTransport {
 
 export interface UnknownInterface0 {
   invoke: UnknownFn_t;
-  msgClass: any; // JsPbClass
+  msgClass: JsPbMessageClass;
 }
 
 export interface CMInterface {

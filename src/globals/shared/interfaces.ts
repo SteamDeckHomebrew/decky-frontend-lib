@@ -1,3 +1,5 @@
+import type { JsPbMessageClass, OperationResponse } from '../steam-client/shared';
+import type { TransportInfo } from '../steam-client/WebUITransport';
 import type { ServiceTransport } from './cm';
 import type { EBrowserType, EUIMode } from './enums';
 
@@ -46,9 +48,9 @@ export interface WebSocketConnection {
 
   BCanSendMessages(): boolean;
   BShouldReconnect(): boolean;
-  Connect(url: string): Promise<any>; // OperationResponse
+  Connect(url: string): Promise<OperationResponse>;
   Disconnect(): void;
-  InternalConnect(url: string, retries: number): Promise<any>; // OperationResponse
+  InternalConnect(url: string, retries: number): Promise<OperationResponse>;
   PrepareForShutdown(): void;
   SendSerializedMessage(param0: any): any;
   StartReconnect(): Promise<void>;
@@ -144,7 +146,7 @@ export interface WebUIServiceTransport extends ServiceTransport {
       string,
       {
         invoke(...args: any[]): any;
-        msgClass: any; // JsPbClass
+        msgClass: JsPbMessageClass;
       }
     >;
     m_rgRegisteredEMsgs: any[];
@@ -164,7 +166,7 @@ export interface WebUIServiceTransport extends ServiceTransport {
     RegisterServiceNotificationHandler(e: any, t: any): any;
     RegisterServiceNotificationHandlerAction(e: any, t: any): any;
   };
-  m_transportInfo: any; // TransportInfo
+  m_transportInfo: TransportInfo;
 
   AuthConnection(e: any): any;
   DispatchMethodResponse(e: any): any;
