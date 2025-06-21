@@ -1,5 +1,6 @@
 import type { EBrowserType } from '../shared/enums';
 import type { BrowserContext } from '../shared/interfaces';
+import type { EWindowBringToFront } from '../steam-client/Window';
 
 export type PopupCallback_t = (popup?: SteamPopup) => void;
 
@@ -12,17 +13,33 @@ export interface RestoreDetails {
   strRestoreDetails: string;
 }
 
-export interface SteamPopupParameters {
+export interface PopupCreationOptions {
+  /**
+   * Initially hidden, make it appear with a `Show` method from return result.
+   */
+  bCreateHidden?: boolean;
+
+  /**
+   * @todo bHideMainWindowForPopouts
+   */
+  bModal?: boolean;
+
+  /**
+   * Document title.
+   *
+   * @todo This is a getter in {@link SteamPopupParameters}, but a normal
+   * property in {@link ContextMenuPositionOptions}, wtf
+   */
+  title?: string;
+}
+
+export interface SteamPopupParameters extends PopupCreationOptions {
   availscreenheight: number;
   availscreenwidth: number;
   /**
    * Value of `SteamClient.Window.SetHideOnClose`.
    */
   bHideOnClose: boolean;
-  /**
-   * @todo bHideMainWindowForPopouts
-   */
-  bModal: boolean;
   bNoFocusOnShow: boolean;
   /**
    * @todo saw in js, but is it there ?
@@ -148,8 +165,7 @@ export interface SteamPopup {
   BIsValid(): boolean;
   BIsVisible(): boolean;
   Close(): void;
-  /** @todo EWindowBringToFront in SteamClient.Window */
-  Focus(eForceOS?: number): void;
+  Focus(eForceOS?: EWindowBringToFront): void;
   GetName(): string;
   GetWindowRestoreDetails(): Promise<string>;
   IsMaximized(): Promise<boolean>;
@@ -166,8 +182,7 @@ export interface SteamPopup {
   ReleasePopup(): void;
   RemoveEventListeners(): void;
   Render(wnd: Window, element: HTMLElement): void;
-  /** @todo EWindowBringToFront in SteamClient.Window */
-  Show(eForceOS?: number): void;
+  Show(eForceOS?: EWindowBringToFront): void;
   UpdateParamsBeforeShow(param0: any): any;
 }
 

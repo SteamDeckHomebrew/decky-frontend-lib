@@ -1,5 +1,5 @@
-import type { WindowRouter } from '../../modules';
 import type { BrowserContext, CCallbackList, SubscribableValue } from '../shared/interfaces';
+import type { SteamAppOverview } from '../steam-client/App';
 
 /** @todo Move to SteamClient.Notifications or whatever */
 export enum ENotificationPosition {
@@ -173,6 +173,30 @@ export interface VirtualKeyboardManager {
   ShowVirtualKeyboard(ref: VKMRef_t, props: ActiveElementProps, ownerWindow: any, bIsModal: boolean): void;
 }
 
+export enum ESideMenu {
+  None,
+  Main,
+  QuickAccess,
+}
+
+export enum EQuickAccessTab {
+  Notifications,
+  RemotePlayTogetherControls,
+  VoiceChat,
+  Friends,
+  Settings,
+  Perf,
+  Help,
+  Music,
+  Decky = 999,
+}
+
+export interface MenuStore {
+  OpenSideMenu(sideMenu: ESideMenu): void;
+  OpenQuickAccessMenu(quickAccessTab?: EQuickAccessTab): void;
+  OpenMainMenu(): void;
+}
+
 export interface SteamUIWindow {
   /** The window's {@link Window}. */
   m_BrowserWindow: Window;
@@ -209,6 +233,9 @@ export interface SteamUIWindow {
   };
 
   m_VirtualKeyboardManager: VirtualKeyboardManager;
+
+  get BrowserWindow(): Window;
+  get MenuStore(): MenuStore;
 
   BCanPopVRDashboardForCurrentPath(): boolean;
   BHasMenus(): boolean;
@@ -251,7 +278,7 @@ export interface SteamUIWindow {
   IsVRSimulatedOnDesktopWindow(): boolean;
   IsVRWindow(): boolean;
   IsVRWindowInGamescope(): boolean;
-  Navigate(e: any, t: boolean, n: boolean, o?: any): void;
+  Navigate(path: string, t: boolean, n: boolean, o?: any): void;
   NavigateBack: any;
   NavigateHistory: any;
   NavigateToRunningApp: any;
@@ -270,9 +297,17 @@ export interface SteamUIWindow {
 }
 
 export interface SteamUIStore {
-  GetFocusedWindowInstance(): WindowRouter;
+  CloseSideMenus(): void;
+  GetFocusedWindowInstance(): SteamUIWindow;
+  NavigateToLayoutPreview(e: unknown, t: unknown): void;
+  NavigateToRunningApp(e: boolean): void;
+  OpenPowerMenu(e: unknown, t: unknown): void;
   WindowStore: {
+    GamepadUIMainWindowInstance?: SteamUIWindow;
+    MainWindowInstance: SteamUIWindow;
     OverlayWindows: SteamUIWindow[];
     SteamUIWindows: SteamUIWindow[];
   };
+  get RunningApps(): SteamAppOverview[];
+  get MainRunningApp(): SteamAppOverview | undefined;
 }
