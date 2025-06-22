@@ -43,6 +43,38 @@ export enum ESteamRealm {
   China,
 }
 
+export enum ESteamUISound {
+  LaunchGame,
+  FriendMessage,
+  ChatMention,
+  ChatMessage,
+  ToastMessage,
+  ToastAchievement,
+  ToastMisc,
+  ToastMiscShort,
+  FriendOnline,
+  FriendInGame,
+  VolSound,
+  ShowModal,
+  HideModal,
+  IntoGameDetail,
+  OutOfGameDetail,
+  PagedNavigation,
+  ToggleOn,
+  ToggleOff,
+  SliderUp,
+  SliderDown,
+  ChangeTabs,
+  DefaultOk,
+  OpenSideMenu,
+  CloseSideMenu,
+  BasicNav,
+  FailedNav,
+  Typing,
+  TimerExpired,
+  Screenshot,
+}
+
 export enum EUIMode {
   Unknown = -1,
   GamePad = 4,

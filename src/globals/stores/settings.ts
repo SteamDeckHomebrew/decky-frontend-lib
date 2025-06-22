@@ -1,6 +1,9 @@
 import type { CMInterface } from '../shared/cm';
 import type { SubscribableValue } from '../shared/interfaces';
 import type { SteamLocalStorage } from '../shared/storage';
+import type { FriendSettingsChange } from '../steam-client/FriendSettings';
+import type { EClientNotificationType } from '../steam-client/Notifications';
+import type { MsgClientSettings, MsgMonitorInfo, SteamSettings } from '../steam-client/Settings';
 
 export enum ETextFilterSetting {
   SteamLabOptedOut,
@@ -21,6 +24,16 @@ export enum EProvideDeckFeedbackPreference {
   No,
 }
 
+/**
+ * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/steammessages_base.proto#L340
+ */
+interface UserContentDescriptorPreferences {
+  content_descriptors_to_exclude: {
+    content_descriptorid: number;
+    timestamp_added: number;
+  }[];
+}
+
 export interface BatteryPreferences {
   bShowBatteryPercentage: boolean;
 }
@@ -28,19 +41,13 @@ export interface BatteryPreferences {
 export interface CommunityPreferences {
   bParenthesizeNicknames: boolean;
   bTextFilterIgnoreFriends: boolean;
-  content_descriptor_preferences: {
-    content_descriptors_to_exclude: {
-      content_descriptorid: number;
-      timestamp_added: number;
-    }[];
+  content_descriptor_preferences: UserContentDescriptorPreferences & {
     eTextFilterSetting: ETextFilterSetting;
   };
 }
 
 export interface StorePreferences {
-  content_descriptor_preferences: {
-    content_descriptors_to_exclude: any[];
-  };
+  content_descriptor_preferences: UserContentDescriptorPreferences;
   eReviewScorePreference: EUserReviewScorePreference;
   provide_deck_feedback: EProvideDeckFeedbackPreference;
 }
@@ -48,18 +55,15 @@ export interface StorePreferences {
 export interface SettingsStore {
   m_BatteryPreferences: SubscribableValue<BatteryPreferences>;
   m_CMInterface: CMInterface;
-  m_ClientSettings: any; // CMsgClientSettings
+  m_ClientSettings: MsgClientSettings;
   m_CommunityPreferences: CommunityPreferences;
-  m_FriendSettings: any; // FriendSettingsChange
-  m_MonitorInfo: any | undefined; // CMsgMonitorInfo
+  m_FriendSettings: FriendSettingsChange;
+  m_MonitorInfo: MsgMonitorInfo | undefined;
   m_NotificationSettings: {
     notification_targets: number;
-    /**
-     * @todo enum
-     */
-    notification_type: number;
+    notification_type: EClientNotificationType;
   }[];
-  m_Settings: any; // SteamSettings
+  m_Settings: SteamSettings;
   m_StorePreferences: StorePreferences;
   m_bSteamIsInTournamentMode: boolean;
   m_bWindowed: boolean;
@@ -71,17 +75,25 @@ export interface SettingsStore {
    * @returns `false` if connected to Steam, `true` otherwise.
    */
   BIsConnectedToSteam(): boolean;
-  CommunityPreferencesToMessage(prefs: CommunityPreferences): any; // ProtoBuf message
+
+  /**
+   * @returns a ProtoBuf message.
+   */
+  CommunityPreferencesToMessage(prefs: CommunityPreferences): any;
   GetBatteryPreferences(): BatteryPreferences;
+  // TODO: ehhh maybe generate protobufs in the future so this won't be shit
   GetClientSetting(setting: string): any;
   Init(e: any): any;
   InitDefaultCommunityContentDescriptorPreferences(): any;
   InitDefaultStoreContentDescriptorPreferences(): any;
   IsDeferred(value: any): boolean;
   IsSteamInTournamentMode(): boolean;
-  MergeCommunityPreferences(e: any, t: any): any;
-  MergeNotificationPreferences(e: any): any;
-  MergeStorePreferences(e: any, t: any): any;
+  // proto msgs
+  MergeCommunityPreferences(e: any, t: any): void;
+  // proto msgs
+  MergeNotificationPreferences(e: any): void;
+  // proto msgs
+  MergeStorePreferences(e: any, t: any): void;
   RefreshMonitorInfo(): void;
   SetBatteryPreferences(prefs: BatteryPreferences): void;
   SetCommunityPreferences(prefs: CommunityPreferences): void;

@@ -1,6 +1,10 @@
 import type { CCallbackList } from '../shared/interfaces';
+import type { BrowserViewPageSecurity, BrowserViewPopup } from '../steam-client/browser-view/BrowserViewPopup';
 
-// TODO: https://www.npmjs.com/package/@types/react-router?activeTab=code
+// TODO:
+// https://github.com/remix-run/react-router/blob/master/packages/react-router/lib/router/history.ts
+// idk if i can just copy paste that and there's no point introducing yet
+// another dependency just for this
 
 export type SteamBrowserAction = 'POP' | 'PUSH' | 'REPLACE';
 
@@ -9,6 +13,18 @@ export type SteamBrowserTab = 'community' | 'store' | 'me';
 export type SteamBrowserTabs = {
   [key in SteamBrowserTab]: string;
 };
+
+interface SteamBrowserHistoryState {
+  /**
+   * `true` if called from Steam.
+   */
+  bExternal?: boolean;
+
+  /**
+   * Entry URL.
+   */
+  strURL?: string;
+}
 
 export interface SteamBrowserHistoryEntry {
   hash: string;
@@ -20,16 +36,7 @@ export interface SteamBrowserHistoryEntry {
    * Present if `pathname` is `/browser/`.
    * @todo Move this to different interfaces according to the route.
    */
-  state?: {
-    /**
-     * `true` if called from Steam.
-     */
-    bExternal?: boolean;
-    /**
-     * Entry URL.
-     */
-    strURL?: string;
-  };
+  state?: SteamBrowserHistoryState;
 }
 
 export interface SteamWebBrowserHistory {
@@ -100,11 +107,11 @@ export interface CTabbedBrowserStore {
   Set(activeWebpageRequestId: number, webPageRequestId: number, webPageRequests: TabbedBrowserWebPageRequest[]): void;
 
   /**
-   * @param requestId Web page request ID, like in {@link TabbedBrowserWebPageRequest.requestid}}.
+   * @param requestId Web page request ID, like in {@link TabbedBrowserWebPageRequest.requestid}.
    * @param url Web page's URL.
    * @param title Web page's `<title>`.
    *
-   * @returns Whether the request ID exists.
+   * @returns `true` if request ID exists.
    */
   UpdateWebPageRequest(requestId?: number, url?: string, title?: string): boolean;
 }
@@ -123,8 +130,7 @@ export interface MainWindowBrowserManager {
 
   m_bRouterChangeTroggeredBySync: boolean;
 
-  /** `BrowserViewPopup` */
-  m_browser: any;
+  m_browser: BrowserViewPopup;
 
   /** Web browser history. */
   m_browserHistory: SteamWebBrowserHistory;
@@ -135,12 +141,11 @@ export interface MainWindowBrowserManager {
   m_lastActiveTab: SteamBrowserTab;
   m_lastActiveTabURLs: SteamBrowserTabs;
   m_lastLocation: SteamBrowserHistoryEntry;
-  m_loadErrorCode: any | null;
-  m_loadErrorDesc: any | null;
-  m_loadErrorURL: any | null;
+  m_loadErrorCode: number | null;
+  m_loadErrorDesc: string | null;
+  m_loadErrorURL: string | null;
 
-  /** `BrowserViewPageSecurity` */
-  m_pageSecurity: any | null;
+  m_pageSecurity: BrowserViewPageSecurity | null;
 
   m_rootTabURLs: SteamBrowserTabs;
 

@@ -1,6 +1,7 @@
 import type { CMInterface } from '../shared/cm';
-import type { CurrentUser, WebUIServiceTransport } from '../shared/interfaces';
+import type { WebUIServiceTransport } from '../shared/interfaces';
 import type { SteamCloudStorage } from '../shared/storage';
+import type { CurrentUser, ELoginState } from '../steam-client/User';
 
 export interface App {
   m_CurrentUser: CurrentUser;
@@ -15,7 +16,7 @@ export interface App {
   m_bWasEverLoggedIn: boolean;
   m_cloudStorage: SteamCloudStorage;
   m_cm: CMInterface;
-  m_eLoginState: number;
+  m_eLoginState: ELoginState;
   m_transportClient: WebUIServiceTransport;
 
   BFinishedInitStageOne(): boolean;
@@ -23,7 +24,7 @@ export interface App {
   BHasAckOnlyActiveSupportAlerts(): boolean;
   BHasActiveSupportAlerts(): boolean;
   BHasCurrentUser(): boolean;
-  BIsFamilyGroupMember(e: any): boolean;
+  BIsFamilyGroupMember(steamid3: number): boolean;
   BIsInFamilyGroup(): boolean;
   BIsInOOBE(): boolean;
   BIsOfflineMode(): boolean;

@@ -1,6 +1,5 @@
 import type { Unregisterable } from '../shared/interfaces';
-
-export type ConsoleSpewType = 'error' | 'info' | 'input';
+import type { SpewType_t } from '../steam-client/Console';
 
 export interface ConsoleSpewInfo {
   text: string;
@@ -28,7 +27,7 @@ export interface ConsoleStore {
    * @param text Text. Must include `\n` at the end for a newline.
    * @param type Text type.
    */
-  AddSpewLine(text: string, type: ConsoleSpewType): void;
+  AddSpewLine(text: string, type: SpewType_t): void;
 
   Init(): void;
   Reset(): void;

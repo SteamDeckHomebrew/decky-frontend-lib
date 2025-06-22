@@ -15,8 +15,7 @@ export interface LocalizationManager {
   AddTokens(dict: Record<string, string>, fallback?: Record<string, string>): void;
 
   /**
-   * @returns `true` if the string looks like a token (starts with a "#"),
-   * `false` otherwise.
+   * @returns `true` if the string looks like a token (starts with a "#").
    */
   BLooksLikeToken(value: string): boolean;
 

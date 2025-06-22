@@ -62,7 +62,7 @@ export interface SteamPopupParameters extends PopupCreationOptions {
     width?: number;
   };
   /**
-   * {@link EPopupCreationFlags}
+   * @see {@link EPopupCreationFlags}
    */
   eCreationFlags: number;
   /**
@@ -160,16 +160,54 @@ export interface SteamPopup {
    */
   m_strTitle: string;
 
+  /**
+   * @returns `true` if the popup is closed.
+   */
   BIsClosed(): boolean;
+
+  /**
+   * @returns `true` if the popup is focused.
+   */
   BIsFocused(): boolean;
+
+  /**
+   * @returns `true` if the popup is usable.
+   */
   BIsValid(): boolean;
+
+  /**
+   * @returns `true` if not closed and not minimized.
+   */
   BIsVisible(): boolean;
+
+  /**
+   * Closes the popup.
+   */
   Close(): void;
+
+  /**
+   * Focuses the popup.
+   */
   Focus(eForceOS?: EWindowBringToFront): void;
+
+  /**
+   * @returns the internal name.
+   */
   GetName(): string;
+
   GetWindowRestoreDetails(): Promise<string>;
+
+  /**
+   * @returns `true` if the window is maximized.
+   */
   IsMaximized(): Promise<boolean>;
+
+  /**
+   * @returns `true` if the window is minimized.
+   */
   IsMinimized(): Promise<boolean>;
+
+  // #region Window events
   OnBlur(): void;
   OnCreate(): void;
   OnDragOver(ev: DragEvent): void;
@@ -179,11 +217,21 @@ export interface SteamPopup {
   OnResize(): void;
   OnResizeEvent(): void;
   OnUnload(ev?: Event): void;
+  // #endregion
+
+  /**
+   * Closes the popup and releases it from memory, beyond that the popup is
+   * unusable.
+   */
   ReleasePopup(): void;
+
+  /**
+   * Removes all event listeners attached to the popup window.
+   */
   RemoveEventListeners(): void;
   Render(wnd: Window, element: HTMLElement): void;
   Show(eForceOS?: EWindowBringToFront): void;
-  UpdateParamsBeforeShow(param0: any): any;
+  UpdateParamsBeforeShow<T = Partial<SteamPopupParameters>>(params: T): T;
 }
 
 export interface PopupManager {
@@ -234,6 +282,10 @@ export interface PopupManager {
    * Clears saved restore details from {@link m_mapRestoreDetails}.
    */
   ClearSavedDimensionStore(): void;
+
+  /**
+   * Closes all popups owned by provided browser.
+   */
   ClosePopupsOwnedByBrowser(browser: BrowserContext): void;
 
   /**
@@ -242,7 +294,8 @@ export interface PopupManager {
   GetExistingPopup(popupName: string): SteamPopup;
 
   /**
-   * @returns the key used for usage in localStorage. Saved on a per-account basis.
+   * @returns the key used for usage in {@link localStorage}. Saved on a
+   * per-account basis.
    */
   GetLocalStorageKey(): string;
 
@@ -252,7 +305,7 @@ export interface PopupManager {
   GetPopupForWindow(window: Window): SteamPopup;
 
   /**
-   * @todo SteamPopup[] only with `[...g_PopupManager.GetPopups()]`
+   * @returns a list of current popups.
    */
   GetPopups(): SteamPopup[];
 
@@ -262,7 +315,7 @@ export interface PopupManager {
   GetRestoreDetails(windowName: string): string;
 
   /**
-   * Loads saved restore details from localStorage.
+   * Loads saved restore details from {@link localStorage}.
    */
   LoadSavedDimensionStore(): void;
 
@@ -272,7 +325,7 @@ export interface PopupManager {
   RemoveTrackedPopup(popup: SteamPopup): void;
 
   /**
-   * Saves restore details in localStorage.
+   * Saves restore details in {@link localStorage}.
    */
   SaveSavedDimensionStore(): void;
 

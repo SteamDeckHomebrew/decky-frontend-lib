@@ -10,22 +10,27 @@ export interface BrowserContext {
    * Window type.
    */
   m_eBrowserType?: EBrowserType;
+
   /**
    * The UI mode in use.
    */
   m_eUIMode: EUIMode;
+
   /**
    * @todo Appears when EBrowserType == 0 ?
    */
   m_gameID?: string;
+
   /**
    * @todo Same as `SteamClient.Browser.GetBrowserID()` ?
    */
   m_nBrowserID: number;
+
   /**
    * Game's app ID.
    */
   m_unAppID?: number;
+
   /**
    * If overlay, game's PID.
    */
@@ -55,41 +60,6 @@ export interface WebSocketConnection {
   SendSerializedMessage(param0: any): any;
   StartReconnect(): Promise<void>;
   WaitForSocketOpen(ws: WebSocket, retries: number): Promise<boolean>;
-}
-
-export interface CurrentUser {
-  NotificationCounts: {
-    async_game_updates: number;
-    comments: number;
-    gifts: number;
-    help_request_replies: number;
-    inventory_items: number;
-    invites: number;
-    moderator_messages: number;
-    offline_messages: number;
-    trade_offers: number;
-  };
-  bHWSurveyPending: boolean;
-  bIsLimited: boolean;
-  bIsOfflineMode: boolean;
-  bPromptToChangePassword: boolean;
-  bSupportAckOnlyMessages: boolean;
-  bSupportAlertActive: boolean;
-  bSupportPopupMessage: boolean;
-  clientinstanceid: string;
-  strAccountBalance: string;
-  strAccountBalancePending: string;
-  strAccountName: string;
-  strFamilyGroupID: string;
-  /**
-   * @todo unused /
-   */
-  strFamilyGroupName: string;
-  strSteamID: string;
-  /**
-   * @todo unused ?
-   */
-  rgFamilyGroupMembers: any[];
 }
 
 export interface Unsubscribable {

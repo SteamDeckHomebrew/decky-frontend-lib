@@ -1,63 +1,12 @@
+import type { ReactNode } from 'react';
+import type { ESteamUISound } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
+import type { EClientNotificationType } from '../steam-client/Notifications';
+import type { EParentalFeature } from '../steam-client/Parental';
 
 export enum ESteamNotificationSource {
   Client,
   Server,
-}
-
-export enum ESteamNotificationType {
-  DownloadComplete,
-  FriendInvite,
-  FriendinGame,
-  FriendOnline,
-  Achievement,
-  Unknown1,
-  SystemUpdate,
-  FriendMessage,
-  GroupChatMsg,
-  FriendInviteRollup,
-  FamilySharing,
-  FamilySharingPlaytimeWarning,
-  FamilySharingSharedGamesNowAvailable,
-  Screenshot,
-  CloudSyncFailure,
-  CloudSyncConflict,
-  IncomingVoiceChat,
-  Unknown2,
-  GiftReceived,
-  ItemAnnouncement,
-  HardwareSurvey,
-  LowDiskSpace,
-  Unknown3,
-  UnsupportedDock,
-  ControllerGuide,
-  Comment,
-  Wishlist,
-  TradeOffer,
-  AsyncGame,
-  General,
-  HelpRequest,
-  Unknown4,
-  Unknown5,
-  Unknown6,
-  Unknown7,
-  MajorSale,
-  TimerExpired,
-  ModeratorMessage,
-  SteamInputActionSet,
-  RemoteClientConnection,
-  RemoteClientStartGame,
-  StreamingClientConnection,
-  FamilyInvite,
-  PlaytimeWarning,
-  FamilyPurchaseRequest,
-  FamilyPurchaseResponse,
-  ParentalFeatureRequest,
-  ParentalPlaytimeRequest,
-  GRE,
-  ParentalFeatureResponse,
-  ParentalPlaytimeResponse,
-  RequestedGameAdded,
 }
 
 // that's what I *guess* it is, no idea what this is
@@ -67,11 +16,28 @@ export enum ESteamNotificationAction {
   Remove,
 }
 
+interface SteamNotificationData {
+  body: string;
+  /**
+   * In ms.
+   */
+  duration: number;
+  // TODO: did i get this from millennium lol
+  logo: ReactNode;
+  onClick: () => void;
+  playSound: boolean;
+  showNewIndicator: boolean;
+  showToast: boolean;
+  sound: ESteamUISound;
+  timestamp: Date;
+  title: string;
+}
+
 export interface SteamNotification {
   bNewIndicator: boolean;
-  data: any; // proto msg
+  data: SteamNotificationData;
   eSource: ESteamNotificationSource;
-  eType: ESteamNotificationType;
+  eType: EClientNotificationType;
   nToastDurationMS: number;
   notificationID: number;
   /**
@@ -81,23 +47,18 @@ export interface SteamNotification {
 }
 
 export interface TrayNotification {
-  eType: ESteamNotificationType;
+  eType: EClientNotificationType;
   notifications: SteamNotification[];
 }
 
 export interface NotificationTarget {
-  /**
-   * @todo enum
-   */
-  eFeature: number;
+  eFeature: EParentalFeature;
+  fnNotificationResolved: () => void;
   fnShowModal: () => void;
   fnTray: (target: NotificationTarget, notificationsInTray: TrayNotification[]) => void;
   nRemoveFromTraySec: number;
   toastDurationMS: number;
-  /**
-   * @todo enum
-   */
-  type: number;
+  type: EClientNotificationType;
 }
 
 /**
@@ -105,7 +66,7 @@ export interface NotificationTarget {
  * Some may not work.
  */
 export interface NotificationStore {
-  m_LastSystemUpdateNotification: any | null;
+  m_LastSystemUpdateNotification: Pick<SteamNotification, 'eType' | 'rtCreated'> | null;
   m_bCheckBatteryAfterResume: boolean;
   m_bShowClientItemAnnouncementToasts: boolean;
   m_bShowedHighBatteryTempNotification: boolean;
@@ -113,27 +74,29 @@ export interface NotificationStore {
   m_bShowedRefreshLogin: boolean;
   m_bTestNotifications: boolean;
   m_cbkCurrentToast: CCallbackList<TrayNotification[]>;
+  m_cbkNotificationTray: CCallbackList<TrayNotification[]>;
   m_hPendingToastTimer: number;
   m_hTrayRemoveTimer: number;
   m_iLastBatteryLevelNotification: number;
-  m_mapAppOverlayToasts: Map<number, any[]>;
+  m_mapAppOverlayToasts: Map<number, SteamNotification[]>;
   m_nNextTestNotificationID: number;
   m_nUnviewedNotifications: number;
   m_rgContextsRenderingToasts: number[];
   m_rgNotificationToasts: SteamNotification[];
   m_rgNotificationTray: TrayNotification[];
-  m_rgPendingToasts: any[];
+  m_rgPendingToasts: SteamNotification[];
   m_rtNextTrayRemove: number;
+  m_setContextsRenderingToasts: Set<any>;
 
   AddAppOverlayNotification(
     appId: number,
     notificationId: number,
-    type: ESteamNotificationType,
+    type: EClientNotificationType,
     param3: any, // data: i.proto.deserializeBinary(o)
-    notificationResolvedCallback: any,
+    notificationResolvedCallback: () => void,
   ): void;
   /**
-   * @param broadcastPermission enum ?
+   * @param broadcastPermission enum ? see CClientNotificationBroadcastAvailableToWatch
    */
   AddBroadcastAvailableToWatch(appId: number, broadcastPermission: any): void;
   AddOverlaySplashScreen(appId: number): void;
@@ -144,20 +107,20 @@ export interface NotificationStore {
   BContextRenderingToasts(e: any): boolean;
   BIsUserInGame(): boolean;
   BNextToastDisplayAlone(e: any): boolean;
-  BShowToast(e: any): boolean;
-  BSkipSystemUpdateNotification(e: any): boolean;
+  BShowToast(e: any, t: any): boolean;
+  BSkipSystemUpdateNotification(type: EClientNotificationType): boolean;
   ChooseSound(target: any, t: any): any | null;
   ClearAllToastNotifications(): void;
   ClearRemoveFromTrayTimer(): void;
   // wtf is this
   Dev_SendTestNotifications(): void;
   DispatchNextToast(): void;
-  DoScreenshotNotification(e: any, t: any): any;
+  DoScreenshotNotification(screenshotHandle: number, description: string): void;
   ExpireToast(toast: SteamNotification): void;
-  GetCurrentAppOverlayNotification(e: any): any;
+  GetCurrentAppOverlayNotification(appId: number): SteamNotification;
   GetCurrentToastNotification(): SteamNotification | null;
-  GetNotificationTargets(): any;
-  GetNotificationsInTray(): any;
+  GetNotificationTargets(): Record<EClientNotificationType, SteamNotification>;
+  GetNotificationsInTray(): [NotificationStore['m_rgNotificationTray'], NotificationStore['m_cbkNotificationTray']];
   IncomingVoiceChat(steamId: number, show: boolean): void;
   Init(): void;
   LoadServerToastRequiredData(steamId: number): boolean;
@@ -177,9 +140,9 @@ export interface NotificationStore {
   /**
    * @todo Use with Notifications.RegisterForNotifications, same thing
    */
-  OnNotification(notificationIndex: number, type: ESteamNotificationType, data: ArrayBuffer): void;
+  OnNotification(notificationIndex: number, type: EClientNotificationType, data: ArrayBuffer): void;
   OnNotificationUpdateReceived(toast: SteamNotification, action: ESteamNotificationAction): void;
-  OnScreenshotStarted(): any;
+  OnScreenshotStarted(): void;
   PendingLoginRefresh(showedRefreshLogin: boolean): void;
   PlayNotificationSound(toast: SteamNotification): void;
   PopNextToastNotification(e: any): any;
@@ -191,10 +154,10 @@ export interface NotificationStore {
   RemoveFromToastsWhere(callback: (toast: SteamNotification) => void): void;
   RemoveFromTrayWhere(callback: (toast: SteamNotification) => void): void;
   RemoveScreenshotNotification(screenshotHandle: number): void;
-  RunDebugTestsWhenServicesReady(e: any): any;
+  RunDebugTestsWhenServicesReady(e: boolean): void;
   ScheduleRemoveFromTray(delaySeconds: number): void;
   SendPendingServerToasts(): void;
-  SetContextRenderingToast(e: any, t: any): any;
+  SetContextRenderingToast(context: any, add: boolean): void;
   Viewed(): void;
 
   TestAchievement(appId: number, showProgress: boolean): void;
