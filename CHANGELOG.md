@@ -1,3 +1,10 @@
+## [4.10.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.1...v4.10.2) (2025-06-28)
+
+
+### Bug Fixes
+
+* **SteamClient:** export shared types for enums ([a4627a7](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a4627a70c5a60a42cd39690b3b03f2c1d79ee3b4))
+
 ## [4.10.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.0...v4.10.1) (2025-06-15)
 
 
