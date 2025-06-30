@@ -1,4 +1,5 @@
-import type { EBrowserType, ESteamRealm, EUIComposition, EUIMode, Unregisterable } from "./shared";
+import type { EBrowserType, ESteamRealm, EUIMode } from '../shared/enums';
+import type { EUIComposition, Unregisterable } from './shared';
 
 export interface Overlay {
     /**

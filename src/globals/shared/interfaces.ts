@@ -37,10 +37,6 @@ export interface BrowserContext {
   m_unPID: number;
 }
 
-export interface Unregisterable {
-  unregister(): void;
-}
-
 export interface WebSocketConnection {
   m_bDisconnectRequested: boolean;
   m_bReconnectOnFailure: boolean;

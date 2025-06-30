@@ -1,9 +1,22 @@
 export enum EBrowserType {
+  /**
+   * No window is created (like SharedJSContext).
+   */
   OffScreen,
   OpenVROverlay,
   OpenVROverlay_Dashboard,
+  /**
+   * A normal window.
+   */
   DirectHWND,
+  /**
+   * A borderless window.
+   */
   DirectHWND_Borderless,
+  /**
+   * An initially hidden window.
+   * May be shown with {@link SteamClient.Window.ShowWindow}.
+   */
   DirectHWND_Hidden,
   ChildHWNDNative,
   Offscreen_SteamUI = 12,

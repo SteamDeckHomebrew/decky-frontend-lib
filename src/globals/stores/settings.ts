@@ -72,7 +72,7 @@ export interface SettingsStore {
   m_strTimeZoneID: SubscribableValue<string>;
 
   /**
-   * @returns `false` if connected to Steam, `true` otherwise.
+   * @returns `true` if connected to Steam.
    */
   BIsConnectedToSteam(): boolean;
 

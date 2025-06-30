@@ -1,5 +1,6 @@
-import { EUIMode, Unregisterable } from "./shared";
-import {EOSType} from "./system";
+import type { EUIMode } from '../shared/enums';
+import type { Unregisterable } from './shared';
+import type { EOSType } from './system';
 
 export interface UI {
     EnsureMainWindowCreated(): void;

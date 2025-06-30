@@ -105,6 +105,10 @@ export interface NotificationStore {
   BAnyContextRenderingToasts(): boolean;
   BAnyToastDisplayAlone(e: any[]): boolean;
   BContextRenderingToasts(e: any): boolean;
+
+  /**
+   * @returns `true` if you are currently in a game.
+   */
   BIsUserInGame(): boolean;
   BNextToastDisplayAlone(e: any): boolean;
   BShowToast(e: any, t: any): boolean;

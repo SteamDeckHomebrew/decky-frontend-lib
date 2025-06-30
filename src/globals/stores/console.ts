@@ -1,5 +1,5 @@
-import type { Unregisterable } from '../shared/interfaces';
 import type { SpewType_t } from '../steam-client/Console';
+import type { Unregisterable } from '../steam-client/shared';
 
 export interface ConsoleSpewInfo {
   text: string;

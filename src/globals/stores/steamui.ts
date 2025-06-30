@@ -1,13 +1,6 @@
 import type { BrowserContext, CCallbackList, SubscribableValue } from '../shared/interfaces';
 import type { SteamAppOverview } from '../steam-client/App';
-
-/** @todo Move to SteamClient.Notifications or whatever */
-export enum ENotificationPosition {
-  TopLeft,
-  TopRight,
-  BottomLeft,
-  BottomRight,
-}
+import type { ENotificationPosition } from '../steam-client/Overlay';
 
 export enum EWindowType {
   MainGamepadUI,
@@ -197,12 +190,28 @@ export interface MenuStore {
   OpenMainMenu(): void;
 }
 
+interface SteamUIWindowParams {
+  appid: number;
+  bSimulateOnDesktop: boolean;
+  bViaGamescope: boolean;
+  browserInfo: BrowserContext;
+  eWindowType: EWindowType;
+  flDisplayScale: number;
+  gameid: string;
+  nScreenHeight: number;
+  nScreenWidth: number;
+  strUserAgentIdentifier: string;
+}
+
 export interface SteamUIWindow {
   /** The window's {@link Window}. */
   m_BrowserWindow: Window;
 
   /** Whether the BPM UI is initialized. */
   m_bIsGamepadApplicationUIInitialized: boolean;
+
+  /** Current React route. */
+  m_locationPathname: string;
 
   /**
    * The interface used depends on the {@link SteamWindowNavigator} type:
@@ -216,21 +225,7 @@ export interface SteamUIWindow {
   /** The notifications' position & offset. */
   m_notificationPosition: SteamWindowNotificationPosition;
 
-  m_params: {
-    /** @todo Appears only when overlay ? */
-    appid: number;
-    browserInfo: BrowserContext;
-    eWindowType: EWindowType;
-    /** @todo Appears only when overlay ? */
-    flDisplayScale: number;
-    /** @todo Appears only when overlay ? */
-    gameid: string;
-    /** @todo Appears only when overlay ? */
-    nScreenHeight: number;
-    /** @todo Appears only when overlay ? */
-    nScreenWidth: number;
-    strUserAgentIdentifier: string;
-  };
+  m_params: Partial<SteamUIWindowParams>;
 
   m_VirtualKeyboardManager: VirtualKeyboardManager;
 
@@ -239,10 +234,23 @@ export interface SteamUIWindow {
 
   BCanPopVRDashboardForCurrentPath(): boolean;
   BHasMenus(): boolean;
-  BIsFocusNavActive(): boolean;
+
+  /**
+   * @returns `true` if the BPM UI is initialized.
+   */
   BIsGamepadApplicationUIInitialized(): boolean;
+
+  /**
+   * @returns `true` if current React route matches the overlay one.
+   */
   BIsOverlayPath(): boolean;
-  BRouteMatch(e: any): boolean;
+
+  /** @todo something in react-router */
+  BRouteMatch(routes: string[]): boolean;
+
+  /**
+   * @todo returns `true` if this window isn't a BPM overlay and not in gamescope.
+   */
   BUseSeparateOverlayWindows(): boolean;
   BViewingPreLoginRoute(): boolean;
 
@@ -297,6 +305,11 @@ export interface SteamUIWindow {
 }
 
 export interface SteamUIStore {
+  /**
+   * @note If calling this to perform navigation, call it after {@link Navigate}
+   * to prevent a race condition in desktop Big Picture mode that hides the
+   * overlay unintentionally.
+   */
   CloseSideMenus(): void;
   GetFocusedWindowInstance(): SteamUIWindow;
   NavigateToLayoutPreview(e: unknown, t: unknown): void;

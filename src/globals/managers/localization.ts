@@ -9,8 +9,7 @@ export interface LocalizationManager {
   m_rgLocalesToUse: string[];
 
   /**
-   * Adds `dict` to {@link m_mapTokens}
-   * and adds `fallback` to {@link m_mapFallbackTokens}.
+   * Adds the provided list of tokens to the token map.
    */
   AddTokens(dict: Record<string, string>, fallback?: Record<string, string>): void;
 
@@ -20,7 +19,12 @@ export interface LocalizationManager {
   BLooksLikeToken(value: string): boolean;
 
   GetELanguageFallbackOrder(realm?: ESteamRealm): ELanguage[];
+
+  /**
+   * @returns user's preferred locales.
+   */
   GetPreferredLocales(): string[];
+
   GetTokensChangedCallbackList(): CCallbackList;
 
   /**
@@ -46,7 +50,7 @@ export interface LocalizationManager {
   LocalizeStringFromFallback(token: string): string;
 
   /**
-   * Sets {@link m_rgLocalesToUse}.
+   * Sets user's preferred locales.
    */
   SetPreferredLocales(locales: string[]): void;
 }

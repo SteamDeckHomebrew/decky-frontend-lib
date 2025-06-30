@@ -1,22 +1,21 @@
+import type { Action, History, Location } from 'history';
 import type { CCallbackList } from '../shared/interfaces';
-import type { BrowserViewPageSecurity, BrowserViewPopup } from '../steam-client/browser-view/BrowserViewPopup';
+import type {
+  BrowserViewHistory,
+  BrowserViewPageSecurity,
+  BrowserViewPopup,
+} from '../steam-client/browser-view/BrowserViewPopup';
 
-// TODO:
-// https://github.com/remix-run/react-router/blob/master/packages/react-router/lib/router/history.ts
-// idk if i can just copy paste that and there's no point introducing yet
-// another dependency just for this
+export type SteamBrowserTab_t = 'community' | 'store' | 'me';
 
-export type SteamBrowserAction = 'POP' | 'PUSH' | 'REPLACE';
-
-export type SteamBrowserTab = 'community' | 'store' | 'me';
-
-export type SteamBrowserTabs = {
-  [key in SteamBrowserTab]: string;
+export type SteamBrowserTabs_t = {
+  [key in SteamBrowserTab_t]: string;
 };
 
 interface SteamBrowserHistoryState {
   /**
    * `true` if called from Steam.
+   * @todo actually im not sure what this is
    */
   bExternal?: boolean;
 
@@ -26,49 +25,6 @@ interface SteamBrowserHistoryState {
   strURL?: string;
 }
 
-export interface SteamBrowserHistoryEntry {
-  hash: string;
-  key: string;
-  pathname: string;
-  search: string;
-
-  /**
-   * Present if `pathname` is `/browser/`.
-   * @todo Move this to different interfaces according to the route.
-   */
-  state?: SteamBrowserHistoryState;
-}
-
-export interface SteamWebBrowserHistory {
-  entries: SteamBrowserHistoryEntry[];
-  index: number;
-}
-
-export interface SteamRouterHistory extends SteamWebBrowserHistory {
-  action: SteamBrowserAction;
-  block(param0: any): any;
-  canGo(index: number): boolean;
-
-  /**
-   * Creates a route string from a history entry.
-   */
-  createHref(entry: SteamBrowserHistoryEntry): string;
-  go(param0: any): any;
-  goBack(): void;
-  goForward(): void;
-
-  /** `entries` length. */
-  length: number;
-
-  listen(param0: any): any;
-
-  /** Current route. */
-  location: SteamBrowserHistoryEntry;
-
-  push(param0: any, param1: any): any;
-  replace(param0: any, param1: any): any;
-}
-
 export interface TabbedBrowserWebPageRequest {
   requestid: number;
   strLastURL: string;
@@ -76,7 +32,7 @@ export interface TabbedBrowserWebPageRequest {
   strURL: string;
 }
 
-export interface CTabbedBrowserStore {
+export interface TabbedBrowserStore {
   m_cbWebPageRequestsChanged: CCallbackList;
   m_nActiveWebpageRequestID: number;
   m_nWebPageRequestID: number;
@@ -85,12 +41,12 @@ export interface CTabbedBrowserStore {
   /**
    * @param url Web page's URL. `data:text/html,<body></body>` by default.
    */
-  AddWebPageRequest(url?: string, param1?: any): void;
+  AddWebPageRequest(url?: string, param1?: boolean): void;
 
   GetWebPageRequestsChangedCallbackList(): CCallbackList;
 
   /**
-   * Exactly what its name says. Closes the browser, too.
+   * Removes all requests and closes the browser.
    */
   RemoveAllRequests(): void;
 
@@ -99,7 +55,7 @@ export interface CTabbedBrowserStore {
    */
   RemoveWebPageRequest(requestId: number): boolean;
 
-  ReorderWebPageRequest(param0: any, param1: any): void;
+  ReorderWebPageRequest(param0: number, param1: number): void;
 
   /**
    * @todo Probably used to init this.
@@ -117,48 +73,43 @@ export interface CTabbedBrowserStore {
 }
 
 export interface MainWindowBrowserManager {
-  /** Current URL. */
   m_URL: string;
-
-  /** Current URL. */
   m_URLRequested: string;
-
   m_bExpectImportantReplace: boolean;
-
-  /** Whether the page is loading or not. */
   m_bLoading: boolean;
-
   m_bRouterChangeTroggeredBySync: boolean;
-
   m_browser: BrowserViewPopup;
-
-  /** Web browser history. */
-  m_browserHistory: SteamWebBrowserHistory;
-
-  /** Router history. */
-  m_history: SteamRouterHistory;
-
-  m_lastActiveTab: SteamBrowserTab;
-  m_lastActiveTabURLs: SteamBrowserTabs;
-  m_lastLocation: SteamBrowserHistoryEntry;
+  m_browserHistory: BrowserViewHistory;
+  m_history: History;
+  m_lastActiveTab: SteamBrowserTab_t;
+  m_lastActiveTabURLs: SteamBrowserTabs_t;
+  m_lastLocation: Location<SteamBrowserHistoryState>;
   m_loadErrorCode: number | null;
   m_loadErrorDesc: string | null;
   m_loadErrorURL: string | null;
-
   m_pageSecurity: BrowserViewPageSecurity | null;
-
-  m_rootTabURLs: SteamBrowserTabs;
-
-  /** Current location's `<title>`. */
+  m_rootTabURLs: SteamBrowserTabs_t;
   m_strTitle: string;
-
-  m_tabbedBrowserStore: CTabbedBrowserStore;
+  m_tabbedBrowserStore: TabbedBrowserStore;
   m_tsWaitingForBrowserChange: number | undefined;
 
-  ActivateTab(tab: SteamBrowserTab): void;
+  /**
+   * Opens the provided tab in the browser.
+   */
+  ActivateTab(tab: SteamBrowserTab_t): void;
+
   BIsWaitingForHistoryCallback(): boolean;
-  GetLastActiveTab(): SteamBrowserTab;
-  GetTabForURL(url: string): SteamBrowserTab | 'ignore' | 'maintain';
+
+  /**
+   * @returns the last active/opened tab in the browser.
+   */
+  GetLastActiveTab(): SteamBrowserTab_t;
+
+  /**
+   * @param url A Steam store/community URL.
+   * @returns a browser tab responsible for provided URL or `ignore` or `maintain`.
+   */
+  GetTabForURL(url: string): SteamBrowserTab_t | 'ignore' | 'maintain';
 
   /**
    * @todo Loads a URL, but `bExternal` is `false`.
@@ -173,8 +124,9 @@ export interface MainWindowBrowserManager {
   /**
    * @todo Loads a URL, but `bExternal` is `true`.
    */
-  ShowURL(url: string, param1: any): void;
-  SyncWithNewBrowserHistory(entry: SteamWebBrowserHistory): void;
-  SyncWithNewRouterEvent(entry: SteamBrowserHistoryEntry, action: SteamBrowserAction): void;
+  ShowURL(url: string, state: SteamBrowserHistoryState): void;
+
+  SyncWithNewBrowserHistory(entry: BrowserViewHistory): void;
+  SyncWithNewRouterEvent(location: Location<SteamBrowserHistoryState>, action: Action): void;
   UpdateActiveTab(url: string): void;
 }

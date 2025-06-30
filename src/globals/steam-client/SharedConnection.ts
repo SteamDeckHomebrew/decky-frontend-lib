@@ -1,4 +1,5 @@
-import { ESteamRealm, Unregisterable } from "./shared";
+import type { ESteamRealm } from '../shared/enums';
+import type { Unregisterable } from './shared';
 
 /**
  * `hSharedConnection` is the number from {@link AllocateSharedConnection}.

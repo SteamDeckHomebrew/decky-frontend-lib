@@ -47,7 +47,7 @@ export interface SteamPopupParameters extends PopupCreationOptions {
   bNoInitialShow: boolean;
   bPinned: boolean;
   /**
-   * Popup's <body> class.
+   * Popup's `<body>` class.
    */
   body_class: string;
   browserType: EBrowserType;
@@ -66,7 +66,7 @@ export interface SteamPopupParameters extends PopupCreationOptions {
    */
   eCreationFlags: number;
   /**
-   * Popup <html> class.
+   * Popup `<html>` class.
    */
   html_class: string;
   /**
@@ -99,7 +99,7 @@ export interface SteamPopupParameters extends PopupCreationOptions {
    */
   target_browser: BrowserContext;
   /**
-   * Popup (internal) name.
+   * Internal popup name.
    */
   m_strName: string;
   /**
@@ -195,6 +195,9 @@ export interface SteamPopup {
    */
   GetName(): string;
 
+  /**
+   * @returns the popup's restore details.
+   */
   GetWindowRestoreDetails(): Promise<string>;
 
   /**
@@ -207,7 +210,7 @@ export interface SteamPopup {
    */
   IsMinimized(): Promise<boolean>;
 
-  // #region Window events
+  // #region Window events, not always available
   OnBlur(): void;
   OnCreate(): void;
   OnDragOver(ev: DragEvent): void;
@@ -261,20 +264,20 @@ export interface PopupManager {
   /**
    * Adds a popup and dispatches all the callbacks.
    */
-  AddTrackedPopup(popupName: string, popup: SteamPopup): void;
+  AddTrackedPopup(popup: SteamPopup): void;
 
   /**
-   * @returns `true` if one of the context menus is focused, `false` otherwise.
+   * @returns `true` if one of the context menu *popups* is focused.
    */
   BAnyMenuHasFocus(): boolean;
 
   /**
-   * @returns `true` if one of the windows is focused, `false` otherwise.
+   * @returns `true` if one of the windows is focused.
    */
   BAnyPopupHasFocus(): boolean;
 
   /**
-   * @returns `true` if Steam is about to shut down, `false` otherwise.
+   * @returns `true` if Steam is about to shut down.
    */
   BShuttingDown(): boolean;
 
@@ -330,6 +333,8 @@ export interface PopupManager {
   SaveSavedDimensionStore(): void;
 
   /**
+   * Sets the provided account ID for later usage with restore details.
+   *
    * @param accountId SteamID 3
    */
   SetCurrentLoggedInAccountID(accountId: number): void;
