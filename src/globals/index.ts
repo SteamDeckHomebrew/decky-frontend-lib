@@ -2,6 +2,7 @@ import type { LocalizationManager, MainWindowBrowserManager, PopupManager } from
 import type { SteamClient } from './steam-client';
 import type { AppDetails, LogoPosition, SteamAppOverview } from './steam-client/App';
 import type { App, ConsoleStore, NotificationStore, ServerBrowserStore, SettingsStore, SteamUIStore } from './stores';
+import type { CCollectionStore } from './stores/collection';
 
 interface AppData {
   details: AppDetails;
@@ -40,6 +41,7 @@ declare global {
       GetCustomLogoPosition: (app: AppStoreAppOverview) => LogoPosition | null;
       SaveCustomLogoPosition: (app: AppStoreAppOverview, logoPositions: LogoPosition) => any;
     };
+    collectionStore: CCollectionStore;
     ConsoleStore: ConsoleStore;
     g_PopupManager: PopupManager;
     LocalizationManager: LocalizationManager;
