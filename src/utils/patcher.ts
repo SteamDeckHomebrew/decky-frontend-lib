@@ -6,85 +6,109 @@ export interface PatchOptions {
   singleShot?: boolean;
 }
 
+// Unused at this point, exported for backwards compatibility
 export type GenericPatchHandler = (args: any[], ret?: any) => any;
 
-export interface Patch {
-  original: Function;
-  property: string;
-  object: any;
-  patchedFunction: any;
-  hasUnpatched: boolean;
-  handler: GenericPatchHandler;
+export interface Patch<
+  Object extends Record<PropertyKey, any> = Record<PropertyKey, any>,
+  Property extends keyof Object = keyof Object,
+  Target extends Object[Property] = Object[Property]
+> {
+  object: Object;
+  property: Property;
+  original: Target;
 
-  unpatch: () => void;
+  patchedFunction: Target;
+  hasUnpatched: boolean;
+  handler: ((args: Parameters<Target>, ret: ReturnType<Target>) => any) | ((args: Parameters<Target>) => any);
+
+  unpatch(): void;
 }
 
 // let patches = new Set<Patch>();
 
-export function beforePatch(
-  object: any,
-  property: string,
-  handler: (args: any[]) => any,
+export function beforePatch<
+  Object extends Record<PropertyKey, any>,
+  Property extends keyof Object,
+  Target extends Object[Property],
+>(
+  object: Object,
+  property: Property,
+  handler: (args: Parameters<Target>) => void,
   options: PatchOptions = {},
-): Patch {
+): Patch<Object, Property, Target> {
   const orig = object[property];
-  object[property] = function (...args: any[]) {
+  object[property] = (function (this: any, ...args: Parameters<Target>) {
     handler.call(this, args);
     const ret = patch.original.call(this, ...args);
     if (options.singleShot) {
       patch.unpatch();
     }
     return ret;
-  };
+  }) as any;
   const patch = processPatch(object, property, handler, object[property], orig);
   return patch;
 }
 
-export function afterPatch(
-  object: any,
-  property: string,
-  handler: (args: any[], ret: any) => any,
+export function afterPatch<
+  Object extends Record<PropertyKey, any>,
+  Property extends keyof Object,
+  Target extends Object[Property]
+>(
+  object: Object,
+  property: Property,
+  handler: (args: Parameters<Target>, ret: ReturnType<Target>) => ReturnType<Target>,
   options: PatchOptions = {},
-): Patch {
+): Patch<Object, Property, Target> {
   const orig = object[property];
-  object[property] = function (...args: any[]) {
+  object[property] = (function (this: any, ...args: Parameters<Target>) {
     let ret = patch.original.call(this, ...args);
     ret = handler.call(this, args, ret);
     if (options.singleShot) {
       patch.unpatch();
     }
-    return ret;
-  };
+    return ret
+  }) as any;
   const patch = processPatch(object, property, handler, object[property], orig);
   return patch;
 }
 
-export function replacePatch(
-  object: any,
-  property: string,
-  handler: (args: any[]) => any,
+export function replacePatch<
+  Object extends Record<PropertyKey, any>,
+  Property extends keyof Object,
+  Target extends Object[Property]
+>(
+  object: Object,
+  property: Property,
+  handler: (args: Parameters<Target>) => ReturnType<Target>,
   options: PatchOptions = {},
-): Patch {
+): Patch<Object, Property, Target> {
   const orig = object[property];
-  object[property] = function (...args: any[]) {
+  object[property] = (function (this: any, ...args: Parameters<Target>) {
     const ret = handler.call(this, args);
+    // console.debug('[Patcher] replacePatch', patch);
+
     if (ret == callOriginal) return patch.original.call(this, ...args);
     if (options.singleShot) {
       patch.unpatch();
     }
     return ret;
-  };
+  }) as any;
   const patch = processPatch(object, property, handler, object[property], orig);
   return patch;
 }
 
-function processPatch(
-  object: any,
-  property: any,
-  handler: GenericPatchHandler,
-  patchedFunction: any,
-  original: any,
-): Patch {
+function processPatch<
+  Object extends Record<PropertyKey, any>,
+  Property extends keyof Object,
+  Target extends Object[Property],
+>(
+  object: Object,
+  property: Property,
+  handler: ((args: Parameters<Target>, ret: ReturnType<Target>) => any) | ((args: Parameters<Target>) => any),
+  patchedFunction: Target,
+  original: Target,
+): Patch<Object, Property, Target> {
   // Assign all props of original function to new one
   Object.assign(object[property], original);
   // Allow toString webpack filters to continue to work
@@ -97,14 +121,14 @@ function processPatch(
   });
 
   // Build a Patch object of this patch
-  const patch: Patch = {
+  const patch = {
     object,
     property,
     handler,
     patchedFunction,
     original,
     hasUnpatched: false,
-    unpatch: () => unpatch(patch),
+    unpatch: () => unpatch(patch as any),
   };
 
   object[property].__deckyPatch = patch;
