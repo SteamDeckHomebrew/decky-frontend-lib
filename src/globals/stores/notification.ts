@@ -164,6 +164,7 @@ export interface NotificationStore {
   SetContextRenderingToast(context: any, add: boolean): void;
   Viewed(): void;
 
+  // #region Test functions
   TestAchievement(appId: number, showProgress: boolean): void;
   TestAsyncGame(appId: number): void;
   TestCloudSyncConflict(appId: number): void;
@@ -206,4 +207,5 @@ export interface NotificationStore {
   TestTradeOffer(): void;
   TestUnsupportedDock(): void;
   TestWishlist(appId: number): void;
+  // #endregion
 }

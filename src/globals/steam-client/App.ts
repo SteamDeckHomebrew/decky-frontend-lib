@@ -1281,7 +1281,7 @@ export interface Badge {
   strNextLevelName: string;
 }
 
-interface AppDescription {
+export interface AppDescription {
   /**
    * Full app description. Note that it uses BB code and so must be rendered.
    */
