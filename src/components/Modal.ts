@@ -83,7 +83,7 @@ export interface ConfirmModalProps extends ModalRootProps {
 }
 
 export const ConfirmModal = findModuleExport(
-  (e: Export) => !e?.prototype?.OK && e?.prototype?.Cancel && e?.prototype?.render,
+  (e: Export) => e?.toString()?.includes('bUpdateDisabled') && e?.toString()?.includes('closeModal') && e?.toString()?.includes('onGamepadCancel'),
 ) as FC<ConfirmModalProps>;
 
 export const ModalRoot = Object.values(
