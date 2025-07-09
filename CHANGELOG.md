@@ -1,3 +1,10 @@
+## [4.10.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.2...v4.10.3) (2025-07-09)
+
+
+### Bug Fixes
+
+* **modals:** fix `<ConfirmModal />` for new Steam beta ([#123](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/123)) ([aa0678c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/aa0678c857e07f58de58e5d20565bf2718fff6dc))
+
 ## [4.10.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.1...v4.10.2) (2025-06-28)
 
 
