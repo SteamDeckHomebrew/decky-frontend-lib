@@ -83,9 +83,6 @@ export interface SettingsStore {
   GetBatteryPreferences(): BatteryPreferences;
   // TODO: ehhh maybe generate protobufs in the future so this won't be shit
   GetClientSetting(setting: string): any;
-  Init(e: any): any;
-  InitDefaultCommunityContentDescriptorPreferences(): any;
-  InitDefaultStoreContentDescriptorPreferences(): any;
   IsDeferred(value: any): boolean;
   IsSteamInTournamentMode(): boolean;
   // proto msgs

@@ -54,9 +54,13 @@ export interface App {
    * @returns `true` if Steam is in offline mode.
    */
   BIsOfflineMode(): boolean;
+
   BMustShowSupportAlertDialog(): boolean;
+
   BSupportAlertDialogActive(): boolean;
+
   BWasEverLoggedIn(): boolean;
+
   GetCloudStorageForLibrary(): SteamCloudStorage;
 
   /**
@@ -78,10 +82,11 @@ export interface App {
    * @returns `true` if all services have been initialized.
    */
   GetServicesInitialized(): boolean;
-  Init(cm: CMInterface): Promise<void>;
-  InitStage2(): Promise<void>;
+
   OptOutOfSurvey(): void;
+
   SendSurvey(): void;
+
   ShowSupportAlertsModal(): void;
 
   /**

@@ -1,20 +1,12 @@
+import type { EUIMode } from '../shared';
 import type { BrowserContext, CCallbackList, SubscribableValue } from '../shared/interfaces';
 import type { SteamAppOverview } from '../steam-client/App';
 import type { ENotificationPosition } from '../steam-client/Overlay';
+import type { EResult } from '../steam-client/shared';
+import type { EWindowType } from '../steam-client/UI';
+import type { EShutdownStep } from '../steam-client/User';
 
-export enum EWindowType {
-  MainGamepadUI,
-  OverlayGamepadUI,
-  Keyboard,
-  ControllerConfigurator,
-  VR,
-  MainDesktopUI,
-  DesktopLogin,
-  OverlayDesktopUI,
-  SteamChinaReviewLauncher,
-}
-
-export type SteamWindowSettingsSection =
+export type SteamWindowSettingsSection_t =
   | 'Account'
   | 'Audio'
   | 'Bluetooth'
@@ -71,7 +63,7 @@ export interface SteamWindowNavigator {
   Home(): void;
   Media(state: SteamWindowMediaState): void;
   MyAchievements(appId: number): void;
-  Settings(section: SteamWindowSettingsSection): void;
+  Settings(section: SteamWindowSettingsSection_t): void;
   SteamWeb(param0: any, param1: any): void;
   SteamWebTab(url: string): void;
 }
@@ -184,10 +176,19 @@ export enum EQuickAccessTab {
   Decky = 999,
 }
 
-export interface MenuStore {
-  OpenSideMenu(sideMenu: ESideMenu): void;
-  OpenQuickAccessMenu(quickAccessTab?: EQuickAccessTab): void;
-  OpenMainMenu(): void;
+enum ENavigationMode {
+  Digital,
+  Cursor,
+}
+
+enum ENavigationSourceType {
+  UNKNOWN,
+  GAMEPAD,
+  KEYBOARD_SIMULATOR,
+  MOUSE,
+  TOUCH,
+  LPAD,
+  RPAD,
 }
 
 interface SteamUIWindowParams {
@@ -204,10 +205,7 @@ interface SteamUIWindowParams {
 }
 
 export interface SteamUIWindow {
-  /** The window's {@link Window}. */
   m_BrowserWindow: Window;
-
-  /** Whether the BPM UI is initialized. */
   m_bIsGamepadApplicationUIInitialized: boolean;
 
   /** Current React route. */
@@ -229,10 +227,8 @@ export interface SteamUIWindow {
 
   m_VirtualKeyboardManager: VirtualKeyboardManager;
 
-  get BrowserWindow(): Window;
-  get MenuStore(): MenuStore;
-
   BCanPopVRDashboardForCurrentPath(): boolean;
+
   BHasMenus(): boolean;
 
   /**
@@ -252,6 +248,7 @@ export interface SteamUIWindow {
    * @todo returns `true` if this window isn't a BPM overlay and not in gamescope.
    */
   BUseSeparateOverlayWindows(): boolean;
+
   BViewingPreLoginRoute(): boolean;
 
   /**
@@ -265,14 +262,12 @@ export interface SteamUIWindow {
    * Focuses the main window.
    */
   FocusApplicationRoot(): void;
-  GetMainVROverlayKey: any;
-  GetShowingGlobalModal: any;
-  GetStoreBrowser: any;
-  Init: any;
-  InitFocusNavContext: any;
-  InitGamepadApplicationUI: any;
-  InitNavigation: any;
-  InitializeDefaultActions: any;
+
+  GetMainVROverlayKey(): any;
+  GetShowingGlobalModal(): boolean;
+  GetStoreBrowser(): any;
+
+  // #region EWindowType matching
   IsControllerConfiguratorWindow(): boolean;
   IsDesktopLoginWindow(): boolean;
   IsDesktopOverlayWindow(): boolean;
@@ -286,6 +281,8 @@ export interface SteamUIWindow {
   IsVRSimulatedOnDesktopWindow(): boolean;
   IsVRWindow(): boolean;
   IsVRWindowInGamescope(): boolean;
+  // #endregion
+
   Navigate(path: string, t: boolean, n: boolean, o?: any): void;
   NavigateBack: any;
   NavigateHistory: any;
@@ -293,34 +290,265 @@ export interface SteamUIWindow {
   NavigateToStandaloneAppRunningControls: any;
   NavigateToSteamWeb: any;
   NavigateWithoutChangingFocus: any;
-  OnApplicationUIInitComplete: any;
-  OnHomeButtonPressed: any;
-  OnQuickAccessButtonPressed: any;
-  OnVirtualKeyboardShown: any;
   SetBrowserWindow: any;
   SetNavigator: any;
   SetNotificationPosition: any;
   SetShowingGlobalModal: any;
   SetStoreBrowserGlass: any;
+
+  get BrowserWindow(): Window;
+  get MenuStore(): CMenuStore;
+}
+
+interface CMenuStore {
+  OpenSideMenu(sideMenu: ESideMenu): void;
+  OpenQuickAccessMenu(quickAccessTab?: EQuickAccessTab): void;
+  OpenMainMenu(): void;
+}
+
+interface CWindowStore {
+  AddTestWindowsOverlayBrowser: any;
+  BHasAppWindow: any;
+  BHasGamepadUIMainWindow: any;
+  BHasOverlayWindowForApp: any;
+  BHasStandaloneConfiguratorWindow: any;
+  BHasStandaloneKeyboard: any;
+  BHasVRWindow: any;
+  CreateDesktopLoginWindow: any;
+  CreateMainDesktopWindow: any;
+  CreateMainGamepadUIWindow: any;
+  CreateSimulatedVRWindow: any;
+  CreateStandaloneControllerConfiguratorWindow: any;
+  CreateStandaloneKeyboardWindow: any;
+  CreateSteamChinaReviewLauncherWindow: any;
+  CreateVRWindow: any;
+  DEBUG_DumpDesiredSteamUIWindows: any;
+  EnsureMainWindowCreated: any;
+  GetAppFocusedWindowID: any;
+  GetAppWindowIDs: any;
+  GetControllerConfiguratorWindowFromAppID: any;
+  GetInstanceForPID: any;
+  GetOverlayInstance: any;
+  GetOverlayInstanceWithFallback: any;
+  GetOverlayInstances: any;
+  GetSimultedVRWindowInstance: any;
+  GetSteamUIWindowByType: any;
+  GetVRWindowInstance: any;
+  GetWindowInstanceFromWindow: any;
+  RemoveRunningAppWindowIDs: any;
+  SetFocusedAppWindowID: any;
+  SetRunningAppWindowIDs: any;
+  UpdateDesiredWindows: any;
+
+  get GamepadUIMainWindowInstance(): SteamUIWindow;
+  get GamepadUIVRWindowInstance(): SteamUIWindow;
+  get MainRunningAppWindowIDs();
+  get MainWindowInstance(): SteamUIWindow;
+  get OverlayWindows(): SteamUIWindow[];
+  get SteamUIWindows(): SteamUIWindow[];
+}
+
+interface NavigationSource {
+  eActivationSourceType: ENavigationSourceType;
+  nActiveGamepadIndex: number;
+  nLastActiveGamepadIndex: number;
+}
+
+// TODO: guessed from loc tokens, but this a lot looks like EResult's members except with different
+// numbers
+enum ERefreshLoginReason {
+  Success = 1,
+  LoggedInElsewhere,
+  SteamGuard,
+  AccountDisabled,
+  Offline,
+  UnhandledMailTo,
+  Success2,
 }
 
 export interface SteamUIStore {
+  m_ConfiguratorWidth: any;
+  m_GamepadNavigationManager: any;
+  m_GamepadUIAudioStore: any;
+  m_LastLibraryTab: any;
+  m_WindowStore: any;
+  m_appDetailsDisplayMode: any;
+  m_bConsoleEnabledByUser: boolean;
+  m_bHomeAndQuickAccessButtonsEnabled: boolean;
+  m_bIsDeckFactoryImage: boolean;
+  m_bPreviouslyNavigatedToRunningApp: boolean;
+  m_bShowingLockScreen: boolean;
+  m_bStreamingRemotePlayTogether: boolean;
+  m_eErrorCondition: number;
+  m_eErrorConditionResult: EResult;
+  m_mainInstanceUIMode: EUIMode;
+  m_nResumeStreamingInputTimeoutHandle: number;
+  m_navigationSource: NavigationSource;
+  m_runningAppIDs: number[];
+  m_shutdownState: {
+    appid: number;
+    bAllowForceQuit: boolean;
+    bFailed: boolean;
+    eShutdownState: EShutdownStep;
+  };
+  m_strStandaloneConfiguratorURL: string | null;
+  m_streamingAppID: number;
+  m_textFilterStore: CTextFilterStore;
+
+  BCanNavigateToRunningApp(): boolean;
+  BControllerIndexValid(index: number): boolean;
+  BHomeAndQuickAccessButtonsEnabled(): boolean;
+
   /**
-   * @note If calling this to perform navigation, call it after {@link Navigate}
-   * to prevent a race condition in desktop Big Picture mode that hides the
-   * overlay unintentionally.
+   * @returns `true` if any of the windows is focused.
+   */
+  BIsAnyWindowFocused(): boolean;
+
+  BIsOverlayPath(path: string): boolean;
+
+  /**
+   * @returns `true` if Steam is shutting down.
+   */
+  BIsShuttingDown(): boolean;
+
+  BIsStreamingGame(appid: number): boolean;
+  BIsStreamingRemotePlayTogether(): boolean;
+  BIsStreamingRemotePlayTogetherGame(appid: number): boolean;
+  BIsTransparentBackgroundPath(path: string): boolean;
+  BIsVROverlayApp(overview: SteamAppOverview): boolean;
+
+  /**
+   * @returns `true` if provided app is available only for VR.
+   */
+  BIsVrOnlyGame(overview: SteamAppOverview): boolean;
+
+  BRemotePlaySessionLocalClient(steam64Id: string): boolean;
+  CancelRefreshLogin(): void;
+  ClearSaleCache(): Promise<void>;
+  ClearShutdownFailure(): void;
+
+  /**
+   * If calling this to perform navigation, call it after {@link Navigate} to
+   * prevent a race condition in desktop BPM that hides the overlay
+   * unintentionally.
    */
   CloseSideMenus(): void;
+
+  DisableHomeAndQuickAccessButtons(): void;
+  EnableHomeAndQuickAccessButtons(): void;
+  ExcludedTitlesForPlatform(): number[];
+
+  /**
+   * @returns the currently focused window instance (for {@link Window} see {@link SteamUIWindow.BrowserWindow}).
+   */
   GetFocusedWindowInstance(): SteamUIWindow;
-  NavigateToLayoutPreview(e: unknown, t: unknown): void;
-  NavigateToRunningApp(e: boolean): void;
-  OpenPowerMenu(e: unknown, t: unknown): void;
-  WindowStore: {
-    GamepadUIMainWindowInstance?: SteamUIWindow;
-    MainWindowInstance: SteamUIWindow;
-    OverlayWindows: SteamUIWindow[];
-    SteamUIWindows: SteamUIWindow[];
+
+  GetLastLibraryTab(): {
+    collectionid: string;
+    strActiveTab: string;
   };
-  get RunningApps(): SteamAppOverview[];
+  GetShowingLockScreen(): boolean;
+  GetShutdownState(): {
+    appid: number;
+    bAllowForceQuit: boolean;
+    bFailed: boolean;
+    eShutdownState: EShutdownStep;
+  };
+  GetWindowForRunningAppNavigation(): SteamUIWindow;
+
+  /**
+   * Gets the overlay window instance for a provided PID.
+   *
+   * @param pid The "gameoverlayui" process PID.
+   */
+  GetWindowInstanceForPID(pid: number): SteamUIWindow | undefined;
+
+  /**
+   * @returns `true` if there is at least 1 Steam app running.
+   */
+  IsAnyAppRunning(): boolean;
+
+  /**
+   * @returns `true` if the Steam console is enabled.
+   */
+  IsConsoleEnabled(): boolean;
+
+  IsDeckFactoryImage(): boolean;
+
+  /**
+   * @returns `true` if there is a desktop mode window open.
+   */
+  IsDesktopUIWindowActive(): boolean;
+
+  /**
+   * @returns `true` if there is a BPM window open.
+   */
+  IsGamepadUIWindowActive(): boolean;
+
+  /**
+   * Navigates to a provided React route.
+   *
+   * @param route React route to navigate to, e.g. `/library/app/440`.
+   * @param matchRoute If `true`, router won't navigate to said route if it
+   * doesn't look like one.
+   * @param replaceHistoryEntry
+   */
+  Navigate(route: string, matchRoute?: boolean, replaceHistoryEntry?: boolean): void;
+
+  /**
+   * Shows the controller layout preview.
+   */
+  NavigateToLayoutPreview(appid: number, instance?: SteamUIWindow): void;
+
+  NavigateToRunningApp(e: boolean): void;
+
+  /**
+   * Opens the "Power" menu.
+   *
+   * @param parent Menu parent element.
+   * @param onCancel Function to call on pressing cancel.
+   */
+  OpenPowerMenu(parent: HTMLElement, onCancel: () => void): void;
+
+  PreserveNavigation(): void;
+  // empty lol
+  ReopenPreModalSideMenu(): void;
+  ResetErrorCondition(): void;
+  RestoreNavigation(): void;
+  ScopeRunningApps(): void;
+  SetConfiguratorWidth(value: number): void;
+  SetConsoleEnabled(): void;
+  SetLastLibraryTab(activeTab: string, collectionId: string): Promise<void>;
+  SetRefreshLogin(): void;
+  SetRunningApp(appid: number): void;
+  SetShowingLockScreen(value: boolean): void;
+  SetStandaloneConfiguratorURL(value: string): void;
+
+  get ActiveControllerIndex(): number;
+  get ActiveNavigationInfo(): {
+    eMode: ENavigationMode;
+    eSourceType: ENavigationSourceType;
+    nControllerIndex: number;
+  };
+  get ActiveNavigationMode(): ENavigationMode;
+  get ActiveNavigationSourceType(): ENavigationSourceType;
+  get ActiveWindowInstance(): SteamUIWindow;
+  get BIsInOOBE(): boolean;
+  get ConfiguratorWidth(): number;
+  get ErrorCondition(): number;
+  get ErrorConditionResult(): EResult;
+  get ForceBetaSectionVisible(): boolean;
+  get GamepadUIAudio(): CGamepadUIAudio;
+  get MainInstanceUIMode(): EUIMode;
   get MainRunningApp(): SteamAppOverview | undefined;
+  get MainRunningAppID(): number | undefined;
+  get MostRecentlyActiveController(): any;
+  get MostRecentlyActiveControllerIndex(): number;
+  get NavigationManager(): CNavigationManager;
+  get RemainInBigPictureModeOnClose(): boolean;
+  get RunningApps(): SteamAppOverview[];
+  get ShouldZoomStandaloneConfigurator(): boolean;
+  get StandaloneConfiguratorURL(): string | nulll;
+  get TextFilterStore(): CTextFilterStore;
+  get WindowStore(): CWindowStore;
 }

@@ -1,5 +1,5 @@
 import type { EUIMode } from '../shared/enums';
-import type { Unregisterable } from './shared';
+import type { EResult, Unregisterable } from './shared';
 import type { EOSType } from './system';
 
 export interface UI {
@@ -35,9 +35,9 @@ export interface UI {
     RegisterForClientConVar(convar: string, callback: (value: string) => void): Unregisterable;
 
     /**
-     * @todo param{0,1} are enums
+     * @todo param0 is an enum
      */
-    RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable;
+    RegisterForErrorCondition(callback: (param0: number, param1: EResult) => void): Unregisterable;
 
     RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;
 

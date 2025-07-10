@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
 import type { ESteamUISound } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
 import type { EClientNotificationType } from '../steam-client/Notifications';
 import type { EParentalFeature } from '../steam-client/Parental';
+import type { ReactNode } from 'react';
 
 export enum ESteamNotificationSource {
   Client,
@@ -126,7 +126,6 @@ export interface NotificationStore {
   GetNotificationTargets(): Record<EClientNotificationType, SteamNotification>;
   GetNotificationsInTray(): [NotificationStore['m_rgNotificationTray'], NotificationStore['m_cbkNotificationTray']];
   IncomingVoiceChat(steamId: number, show: boolean): void;
-  Init(): void;
   LoadServerToastRequiredData(steamId: number): boolean;
   MarkNotificationRead(notificationId: number): void;
   NotifyClaimSteamDeckRewards(): void;

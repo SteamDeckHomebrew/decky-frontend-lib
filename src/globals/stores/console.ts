@@ -3,7 +3,7 @@ import type { Unregisterable } from '../steam-client/shared';
 
 export interface ConsoleSpewInfo {
   text: string;
-  type: string;
+  type: SpewType_t;
 }
 
 export interface ConsoleSpew {
@@ -13,6 +13,7 @@ export interface ConsoleSpew {
   line: number;
 
   spew: ConsoleSpewInfo[];
+
   time: Date;
 }
 
@@ -22,15 +23,25 @@ export interface ConsoleStore {
   m_rgConsoleSpew: ConsoleSpew[];
 
   /**
-   * Add text to the console.
+   * Adds text to the console.
    *
-   * @param text Text. Must include `\n` at the end for a newline.
-   * @param type Text type.
+   * @param text Text to add. Must include `\n` at the end for a newline if `type` isn't "input".
+   * @param type Text type. Responsible for colors.
    */
-  AddSpewLine(text: string, type: SpewType_t): void;
+  AddSpewLine(text: string, type?: SpewType_t): void;
 
-  Init(): void;
+  /**
+   * Resets the console history.
+   */
   Reset(): void;
+
+  /**
+   * Starts listening for console output.
+   */
   StartListening(): void;
+
+  /**
+   * Stops listening for console output.
+   */
   StopListening(): void;
 }
