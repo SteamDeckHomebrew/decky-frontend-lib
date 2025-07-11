@@ -12,8 +12,14 @@ export interface ConsoleSpew {
    */
   line: number;
 
+  /**
+   * Spew info.
+   */
   spew: ConsoleSpewInfo[];
 
+  /**
+   * Time at which this got spewed out.
+   */
   time: Date;
 }
 

@@ -4,6 +4,5 @@ export * from './appstore';
 export * from './collection';
 export * from './console';
 export * from './notification';
-export * from './serverbrowser';
 export * from './settings';
 export * from './steamui';

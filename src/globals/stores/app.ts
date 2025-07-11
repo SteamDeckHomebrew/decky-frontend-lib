@@ -90,7 +90,7 @@ export interface App {
   ShowSupportAlertsModal(): void;
 
   /**
-   * Useful for waiting until all stores load.
+   * Wait until all stores load.
    */
   WaitForServicesInitialized(): Promise<boolean>;
 }

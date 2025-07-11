@@ -1,8 +1,8 @@
+import type { ReactNode } from 'react';
 import type { ESteamUISound } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
 import type { EClientNotificationType } from '../steam-client/Notifications';
 import type { EParentalFeature } from '../steam-client/Parental';
-import type { ReactNode } from 'react';
 
 export enum ESteamNotificationSource {
   Client,
@@ -22,7 +22,6 @@ interface SteamNotificationData {
    * In ms.
    */
   duration: number;
-  // TODO: did i get this from millennium lol
   logo: ReactNode;
   onClick: () => void;
   playSound: boolean;
