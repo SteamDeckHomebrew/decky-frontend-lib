@@ -86,19 +86,23 @@ export const ConfirmModal = findModuleExport(
   (e: Export) => e?.toString()?.includes('bUpdateDisabled') && e?.toString()?.includes('closeModal') && e?.toString()?.includes('onGamepadCancel'),
 ) as FC<ConfirmModalProps>;
 
-export const ModalRoot = Object.values(
-  findModule((m: any) => {
-    if (typeof m !== 'object') return false;
+export const ModalRoot = 
+  // new
+  findModuleExport((e: Export) => typeof e === 'function' && e.toString().includes('Either closeModal or onCancel should be passed to GenericDialog. Classes: ')) || 
+  // old
+  Object.values(
+    findModule((m: any) => {
+      if (typeof m !== 'object') return false;
 
-    for (let prop in m) {
-      if (m[prop]?.m_mapModalManager && Object.values(m)?.find((x: any) => x?.type)) {
-        return true;
+      for (let prop in m) {
+        if (m[prop]?.m_mapModalManager && Object.values(m)?.find((x: any) => x?.type)) {
+          return true;
+        }
       }
-    }
 
-    return false;
-  }) || {},
-)?.find((x: any) => x?.type?.toString?.()?.includes('((function(){')) as FC<ModalRootProps>;
+      return false;
+    }) || {},
+  )?.find((x: any) => x?.type?.toString?.()?.includes('((function(){')) as FC<ModalRootProps>;
 
 interface SimpleModalProps {
   active?: boolean;
