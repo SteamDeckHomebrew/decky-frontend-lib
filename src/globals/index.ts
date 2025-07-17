@@ -4,10 +4,12 @@ import type {
   App,
   CAppDetailsStore,
   CAppStore,
+  CBadgeStore,
   CCollectionStore,
+  CFriendStore,
+  CGameRecordingStore,
   ConsoleStore,
   NotificationStore,
-  ServerBrowserStore,
   SettingsStore,
   SteamUIStore,
 } from './stores';
@@ -17,8 +19,11 @@ declare global {
     App: App;
     appStore: CAppStore;
     appDetailsStore: CAppDetailsStore;
+    badgeStore: CBadgeStore;
     collectionStore: CCollectionStore;
     ConsoleStore: ConsoleStore;
+    friendStore: CFriendStore;
+    g_GRS: CGameRecordingStore;
     g_PopupManager: PopupManager;
     LocalizationManager: LocalizationManager;
     MainWindowBrowserManager: MainWindowBrowserManager;
@@ -26,7 +31,6 @@ declare global {
     securitystore: {
       IsLockScreenActive: () => boolean;
     };
-    serverBrowserStore: ServerBrowserStore;
     settingsStore: SettingsStore;
     SteamClient: SteamClient;
     SteamUIStore: SteamUIStore;

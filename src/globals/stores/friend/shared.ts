@@ -1,6 +1,5 @@
-import type { BrowserContext, CSteamID } from '../shared';
-import type { EResult } from '../steam-client/shared';
-import { CAppInfoStore } from './appinfo';
+import type { BrowserContext, CSteamID } from '../../shared';
+import type { CFriendChat } from './friendchat';
 
 export enum EClientPersonaStateFlag {
   k_EClientPersonaStateFlagStatus = 1 << 0,
@@ -49,7 +48,7 @@ declare class CPlayer_GetProfileItemsEquipped_Response {}
 // TODO(protobufs): generate
 declare class CMsgClientPersonaState {}
 
-declare class CPersona {
+declare class CPersonaStateImpl {
   m_bAvatarPending: boolean;
   m_bCommunityBanned: boolean;
   m_bInitialized: boolean;
@@ -184,7 +183,7 @@ interface MiniProfileData {
   m_bLoadingData: boolean;
   m_communityData: CommunityData | undefined;
   m_nAppIDLastSeenPlaying: number;
-  m_persona: CPersona;
+  m_persona: CPersonaStateImpl;
   m_strAccountName: string;
   m_strAvatarHash: string;
   m_strBroadcastTitle: string | undefined;
@@ -197,7 +196,7 @@ interface MiniProfileData {
   m_unPersonaStateFlags: number;
 }
 
-interface NotificationSettings {
+interface PerFriendNotificationSettings {
   Notifications_SendMobile: number;
   Notifications_ShowInGame: number;
   Notifications_ShowMessage: number;
@@ -207,8 +206,8 @@ interface NotificationSettings {
   Sounds_PlayOnline: number;
 }
 
-declare class CPersonaState {
-  m_NotificationSettings: NotificationSettings;
+export declare class CPlayer {
+  m_NotificationSettings: PerFriendNotificationSettings;
   m_bLoadedEquippedProfileItems: boolean;
   m_bPersonaNameHistoryLoaded: boolean;
   m_bPersonaStateLoadRequested: boolean;
@@ -280,7 +279,7 @@ declare class CPersonaState {
   /**
    * Opens the chat dialog.
    */
-  OpenChatDialog(browser: BrowserContext): some_chat_shit;
+  OpenChatDialog(browser: BrowserContext): CFriendChat;
 
   SetLastSeenPlaying(appid: number): void;
 
@@ -306,12 +305,12 @@ declare class CPersonaState {
   get is_ready(): boolean;
   get localized_online_status(): string;
   get miniProfileData(): MiniProfileData;
-  get mutable_persona(): CPersonaState;
+  get mutable_persona(): CPlayer;
   // undefined until set, just use display_name
   get nickname(): string | undefined;
   set nickname(s: string);
-  get notification_settings(): NotificationSettings;
-  get persona(): CPersonaState;
+  get notification_settings(): PerFriendNotificationSettings;
+  get persona(): CPlayer;
   get persona_name_history(): string[];
   get persona_name_history_loaded(): boolean;
   get primary_display_name(): string;
@@ -319,58 +318,4 @@ declare class CPersonaState {
   get showing_secondary_display_name(): boolean;
   get steamid(): CSteamID;
   get steamid64(): string;
-}
-
-export declare class CFriendStore {
-  m_FriendsUIFriendStore: any;
-  m_mapOwnedGamesCacheErrors: Map<number, EResult>;
-  m_mapPlayerCache: Map<number, CPersonaState>;
-
-  BShouldCachePlayer(persona: CPersonaState): boolean;
-
-  /**
-   * @returns a set of owned games' IDs.
-   */
-  FetchOwnedGames(steamid3: number): Promise<{ setApps: Set<number> }>;
-
-  /**
-   * @returns the number of friends currently playing the provided game.
-   */
-  GetCountFriendsInGame(appid: number): number;
-
-  /**
-   * @returns the number of currently playing friends.
-   */
-  GetCountFriendsPlayingGames(): number;
-
-  GetFriendState(friend: number | CSteamID): CPersonaState;
-
-  /**
-   * @returns an array of friends currently playing the provided game.
-   */
-  GetFriendsInGame(appid: number): CPersonaState[];
-
-  GetMaxCountFriendsInGame(): number;
-
-  /**
-   * @returns a set of owned games' IDs of a provided friend.
-   */
-  GetOwnedGames(steamid3: number): Set<number>;
-
-  IsLibraryAccessDenied(steamid3: number): boolean;
-
-  /**
-   * Loads the persona for a provided friend.
-   *
-   * @param friend SteamID3 or CSteamID instance of a friend to load the persona
-   * for.
-   * @returns the loaded persona.
-   */
-  LoadPersonaState(friend: number | CSteamID): Promise<CPersonaState>;
-
-  RefreshOwnedGames(steamid3: number): void;
-
-  get allFriends(): CPersonaState[];
-  get currentUserSteamID(): CSteamID;
-  get favoriteFriends(): CPersonaState[];
 }

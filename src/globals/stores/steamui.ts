@@ -103,8 +103,8 @@ export type VKMRef_t = any;
 export interface VirtualKeyboardManager {
   k_nKeyboardWindowOffset: number;
   k_rgKeyboardLocations: string[];
-  m_OnActiveElementChanged: CCallbackList<VKMRef_t | null>;
-  m_OnActiveElementClicked: CCallbackList<VKMRef_t | null>;
+  m_OnActiveElementChanged: CCallbackList<[VKMRef_t | null]>;
+  m_OnActiveElementClicked: CCallbackList<[VKMRef_t | null]>;
   m_bDismissOnEnter: boolean;
   m_bIsInlineVirtualKeyboardOpen: SubscribableValue<boolean>;
   m_bIsVirtualKeyboardModal: SubscribableValue<boolean>;
@@ -354,8 +354,8 @@ interface NavigationSource {
   nLastActiveGamepadIndex: number;
 }
 
-// TODO: guessed from loc tokens, but this a lot looks like EResult's members except with different
-// numbers
+// TODO: guessed from loc tokens, but this a lot looks like EResult's members
+// except with different numbers
 enum ERefreshLoginReason {
   Success = 1,
   LoggedInElsewhere,

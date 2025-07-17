@@ -59,28 +59,27 @@ export interface WebSocketConnection {
 }
 
 export interface Unsubscribable {
-  Unsubscribe(): void;
+  Unregister(): void;
 }
-
-/**
- * @todo somehow make F be 1/2/etc args idfk
- */
-export type CCallbackListCallback_t<T> = (...args: T[]) => void;
 
 /**
  * Interface to register and unregister callbacks from, with ability to dispatch.
  */
-export interface CCallbackList<T = never> {
-  m_vecCallbacks: CCallbackListCallback_t<T>[];
+// biome-ignore lint/suspicious/noExplicitAny: intentional
+export interface CCallbackList<T extends any[] = never> {
+  m_vecCallbacks: ((...args: [...T]) => void)[];
 
   ClearAllCallbacks(): void;
   CountRegistered(): number;
-  Dispatch(...args: T[]): void;
-  Register(callback: CCallbackListCallback_t<T>): Unsubscribable;
+  Dispatch(...args: [...T]): void;
+  Register(callback: (...args: [...T]) => void): Unsubscribable;
 }
 
+/**
+ * This is kind of like an `@observable` field but without using mobx.
+ */
 export interface SubscribableValue<T> {
-  m_callbacks: CCallbackList<T>;
+  m_callbacks: CCallbackList<[T]>;
   m_currentValue: T;
   m_fnEquals: (currentValue: T, newValue: T) => boolean | undefined;
 
@@ -90,9 +89,9 @@ export interface SubscribableValue<T> {
   Set(value: T): void;
 
   /**
-   * Adds a subscription to the backing CCallbackList.
+   * Adds a subscription to the backing {@link CCallbackList}.
    */
-  Subscribe(subscriber: CCallbackListCallback_t<T>): Unsubscribable;
+  Subscribe(subscriber: (value: T) => void): Unsubscribable;
 
   /**
    * A snapshot of the current value which can change at any time.
