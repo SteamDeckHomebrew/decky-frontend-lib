@@ -20,7 +20,7 @@ export enum EClanRelationship {
   RequestDenied,
 }
 
-interface CClan {
+export interface CClan {
   m_bChatRoomPrivate: boolean | undefined;
   m_bGotInitialState: boolean;
   m_bInitialized: boolean;

@@ -1,5 +1,5 @@
 import type { BrowserContext, CSteamID } from '../../shared';
-import type { CFriendChat } from './friendchat';
+import type { CChat } from './friendchat';
 
 export enum EClientPersonaStateFlag {
   k_EClientPersonaStateFlagStatus = 1 << 0,
@@ -279,7 +279,7 @@ export declare class CPlayer {
   /**
    * Opens the chat dialog.
    */
-  OpenChatDialog(browser: BrowserContext): CFriendChat;
+  OpenChatDialog(browser: BrowserContext): CChat;
 
   SetLastSeenPlaying(appid: number): void;
 
