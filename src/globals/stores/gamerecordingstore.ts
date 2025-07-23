@@ -1,47 +1,44 @@
+import type { CSteamID } from '../shared';
+import type { CScheduledFunc } from '../shared/interfaces';
+import type { EResult } from '../steam-client/shared';
+
+interface RunningTimeline_t {
+  m_globalStartMS: number;
+  m_metadata: {
+    date_recorded: number;
+    duration_ms: string;
+    game_id: string;
+    recordings: any[];
+    timeline_id: string;
+  };
+  m_nPerfCounterOffsetMS: number;
+  m_perfCounterStart: number;
+  m_runningRecording: any;
+}
+
+interface TimelineData_t {
+  m_rgEntries: any[];
+  m_rgGameModeChanges: any[];
+  m_rgPhases: any[];
+  m_rgStateDescriptions: any[];
+  m_strState: string;
+}
+
 interface CActiveTimeline {
   loader: {
     m_bInitialized: boolean;
     m_clipID: any;
     m_fnTimelineURLBuilder(...args: any[]);
     m_gameID: string;
-    m_mapRunningTimelines: Map<
-      string,
-      {
-        m_globalStartMS: number;
-        m_metadata: {
-          date_recorded: number;
-          duration_ms: string;
-          game_id: string;
-          recordings: any[];
-          timeline_id: string;
-        };
-        m_nPerfCounterOffsetMS: number;
-        m_perfCounterStart: number;
-        m_runningRecording: any;
-      }
-    >;
-    m_mapTimelineData: Map<
-      string,
-      {
-        m_rgEntries: any[];
-        m_rgGameModeChanges: any[];
-        m_rgPhases: any[];
-        m_rgStateDescriptions: any[];
-        m_strState: string;
-      }
-    >;
+    m_mapRunningTimelines: Map<string, RunningTimeline_t>;
+    m_mapTimelineData: Map<string, TimelineData_t>;
     m_rgListeners: any[];
     m_rgTimelineMetadata: {
       undefined;
     }[];
-    m_schUpdateRunning: {
-      m_fnCallback(...args: any[]);
-      m_schTimer: number;
-      Cancel();
-      IsScheduled();
-      Schedule(e, t);
-    };
+    m_schUpdateRunning: CScheduledFunc;
     m_ulFirstTimelineOffsetMS: number;
+
     AddEventListener(e);
     AddEventToTimeline(e, t, r, n, i, a, s, o);
     AddRunningTimeline(e, t, r);
@@ -114,6 +111,7 @@ interface CActiveTimeline {
     UpdateTimelineMetadata(e);
     UpdateUserMarker(e, t, r);
   };
+
   release();
 }
 
@@ -123,43 +121,13 @@ declare class CTimelineLoader {
     m_clipID: any;
     m_fnTimelineURLBuilder(...args: any[]);
     m_gameID: string;
-    m_mapRunningTimelines: Map<
-      string,
-      {
-        m_globalStartMS: number;
-        m_metadata: {
-          date_recorded: number;
-          duration_ms: string;
-          game_id: string;
-          recordings: any[];
-          timeline_id: string;
-        };
-        m_nPerfCounterOffsetMS: number;
-        m_perfCounterStart: number;
-        m_runningRecording: any;
-      }
-    >;
-    m_mapTimelineData: Map<
-      string,
-      {
-        m_rgEntries: any[];
-        m_rgGameModeChanges: any[];
-        m_rgPhases: any[];
-        m_rgStateDescriptions: any[];
-        m_strState: string;
-      }
-    >;
+    m_mapRunningTimelines: Map<string, RunningTimeline_t>;
+    m_mapTimelineData: Map<string, TimelineData_t>;
     m_rgListeners: any[];
     m_rgTimelineMetadata: {
       undefined;
     }[];
-    m_schUpdateRunning: {
-      m_fnCallback(...args: any[]);
-      m_schTimer: number;
-      Cancel();
-      IsScheduled();
-      Schedule(e, t);
-    };
+    m_schUpdateRunning: CScheduledFunc;
     m_ulFirstTimelineOffsetMS: number;
     AddEventListener(e);
     AddEventToTimeline(e, t, r, n, i, a, s, o);
@@ -233,6 +201,7 @@ declare class CTimelineLoader {
     UpdateTimelineMetadata(e);
     UpdateUserMarker(e, t, r);
   };
+
   nRefCount: number;
 }
 
@@ -268,14 +237,16 @@ export declare class CGameRecordingStore {
     SendNotification(e, t);
   };
 
-  BEnoughDiskSpace();
-  BLoadingAppsWithTimelines();
-  BLoadingClips();
-  BShouldReloadAppsWithTimelines(e, t);
-  CheckEnoughDiskSpace(): Promise<any>;
+  BEnoughDiskSpace(): boolean;
+  BLoadingClips(): boolean;
+  CheckEnoughDiskSpace(): Promise<void>;
   GetAppsWithTimelines();
   GetAppsWithTimelinesWithVideo();
-  GetAvailableDiskSpace(): Promise<any>;
+
+  /**
+   * @returns the available disk space in bytes.
+   */
+  GetAvailableDiskSpace(): Promise<number>;
   GetBestClipTitle(e);
   GetClipExportProgress(e);
   GetClipIDs(e);
@@ -285,13 +256,13 @@ export declare class CGameRecordingStore {
   GetCurrentExportingClip();
   GetLastClip();
   GetRecordingState();
-  GetTotalDiskSpaceUsage(e, t): Promise<any>;
+  GetTotalDiskSpaceUsage(path: string, t: boolean): Promise<number>;
   Init(e, t): Promise<any>;
   InternalAddClipSummary(e);
   LazyLoadClips(): Promise<any>;
   LoadAppsWithTimelines(): Promise<any>;
   ManuallyDeleteRecordingForApps(e);
   ReloadAppsWithTimelinesIfNeeded(e);
-  ReportClipRange(e, t, r, n, i);
-  ReportClipShare(e, t, r, n, i);
+  ReportClipRange(steamid: CSteamID, rangeMethod: any, seconds: any, startRange: any, endRange: any): any;
+  ReportClipShare(steamid: CSteamID, shareMethod: any, seconds: any, bytes: number, result: EResult): any;
 }

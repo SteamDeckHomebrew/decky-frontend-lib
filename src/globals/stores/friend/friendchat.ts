@@ -1,3 +1,6 @@
+import type { ReactNode } from 'react';
+import type { BrowserContext, CCallbackList } from '../../shared';
+import type { EResult } from '../../steam-client/shared';
 import type { CPlayer } from './shared';
 
 // TODO(protobufs): generate
@@ -21,6 +24,15 @@ export enum EChatMsgDeleteState {
 }
 
 // TODO(protobufs): generate
+export enum EChatMsgSendError {
+  None,
+  Generic,
+  NotFriends,
+  NoChatPermissionInGroup,
+  RateLimitExceeded,
+}
+
+// TODO(protobufs): generate
 export enum EChatRoomServerMessage {
   k_EChatRoomServerMsg_Invalid,
   k_EChatRoomServerMsg_RenameChatRoom,
@@ -32,6 +44,33 @@ export enum EChatRoomServerMessage {
   k_EChatRoomServerMsg_ChatRoomTaglineChanged,
   k_EChatRoomServerMsg_ChatRoomAvatarChanged,
   k_EChatRoomServerMsg_AppCustom,
+}
+
+// TODO(protobufs): generate
+export enum EChatWindowState {
+  Unopened,
+  Hidden,
+  Visible,
+  FocusedIdle,
+  FocusedActive,
+}
+
+// TODO(protobufs): generate
+export enum EFileUploadState {
+  None,
+  FileReady,
+  InProgress,
+  Error,
+  Error_ImageTooLarge,
+  Error_FileTypeNotSupported,
+  Completed,
+}
+
+interface Reaction_t {
+  eReactionType: EMessageReactionType;
+  strReaction: string;
+  cReactors: number;
+  bUserReacted: boolean;
 }
 
 export declare class CChatMessageBlock {
@@ -62,7 +101,7 @@ export declare class CChatMessageBlock {
 }
 
 export declare class CChatMessageBlockList {
-  m_iIndexLastTimePassesGap: any | undefined;
+  m_iIndexLastTimePassesGap: number | undefined;
   m_rgMessageBlocks: CChatMessageBlock[];
 
   /**
@@ -94,13 +133,375 @@ export declare class CChatMessageBlockList {
   RemoveOldestMessages(param0: number): CChatMessageBlock[] | null;
 }
 
+type ChatRoomEffect_t =
+  | 'balloons'
+  | 'confetti'
+  | 'firework'
+  | 'goldfetti'
+  | 'lny2020_confetti'
+  | 'lny2020_firework'
+  | 'lny2020_lanterns'
+  | 'snow'
+  | 'snowball';
+
+interface ChatRoomEffectSettings {
+  /** Button loc token */
+  buttonToken: string;
+  locToken: string;
+  /** React element render function */
+  render(...args: any[]): ReactNode;
+  /** React element render function */
+  renderButton(): ReactNode;
+  /** React element render function */
+  renderEffectIcon(): ReactNode;
+  timeout: number;
+}
+
+declare class ChatRoomEffectInstance {
+  name: string;
+  timestamp: number;
+  expires: number;
+  settings: ChatRoomEffectSettings;
+
+  Queue(): string;
+  bIsExpired(): boolean;
+  bIsActive(): boolean;
+  iTimeToExpiry(): number;
+  render(): ReactNode | null;
+}
+
+// unconfirmed, just typed from the js lol
+export declare class CChatRoomEffectManager {
+  m_effectSettings: {
+    [effect in ChatRoomEffect_t]: ChatRoomEffectSettings;
+  };
+  m_mapRoomEffectQueue: {
+    [effect in ChatRoomEffect_t]: ChatRoomEffectInstance[];
+  };
+  m_rgRunningEffects: ChatRoomEffectInstance[];
+
+  ActivateRoomEffect(instance: ChatRoomEffectInstance): void;
+  AddRoomEffect(name: ChatRoomEffect_t): void;
+  BIsQueueFull(name: ChatRoomEffect_t): boolean;
+  QueueRoomEffect(name: ChatRoomEffect_t): void;
+  UpdateRunningRoomEffects(): void;
+}
+
+interface SendQueueEntry_t {
+  /**
+   * The error if the message failed to send.
+   */
+  eError?: EChatMsgSendError;
+
+  id?: string;
+
+  /**
+   * Message contents.
+   */
+  message: string;
+
+  /**
+   * UNIX timestamp when this message got sent.
+   */
+  timestamp: number;
+}
+
+export declare class CPerChatSendQueue {
+  m_id: string;
+  m_queue: SendQueueEntry_t[];
+
+  Add(msg: string): string;
+  GetItemID(item: SendQueueEntry_t): string;
+  GetItemIndex(item: SendQueueEntry_t): number;
+  RemoveItem(index: number): void;
+  SetItemFailed(item: SendQueueEntry_t, error: number): void;
+  UpdateStoredQueue(): void;
+
+  get queued_messages(): any[];
+}
+
+interface FileUploadInfo_t {
+  bSpoiler: boolean;
+}
+
+interface FileUploadProps_t {
+  dataURL: string | undefined;
+  displayFileName: string | undefined;
+  eUploadState: EFileUploadState;
+  exportFn: ((...args: any[]) => any) | undefined;
+  file: File | null | undefined;
+  fileInfo: any;
+  hmac: string | undefined;
+  imageHeight: number;
+  imageWidth: number;
+  sha1: string | undefined;
+  strErrorDescription: string | undefined;
+  timestamp: number;
+  uploadFileName: string | undefined;
+  uploadInfo: FileUploadInfo_t;
+  uploadProgress: number;
+}
+
+interface idk {
+  displayFilename?: string;
+  info: FileUploadInfo_t;
+  onComplete?: (result: EResult, size: number) => any;
+  processor?: any;
+  unAssociatedAppID?: any;
+}
+
+interface CFileUploadManager {
+  m_Callbacks: CChat;
+  m_fileUploadProps: FileUploadProps_t;
+  // CGameRecordingStore.ReportClipShare last 2 args reversed
+  m_onComplete: ((result: EResult, size: number) => any) | undefined;
+
+  BeginFileUpload(uploadInfo: FileUploadInfo_t): Promise<any>;
+  ClearFileUploadError(): void;
+  CommitFileUpload(bSuccess: boolean, ugcid: any): Promise<any>;
+  DoFileUpload(e: any): Promise<any>;
+  LogFileUploadMessage(msg: string): void;
+  Reset(): void;
+  RetryFileUpload(): Promise<any>;
+  SetFileToUpload(fileOrExportFn: File | ((...args: any[]) => any) | null): void;
+  SetImageFileToUpload(file: File | null, t: idk): any;
+  SetOtherFileToUpload(file: File | null, t: idk): any;
+  SetUploadFileError(state: EFileUploadState, description: string): void;
+  StartFileExportToUpload(file: File | null, t: idk): any;
+
+  get file(): File | null;
+  get file_upload_data_url(): string | null;
+  get file_upload_props(): FileUploadProps_t;
+}
+
+declare class CChatTabSet {
+  m_activeTab: CChatView;
+  m_browserContext: BrowserContext;
+  m_id: number;
+  m_vecTabs: CChatView[];
+
+  /**
+   * Focuses the next (or first tab if current is last) tab in the list.
+   */
+  ActivateNextTab(): void;
+
+  /**
+   * Focuses the previous (or last tab if current is first) tab in the list.
+   */
+  ActivatePreviousTab(): void;
+
+  /**
+   * Focuses the provided tab.
+   */
+  ActivateTab(tab: CChatView): void;
+
+  /**
+   * Adds a provided tab. Won't be added if already open.
+   */
+  AddTab(tab: CChatView): void;
+
+  /**
+   * @returns `true` if the provided tab exists.
+   */
+  BHasTab(tab: CChatView): boolean;
+
+  /**
+   * Closes all tabs (the chat window remains open).
+   */
+  CloseAllTabs(): void;
+
+  /**
+   * Releases the provided tab from memory (not closing it).
+   */
+  DeactivateTab(tab: CChatView): void;
+
+  /**
+   * Focuses the chat window.
+   */
+  Focus(): void;
+
+  FocusActiveTab(): void;
+
+  GetBrowserContext(): BrowserContext;
+
+  /**
+   * @returns the chat tab from its ID or `null` if not found.
+   */
+  GetTabByUniqueID(id: string): CChatView | null;
+
+  // TODO: maybe one of them is CChat why am i confused about this
+  GetTabForChat(e: CChatView): CChatView | null;
+
+  GetTabSetIdentifier(): string;
+
+  /**
+   * @returns the localized chat window title.
+   */
+  GetTitle(): string;
+
+  /**
+   * Moves `tabA` after `tabB`.
+   */
+  MoveTabAfter(tabA: CChatView, tabB: CChatView): void;
+
+  /**
+   * Moves a tab to a provided index, e.g. `0` will make it first, etc.
+   *
+   * @param tab The tab to move.
+   * @param index Zero-indexed place to move the tab to.
+   */
+  MoveTabToIndex(tab: CChatView, index: number): void;
+
+  OnPopupClosed(): void;
+
+  OnWindowFocus(): void;
+
+  /**
+   * Removes a provided tab.
+   *
+   * @returns `true` on success.
+   */
+  RemoveTab(tab: CChatView): boolean;
+
+  Serialize(): {
+    active_tab: string;
+    tabs: string[];
+  };
+
+  get activeTab(): CChatView;
+  get is_popup_active(): boolean;
+  get is_popup_focused(): boolean;
+  get is_popup_visible(): boolean;
+  get tabCount(): number;
+  get tabs(): this['m_vecTabs'];
+}
+
+export interface CChatView {
+  m_bScrolledToBottom: boolean;
+  m_chat: CChat;
+  m_clientHeight: number;
+  m_clipToUpload: any;
+  m_fileUploadManager: CFileUploadManager;
+  m_msLastActive: number;
+  m_rgOnChatFrameChangedCallbacks: (() => void)[];
+  m_rgOnChatRequestScrollBottomCallbacks: (() => void)[];
+  m_scrollHeight: number;
+  m_scrollTop: number;
+  m_strTextEntry: string;
+  m_tabset: CChatTabSet;
+  m_textEntryChangeCallbacks: CCallbackList;
+  m_textEntryFocusCallbacks: CCallbackList;
+
+  AddOnChatFrameChangedCallback(callback: () => void): void;
+
+  AddOnChatRequestScrollBottomCallback(callback: () => void): void;
+
+  /**
+   * Appends provided text to the text field.
+   */
+  AddPendingText(text: string): void;
+
+  BIsInBrowserContext(ctx: BrowserContext): boolean;
+
+  /**
+   * @returns `true` is voice chat is currently active.
+   */
+  BVoiceActive(): boolean;
+
+  CheckActivationAndNotifyChat(): void;
+
+  /**
+   * Escapes BB code.
+   */
+  ConvertMessageToBBCode(msg: string): string;
+
+  /**
+   * Focuses the text field.
+   */
+  FocusTextInput(): void;
+
+  GetChatView(): this;
+
+  /**
+   * @returns the chat's tab name.
+   */
+  GetTabName(): string;
+
+  /**
+   * @returns the chat's tab internal ID.
+   */
+  GetUniqueID(): string;
+
+  /**
+   * @returns the unread messages count.
+   */
+  GetUnreadMessageCount(): number;
+
+  /**
+   * @returns the chat tab's window visibility state.
+   */
+  GetVisibilityState(): EChatWindowState;
+
+  InternalOnTabActivate(): void;
+
+  /**
+   * @returns `true` if this tab is a group chat.
+   */
+  IsChatRoom(): boolean;
+
+  /**
+   * @returns `true` if this tab is friend's DMs.
+   */
+  IsFriendChat(): boolean;
+
+  IsTabForChat(chat: CChat): boolean;
+
+  // lmao valve
+  IsVoiceActive(): boolean;
+
+  // #region events
+  OnActivate();
+  OnChatFrameChanged();
+  OnDeactivate();
+  OnFocus();
+  OnScrollBottomRequest();
+  OnTabClosed();
+  OnTabDeactivate();
+  OnTabFocus();
+  OnViewClosed();
+  // #endregion
+
+  RegisterForTextEntryFocus(callback: any): void;
+
+  RegisterForTextUpdated(callback: any): void;
+
+  RemoveOnChatFrameChangedCallback(callback: () => void): void;
+
+  RemoveOnChatRequestScrollBottomCallback(callback: () => void): void;
+
+  /**
+   * Sends a chat message.
+   *
+   * @param msg The message to send.
+   */
+  SendChatMessage(msg: string): Promise<void>;
+
+  SetClipToUpload(clip: any): void;
+
+  SetFileToUpload(file: File | null, t?: idk): void;
+
+  StartFileExportToUpload(file: File | null, t?: idk);
+
+  UploadFile(spoiler: boolean): Promise<void>;
+}
+
 export declare class ChatMsg_t {
   eAnimationState: EMsgAnimationState;
   eDeleteState: EChatMsgDeleteState;
   eServerMsgType: EChatRoomServerMessage | undefined;
   m_bNoUserContent: boolean | undefined;
   m_mentions: any | undefined;
-  m_rgReactions: any[];
+  m_rgReactions: Reaction_t[];
   m_strSlashCommand: string | undefined;
   rtTimestamp: number;
   strMessageInternal: string;
@@ -124,22 +525,15 @@ export declare class ChatMsg_t {
     strReaction: string,
     cReactors: number,
     bUserReacted: boolean,
-  ): {
-    eReactionType: EMessageReactionType;
-    strReaction: string;
-    cReactors: number;
-    bUserReacted: boolean;
-  } | null;
+  ): Reaction_t;
 
   get Mentions(): any;
 }
 
 export declare class CChat {
   m_ChatMessageBlockList: CChatMessageBlockList;
-  m_ChatStore: object;
-  m_FriendStore: object;
-  m_MessageSendQueue: any;
-  m_accountIDLastMessage: any | undefined;
+  m_MessageSendQueue: CPerChatSendQueue;
+  m_accountIDLastMessage: number | undefined;
   m_bChatLogsLoaded: boolean;
   m_bFriendIsTyping: boolean;
   m_bHasUnreadPriorityChatMessages: boolean;
@@ -148,14 +542,14 @@ export declare class CChat {
   m_bPrepended: boolean;
   m_bReceivedChatLogs: boolean;
   m_cUnreadChatMessages: number;
-  m_chatRoomEffects: any;
-  m_iClearFriendIsTypingInterval: any | undefined;
+  m_chatRoomEffects: CChatRoomEffectManager;
+  m_iClearFriendIsTypingInterval: number | undefined;
   m_msTimeActivated: number;
   m_nLoadingHistoryInProgressCount: number;
   m_oldestMessageOrdinal: number;
   m_oldestMessageTime: number;
   m_rgChatMessages: ChatMsg_t[];
-  m_rgChatViews: any[];
+  m_rgChatViews: CChatView[];
   m_rtFirstUnread: number;
   m_rtFirstUnreadChatMsg: number;
   m_rtLastAckedChatMsg: number;
@@ -163,17 +557,31 @@ export declare class CChat {
   m_rtLastServerAckedChatMsg: number;
   m_rtLastServerMessageReceived: number;
   m_setInflightClientMessageID: Set<string>;
-  m_strLastMessage: any | undefined;
-  m_tsLastSentTypingNotification: any | undefined;
+  m_strLastMessage: string | undefined;
+  m_tsLastSentTypingNotification: number | undefined;
   m_unAccountIDFriend: number;
 
-  AckChatMsgOnServer(e);
-  BIsVoiceAllowed();
-  BVoiceActive();
+  AckChatMsgOnServer(e): any;
+
+  /**
+   * @returns `true` if the chat partner is a friend and online.
+   */
+  BIsVoiceAllowed(): boolean;
+
+  /**
+   * @returns `true` is voice chat is currently active.
+   */
+  BVoiceActive(): boolean;
+
   CheckShouldNotify(e, t, r);
   ClearFriendIsTypingState();
   GetBBCodeParser();
-  GetLastMessage();
+
+  /**
+   * @returns the last message's contents.
+   */
+  GetLastMessage(): string;
+
   GetMember(e);
   GetMessageReactionReactors(e, t, r);
   GetMessagesFromResponse(e);
@@ -185,14 +593,36 @@ export declare class CChat {
   OnReceivedNewMessage(e, t, r, n);
   OnTyping();
   PopulateCommitFileUploadFormData(e, t, r);
-  SendChatMessageInternal(e): Promise<any>;
-  SetShowNonFriendWarning(e);
-  ToggleVoiceChat();
-  UpdateMessageReaction(e, t, r, i): Promise<any>;
-  ViewerNeedsApproval(e);
+
+  /**
+   * Sends a message to this chat.
+   *
+   * @param content The message contents to send.
+   */
+  SendChatMessage(content: string): Promise<void>;
+
+  SendChatMessageInternal(content: string): Promise<EChatMsgSendError>;
+
+  SetShowNonFriendWarning(value: boolean): void;
+
+  /**
+   * If this chat's voice chat is not active, opens voice chat for this chat,
+   * otherwise joins said voice chat.
+   *
+   * @returns ...true. Yeah, true.
+   */
+  ToggleVoiceChat(): true;
+
+  UpdateMessageReaction(
+    msg: ChatMsg_t,
+    eType: EMessageReactionType,
+    strReaction: string,
+    bUserAdded: boolean,
+  ): Promise<EResult>;
+
+  ViewerNeedsApproval(requestid: number): void;
 
   get BIsPrepend(): boolean;
-  get ChatStore(): any;
   get accountid_last_message(): number | undefined;
   get accountid_partner(): number;
   get chat_message_blocks(): CChatMessageBlockList;

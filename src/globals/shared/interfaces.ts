@@ -141,3 +141,11 @@ export interface WebUIServiceTransport extends ServiceTransport {
   ReportError(message: string): void;
   SendAuthMessage(e: any): any;
 }
+export interface CScheduledFunc {
+  m_fnCallback: (() => void)[];
+  m_schTimer: number;
+
+  Cancel(): void;
+  IsScheduled(): boolean;
+  Schedule(timeout, fn: () => void): void;
+}

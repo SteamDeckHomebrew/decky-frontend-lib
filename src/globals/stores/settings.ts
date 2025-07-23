@@ -82,7 +82,7 @@ export interface SettingsStore {
   CommunityPreferencesToMessage(prefs: CommunityPreferences): any;
   GetBatteryPreferences(): BatteryPreferences;
   // TODO: ehhh maybe generate protobufs in the future so this won't be shit
-  GetClientSetting(setting: string): any;
+  GetClientSetting<T>(setting: string): [T, (value: T) => void];
   IsDeferred(value: any): boolean;
   IsSteamInTournamentMode(): boolean;
   // proto msgs
