@@ -411,7 +411,11 @@ export interface SteamUIStore {
    */
   BIsShuttingDown(): boolean;
 
+  /**
+   * @returns `true` if provided app ID is the game you're currently streaming.
+   */
   BIsStreamingGame(appid: number): boolean;
+
   BIsStreamingRemotePlayTogether(): boolean;
   BIsStreamingRemotePlayTogetherGame(appid: number): boolean;
   BIsTransparentBackgroundPath(path: string): boolean;
@@ -516,6 +520,7 @@ export interface SteamUIStore {
   ResetErrorCondition(): void;
   RestoreNavigation(): void;
   ScopeRunningApps(): void;
+
   SetConfiguratorWidth(value: number): void;
   SetConsoleEnabled(): void;
   SetLastLibraryTab(activeTab: string, collectionId: string): Promise<void>;

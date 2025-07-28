@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { BrowserContext, CCallbackList } from '../../shared';
 import type { EResult } from '../../steam-client/shared';
+import type { ClipSummary_t } from '../gamerecordingstore';
 import type { CPlayer } from './shared';
 
 // TODO(protobufs): generate
@@ -217,7 +218,7 @@ export declare class CPerChatSendQueue {
   SetItemFailed(item: SendQueueEntry_t, error: number): void;
   UpdateStoredQueue(): void;
 
-  get queued_messages(): any[];
+  get queued_messages(): SendQueueEntry_t[];
 }
 
 interface FileUploadInfo_t {
@@ -230,6 +231,7 @@ interface FileUploadProps_t {
   eUploadState: EFileUploadState;
   exportFn: ((...args: any[]) => any) | undefined;
   file: File | null | undefined;
+  // TODO: FileUploadInfo_t ?
   fileInfo: any;
   hmac: string | undefined;
   imageHeight: number;
@@ -247,13 +249,12 @@ interface idk {
   info: FileUploadInfo_t;
   onComplete?: (result: EResult, size: number) => any;
   processor?: any;
-  unAssociatedAppID?: any;
+  unAssociatedAppID?: number;
 }
 
 interface CFileUploadManager {
   m_Callbacks: CChat;
   m_fileUploadProps: FileUploadProps_t;
-  // CGameRecordingStore.ReportClipShare last 2 args reversed
   m_onComplete: ((result: EResult, size: number) => any) | undefined;
 
   BeginFileUpload(uploadInfo: FileUploadInfo_t): Promise<any>;
@@ -380,7 +381,7 @@ export interface CChatView {
   m_bScrolledToBottom: boolean;
   m_chat: CChat;
   m_clientHeight: number;
-  m_clipToUpload: any;
+  m_clipToUpload: ClipSummary_t | undefined;
   m_fileUploadManager: CFileUploadManager;
   m_msLastActive: number;
   m_rgOnChatFrameChangedCallbacks: (() => void)[];
@@ -401,7 +402,7 @@ export interface CChatView {
    */
   AddPendingText(text: string): void;
 
-  BIsInBrowserContext(ctx: BrowserContext): boolean;
+  BIsInBrowserContext(browser: BrowserContext): boolean;
 
   /**
    * @returns `true` is voice chat is currently active.
@@ -460,15 +461,15 @@ export interface CChatView {
   IsVoiceActive(): boolean;
 
   // #region events
-  OnActivate();
-  OnChatFrameChanged();
-  OnDeactivate();
-  OnFocus();
-  OnScrollBottomRequest();
-  OnTabClosed();
-  OnTabDeactivate();
-  OnTabFocus();
-  OnViewClosed();
+  OnActivate(): void;
+  OnChatFrameChanged(): void;
+  OnDeactivate(): void;
+  OnFocus(): void;
+  OnScrollBottomRequest(): void;
+  OnTabClosed(): void;
+  OnTabDeactivate(): void;
+  OnTabFocus(): void;
+  OnViewClosed(): void;
   // #endregion
 
   RegisterForTextEntryFocus(callback: any): void;
@@ -486,11 +487,11 @@ export interface CChatView {
    */
   SendChatMessage(msg: string): Promise<void>;
 
-  SetClipToUpload(clip: any): void;
+  SetClipToUpload(clip: ClipSummary_t): void;
 
   SetFileToUpload(file: File | null, t?: idk): void;
 
-  StartFileExportToUpload(file: File | null, t?: idk);
+  StartFileExportToUpload(file: File | null, t?: idk): any;
 
   UploadFile(spoiler: boolean): Promise<void>;
 }
@@ -561,7 +562,7 @@ export declare class CChat {
   m_tsLastSentTypingNotification: number | undefined;
   m_unAccountIDFriend: number;
 
-  AckChatMsgOnServer(e): any;
+  AckChatMsgOnServer(e: any): any;
 
   /**
    * @returns `true` if the chat partner is a friend and online.
@@ -573,26 +574,34 @@ export declare class CChat {
    */
   BVoiceActive(): boolean;
 
-  CheckShouldNotify(e, t, r);
-  ClearFriendIsTypingState();
-  GetBBCodeParser();
+  CheckShouldNotify(e: any, t: any, r: any): any;
+  ClearFriendIsTypingState(): any;
+  GetBBCodeParser(): any;
 
   /**
    * @returns the last message's contents.
    */
   GetLastMessage(): string;
 
-  GetMember(e);
-  GetMessageReactionReactors(e, t, r);
-  GetMessagesFromResponse(e);
-  GetMessagesFromTimeRange(e, t, r, i, a);
-  GetShowNonFriendWarning();
-  GetVoiceNotAllowedReason();
-  OnFriendTypingNotification();
-  OnNewChatMsgAdded(e, t, r, n);
-  OnReceivedNewMessage(e, t, r, n);
-  OnTyping();
-  PopulateCommitFileUploadFormData(e, t, r);
+  GetMember(steamid3: number): CPlayer;
+  GetMessageReactionReactors(e: any, t: any, r: any): any;
+  GetMessagesFromResponse(e: any): any;
+  GetMessagesFromTimeRange(e: any, t: any, r: any, i: any, a: any): any;
+  GetShowNonFriendWarning(): any;
+
+  /**
+   * @returns a localized message why voice is not allowed, or `null` if it is.
+   */
+  GetVoiceNotAllowedReason(): string | null;
+
+  // #region events
+  OnFriendTypingNotification(): any;
+  OnNewChatMsgAdded(e: any, t: any, r: any, n: any): any;
+  OnReceivedNewMessage(e: any, t: any, r: any, n: any): any;
+  OnTyping(): any;
+  // #endregion
+
+  PopulateCommitFileUploadFormData(e: FormData, t: FileUploadInfo_t, r: idk): any;
 
   /**
    * Sends a message to this chat.
