@@ -1,9 +1,4 @@
-import type { JsPbMessageClass, OperationResponse } from '../steam-client/shared';
-import type { TransportInfo } from '../steam-client/WebUITransport';
-import type { ServiceTransport } from './cm';
 import type { EBrowserType, EUIMode } from './enums';
-
-export type UnknownFn_t = (...args: any[]) => any;
 
 export interface BrowserContext {
   /**
@@ -37,27 +32,6 @@ export interface BrowserContext {
   m_unPID: number;
 }
 
-export interface WebSocketConnection {
-  m_bDisconnectRequested: boolean;
-  m_bReconnectOnFailure: boolean;
-  m_bReconnecting: boolean;
-  m_nConnectionTimeoutMs: number;
-  m_nMaximumConnectAttempt: number;
-  m_sName: string;
-  m_sURL: string;
-  m_socket: WebSocket;
-
-  BCanSendMessages(): boolean;
-  BShouldReconnect(): boolean;
-  Connect(url: string): Promise<OperationResponse>;
-  Disconnect(): void;
-  InternalConnect(url: string, retries: number): Promise<OperationResponse>;
-  PrepareForShutdown(): void;
-  SendSerializedMessage(param0: any): any;
-  StartReconnect(): Promise<void>;
-  WaitForSocketOpen(ws: WebSocket, retries: number): Promise<boolean>;
-}
-
 export interface Unsubscribable {
   Unregister(): void;
 }
@@ -81,7 +55,7 @@ export interface CCallbackList<T extends any[] = never> {
 export interface SubscribableValue<T> {
   m_callbacks: CCallbackList<[T]>;
   m_currentValue: T;
-  m_fnEquals: (currentValue: T, newValue: T) => boolean | undefined;
+  m_fnEquals?: (currentValue: T, newValue: T) => boolean;
 
   /**
    * Sets a new value and notifies Subscribers of the new value.
@@ -94,58 +68,40 @@ export interface SubscribableValue<T> {
   Subscribe(subscriber: (value: T) => void): Unsubscribable;
 
   /**
+   * Subscription count of the backing {@link CCallbackList}.
+   */
+  get SubscriberCount(): number;
+
+  /**
    * A snapshot of the current value which can change at any time.
    */
   get Value(): T;
 }
 
-export interface WebUIServiceTransport extends ServiceTransport {
-  m_connectionClientdll: WebSocketConnection;
-  m_connectionSteamUI: WebSocketConnection;
-  m_iMsgSeq: number;
-  m_mapPendingMethodRequests: Map<any, any>;
-  m_mapServiceCallErrorCount: Map<any, any>;
-  m_messageHandlers: {
-    m_mapCallbacks: Map<any, any>;
-    m_mapServiceMethodHandlers: Map<
-      string,
-      {
-        invoke(...args: any[]): any;
-        msgClass: JsPbMessageClass;
-      }
-    >;
-    m_rgRegisteredEMsgs: any[];
-    m_rgRegisteredServiceMethodHandlers: string[];
+export interface MappedSubscribableValue<T> {
+  m_bMappedValueStale: boolean;
+  m_fnMap: (value: T) => any;
+  m_originalSubscribableValue: SubscribableValue<T>;
+  m_mappedSubscribableValue: SubscribableValue<T>;
 
-    AddCallback(e: any, t: any, n: any): any;
-    AddServiceMethodHandler(e: any, t: any): any;
-    AddServiceNotificationHandler(e: any, t: any): any;
-    DEBUG_LogMessageDispatch(e: any, t: any): any;
-    DispatchMsgToHandlers(e: any, t: any): any;
-    InstallErrorReportingStore(e: any): any;
-    RegisterBaseEMessageHandler(e: any, t: any): any;
-    RegisterEMessageAction(e: any, t: any, n: any): any;
-    RegisterEMessageHandler(e: any, t: any, n: any): any;
-    RegisterServiceMethodHandler(e: any, t: any): any;
-    RegisterServiceMethodHandlerAction(e: any, t: any): any;
-    RegisterServiceNotificationHandler(e: any, t: any): any;
-    RegisterServiceNotificationHandlerAction(e: any, t: any): any;
-  };
-  m_transportInfo: TransportInfo;
+  /**
+   * Adds a subscription to the backing {@link CCallbackList}.
+   */
+  Subscribe(subscriber: (value: T) => void): Unsubscribable;
 
-  AuthConnection(e: any): any;
-  DispatchMethodResponse(e: any): any;
-  DispatchNotification(e: any): any;
-  FailAllPendingRequests(): any;
-  GetAuthInfoForConnection(e: any): any;
-  ReportError(message: string): void;
-  SendAuthMessage(e: any): any;
+  UpdateMappedValue(): void;
+
+  /**
+   * A snapshot of the current value which can change at any time.
+   */
+  get Value(): T;
 }
+
 export interface CScheduledFunc {
   m_fnCallback: (() => void)[];
   m_schTimer: number;
 
   Cancel(): void;
   IsScheduled(): boolean;
-  Schedule(timeout, fn: () => void): void;
+  Schedule(timeout: number, fn: () => void): void;
 }

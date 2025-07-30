@@ -1,5 +1,5 @@
 import type { CMInterface } from '../shared/cm';
-import type { WebUIServiceTransport } from '../shared/interfaces';
+import type { WebUIServiceTransport } from '../shared/servicetransport';
 import type { SteamCloudStorage } from '../shared/storage';
 import type { CurrentUser, ELoginState } from '../steam-client/User';
 

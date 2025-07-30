@@ -2,7 +2,7 @@ import type { EQuickAccessTab, ESideMenu, SteamUIStore, SteamUIWindow } from '..
 import Logger from '../logger';
 import { type Export, findModuleExport } from '../webpack';
 
-// TODO: maybe just use window.SteamUIStore ? it's the exact same thing
+// TODO(globals): maybe just use window.SteamUIStore ? it's the exact same thing
 export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as SteamUIStore;
 
 export interface Navigation {

@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+// TODO(globals): should this really stay here ?
 export enum GamepadButton {
   INVALID,
   OK,

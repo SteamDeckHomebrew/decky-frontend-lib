@@ -24,8 +24,7 @@ interface TimelineData_t {
   m_strState: string;
 }
 
-// TODO: better name
-interface Loader {
+interface TimelineLoader {
   m_bInitialized: boolean;
   m_clipID: any;
   m_fnTimelineURLBuilder(...args: any[]);
@@ -111,13 +110,15 @@ interface Loader {
 }
 
 interface CActiveTimeline {
-  loader: Loader;
+  loader: TimelineLoader;
 
-  release();
+  release(): void;
 }
 
+declare class CTimelineEntry {}
+
 declare class CTimelineLoader {
-  loader: Loader;
+  loader: TimelineLoader;
 
   nRefCount: number;
 }
@@ -143,6 +144,19 @@ interface ClipExportProgress_t {
   resultStatus: EResult;
 }
 
+/**
+ * @see CGameRecording_GetAppsWithBackgroundVideo_Response
+ */
+interface AppWithTimeline_t {
+  file_size: string;
+  game_id: string;
+  is_active: boolean;
+  most_recent_start_time: number;
+  recording_type: number;
+  timeline_duration_seconds: number;
+  video_duration_seconds: number;
+}
+
 export declare class CGameRecordingStore {
   m_bClipLoadingTriggered: boolean;
   m_bEnoughDiskSpace: boolean;
@@ -152,22 +166,14 @@ export declare class CGameRecordingStore {
   m_clips: Map<string, ClipSummary_t>;
   m_clipsGroupByGame: Map<string, ClipSummary_t[]>;
   m_currentlyExportingClip: string | undefined;
-  m_fnGetAchievementInfo(...args: any[]);
+  m_fnGetAchievementInfo: (e: any, t: any) => any;
   m_mapActiveTimelines: Map<string, CActiveTimeline>;
-  m_mapClipLoaders: Map<any, any>;
-  m_mapManualRecordingCallbacks: Map<any, any>;
-  m_mapSharedClipLoaders: Map<any, any>;
+  m_mapClipLoaders: Map<string, TimelineLoader>;
+  m_mapManualRecordingCallbacks: Map<string, any>;
+  m_mapSharedClipLoaders: Map<string, TimelineLoader>;
   m_mapTimelineLoaders: Map<string, CTimelineLoader>;
   m_recordingState: { m_gameID: string } | null;
-  m_rgAppsWithTimelines: {
-    file_size: string;
-    game_id: string;
-    is_active: boolean;
-    most_recent_start_time: number;
-    recording_type: number;
-    timeline_duration_seconds: number;
-    video_duration_seconds: number;
-  }[];
+  m_rgAppsWithTimelines: AppWithTimeline_t[];
   m_strLastClipID: string | undefined;
   m_transport: {
     MakeReady(...args: any[]);
@@ -176,8 +182,14 @@ export declare class CGameRecordingStore {
   };
 
   BEnoughDiskSpace(): boolean;
+  BLoadingAppsWithBackgroundVideo(): boolean;
   BLoadingClips(): boolean;
   CheckEnoughDiskSpace(): Promise<void>;
+  CreateUserTimelineMarkers(game_id: string, clip_id: string, entry: CTimelineEntry): any;
+  DeleteClip(clip_id: string): Promise<EResult>;
+  ExportClip(clip_id: string, export_mp4_path: string, settings: any, use_unique_filename: any): any;
+  GetAchievementInfo(e: any, t: any): any;
+  GetAppsWithBackgroundVideo(): AppWithTimeline_t[];
 
   /**
    * @returns the available disk space in bytes.
@@ -191,14 +203,54 @@ export declare class CGameRecordingStore {
   GetClipSummary(clipID: string): ClipSummary_t;
   GetCurrentExportingClip(): string | null;
   GetLastClip(): ClipSummary_t | undefined;
+  GetRecordingHighlights(e, t): any;
   GetRecordingState(): this['m_recordingState'];
+  GetTimelineLoaderForClip(clip_id: string): CTimelineLoader;
+  GetTimelineLoaderForGame(gameid: string): CTimelineLoader;
+  GetTimelineLoaderForSharedClip;
   GetTotalDiskSpaceUsage(path: string, t: boolean): Promise<number>;
   InternalAddClipSummary(clip: ClipSummary_t): void;
   LazyLoadClips(): Promise<void>;
-  LoadAppsWithTimelines(): Promise<any>;
+  LoadAppsWithBackgroundVideo(): Promise<any>;
+  LoadThumbnails(
+    recording_id: string,
+    clip_id: string,
+    timeline_id: string,
+    start_offset_us: any[],
+    major_axis: any,
+    time_precision: boolean,
+  ): any;
   // TODO: unused ?
-  ManuallyDeleteRecordingForApps(e);
+  ManuallyDeleteRecordingForApps(e: any): any;
+  RegisterManualRecordingCallback;
+  ReloadAppsWithBackgroundVideoIfNecessary(e);
+  RemoveUserTimelineMarkers;
   ReportClipRange(steamid: CSteamID, rangeMethod: any, seconds: any, startRange: any, endRange: any): any;
   ReportClipShare(steamid: CSteamID, shareMethod: any, seconds: any, bytes: number, result: EResult): any;
-  // TODO: more
+  SaveClip(
+    game_id: string,
+    src_clip_id: string,
+    name: string,
+    start: { timeline_id: string; offset_ms: string },
+    end: { timeline_id: string; offset_ms: string },
+    temporary: boolean,
+    force_thumbnail: boolean,
+  ): Promise<{ clipSummary?: ClipSummary_t; result: EResult }>;
+  StartRecording(gameid: string): any;
+  StopRecording(gameid: string): any;
+  SwitchRecordedGame(gameid: string): any;
+  TakeScreenshot(
+    game_id: string,
+    timeline_id: string,
+    timeline_offset_ms: string,
+  ): Promise<{ handle?: number; result: EResult }>;
+  UpdateClipExportPath(clip_id: string, path: string): void;
+  UpdateUserTimelineMarkers(game_id: string, clip_id: string, entry: CTimelineEntry): Promise<EResult>;
+  UploadClip(
+    clip_id: string,
+    title: string,
+    desc: string,
+    /** @todo enum? */
+    visibility: number,
+  ): Promise<{ eResult: EResult; strURL: string }>;
 }

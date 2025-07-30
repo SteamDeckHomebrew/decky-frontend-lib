@@ -1,10 +1,33 @@
-import type { EUIMode } from '../shared';
-import type { BrowserContext, CCallbackList, SubscribableValue } from '../shared/interfaces';
+import type { CFocusNavigationContext } from '../managers';
+import type { ESteamUISound, EUIMode } from '../shared';
+import type { BrowserContext, CCallbackList, SubscribableValue, Unsubscribable } from '../shared/interfaces';
+import type { ENavigationSourceType, NavigationSource } from '../shared/navigation';
 import type { SteamAppOverview } from '../steam-client/App';
 import type { ENotificationPosition } from '../steam-client/Overlay';
 import type { EResult } from '../steam-client/shared';
+import type { FocusChangeEvent } from '../steam-client/system/UI';
 import type { EWindowType } from '../steam-client/UI';
 import type { EShutdownStep } from '../steam-client/User';
+
+declare class CGamepadUIAudioStore {
+  m_AudioPlaybackManager: any;
+  m_bCanPlaySound: boolean;
+  m_currentlyFocusedAppid: SubscribableValue<number>;
+  m_fnGetUIMode: () => EUIMode;
+  /** setTimeout handle */
+  m_pendingSoundHandle: number | null;
+  m_pendingSoundType: ESteamUISound;
+
+  OnFocusChangeEvent(ev: FocusChangeEvent): void;
+  OnGamepadFocusChanged;
+  OnUnhandledButtonDownEvent;
+  PlayAudioURL(url: string): any;
+  PlayNavSound(type: ESteamUISound, t: boolean): void;
+  PlayNavSoundInternal(type: ESteamUISound): void;
+  RegisterFocusNavContext(context: CFocusNavigationContext): Unsubscribable;
+
+  get AudioPlaybackManager();
+}
 
 export type SteamWindowSettingsSection_t =
   | 'Account'
@@ -181,16 +204,6 @@ enum ENavigationMode {
   Cursor,
 }
 
-enum ENavigationSourceType {
-  UNKNOWN,
-  GAMEPAD,
-  KEYBOARD_SIMULATOR,
-  MOUSE,
-  TOUCH,
-  LPAD,
-  RPAD,
-}
-
 interface SteamUIWindowParams {
   appid: number;
   bSimulateOnDesktop: boolean;
@@ -348,14 +361,9 @@ interface CWindowStore {
   get SteamUIWindows(): SteamUIWindow[];
 }
 
-interface NavigationSource {
-  eActivationSourceType: ENavigationSourceType;
-  nActiveGamepadIndex: number;
-  nLastActiveGamepadIndex: number;
-}
-
 // TODO: guessed from loc tokens, but this a lot looks like EResult's members
 // except with different numbers
+// TODO again: where is this used ?
 enum ERefreshLoginReason {
   Success = 1,
   LoggedInElsewhere,
@@ -369,7 +377,7 @@ enum ERefreshLoginReason {
 export interface SteamUIStore {
   m_ConfiguratorWidth: any;
   m_GamepadNavigationManager: any;
-  m_GamepadUIAudioStore: any;
+  m_GamepadUIAudioStore: CGamepadUIAudioStore;
   m_LastLibraryTab: any;
   m_WindowStore: any;
   m_appDetailsDisplayMode: any;
@@ -543,7 +551,7 @@ export interface SteamUIStore {
   get ErrorCondition(): number;
   get ErrorConditionResult(): EResult;
   get ForceBetaSectionVisible(): boolean;
-  get GamepadUIAudio(): CGamepadUIAudio;
+  get GamepadUIAudio(): CGamepadUIAudioStore;
   get MainInstanceUIMode(): EUIMode;
   get MainRunningApp(): SteamAppOverview | undefined;
   get MainRunningAppID(): number | undefined;
@@ -553,7 +561,7 @@ export interface SteamUIStore {
   get RemainInBigPictureModeOnClose(): boolean;
   get RunningApps(): SteamAppOverview[];
   get ShouldZoomStandaloneConfigurator(): boolean;
-  get StandaloneConfiguratorURL(): string | nulll;
+  get StandaloneConfiguratorURL(): string | null;
   get TextFilterStore(): CTextFilterStore;
   get WindowStore(): CWindowStore;
 }
