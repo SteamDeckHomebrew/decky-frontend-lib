@@ -1,4 +1,4 @@
-import type { LocalizationManager, MainWindowBrowserManager, PopupManager } from './managers';
+import type { CFocusNavController, LocalizationManager, MainWindowBrowserManager, PopupManager } from './managers';
 import type { SteamClient } from './steam-client';
 import type {
   App,
@@ -22,6 +22,7 @@ declare global {
     badgeStore: CBadgeStore;
     collectionStore: CCollectionStore;
     ConsoleStore: ConsoleStore;
+    FocusNavController: CFocusNavController;
     friendStore: CFriendStore;
     g_GRS: CGameRecordingStore;
     g_PopupManager: PopupManager;

@@ -1,5 +1,5 @@
 import type { JsPbMessageClass } from '../steam-client/shared';
-import type { CCallbackList, UnknownFn_t } from './interfaces';
+import type { CCallbackList } from './interfaces';
 import type { CSteamID } from './steamid';
 
 export interface CMInterfaceCallbacks {
@@ -31,19 +31,19 @@ export interface ErrorReportingStore {
 }
 
 export interface ServiceTransport {
-  MakeReady: UnknownFn_t;
+  MakeReady: (...args: any[]) => any;
   SendMsg(e: any, t: any, n: any): any;
   SendNotification(e: any, t: any): any;
 }
 
 export interface UnknownInterface0 {
-  invoke: UnknownFn_t;
+  invoke: (...args: any[]) => any;
   msgClass: JsPbMessageClass;
 }
 
 export interface CMInterface {
   ClientServersAvailableHandler: {
-    invoke: UnknownFn_t;
+    invoke: (...args: any[]) => any;
     unregister(): void;
   };
   m_ServiceTransport: ServiceTransport;
@@ -57,7 +57,7 @@ export interface CMInterface {
   m_callbacksOnConnect: CMInterfaceCallbacks;
   m_callbacksOnConnectOneTime: CMInterfaceCallbacks;
   m_callbacksOnDisconnect: CMInterfaceCallbacks;
-  m_hEMsgRegistrationObserver: UnknownFn_t;
+  m_hEMsgRegistrationObserver: (...args: any[]) => any;
   m_hSharedConnection: number;
   m_messageHandlers: {
     m_ErrorReportingStore: ErrorReportingStore;
