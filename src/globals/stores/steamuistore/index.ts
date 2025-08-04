@@ -4,7 +4,7 @@ import type { SteamAppOverview } from '../../steam-client/App';
 import type { EResult } from '../../steam-client/shared';
 import type { EShutdownStep } from '../../steam-client/User';
 import type { CGamepadUIAudioStore } from './gamepaduiaudio';
-import type { CWindowStore, SteamUIWindow } from './window';
+import type { CWindowStore, SteamUIWindowInstance } from './window';
 
 enum ENavigationMode {
   Digital,
@@ -101,9 +101,9 @@ export interface SteamUIStore {
   ExcludedTitlesForPlatform(): number[];
 
   /**
-   * @returns the currently focused window instance (for {@link Window} see {@link SteamUIWindow.BrowserWindow}).
+   * @returns the currently focused window instance (for {@link Window} see {@link SteamUIWindowInstance.BrowserWindow}).
    */
-  GetFocusedWindowInstance(): SteamUIWindow;
+  GetFocusedWindowInstance(): SteamUIWindowInstance;
 
   GetLastLibraryTab(): {
     collectionid: string;
@@ -116,14 +116,14 @@ export interface SteamUIStore {
     bFailed: boolean;
     eShutdownState: EShutdownStep;
   };
-  GetWindowForRunningAppNavigation(): SteamUIWindow;
+  GetWindowForRunningAppNavigation(): SteamUIWindowInstance;
 
   /**
    * Gets the overlay window instance for a provided PID.
    *
    * @param pid The "gameoverlayui" process PID.
    */
-  GetWindowInstanceForPID(pid: number): SteamUIWindow | undefined;
+  GetWindowInstanceForPID(pid: number): SteamUIWindowInstance | undefined;
 
   /**
    * @returns `true` if there is at least 1 Steam app running.
@@ -160,7 +160,7 @@ export interface SteamUIStore {
   /**
    * Shows the controller layout preview.
    */
-  NavigateToLayoutPreview(appid: number, instance?: SteamUIWindow): void;
+  NavigateToLayoutPreview(appid: number, instance?: SteamUIWindowInstance): void;
 
   NavigateToRunningApp(e: boolean): void;
 
@@ -195,7 +195,7 @@ export interface SteamUIStore {
   };
   get ActiveNavigationMode(): ENavigationMode;
   get ActiveNavigationSourceType(): ENavigationSourceType;
-  get ActiveWindowInstance(): SteamUIWindow;
+  get ActiveWindowInstance(): SteamUIWindowInstance;
   get BIsInOOBE(): boolean;
   get ConfiguratorWidth(): number;
   get ErrorCondition(): number;

@@ -6,13 +6,13 @@ import type {
   BrowserViewPopup,
 } from '../steam-client/browser-view/BrowserViewPopup';
 
-export type SteamBrowserTab_t = 'community' | 'store' | 'me';
+type SteamBrowserTab_t = 'community' | 'store' | 'me';
 
-export type SteamBrowserTabs_t = {
+type SteamBrowserTabs_t = {
   [key in SteamBrowserTab_t]: string;
 };
 
-interface SteamBrowserHistoryState {
+export interface SteamBrowserHistoryState {
   /**
    * `true` if called from Steam.
    * @todo actually im not sure what this is
@@ -25,14 +25,14 @@ interface SteamBrowserHistoryState {
   strURL?: string;
 }
 
-export interface TabbedBrowserWebPageRequest {
+interface TabbedBrowserWebPageRequest {
   requestid: number;
   strLastURL: string;
   strTitle: string;
   strURL: string;
 }
 
-export interface TabbedBrowserStore {
+interface TabbedBrowserStore {
   m_cbWebPageRequestsChanged: CCallbackList;
   m_nActiveWebpageRequestID: number;
   m_nWebPageRequestID: number;

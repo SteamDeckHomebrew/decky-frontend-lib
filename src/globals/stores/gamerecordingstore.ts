@@ -2,6 +2,15 @@ import type { CSteamID } from '../shared';
 import type { CScheduledFunc } from '../shared/interfaces';
 import type { EResult } from '../steam-client/shared';
 
+export interface PlaybackDefinition_t {
+  m_nDurationMS: number;
+  m_nOffsetMS: number;
+  m_nTimelineStartMS: number;
+  m_strEntryID: string;
+  m_strRecordingID: string;
+  m_strTimelineID: string;
+}
+
 interface RunningTimeline_t {
   m_globalStartMS: number;
   m_metadata: {

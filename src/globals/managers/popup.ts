@@ -1,5 +1,5 @@
 import type { EBrowserType } from '../shared/enums';
-import type { BrowserContext } from '../shared/interfaces';
+import type { BrowserContext, CCallbackList, Unsubscribable } from '../shared/interfaces';
 import type { EWindowBringToFront } from '../steam-client/Window';
 
 export type PopupCallback_t = (popup?: SteamPopup) => void;
@@ -28,7 +28,7 @@ export interface PopupCreationOptions {
    * Document title.
    *
    * @todo This is a getter in {@link SteamPopupParameters}, but a normal
-   * property in {@link ContextMenuPositionOptions}, wtf
+   * property in {@link ContextMenuPositionOptions}, wtf (does this matter tho)
    */
   title?: string;
 }
@@ -247,19 +247,25 @@ export interface PopupManager {
   m_bShuttingDown: boolean;
   m_mapPopups: Map<string, SteamPopup>;
   m_mapRestoreDetails: Map<string, RestoreDetails>;
-  m_rgPopupCreatedCallbacks: PopupCallback_t[];
-  m_rgShutdownCallbacks: PopupCallback_t[];
+  m_rgPopupCreatedCallbacks: CCallbackList<[PopupCallback_t]>;
+  m_rgPopupDestroyedCallbacks: CCallbackList<[PopupCallback_t]>;
+  m_rgShutdownCallbacks: (() => void)[];
   m_unCurrentAccountID: number;
 
   /**
    * Adds a callback to dispatch on popup creation.
    */
-  AddPopupCreatedCallback(callback: PopupCallback_t): void;
+  AddPopupCreatedCallback(callback: PopupCallback_t): Unsubscribable;
+
+  /**
+   * Adds a callback to dispatch on popup destruction.
+   */
+  AddPopupDestroyedCallback(callback: PopupCallback_t): Unsubscribable;
 
   /**
    * Adds a callback to dispatch on Steam shutdown.
    */
-  AddShutdownCallback(callback: () => void): void;
+  AddShutdownCallback(callback: () => void): Unsubscribable;
 
   /**
    * Adds a popup and dispatches all the callbacks.

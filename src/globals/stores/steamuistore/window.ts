@@ -1,12 +1,23 @@
+import type { History } from 'history';
+import type { SteamBrowserHistoryState } from '../../managers';
 import type { BrowserContext } from '../../shared';
+import type { BrowserViewCreateOptions } from '../../steam-client/browser-view';
 import type { ENotificationPosition } from '../../steam-client/Overlay';
-import type { EWindowType } from '../../steam-client/UI';
+import type { Screenshot } from '../../steam-client/Screenshots';
+import type { EWindowType, SteamWindow } from '../../steam-client/UI';
 import type { CCollectionStore } from '../collection';
+import type { CGameRecordingStore, ClipSummary_t, PlaybackDefinition_t } from '../gamerecordingstore';
 import type { CMenuStore } from './menu';
 import type { CVirtualKeyboardManager } from './virtualkeyboardmanager';
 
-// TODO: revise
-type SteamWindowSettingsSection_t =
+export enum EOpenSideMenu {
+  None,
+  Main,
+  QuickAccess,
+}
+
+type SettingsSection_t =
+  | 'Accessibility'
   | 'Account'
   | 'Audio'
   | 'Bluetooth'
@@ -21,6 +32,7 @@ type SteamWindowSettingsSection_t =
   | 'Downloads'
   | 'Family'
   | 'Friends'
+  | 'GameRecording'
   | 'General'
   | 'Home'
   | 'InGame'
@@ -40,16 +52,30 @@ type SteamWindowSettingsSection_t =
   | 'System'
   | 'Voice';
 
-interface NavigatorState<T> {
+interface NavigatorRouterState<T> {
   state: T;
+}
+
+interface MediaManagerFilter {
+  listSource:
+    | { type: 'app'; gameid: string }
+    // idk doesn't work...
+    | { type: 'clip' | 'recording' | 'screenshot'; id?: string; summary?: ClipSummary_t }
+    // TODO: is it this ? ("message Phase" if outdated)
+    // https://github.com/SteamDatabase/SteamTracking/blob/38a822b9b185d92a644fdaefeb55dcf6f12bd329/Protobufs/webuimessages_gamerecording.proto#L109
+    | { type: 'phase'; phase: any }
+    | { type: 'recents' };
+  mediaType?: 'all' | 'clip' | 'recording' | 'screenshot';
+  uploadStatus?: 'all' | 'uploaded' | 'notuploaded';
 }
 
 /**
  * This interface allows you to navigate like {@link SteamUIStore.Navigate}, but
- * without using routes.
+ * without hardcoding routes.
  */
 interface SteamWindowNavigator {
   type: 'desktop' | 'desktopoverlay' | 'gamepad';
+
   setNavigatingToInitialRoute(value: boolean): void;
 
   /**
@@ -79,7 +105,7 @@ interface SteamWindowNavigator {
   /**
    * Navigate to a provided collection.
    *
-   * @param id The collection ID to navigate to. You can get its ID by using
+   * @param id The collection ID to navigate to. You can get its ID with
    * {@link CCollectionStore.GetUserCollectionsByName}.
    */
   Collection(id: string): void;
@@ -95,11 +121,24 @@ interface SteamWindowNavigator {
   Downloads(): void;
 
   /**
-   * Opens a URL in the system web browser.
+   * Open a URL in the system web browser.
    *
-   * @param url The URL to open. Must start witht `https://`.
+   * @param url The URL to open. Must start with `https://`.
    */
   ExternalWeb(url: string): void;
+
+  /**
+   * Navigate to friend's achievements for a provided game.
+   *
+   * @param appid The app ID of the game.
+   * @param steamid64 The SteamID 64 of the friend.
+   */
+  FriendAchievements(appid: number, steamid64: string): void;
+
+  /**
+   * Open the server browser dialog.
+   */
+  GameServers(): void;
 
   /**
    * Navigate to an app's global achievements. (seems broken and just uses "My
@@ -109,35 +148,65 @@ interface SteamWindowNavigator {
    */
   GlobalAchievements(appId: number): void;
 
-  // TODO:
-  // Home: (e = {}, t = {}) => {
   /**
    * Navigate to the start up location, as specified in the Settings ->
    * Interface section.
    */
   Home(): void;
 
+  /**
+   * Media manager.
+   */
   Media: {
+    /**
+     * Opens a clip recording.
+     *
+     * The `id` key is a clip ID, see {@link CGameRecordingStore} methods on how
+     * to get one.
+     */
     Clip(
-      state: NavigatorState<{
+      state: NavigatorRouterState<{
         id: string;
       }>,
     ): void;
-    // TODO for both: state
-    Grid(state: NavigatorState<object>): void;
-    List(state: NavigatorState<object>): void;
+
+    /**
+     * Opens the media manager in a grid view.
+     */
+    Grid(
+      state: NavigatorRouterState<{
+        filter: MediaManagerFilter;
+      }>,
+    ): void;
+
+    /**
+     * Opens the media manager in a list view.
+     */
+    List(
+      state: NavigatorRouterState<{
+        filter: MediaManagerFilter;
+      }>,
+    ): void;
+
+    /**
+     * Opens a screenshot.
+     *
+     * The `id` key is {@link Screenshot.ugcHandle} if uploaded or something
+     * like `440_21`, i.e. `{gameid}_{@link Screenshot.hHandle} if not.
+     */
     Screenshot(
-      state: NavigatorState<{
+      state: NavigatorRouterState<{
         id: string;
       }>,
     ): void;
+
+    /**
+     * Opens a game recording.
+     */
     Recording(
-      state: NavigatorState<{
+      state: NavigatorRouterState<{
         gameid: string;
-        playbackDefinition?: {
-          m_strTimelineID: string;
-          m_nTimelineStartMS: number;
-        };
+        playbackDefinition?: Partial<PlaybackDefinition_t>;
       }>,
     ): void;
   };
@@ -150,22 +219,26 @@ interface SteamWindowNavigator {
   MyAchievements(appId: number): void;
 
   /**
+   * Open the "Out of Playtime" (from Steam Families) dialog.
+   */
+  RequestPlaytimeDialog(connectString: string): void;
+
+  /**
    * Navigate to Steam settings.
    *
    * @param section The section to navigate to.
    */
-  Settings(section?: SteamWindowSettingsSection_t): void;
+  Settings(section?: SettingsSection_t): void;
 
   /**
-   * Opens a URL in the Steam main window browser.
+   * Open a URL in the Steam main window browser.
    *
    * @param url The URL to open.
-   * @param param1 TODO: seems unused (MAYBE)
    */
-  SteamWeb(url: string, param1: any): void;
+  SteamWeb(url: string): void;
 
   /**
-   * Opens a URL in the Steam web browser dialog.
+   * Open a URL in the Steam web browser dialog.
    *
    * @param url The URL to open.
    */
@@ -173,16 +246,15 @@ interface SteamWindowNavigator {
 }
 
 /**
- * Like {@link SteamWindowNavigator}, but routes here aren't available on
+ * Like {@link SteamWindowNavigator}, but functions here are undefined on
  * desktop mode.
  */
 interface SteamWindowNavigator_GamepadOnly {
   /**
    * Navigate to the Settings -> Account section.
    */
-  Account(param0): void;
+  Account(): void;
 
-  // TODO
   AppOverlay: {
     AppRunningControls(): void;
   };
@@ -194,19 +266,17 @@ interface SteamWindowNavigator_GamepadOnly {
     Main(appId: number): void;
   };
 
-  // console.log("No server browser in big picture mode!");
-  // wtf why
-  GameServers(): void;
-
   /**
    * Navigate to friend invites.
    */
-  Invites(param0): void;
+  Invites(): void;
 
   /**
-   * Navigate to the library.
+   * Navigate to a library tab.
+   *
+   * @param tab The tab to open.
    */
-  LibraryTab(e, t): void;
+  LibraryTab(tab: 'AllGames' | 'Collections' | 'DesktopApps' | 'Favorites' | 'Installed' | 'Soundtracks'): void;
 
   /**
    * @todo Actual login maybe ? I'm not logging out for ts
@@ -224,11 +294,9 @@ interface SteamWindowNavigator_GamepadOnly {
   Reauthentication(): void;
 
   RemotePlayTogether(): void;
-
-  RequestPlaytimeDialog(e): void;
 }
 
-export interface SteamWindowNotificationPosition {
+interface SteamWindowNotificationPosition {
   horizontalInset: number;
   position: ENotificationPosition;
   verticalInset: number;
@@ -247,7 +315,7 @@ interface SteamUIWindowParams {
   strUserAgentIdentifier: string;
 }
 
-export interface SteamUIWindow {
+export interface SteamUIWindowInstance {
   m_BrowserWindow: Window;
   m_bIsGamepadApplicationUIInitialized: boolean;
 
@@ -290,17 +358,19 @@ export interface SteamUIWindow {
   /**
    * @todo Creates a browser view object similiar to the one in MainWindowBrowserManager
    * @param name Browser name.
-   * @param options BrowserViewInit
    */
-  CreateBrowserView(name: string, options: any): any;
+  CreateBrowserView(name: string, options: BrowserViewCreateOptions): any;
 
   /**
    * Focuses the main window.
    */
   FocusApplicationRoot(): void;
 
-  GetMainVROverlayKey(): any;
+  GetMainVROverlayKey(): string | undefined;
+
   GetShowingGlobalModal(): boolean;
+
+  // returns the same thing as CreateBrowserView
   GetStoreBrowser(): any;
 
   // #region EWindowType matching
@@ -319,31 +389,49 @@ export interface SteamUIWindow {
   IsVRWindowInGamescope(): boolean;
   // #endregion
 
-  Navigate(path: string, t: boolean, n: boolean, o?: any): void;
-  NavigateBack: any;
-  NavigateHistory: any;
-  NavigateToRunningApp: any;
-  NavigateToStandaloneAppRunningControls: any;
-  NavigateToSteamWeb: any;
-  NavigateWithoutChangingFocus: any;
-  SetBrowserWindow: any;
-  SetNavigator: any;
-  SetNotificationPosition: any;
-  SetShowingGlobalModal: any;
-  SetStoreBrowserGlass: any;
+  Navigate(path: string, replaceHistoryEntry: boolean, matchRoute: boolean, state?: SteamBrowserHistoryState): void;
+  NavigateBack: History['goBack'];
+  NavigateHistory: History['go'];
+  NavigateToRunningApp(replaceHistoryEntry: boolean): void;
+  NavigateToStandaloneAppRunningControls(e?: boolean): void;
+  NavigateToSteamWeb: SteamWindowNavigator['SteamWeb'];
+  NavigateWithoutChangingFocus: this['Navigate'];
+  SetBrowserWindow(value: Window): void;
+  SetNavigator(value: SteamWindowNavigator & SteamWindowNavigator_GamepadOnly): void;
+  SetNotificationPosition(pos: ENotificationPosition, horizontalInset: number, verticalInset: number): void;
+  SetShowingGlobalModal(value: boolean): void;
+  SetStoreBrowserGlass(openSideMenu: EOpenSideMenu): void;
 
   get BrowserWindow(): Window;
   get MenuStore(): CMenuStore;
 }
 
+interface AppWindow {
+  appid: number;
+  focusedWindowID: number;
+  windowids: number[];
+}
+
 export declare class CWindowStore {
-  AddTestWindowsOverlayBrowser: any;
-  BHasAppWindow: any;
-  BHasGamepadUIMainWindow: any;
-  BHasOverlayWindowForApp: any;
-  BHasStandaloneConfiguratorWindow: any;
-  BHasStandaloneKeyboard: any;
-  BHasVRWindow: any;
+  // SteamUIStore lol
+  m_Parent: any;
+  m_mapAppOverlayPosition: Map<number, SteamWindowNotificationPosition>;
+  m_mapAppWindows: Map<number, AppWindow>;
+  m_mapDesiredWindowInstances: Map<number, SteamUIWindowInstance>;
+  m_mapDesiredWindows: Map<number, SteamWindow>;
+  m_mapOverlayPopupByPID: Map<number, SteamUIWindowInstance>;
+  m_simulatedVRGamepadUIOnDesktopInstance: SteamUIWindowInstance | undefined;
+
+  AddTestWindowsOverlayBrowser(appid: number): void;
+  BHasAppWindow(appid: number): boolean;
+  BHasGamepadUIMainWindow(): boolean;
+  BHasOverlayWindowForApp(appid: number): boolean;
+  BHasStandaloneConfiguratorWindow(): boolean;
+  BHasStandaloneKeyboard(): boolean;
+  BHasVRWindow(): boolean;
+
+  // #region Window creation, idk how to use these yet ty react
+  // all return SteamUIWindowInstance
   CreateDesktopLoginWindow: any;
   CreateMainDesktopWindow: any;
   CreateMainGamepadUIWindow: any;
@@ -352,28 +440,30 @@ export declare class CWindowStore {
   CreateStandaloneKeyboardWindow: any;
   CreateSteamChinaReviewLauncherWindow: any;
   CreateVRWindow: any;
-  DEBUG_DumpDesiredSteamUIWindows: any;
-  EnsureMainWindowCreated: any;
-  GetAppFocusedWindowID: any;
-  GetAppWindowIDs: any;
-  GetControllerConfiguratorWindowFromAppID: any;
-  GetInstanceForPID: any;
-  GetOverlayInstance: any;
-  GetOverlayInstanceWithFallback: any;
-  GetOverlayInstances: any;
-  GetSimultedVRWindowInstance: any;
-  GetSteamUIWindowByType: any;
-  GetVRWindowInstance: any;
-  GetWindowInstanceFromWindow: any;
-  RemoveRunningAppWindowIDs: any;
-  SetFocusedAppWindowID: any;
-  SetRunningAppWindowIDs: any;
-  UpdateDesiredWindows: any;
+  // #endregion
 
-  get GamepadUIMainWindowInstance(): SteamUIWindow;
-  get GamepadUIVRWindowInstance(): SteamUIWindow;
-  get MainRunningAppWindowIDs();
-  get MainWindowInstance(): SteamUIWindow;
-  get OverlayWindows(): SteamUIWindow[];
-  get SteamUIWindows(): SteamUIWindow[];
+  DEBUG_DumpDesiredSteamUIWindows(): Promise<any>;
+  EnsureMainWindowCreated(forceOSWindowFocus: boolean): void;
+  GetAppFocusedWindowID(appid: number): number;
+  GetAppWindowIDs(appid: number): number[];
+  GetControllerConfiguratorWindowFromAppID(appid: number): SteamUIWindowInstance;
+  GetInstanceForPID(pid: number): SteamUIWindowInstance;
+  GetOverlayInstance(appid: number, pid: number): SteamUIWindowInstance;
+  GetOverlayInstanceWithFallback(appid?: number, pid?: number): SteamUIWindowInstance;
+  GetOverlayInstances(appid: number): SteamUIWindowInstance[];
+  GetSimultedVRWindowInstance(): this['m_simulatedVRGamepadUIOnDesktopInstance'];
+  GetSteamUIWindowByType(type: EWindowType): SteamUIWindowInstance | undefined;
+  GetVRWindowInstance(): SteamUIWindowInstance | undefined;
+  GetWindowInstanceFromWindow(wnd: Window): SteamUIWindowInstance | null;
+  RemoveRunningAppWindowIDs(appid: number): void;
+  SetFocusedAppWindowID(appid: number, windowid: number): void;
+  SetRunningAppWindowIDs(appid: number, windowids: number[]): void;
+  UpdateDesiredWindows(windows: SteamWindow[]): void;
+
+  get GamepadUIMainWindowInstance(): SteamUIWindowInstance;
+  get GamepadUIVRWindowInstance(): SteamUIWindowInstance;
+  get MainRunningAppWindowIDs(): number[] | undefined;
+  get MainWindowInstance(): SteamUIWindowInstance;
+  get OverlayWindows(): SteamUIWindowInstance[];
+  get SteamUIWindows(): SteamUIWindowInstance[];
 }
