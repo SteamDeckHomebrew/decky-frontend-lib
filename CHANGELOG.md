@@ -1,3 +1,10 @@
+## [4.10.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.4...v4.10.5) (2025-08-20)
+
+
+### Bug Fixes
+
+* **DialogHeader:** valve rewrote component on beta, update filter to search for both versions ([37dd885](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/37dd88513ed7360d3bcdc99630d6cb0c8d31db3e))
+
 ## [4.10.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.3...v4.10.4) (2025-07-13)
 
 
