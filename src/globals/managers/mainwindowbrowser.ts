@@ -50,9 +50,6 @@ interface TabbedBrowserStore {
    */
   RemoveAllRequests(): void;
 
-  /**
-   * Exactly what its name says.
-   */
   RemoveWebPageRequest(requestId: number): boolean;
 
   ReorderWebPageRequest(param0: number, param1: number): void;
@@ -63,7 +60,8 @@ interface TabbedBrowserStore {
   Set(activeWebpageRequestId: number, webPageRequestId: number, webPageRequests: TabbedBrowserWebPageRequest[]): void;
 
   /**
-   * @param requestId Web page request ID, like in {@link TabbedBrowserWebPageRequest.requestid}.
+   * @param requestId Web page request ID, like in
+   * {@link TabbedBrowserWebPageRequest.requestid}.
    * @param url Web page's URL.
    * @param title Web page's `<title>`.
    *
@@ -107,7 +105,8 @@ export interface MainWindowBrowserManager {
 
   /**
    * @param url A Steam store/community URL.
-   * @returns a browser tab responsible for provided URL or `ignore` or `maintain`.
+   * @returns a browser tab responsible for provided URL or `ignore` or
+   * `maintain`.
    */
   GetTabForURL(url: string): SteamBrowserTab_t | 'ignore' | 'maintain';
 
@@ -127,6 +126,8 @@ export interface MainWindowBrowserManager {
   ShowURL(url: string, state: SteamBrowserHistoryState): void;
 
   SyncWithNewBrowserHistory(entry: BrowserViewHistory): void;
+
   SyncWithNewRouterEvent(location: Location<SteamBrowserHistoryState>, action: Action): void;
+
   UpdateActiveTab(url: string): void;
 }

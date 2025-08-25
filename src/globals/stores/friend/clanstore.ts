@@ -32,7 +32,6 @@ export interface CClan {
   m_cUsersOnline: number;
   /** @see {@link EClanAccountFlags} */
   m_eClanAccountFlags: number;
-  // @todo enum
   m_eClanRelationship: EClanRelationship;
   m_steamid: CSteamID;
   m_strAvatarHash: string;

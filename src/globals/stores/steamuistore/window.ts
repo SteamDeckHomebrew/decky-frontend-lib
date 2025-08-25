@@ -8,7 +8,6 @@ import type { EWindowType, SteamWindow } from '../../steam-client/UI';
 import type { CCollectionStore } from '../collection';
 import type { CGameRecordingStore, ClipSummary_t, PlaybackDefinition_t } from '../gamerecordingstore';
 import type { CMenuStore } from './menu';
-import type { CVirtualKeyboardManager } from './virtualkeyboardmanager';
 
 export enum EOpenSideMenu {
   None,

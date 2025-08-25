@@ -13,7 +13,8 @@ export interface SteamLocalStorage {
   GetObject(key: string): Promise<any | null>;
   GetString(key: string): Promise<string | null>;
   /**
-   * @param resolutionMethodId Must include if selecting {@link EConflictResolutionMethod.CustomMethod}.
+   * @param resolutionMethodId Must include if selecting
+   * {@link EConflictResolutionMethod.CustomMethod}.
    */
   RemoveObject(key: string, resolutionMethod: EConflictResolutionMethod, resolutionMethodId?: any): Promise<void>;
 }

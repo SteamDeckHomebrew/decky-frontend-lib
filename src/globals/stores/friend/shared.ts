@@ -45,9 +45,6 @@ export enum EPersonaState {
 // TODO(protobufs): generate
 declare class CPlayer_GetProfileItemsEquipped_Response {}
 
-// TODO(protobufs): generate
-declare class CMsgClientPersonaState {}
-
 declare class CPersonaStateImpl {
   m_bAvatarPending: boolean;
   m_bCommunityBanned: boolean;

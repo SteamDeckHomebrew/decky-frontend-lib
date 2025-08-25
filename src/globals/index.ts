@@ -9,6 +9,7 @@ import type {
   CFriendStore,
   CGameRecordingStore,
   ConsoleStore,
+  CSecurityStore,
   NotificationStore,
   SettingsStore,
   SteamUIStore,
@@ -29,9 +30,7 @@ declare global {
     LocalizationManager: LocalizationManager;
     MainWindowBrowserManager: MainWindowBrowserManager;
     NotificationStore: NotificationStore;
-    securitystore: {
-      IsLockScreenActive: () => boolean;
-    };
+    securitystore: CSecurityStore;
     settingsStore: SettingsStore;
     SteamClient: SteamClient;
     SteamUIStore: SteamUIStore;

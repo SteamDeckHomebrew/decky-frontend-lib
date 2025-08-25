@@ -1,5 +1,5 @@
+import type { CCallbackList } from '../shared';
 import type { EAppType } from '../steam-client/App';
-import type { CCallbackList } from '../utils/callbackutils/callbacklist';
 
 interface AppInfoCacheObject_t {
   eAppType: EAppType;

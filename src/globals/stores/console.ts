@@ -31,7 +31,8 @@ export interface ConsoleStore {
   /**
    * Adds text to the console.
    *
-   * @param text Text to add. Must include `\n` at the end for a newline if `type` isn't "input".
+   * @param text Text to add. Must include `\n` at the end for a newline if
+   * `type` isn't "input".
    * @param type Text type. Responsible for colors.
    */
   AddSpewLine(text: string, type?: SpewType_t): void;

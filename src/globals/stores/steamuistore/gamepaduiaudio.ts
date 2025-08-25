@@ -66,9 +66,9 @@ declare class CGamepadUIAudioPlaybackManager {
   OnPlaybackEnded(): void;
 
   /**
-   * Registers a function to be executed when the audio file finishes playback.
+   * Registers a function to be called when the audio file finishes playback.
    *
-   * @param callback The function to be executed on finish.
+   * @param callback The function to be called on finish.
    */
   RegisterOnPlaybackFinished(callback: () => void): void;
 

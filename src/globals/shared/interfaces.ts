@@ -33,11 +33,15 @@ export interface BrowserContext {
 }
 
 export interface Unsubscribable {
+  /**
+   * Unregisters the callback.
+   */
   Unregister(): void;
 }
 
 /**
- * Interface to register and unregister callbacks from, with ability to dispatch.
+ * Interface to register and unregister callbacks from, with ability to
+ * dispatch.
  */
 // biome-ignore lint/suspicious/noExplicitAny: intentional
 export interface CCallbackList<T extends any[] = never> {
@@ -80,7 +84,7 @@ export interface SubscribableValue<T> {
 
 export interface MappedSubscribableValue<T> {
   m_bMappedValueStale: boolean;
-  m_fnMap: (value: T) => any;
+  m_fnMap: (value: T) => T;
   m_originalSubscribableValue: SubscribableValue<T>;
   m_mappedSubscribableValue: SubscribableValue<T>;
 
@@ -89,6 +93,9 @@ export interface MappedSubscribableValue<T> {
    */
   Subscribe(subscriber: (value: T) => void): Unsubscribable;
 
+  /**
+   * Updates the value from the backing {@link SubscribableValue}.
+   */
   UpdateMappedValue(): void;
 
   /**

@@ -1,13 +1,12 @@
 import type { CFriendStore } from '.';
 import type { CClan, CClanStore } from './clanstore';
-import type { CFriendChat } from './friendchat';
+import type { CChat } from './friendchat';
 import type { CPlayer } from './shared';
 
-type FavoriteEntry_t = { friend: CPlayer } | { chat: any } | { clan: CClan };
+type FavoriteEntry_t = { friend: CPlayer } | { chat: CChat } | { clan: CClan };
 
 export declare class CFriendsListFavoritesStore {
-  // TODO: maybe remove cuz it's not useful here
-  m_ChatStore: CFriendChat;
+  m_ChatStore: any;
   m_ClanStore: CClanStore;
   m_FriendStore: CFriendStore;
   m_rgFavorites: FavoriteEntry_t[];

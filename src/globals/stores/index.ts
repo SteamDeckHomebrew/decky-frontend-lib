@@ -7,5 +7,6 @@ export * from './console';
 export * from './friend';
 export * from './gamerecordingstore';
 export * from './notification';
+export * from './securitystore';
 export * from './settings';
-export * from './steamui';
+export * from './steamuistore';
