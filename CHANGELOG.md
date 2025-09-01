@@ -1,3 +1,10 @@
+## [4.10.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.5...v4.10.6) (2025-09-01)
+
+
+### Bug Fixes
+
+* **ci:** update to resolve deprecation in sem. rel. due to octokit ([779b1ae](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/779b1ae0defac84dd0d93517858d5aa5e51a2328))
+
 ## [4.10.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.4...v4.10.5) (2025-08-20)
 
 
