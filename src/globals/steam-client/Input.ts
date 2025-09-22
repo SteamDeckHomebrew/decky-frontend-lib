@@ -130,7 +130,7 @@ export interface Input {
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForControllerInputMessages(
-        callback: (msgs: ControllerInputMessage[]) => void,
+        callback: (controllerIndex: number, gamepadButton: ControllerInputGamepadButton, isButtonPressed: boolean) => void,
     ): Unregisterable;
 
     RegisterForControllerListChanges(callback: (controllerListChanges: ControllerInfo[]) => void): Unregisterable;
@@ -560,18 +560,66 @@ export enum EControllerRumbleSetting {
     On,
 }
 
+export enum ControllerInputGamepadButton {
+    GAMEPAD_BUTTON_A = 0,
+    GAMEPAD_BUTTON_B = 1,
+    GAMEPAD_BUTTON_X = 2,
+    GAMEPAD_BUTTON_Y = 3,
+    GAMEPAD_BUTTON_DPAD_UP = 4,
+    GAMEPAD_BUTTON_DPAD_RIGHT = 5,
+    GAMEPAD_BUTTON_DPAD_DOWN = 6,
+    GAMEPAD_BUTTON_DPAD_LEFT = 7,
+    GAMEPAD_BUTTON_MENU = 8,
+    GAMEPAD_BUTTON_VIEW = 9,
+    GAMEPAD_LEFTPAD_UP = 10,
+    GAMEPAD_LEFTPAD_DOWN = 11,
+    GAMEPAD_LEFTPAD_LEFT = 12,
+    GAMEPAD_LEFTPAD_RIGHT = 13,
+    GAMEPAD_LEFTPAD_ANALOG = 14,
+    GAMEPAD_RIGHTPAD_UP = 15,
+    GAMEPAD_RIGHTPAD_DOWN = 16,
+    GAMEPAD_RIGHTPAD_LEFT = 17,
+    GAMEPAD_RIGHTPAD_RIGHT = 18,
+    GAMEPAD_RIGHTPAD_ANALOG = 19,
+    GAMEPAD_LEFTSTICK_UP = 20,
+    GAMEPAD_LEFTSTICK_DOWN = 21,
+    GAMEPAD_LEFTSTICK_LEFT = 22,
+    GAMEPAD_LEFTSTICK_RIGHT = 23,
+    GAMEPAD_LEFTSTICK_ANALOG = 24,
+    GAMEPAD_LEFTSTICK_CLICK = 25,
+    GAMEPAD_LTRIGGER_ANALOG = 26,
+    GAMEPAD_RTRIGGER_ANALOG = 27,
+    GAMEPAD_BUTTON_LTRIGGER = 28,
+    GAMEPAD_BUTTON_RTRIGGER = 29,
+    GAMEPAD_BUTTON_LSHOULDER = 30,
+    GAMEPAD_BUTTON_RSHOULDER = 31,
+    GAMEPAD_BUTTON_LBACK = 32,
+    GAMEPAD_BUTTON_RBACK = 33,
+    GAMEPAD_BUTTON_GUIDE = 34,
+    GAMEPAD_BUTTON_SELECT = 35,
+    GAMEPAD_BUTTON_START = 36,
+    GAMEPAD_BUTTON_LPAD_CLICKED = 37,
+    GAMEPAD_BUTTON_LPAD_TOUCH = 38,
+    GAMEPAD_BUTTON_RPAD_CLICKED = 39,
+    GAMEPAD_BUTTON_RPAD_TOUCH = 40,
+    GAMEPAD_RIGHTSTICK_CLICK = 41,
+    GAMEPAD_RIGHTSTICK_TOUCH = 42,
+    GAMEPAD_LEFTSTICK_TOUCH = 43,
+    GAMEPAD_BUTTON_LBACK_UPPER = 44,
+    GAMEPAD_BUTTON_RBACK_UPPER = 45,
+    GAMEPAD_BUTTON_LAST = 46,
+    GAMEPAD_ANALOG_SCROLL = 47,
+    GAMEPAD_ANALOG_LEFT_KEYBOARD_CURSOR = 48,
+    GAMEPAD_ANALOG_RIGHT_KEYBOARD_CURSOR = 49,
+    GAMEPAD_ANALOG_LAST = 50
+}
+
 // TODO: Not the actual name, but the enum is only represented in a dropdown
 // options vector, ty valve
 export enum EThirdPartyControllerConfiguration {
     Off,
     DefaultSetting,
     On,
-}
-
-export interface ControllerInputMessage {
-    nA: number;
-    bS: boolean;
-    nC: number;
 }
 
 export interface ActiveAccount {
