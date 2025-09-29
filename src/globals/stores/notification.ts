@@ -78,6 +78,7 @@ export interface NotificationStore {
   m_hTrayRemoveTimer: number;
   m_iLastBatteryLevelNotification: number;
   m_mapAppOverlayToasts: Map<number, SteamNotification[]>;
+  m_mapToastLastShown: Map<number, any>;
   m_nNextTestNotificationID: number;
   m_nUnviewedNotifications: number;
   m_rgContextsRenderingToasts: number[];
@@ -104,6 +105,7 @@ export interface NotificationStore {
   BAnyContextRenderingToasts(): boolean;
   BAnyToastDisplayAlone(e: any[]): boolean;
   BContextRenderingToasts(e: any): boolean;
+  BIsToastRateLimited(e: number, t: any, r: number): boolean;
 
   /**
    * @returns `true` if you are currently in a game.
@@ -179,6 +181,8 @@ export interface NotificationStore {
   TestFriendMessage(steamId: number, messageBody: string): void;
   TestFriendOnline(steamId: number): void;
   TestGRE(): void;
+  TestGRUM(): void;
+  TestGameRecordingInstantClip(): void;
   TestGeneralAnnouncement(): void;
   TestGift(steamId: number): void;
   TestGroupChatMention(steamId: number, messageBody: string): void;
@@ -187,12 +191,17 @@ export interface NotificationStore {
   TestHelpRequest(): void;
   TestIncomingVoiceChat(): void;
   TestItemAnnouncement(steamId: number): Promise<void>;
+  /**
+   * @param percentage from 0 to 1
+   */
+  TestLowBatteryNotification(percentage: number): void;
   TestMajorSale(): void;
   TestModeratorMessage(): void;
   TestParentalFeatureRequest(steamId: number): void;
   TestParentalFeatureResponse(steamId: number): void;
   TestParentalPlaytimeRequest(steamId: number): void;
   TestParentalPlaytimeResponse(steamId: number): void;
+  TestPlaytestInvite(): void;
   TestPlaytimeWarning(): void;
   TestReadControllerGuide(): void;
   TestRemoteClientConnection(): void;
@@ -203,6 +212,7 @@ export interface NotificationStore {
   TestStreamingClientConnection(): void;
   TestSystemUpdate(notificationType: 1 | 2): void;
   TestTradeOffer(): void;
+  TestTradeReversal(): void;
   TestUnsupportedDock(): void;
   TestWishlist(appId: number): void;
   // #endregion

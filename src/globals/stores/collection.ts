@@ -1,4 +1,4 @@
-import type { EConflictResolutionMethod, SteamCloudStorage, SteamLocalStorage } from '../shared/storage';
+import type { SteamCloudStorage, SteamLocalStorage } from '../shared/storage';
 import type { EAppType, SteamAppOverview } from '../steam-client/App';
 
 // Not an enum, rather an array in Steam code
@@ -427,7 +427,7 @@ export declare class CCollectionStore {
    */
   BIsVisible(app: SteamAppOverview | number): boolean;
 
-  BootstrapFromUserTags(e: string, t: boolean): Promise<void>;
+  CreateSystemCollections(): Promise<void>;
 
   /**
    * Deletes a provided collection ID.
@@ -464,12 +464,6 @@ export declare class CCollectionStore {
    * @returns an array of user collections filtered by the provided name.
    */
   GetUserCollectionsByName(collectionName: string): CCollection[];
-
-  ImportUserTags(
-    CLibraryBootstrap_deserializedMsg: ArrayBuffer,
-    method: EConflictResolutionMethod,
-    param2: boolean,
-  ): Promise<void>;
 
   NewUnsavedCollection(strName: string, filter: CDynamicCollectionFilter, rgApps: SteamAppOverview[]): CCollection;
 

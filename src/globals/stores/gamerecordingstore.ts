@@ -62,6 +62,7 @@ interface TimelineLoader {
   ConvertRecordingTimeMStoPreTrimTimeMS(e, t);
   CreateGlobalRangeForTimeline(e, t, r, n);
   CreateTimelineIterator(e, t);
+  FindRangeEventsAtGlobalMS(e);
   FindRecordingAndOffsetForEntry(e): Promise<any>;
   FindTimelineAtOffset(e, t);
   FireEvent(e, ...t);
@@ -100,8 +101,8 @@ interface TimelineLoader {
   IsActiveRecording(e);
   IsActiveTimeline(e);
   LoadTimelineData(e): Promise<any>;
+  LoadTimelinesForBackgroundVideo(e): Promise<any>;
   LoadTimelinesForClip(e): Promise<any>;
-  LoadTimelinesForGame(e): Promise<any>;
   LoadTimelinesForSharedClip(e);
   LoadTimelinesForTestClip(e, t, r, n);
   LoadTimelinesForTestGame(e, t);
@@ -141,10 +142,10 @@ export interface ClipSummary_t {
   game_id: string;
   start_timeline_id: string;
   start_offset_ms: string;
-  temporary: false;
+  temporary: boolean;
+  thumbnail_height: number;
   thumbnail_url: string;
   thumbnail_width: number;
-  thumbnail_height: number;
 }
 
 interface ClipExportProgress_t {
@@ -169,7 +170,7 @@ interface AppWithTimeline_t {
 export declare class CGameRecordingStore {
   m_bClipLoadingTriggered: boolean;
   m_bEnoughDiskSpace: boolean;
-  m_bLoadingAppsWithTimelines: boolean;
+  m_bLoadingAppsWithBackgroundVideo: boolean;
   m_bLoadingClips: boolean;
   m_clipExportProgress: Map<string, ClipExportProgress_t>;
   m_clips: Map<string, ClipSummary_t>;
@@ -177,7 +178,6 @@ export declare class CGameRecordingStore {
   m_currentlyExportingClip: string | undefined;
   m_fnGetAchievementInfo: (e: any, t: any) => any;
   m_mapActiveTimelines: Map<string, CActiveTimeline>;
-  m_mapClipLoaders: Map<string, TimelineLoader>;
   m_mapManualRecordingCallbacks: Map<string, any>;
   m_mapSharedClipLoaders: Map<string, TimelineLoader>;
   m_mapTimelineLoaders: Map<string, CTimelineLoader>;
@@ -212,7 +212,7 @@ export declare class CGameRecordingStore {
   GetClipSummary(clipID: string): ClipSummary_t;
   GetCurrentExportingClip(): string | null;
   GetLastClip(): ClipSummary_t | undefined;
-  GetRecordingHighlights(e, t): any;
+  GetRecordingHighlights(e, t): Promise<any>;
   GetRecordingState(): this['m_recordingState'];
   GetTimelineLoaderForClip(clip_id: string): CTimelineLoader;
   GetTimelineLoaderForGame(gameid: string): CTimelineLoader;

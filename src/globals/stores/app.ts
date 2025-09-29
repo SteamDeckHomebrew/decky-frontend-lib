@@ -1,6 +1,6 @@
 import type { CMInterface } from '../shared/cm';
 import type { WebUIServiceTransport } from '../shared/servicetransport';
-import type { SteamCloudStorage } from '../shared/storage';
+import type { EUserConfigStoreNamespace, SteamCloudStorage } from '../shared/storage';
 import type { CurrentUser, ELoginState } from '../steam-client/User';
 
 export interface App {
@@ -9,14 +9,13 @@ export interface App {
   m_bHaveShownSupportAlertModal: boolean;
   m_bServicesInitialized: boolean;
   m_bStartedStage2: boolean;
-  m_bSupportAlertModalActive: boolean;
   /**
    * @todo Does not seem to be used.
    */
   m_bWasEverLoggedIn: boolean;
-  m_cloudStorage: SteamCloudStorage;
   m_cm: CMInterface;
   m_eLoginState: ELoginState;
+  m_mapCloudStorage: Map<EUserConfigStoreNamespace, SteamCloudStorage>;
   m_transportClient: WebUIServiceTransport;
 
   BFinishedInitStageOne(): boolean;
@@ -57,9 +56,9 @@ export interface App {
 
   BMustShowSupportAlertDialog(): boolean;
 
-  BSupportAlertDialogActive(): boolean;
-
   BWasEverLoggedIn(): boolean;
+
+  GetCloudStorage(namespace: EUserConfigStoreNamespace): SteamCloudStorage | undefined;
 
   GetCloudStorageForLibrary(): SteamCloudStorage;
 

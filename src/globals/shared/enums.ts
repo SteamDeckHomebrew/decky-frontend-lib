@@ -48,6 +48,8 @@ export enum EPopupCreationFlags {
   OverrideRedirect = 1 << 20,
   IgnoreSteamDisplayScale = 1 << 21,
   TransparentParentWindow = 1 << 22,
+  DisableDPIScale = 1 << 23,
+  ForceBrowserVisible = 1 << 24,
 }
 
 export enum ESteamRealm {

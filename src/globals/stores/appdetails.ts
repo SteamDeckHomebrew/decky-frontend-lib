@@ -17,6 +17,14 @@ type AjaxLibraryDetails_t = AppDescription &
     status: EResult;
   };
 
+type AssetsWith2x_t<T extends string[]> = [
+  /**
+   * Relative to `https://steamloopback.host`.
+   */
+  cached2xAsset: string,
+  ...T,
+];
+
 /**
  * Hero, header image, etc.
  */
@@ -166,9 +174,17 @@ export declare class CAppDetailsStore {
 
   GetDescriptions(appid: number): AppDescription;
 
-  GetHeaderImages(overview: SteamAppOverview): AppAssetsWithCustomImage_t;
+  GetHeaderImages<T extends boolean>(
+    overview: SteamAppOverview,
+    prefer2x?: T,
+  ): T extends true ? AssetsWith2x_t<AppAssetsWithCustomImage_t> : AppAssetsWithCustomImage_t;
 
-  GetHeaderImagesForAppId(appid: number, localCacheVersion?: number, storeAssetMtime?: number): AppAssets_t;
+  GetHeaderImagesForAppId<T extends boolean>(
+    appid: number,
+    localCacheVersion?: number,
+    storeAssetMtime?: number,
+    prefer2x?: T,
+  ): T extends true ? AssetsWith2x_t<AppAssets_t> : AppAssets_t;
 
   GetHeroBlurImages(overview: SteamAppOverview): AppAssetsWithCustomImage_t;
 

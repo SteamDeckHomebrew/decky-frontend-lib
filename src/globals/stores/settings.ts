@@ -102,4 +102,5 @@ export interface SettingsStore {
   UpdateCommunityPreferences(e: any): any;
   UpdateFriendSetting(e: any, t: any): any;
   UpdateFriendSettings(e: any): any;
+  UpdateUserConfigObject(): void;
 }
