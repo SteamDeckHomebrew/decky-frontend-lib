@@ -1,6 +1,6 @@
 import type { CMInterface } from '../shared/cm';
 import type { SubscribableValue } from '../shared/interfaces';
-import type { SteamLocalStorage } from '../shared/storage';
+import type { CUserLocalStorage } from '../shared/storage';
 import type { FriendSettingsChange } from '../steam-client/FriendSettings';
 import type { EClientNotificationType } from '../steam-client/Notifications';
 import type { MsgClientSettings, MsgMonitorInfo, SteamSettings } from '../steam-client/Settings';
@@ -67,8 +67,8 @@ export interface SettingsStore {
   m_StorePreferences: StorePreferences;
   m_bSteamIsInTournamentMode: boolean;
   m_bWindowed: boolean;
-  m_localStorage: SteamLocalStorage;
-  m_setDeferredSettings: Set<any>;
+  m_localStorage: CUserLocalStorage;
+  m_setDeferredSettings: Set<string>;
   m_strTimeZoneID: SubscribableValue<string>;
 
   /**
@@ -79,11 +79,17 @@ export interface SettingsStore {
   /**
    * @returns a ProtoBuf message.
    */
-  CommunityPreferencesToMessage(prefs: CommunityPreferences): any;
+  CommunityPreferencesToMessage(value: CommunityPreferences): any;
   GetBatteryPreferences(): BatteryPreferences;
-  // TODO: ehhh maybe generate protobufs in the future so this won't be shit
-  GetClientSetting<T>(setting: string): [T, (value: T) => void];
-  IsDeferred(value: any): boolean;
+
+  /**
+   * Gets a Steam client option as a `[value, setValue]` tuple.
+   */
+  GetClientSetting<K extends keyof MsgClientSettings, V = ReturnType<MsgClientSettings[K]>>(
+    setting: K,
+  ): [V, (value: V) => void];
+
+  IsDeferred(value: string): boolean;
   IsSteamInTournamentMode(): boolean;
   // proto msgs
   MergeCommunityPreferences(e: any, t: any): void;
@@ -91,12 +97,22 @@ export interface SettingsStore {
   MergeNotificationPreferences(e: any): void;
   // proto msgs
   MergeStorePreferences(e: any, t: any): void;
+
+  /**
+   * Updates monitor info with the current data.
+   */
   RefreshMonitorInfo(): void;
-  SetBatteryPreferences(prefs: BatteryPreferences): void;
-  SetCommunityPreferences(prefs: CommunityPreferences): void;
-  SetDeferred(value: any): void;
-  SetStorePreferences(prefs: StorePreferences): void;
+
+  SetBatteryPreferences(value: BatteryPreferences): void;
+  SetCommunityPreferences(value: CommunityPreferences): void;
+  SetDeferred(value: string): void;
+  SetStorePreferences(value: StorePreferences): void;
+
+  /**
+   * Sets windowed mode for BPM.
+   */
   SetWindowedMode(value: boolean): void;
+
   ToggleNotificationPreference(e: any, t: any): void;
   UpdateCommunityPreference(e: any, t: any): any;
   UpdateCommunityPreferences(e: any): any;

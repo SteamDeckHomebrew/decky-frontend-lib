@@ -1,4 +1,4 @@
-import type { SteamCloudStorage, SteamLocalStorage } from '../shared/storage';
+import type { CCloudStorage, CCloudStorageMap, CUserLocalStorage } from '../shared/storage';
 import type { EAppType, SteamAppOverview } from '../steam-client/App';
 
 // Not an enum, rather an array in Steam code
@@ -234,6 +234,8 @@ declare class CDynamicCollectionFilter {
 
   /**
    * @returns search URL params for the current filter that could be used for the store search page.
+   *
+   * Example: `?tags=9,7` for "Cooperative" and "Single player" tags respectively.
    */
   GetTagsString(): string;
 
@@ -355,10 +357,9 @@ interface CCollection extends CCollectionBase {
 }
 
 export declare class CCollectionStore {
-  m_localStorage: SteamLocalStorage;
-  m_cloudStorage: SteamCloudStorage;
-  /** @todo also cloud storage shit, maybe later */
-  m_cloudStorageMap: any;
+  m_localStorage: CUserLocalStorage;
+  m_cloudStorage: CCloudStorage;
+  m_cloudStorageMap: CCloudStorageMap;
   m_shortcutCollectionInfo: Record<string, Omit<CollectionInStorageData_t, 'name'>>;
   m_mapSystemCollectionIdToName: Map<ESystemCollection, string>;
   m_mapPartnerCollectionIdToName: Map<string, string>;

@@ -1,6 +1,15 @@
 import type { CSteamID } from '../shared';
-import type { CScheduledFunc } from '../shared/interfaces';
+import type { CBaseProtoBufMsg, CScheduledFunc } from '../shared/interfaces';
+import type { EExportCodec } from '../steam-client/Settings';
 import type { EResult } from '../steam-client/shared';
+
+declare class CGameRecording_ExportClip_Settings {
+  bitrate_kbps?: number;
+  width?: number;
+  height?: number;
+  frames_per_second?: number;
+  codec?: EExportCodec;
+}
 
 export interface PlaybackDefinition_t {
   m_nDurationMS: number;
@@ -176,7 +185,14 @@ export declare class CGameRecordingStore {
   m_clips: Map<string, ClipSummary_t>;
   m_clipsGroupByGame: Map<string, ClipSummary_t[]>;
   m_currentlyExportingClip: string | undefined;
-  m_fnGetAchievementInfo: (e: any, t: any) => any;
+  m_fnGetAchievementInfo: (
+    appid: number,
+    id: string,
+  ) => {
+    description: string;
+    iconURL: string;
+    name: string;
+  };
   m_mapActiveTimelines: Map<string, CActiveTimeline>;
   m_mapManualRecordingCallbacks: Map<string, any>;
   m_mapSharedClipLoaders: Map<string, TimelineLoader>;
@@ -194,10 +210,32 @@ export declare class CGameRecordingStore {
   BLoadingAppsWithBackgroundVideo(): boolean;
   BLoadingClips(): boolean;
   CheckEnoughDiskSpace(): Promise<void>;
-  CreateUserTimelineMarkers(game_id: string, clip_id: string, entry: CTimelineEntry): any;
+  CreateUserTimelineMarkers(
+    game_id: string,
+    clip_id: string,
+    entry: CTimelineEntry,
+  ): Promise<{ eResult: EResult; entry_id: string }>;
   DeleteClip(clip_id: string): Promise<EResult>;
-  ExportClip(clip_id: string, export_mp4_path: string, settings: any, use_unique_filename: any): any;
-  GetAchievementInfo(e: any, t: any): any;
+  ExportClip(
+    clip_id: string,
+    export_mp4_path: string,
+    settings: CGameRecording_ExportClip_Settings,
+    use_unique_filename: boolean,
+  ): Promise<EResult>;
+
+  /**
+   * @param appid App ID of the game to get info for.
+   * @param id Example: `"TF_BURN_PLAYERSINMINIMUMTIME"` for Team Fortress 2.
+   */
+  GetAchievementInfo(
+    appid: number,
+    id: string,
+  ): {
+    description: string;
+    iconURL: string;
+    name: string;
+  };
+
   GetAppsWithBackgroundVideo(): AppWithTimeline_t[];
 
   /**
@@ -212,21 +250,21 @@ export declare class CGameRecordingStore {
   GetClipSummary(clipID: string): ClipSummary_t;
   GetCurrentExportingClip(): string | null;
   GetLastClip(): ClipSummary_t | undefined;
-  GetRecordingHighlights(e, t): Promise<any>;
+  GetRecordingHighlights(gameid: string, createdAfter: number): Promise<any[]>;
   GetRecordingState(): this['m_recordingState'];
   GetTimelineLoaderForClip(clip_id: string): CTimelineLoader;
   GetTimelineLoaderForGame(gameid: string): CTimelineLoader;
-  GetTimelineLoaderForSharedClip;
+  GetTimelineLoaderForSharedClip(clip: ClipSummary_t): CTimelineLoader;
   GetTotalDiskSpaceUsage(path: string, t: boolean): Promise<number>;
   InternalAddClipSummary(clip: ClipSummary_t): void;
   LazyLoadClips(): Promise<void>;
-  LoadAppsWithBackgroundVideo(): Promise<any>;
+  LoadAppsWithBackgroundVideo(): Promise<void>;
   LoadThumbnails(
     recording_id: string,
     clip_id: string,
     timeline_id: string,
-    start_offset_us: any[],
-    major_axis: any,
+    start_offset_us: number[],
+    major_axis: number,
     time_precision: boolean,
   ): any;
   // TODO: unused ?
@@ -245,9 +283,9 @@ export declare class CGameRecordingStore {
     temporary: boolean,
     force_thumbnail: boolean,
   ): Promise<{ clipSummary?: ClipSummary_t; result: EResult }>;
-  StartRecording(gameid: string): any;
-  StopRecording(gameid: string): any;
-  SwitchRecordedGame(gameid: string): any;
+  StartRecording(gameid: string): Promise<CBaseProtoBufMsg>;
+  StopRecording(gameid: string): Promise<void>;
+  SwitchRecordedGame(gameid: string): Promise<CBaseProtoBufMsg>;
   TakeScreenshot(
     game_id: string,
     timeline_id: string,

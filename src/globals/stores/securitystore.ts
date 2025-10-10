@@ -27,10 +27,10 @@ export declare class CSecurityStore {
   ClearPINIfNotUsed(): void;
   GetActiveLockScreenProps(): ActiveLockScreenProps_t | null;
   GetSettings(): LockScreenSettings_t;
-  InitialLoginComplete(e);
+  InitialLoginComplete(accountName: string): void;
   IsLockScreenActive(): boolean;
-  ProvideLockTockey;
+  ProvideLockTicket(value: boolean): void;
   SetActiveLockScreenProps(props: ActiveLockScreenProps_t | null): void;
-  SetHasShownResetPINModal;
+  SetHasShownResetPINModal(): void;
   SetSettings(settings: LockScreenSettings_t): void;
 }

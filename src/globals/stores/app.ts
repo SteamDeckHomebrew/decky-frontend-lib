@@ -1,6 +1,6 @@
 import type { CMInterface } from '../shared/cm';
 import type { WebUIServiceTransport } from '../shared/servicetransport';
-import type { EUserConfigStoreNamespace, SteamCloudStorage } from '../shared/storage';
+import type { CCloudStorage, EUserConfigStoreNamespace } from '../shared/storage';
 import type { CurrentUser, ELoginState } from '../steam-client/User';
 
 export interface App {
@@ -9,13 +9,10 @@ export interface App {
   m_bHaveShownSupportAlertModal: boolean;
   m_bServicesInitialized: boolean;
   m_bStartedStage2: boolean;
-  /**
-   * @todo Does not seem to be used.
-   */
   m_bWasEverLoggedIn: boolean;
   m_cm: CMInterface;
   m_eLoginState: ELoginState;
-  m_mapCloudStorage: Map<EUserConfigStoreNamespace, SteamCloudStorage>;
+  m_mapCloudStorage: Map<EUserConfigStoreNamespace, CCloudStorage>;
   m_transportClient: WebUIServiceTransport;
 
   BFinishedInitStageOne(): boolean;
@@ -56,11 +53,21 @@ export interface App {
 
   BMustShowSupportAlertDialog(): boolean;
 
+  /**
+   * @todo Does not seem to be used.
+   */
   BWasEverLoggedIn(): boolean;
 
-  GetCloudStorage(namespace: EUserConfigStoreNamespace): SteamCloudStorage | undefined;
+  /**
+   * @returns the cloud storage for the provided namespace.
+   */
+  GetCloudStorage(namespace: EUserConfigStoreNamespace): CCloudStorage | undefined;
 
-  GetCloudStorageForLibrary(): SteamCloudStorage;
+  /**
+   * Like {@link GetCloudStorage}, but for
+   * {@link EUserConfigStoreNamespace.Library}.
+   */
+  GetCloudStorageForLibrary(): CCloudStorage;
 
   /**
    * @returns the currently logged in user.
@@ -89,7 +96,9 @@ export interface App {
   ShowSupportAlertsModal(): void;
 
   /**
-   * Wait until all stores load.
+   * Wait until all stores (e.g. AppStore & SettingsStore globals) load.
+   *
+   * Full list of stores can be found in the `App.InitStage2` function.
    */
   WaitForServicesInitialized(): Promise<boolean>;
 }

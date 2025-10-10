@@ -3,6 +3,16 @@ import type { ESteamUISound } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
 import type { EClientNotificationType } from '../steam-client/Notifications';
 import type { EParentalFeature } from '../steam-client/Parental';
+import type { EACState } from '../steam-client/system';
+
+// TODO(protobufs): generate
+export enum EBroadcastPermission {
+  k_EBroadcastPermissionDisabled,
+  k_EBroadcastPermissionFriendsApprove,
+  k_EBroadcastPermissionFriendsAllowed,
+  k_EBroadcastPermissionPublic,
+  k_EBroadcastPermissionSubscribers,
+}
 
 export enum ESteamNotificationSource {
   Client,
@@ -17,6 +27,7 @@ export enum ESteamNotificationAction {
 }
 
 interface SteamNotificationData {
+  bCritical: boolean;
   body: string;
   /**
    * In ms.
@@ -24,9 +35,11 @@ interface SteamNotificationData {
   duration: number;
   logo: ReactNode;
   onClick: () => void;
+  // TODO: apparently can be a function too
   playSound: boolean;
   showNewIndicator: boolean;
   showToast: boolean;
+  // TODO: apparently can be a function too
   sound: ESteamUISound;
   timestamp: Date;
   title: string;
@@ -62,7 +75,6 @@ export interface NotificationTarget {
 
 /**
  * All the functions starting with `Test` may be used to test notifications.
- * Some may not work.
  */
 export interface NotificationStore {
   m_LastSystemUpdateNotification: Pick<SteamNotification, 'eType' | 'rtCreated'> | null;
@@ -78,7 +90,10 @@ export interface NotificationStore {
   m_hTrayRemoveTimer: number;
   m_iLastBatteryLevelNotification: number;
   m_mapAppOverlayToasts: Map<number, SteamNotification[]>;
-  m_mapToastLastShown: Map<number, any>;
+  // second map:
+  // {"function(){return e(this,...t)}_function(){return e(this,...t)}" => 1760072931}
+  // ?????
+  m_mapToastLastShown: Map<number, Map<string, number>>;
   m_nNextTestNotificationID: number;
   m_nUnviewedNotifications: number;
   m_rgContextsRenderingToasts: number[];
@@ -95,15 +110,18 @@ export interface NotificationStore {
     param3: any, // data: i.proto.deserializeBinary(o)
     notificationResolvedCallback: () => void,
   ): void;
-  /**
-   * @param broadcastPermission enum ? see CClientNotificationBroadcastAvailableToWatch
-   */
-  AddBroadcastAvailableToWatch(appId: number, broadcastPermission: any): void;
+  AddBroadcastAvailableToWatch(appId: number, permission: EBroadcastPermission): void;
   AddOverlaySplashScreen(appId: number): void;
-  AddTimedTrialRemaining(appid: any, icon: any, offline: any, allowedSeconds: any, playedSeconds: any): void;
+  AddTimedTrialRemaining(
+    appid: number,
+    icon: string,
+    offline: boolean,
+    allowedSeconds: number,
+    playedSeconds?: number,
+  ): void;
   AppOverlayRunning(appId: number, value: boolean): void;
   BAnyContextRenderingToasts(): boolean;
-  BAnyToastDisplayAlone(e: any[]): boolean;
+  BAnyToastDisplayAlone(toasts: SteamNotification[]): boolean;
   BContextRenderingToasts(e: any): boolean;
   BIsToastRateLimited(e: number, t: any, r: number): boolean;
 
@@ -111,10 +129,10 @@ export interface NotificationStore {
    * @returns `true` if you are currently in a game.
    */
   BIsUserInGame(): boolean;
-  BNextToastDisplayAlone(e: any): boolean;
+  BNextToastDisplayAlone(appId: number): boolean;
   BShowToast(e: any, t: any): boolean;
   BSkipSystemUpdateNotification(type: EClientNotificationType): boolean;
-  ChooseSound(target: any, t: any): any | null;
+  ChooseSound(data: SteamNotificationData, t: any): any | null;
   ClearAllToastNotifications(): void;
   ClearRemoveFromTrayTimer(): void;
   // wtf is this
@@ -132,24 +150,18 @@ export interface NotificationStore {
   NotifyClaimSteamDeckRewards(): void;
   NotifyLowDiskSpace(folderIndex: number): void;
   NotifyTimerExpired(appId: number): void;
-  /**
-   * @todo Use with System.RegisterForBatteryStateChanges, same thing
-   */
-  OnBatteryLevelChange(flLevel: number, eACState: number, bHasBattery: boolean): void;
+  OnBatteryLevelChange(flLevel: number, eACState: EACState, bHasBattery: boolean): void;
   /**
    * @param temperature in Celsius
    */
   OnBatteryTemperatureChange(temperature: number): void;
   OnNewNotificationReceived(notification: SteamNotification): void;
-  /**
-   * @todo Use with Notifications.RegisterForNotifications, same thing
-   */
   OnNotification(notificationIndex: number, type: EClientNotificationType, data: ArrayBuffer): void;
   OnNotificationUpdateReceived(toast: SteamNotification, action: ESteamNotificationAction): void;
   OnScreenshotStarted(): void;
   PendingLoginRefresh(showedRefreshLogin: boolean): void;
   PlayNotificationSound(toast: SteamNotification): void;
-  PopNextToastNotification(e: any): any;
+  PopNextToastNotification(appId: number): SteamNotification;
   ProcessNotification(
     target: NotificationTarget,
     notification: SteamNotification,
@@ -206,7 +218,7 @@ export interface NotificationStore {
   TestReadControllerGuide(): void;
   TestRemoteClientConnection(): void;
   TestRemoteClientStartStream(): void;
-  TestRequestedGameAdded(e: any): void;
+  TestRequestedGameAdded(steamid64?: string): void;
   TestScreenshot(): void;
   TestSteamInputActionSetChanged(): void;
   TestStreamingClientConnection(): void;

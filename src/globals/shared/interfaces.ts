@@ -39,6 +39,8 @@ export interface Unsubscribable {
   Unregister(): void;
 }
 
+export declare class CBaseProtoBufMsg {}
+
 /**
  * Interface to register and unregister callbacks from, with ability to
  * dispatch.

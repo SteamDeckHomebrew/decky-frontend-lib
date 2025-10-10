@@ -9,27 +9,55 @@ export enum EConflictResolutionMethod {
   InitializationOnly = 'initial',
 }
 
-export interface SteamLocalStorage {
-  GetObject(key: string): Promise<any | null>;
+export declare class CUserLocalStorage {
+  GetObject<T extends object>(key: string): Promise<T | null>;
   GetString(key: string): Promise<string | null>;
+
   /**
    * @param resolutionMethodId Must include if selecting
    * {@link EConflictResolutionMethod.CustomMethod}.
    */
-  RemoveObject(key: string, resolutionMethod: EConflictResolutionMethod, resolutionMethodId?: any): Promise<void>;
+  RemoveObject(key: string, resolutionMethod: EConflictResolutionMethod, resolutionMethodId?: string): Promise<void>;
+
+  /**
+   * @param resolutionMethodId Must include if selecting
+   * {@link EConflictResolutionMethod.CustomMethod}.
+   */
+  StoreObject<T extends object>(
+    key: string,
+    value: T,
+    resolutionMethod?: EConflictResolutionMethod,
+    resolutionMethodId?: string,
+  ): Promise<void>;
 }
 
-/**
- * @todo This whole thing
- * Will break the client if a key isn't a string.
- * Probably better to not look at this thing at all.
- */
-export interface SteamCloudStorage extends SteamLocalStorage {
+export declare class CCloudStorage extends CUserLocalStorage {
   m_eNamespace: EUserConfigStoreNamespace;
 
   Get(key: string): string | null;
   GetByPrefix(prefix: string): Map<string, string>;
-  GetMapForPrefix(prefix: string): any;
-  StoreObject(key: string, value: any, param2: any, param3: any): Promise<void>;
-  StoreString(key: string, value: string, param2: any, param3: any): Promise<void>;
+  GetMapForPrefix(prefix: string): CCloudStorageMap;
+
+  /**
+   * @param resolutionMethodId Must include if selecting
+   * {@link EConflictResolutionMethod.CustomMethod}.
+   */
+  StoreString(
+    key: string,
+    value: string,
+    resolutionMethod?: EConflictResolutionMethod,
+    resolutionMethodId?: string,
+  ): Promise<void>;
+}
+
+export interface CCloudStorageMap
+  extends Map<string, string>,
+    Pick<CCloudStorage, 'GetObject' | 'StoreObject' | 'StoreString'> {
+  m_cloudStorage: CCloudStorage;
+  m_strKeyPrefix: string;
+
+  /**
+   * The backing Map for all the inherited methods.
+   */
+  get mapInternal(): Map<string, string>;
 }
