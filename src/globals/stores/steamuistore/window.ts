@@ -1,13 +1,13 @@
-import type { History } from 'history';
 import type { SteamBrowserHistoryState } from '../../managers';
 import type { BrowserContext } from '../../shared';
-import type { BrowserViewCreateOptions } from '../../steam-client/browser-view';
 import type { ENotificationPosition } from '../../steam-client/Overlay';
 import type { Screenshot } from '../../steam-client/Screenshots';
 import type { EWindowType, SteamWindow } from '../../steam-client/UI';
+import type { BrowserViewCreateOptions } from '../../steam-client/browser-view';
 import type { CCollectionStore } from '../collection';
 import type { CGameRecordingStore, ClipSummary_t, PlaybackDefinition_t } from '../gamerecordingstore';
 import type { CMenuStore } from './menu';
+import type { History } from 'history';
 
 export enum EOpenSideMenu {
   None,
@@ -348,7 +348,8 @@ export interface SteamUIWindowInstance {
   BRouteMatch(routes: string[]): boolean;
 
   /**
-   * @todo returns `true` if this window isn't a BPM overlay and not in gamescope.
+   * @todo returns `true` if this window isn't a BPM overlay AND not in
+   * gamescope.
    */
   BUseSeparateOverlayWindows(): boolean;
 

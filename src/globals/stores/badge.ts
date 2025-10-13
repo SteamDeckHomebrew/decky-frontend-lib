@@ -54,7 +54,7 @@ export declare class CBadgeStore {
   /**
    * Fetches badge data for a provided app from the internet.
    *
-   * @note It seems like there is a bug that won't let you run this if said
+   * @note It seems like there is a bug that won't let you run this if provided
    * app's badge info has not been loaded yet, so you have to run the following
    * before calling this:
    * ```js

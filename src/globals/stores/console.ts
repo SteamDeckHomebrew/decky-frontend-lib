@@ -38,7 +38,7 @@ export interface ConsoleStore {
   AddSpewLine(text: string, type?: SpewType_t): void;
 
   /**
-   * Resets the console history.
+   * Clears the console history.
    */
   Reset(): void;
 

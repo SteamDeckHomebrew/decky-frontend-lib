@@ -52,7 +52,8 @@ type AppAssetsWithCustomImage_t = [
   /**
    * Custom asset with the `.jpg` extension.
    *
-   * Note that you will have to check if it exists, depending on what file type the user has uploaded.
+   * Note that you will have to check if it exists, depending on what file type
+   * the user has uploaded.
    * Relative to `https://steamloopback.host`. Empty if not set.
    */
   customJpgAsset: string,
@@ -60,7 +61,8 @@ type AppAssetsWithCustomImage_t = [
   /**
    * Custom asset with the `.png` extension.
    *
-   * Note that you will have to check if it exists, depending on what file type the user has uploaded.
+   * Note that you will have to check if it exists, depending on what file type
+   * the user has uploaded.
    * Relative to `https://steamloopback.host`. Empty if not set.
    */
   customPngAsset: string,
@@ -147,9 +149,10 @@ export declare class CAppDetailsStore {
 
   /**
    * @returns the provided app's achievements.
-   * @throws if data hasn't been loaded yet. Call {@link RequestAchievements} before calling this in
-   * order to avoid it! (Most likely a bug in {@link RequestAchievements}, since GetAchievement
-   * *does* call it if data hasn't been loaded yet.)
+   * @throws if data hasn't been loaded yet. Call {@link RequestAchievements}
+   * before calling this in order to avoid it! (Most likely a bug in
+   * {@link RequestAchievements}, since GetAchievement *does* call it if data
+   * hasn't been loaded yet.)
    */
   GetAchievements(appid: number): AppAchievements;
 
@@ -167,8 +170,8 @@ export declare class CAppDetailsStore {
   GetAssociations(appid: number): AppAssociations;
 
   /**
-   * @returns the provided app's custom logo position or `null` if not loaded yet or `undefined` if
-   * not set.
+   * @returns the provided app's custom logo position or `null` if not loaded
+   * yet or `undefined` if not set.
    */
   GetCustomLogoPosition(appid: number): LogoPosition | null | undefined;
 

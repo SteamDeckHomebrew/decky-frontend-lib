@@ -203,7 +203,8 @@ declare class CDynamicCollectionFilter {
   BAcceptsUnion(group: EFilterGroup): boolean;
 
   /**
-   * @returns `true` if the current filter includes filters for the specified app feature.
+   * @returns `true` if the current filter includes filters for the specified
+   * app feature.
    */
   BHasAppFeature(feature: EFilterAppFeature): boolean;
 
@@ -233,9 +234,9 @@ declare class CDynamicCollectionFilter {
   GetSelectedOptions<K extends keyof FilterOptionByIndex_t>(group: K): FilterOptionByIndex_t[K][];
 
   /**
-   * @returns search URL params for the current filter that could be used for the store search page.
-   *
-   * Example: `?tags=9,7` for "Cooperative" and "Single player" tags respectively.
+   * @returns search URL params for the current filter that could be used for
+   * the store search page. For example: `?tags=9,7` for "Cooperative" and
+   * "Single player" tags respectively.
    */
   GetTagsString(): string;
 
@@ -257,7 +258,8 @@ declare class CDynamicCollectionFilter {
   /**
    * Adds/removes an option from a provided group.
    *
-   * Note that sometimes you may have to call {@link CCollection.Save} for the UI changes to appear.
+   * Note that sometimes you may have to call {@link CCollection.Save} for the
+   * UI changes to appear.
    *
    * @param value `true` to select, `false` otherwise.
    */
@@ -288,7 +290,8 @@ interface CCollectionBase {
   AsEditableCollection(): CCollectionBase | null;
 
   /**
-   * @returns `true` if the provided SteamID is included with the dynamic collection's filter.
+   * @returns `true` if the provided SteamID is included with the dynamic
+   * collection's filter.
    * @param steamid The SteamID 3 of a friend.
    */
   BIncludesFriend(steamid: number): boolean;
@@ -379,12 +382,14 @@ export declare class CCollectionStore {
   BHasNonGamepadOptions(): boolean;
 
   /**
-   * @returns `true` if the provided app needs to be included in your family's library.
+   * @returns `true` if the provided app needs to be included in your family's
+   * library.
    */
   BIncludeInFamilyGroupCollection(app: SteamAppOverview): boolean;
 
   /**
-   * @returns `true` if the provided app is owned by another user in your family.
+   * @returns `true` if the provided app is owned by another user in your
+   * family.
    */
   BIncludeInSharedLibraryCollection(app: SteamAppOverview): boolean;
 
@@ -404,12 +409,14 @@ export declare class CCollectionStore {
   BIsHidden(app: SteamAppOverview | number): boolean;
 
   /**
-   * @returns `true` if the provided ID is a partner collection. (only `partner-ea-access` for now).
+   * @returns `true` if the provided ID is a partner collection. (only
+   * `partner-ea-access` for now).
    */
   BIsPartnerCollectionId(id: string): boolean;
 
   /**
-   * @returns `true` if the provided string is a partner collection's localized name.
+   * @returns `true` if the provided string is a partner collection's localized
+   * name.
    */
   BIsPartnerCollectionName(name: string): boolean;
 
@@ -419,7 +426,8 @@ export declare class CCollectionStore {
   BIsSystemCollectionId(id: string): boolean;
 
   /**
-   * @returns `true` if the provided string is a system collection's localized name.
+   * @returns `true` if the provided string is a system collection's localized
+   * name.
    */
   BIsSystemCollectionName(name: string): boolean;
 

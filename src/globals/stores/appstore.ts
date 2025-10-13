@@ -73,7 +73,8 @@ export declare class CAppStore {
   GetAppOverviewByGameID(gameid: string): SteamAppOverview | null;
 
   /**
-   * Like {@link GetAlbumCoverURLForApp}, but the URL is relative to `https://steamloopback.host`.
+   * Like {@link GetAlbumCoverURLForApp}, but the URL is relative to
+   * `https://steamloopback.host`.
    */
   GetCachedAlbumCoverURL(app: SteamAppOverview): string | null;
 
@@ -90,16 +91,18 @@ export declare class CAppStore {
   GetCustomHeroImageURLs(app: SteamAppOverview): string[];
 
   /**
-   * You most likely want to use {@link GetCustomHeroImageURLs}, {@link GetCustomLandcapeImageURLs},
-   * {@link GetCustomLogoImageURLs} or {@link GetCustomVerticalCapsuleURLs} instead!
+   * You most likely want to use {@link GetCustomHeroImageURLs},
+   * {@link GetCustomLandcapeImageURLs}, {@link GetCustomLogoImageURLs} or
+   * {@link GetCustomVerticalCapsuleURLs} instead!
    *
    * Gets the URLs for the provided asset.
    *
-   * Note that only one of them will be available, depending on which extension ("jpg" or "png") was
-   * used for the custom asset.
+   * Note that only one of them will be available, depending on which extension
+   * ("jpg" or "png") was uploaded.
    *
    * @param assetName For example "", "_hero", "_logo", etc.
-   * @returns the URLs relative to `https://steamloopback.host` for the provided asset name.
+   * @returns the URLs relative to `https://steamloopback.host` for the provided
+   * asset name.
    */
   GetCustomImageURLs(app: SteamAppOverview, assetName: string): string[];
 
@@ -132,9 +135,9 @@ export declare class CAppStore {
   GetLocalizationForStoreTag(category: EGenre): string;
 
   /**
-   * Like {@link GetVerticalCapsuleURLForApp}, but "pregenerated" here means that if the app doesn't
-   * have a vertical capsule (usually older apps), then it will return its hero instead with blur on
-   * the side to match the size.
+   * Like {@link GetVerticalCapsuleURLForApp}, but "pregenerated" here means
+   * that if the app doesn't have a vertical capsule (usually older apps), then
+   * it will return its hero instead with blur on the side to match the size.
    *
    * @returns the app's vertical capsule URL.
    */

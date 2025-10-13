@@ -80,6 +80,7 @@ export interface SettingsStore {
    * @returns a ProtoBuf message.
    */
   CommunityPreferencesToMessage(value: CommunityPreferences): any;
+
   GetBatteryPreferences(): BatteryPreferences;
 
   /**

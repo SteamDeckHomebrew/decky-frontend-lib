@@ -1,3 +1,4 @@
+import type { EResult } from '../steam-client/shared';
 import type { EBrowserType, EUIMode } from './enums';
 
 export interface BrowserContext {
@@ -39,7 +40,16 @@ export interface Unsubscribable {
   Unregister(): void;
 }
 
-export declare class CBaseProtoBufMsg {}
+export declare class CBaseProtoBufMsg {
+  BIsValid(): boolean;
+  BSuccess(): boolean;
+  /**
+   * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/enums_clientserver.proto
+   */
+  GetEMsg(): number;
+  GetEResult(): EResult;
+  GetErrorMessage(): string;
+}
 
 /**
  * Interface to register and unregister callbacks from, with ability to
@@ -49,9 +59,29 @@ export declare class CBaseProtoBufMsg {}
 export interface CCallbackList<T extends any[] = never> {
   m_vecCallbacks: ((...args: [...T]) => void)[];
 
+  /**
+   * Removes all callbacks.
+   */
   ClearAllCallbacks(): void;
+
+  /**
+   * @returns the registered callbacks count.
+   */
   CountRegistered(): number;
+
+  /**
+   * Dispatches all callbacks at once.
+   *
+   * @param args Callback arguments.
+   */
   Dispatch(...args: [...T]): void;
+
+  /**
+   * Registers a callback to dispatch.
+   *
+   * @param callback The callback to register.
+   * @returns an object that can be used to unregister the callback.
+   */
   Register(callback: (...args: [...T]) => void): Unsubscribable;
 }
 

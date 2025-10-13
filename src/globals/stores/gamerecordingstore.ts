@@ -1,5 +1,6 @@
 import type { CSteamID } from '../shared';
 import type { CBaseProtoBufMsg, CScheduledFunc } from '../shared/interfaces';
+import type { EUCMFilePrivacyState } from '../steam-client/Screenshots';
 import type { EExportCodec } from '../steam-client/Settings';
 import type { EResult } from '../steam-client/shared';
 
@@ -44,8 +45,8 @@ interface TimelineData_t {
 
 interface TimelineLoader {
   m_bInitialized: boolean;
-  m_clipID: any;
-  m_fnTimelineURLBuilder(...args: any[]);
+  m_clipID: string;
+  m_fnTimelineURLBuilder: (e: string) => string;
   m_gameID: string;
   m_mapRunningTimelines: Map<string, RunningTimeline_t>;
   m_mapTimelineData: Map<string, TimelineData_t>;
@@ -54,83 +55,82 @@ interface TimelineLoader {
   m_schUpdateRunning: CScheduledFunc;
   m_ulFirstTimelineOffsetMS: number;
 
-  AddEventListener(e);
-  AddEventToTimeline(e, t, r, n, i, a, s, o);
-  AddRunningTimeline(e, t, r);
-  AddRunningTimelineEntry(e);
-  AddUserMarker(e, t, r, n);
-  AdvanceEntriesIndex(e);
-  AdvanceGameModeIndex(e);
-  AdvanceIterator(e, t);
-  BInitialized();
-  BIsTimelineRunning(e);
-  BRecordingHasZeroOffset(e);
-  ClampGlobalRangeToTimeline(e, t, r);
-  ConvertGlobaOffsetToRecordingAndRelativeOffset(e);
-  ConvertRecordingOffsetToGlobalOffset(e, t, r);
-  ConvertRecordingTimeMStoPreTrimTimeMS(e, t);
-  CreateGlobalRangeForTimeline(e, t, r, n);
-  CreateTimelineIterator(e, t);
-  FindRangeEventsAtGlobalMS(e);
-  FindRecordingAndOffsetForEntry(e): Promise<any>;
-  FindTimelineAtOffset(e, t);
-  FireEvent(e, ...t);
-  GenerateClipNameFromTimeline(e, t, r, n): Promise<any>;
-  GenerateNamePartsFromTimeline(e, t, r, n): Promise<any>;
-  GetClipID();
-  GetClosestNextEntryInGlobalTimeline(e);
-  GetClosestNextEntryInTimeline(e, t);
-  GetClosestNextRecordingInGlobalTimeline(e);
-  GetClosestPreviousEntryInGlobalTimeline(e);
-  GetClosestPreviousEntryInTimeline(e, t);
-  GetClosestPreviousRecordingInGlobalTimeline(e);
-  GetEndOfRecordingsMS();
-  GetFirstRecording();
-  GetFirstRecordingOfLastTimelineSession();
-  GetGameID();
-  GetGlobalOffsetDataForTimeline(e, t);
-  GetGlobalTimelineEndMS();
-  GetIteratorGameMode(e);
-  GetIteratorTimelineState(e);
-  GetNextRecording(e);
-  GetRunningTimelineDurationMS(e);
-  GetRunningTimelineForRecording(e, t);
-  GetStateDescriptionAtGlobalMS(e);
-  GetTimelineData(e);
-  GetTimelineDataOrStartLoad(e);
-  GetTimelineDateMS(e, t);
-  GetTimelineMetadata(e);
-  GetTimelineMetadataIndex(e);
-  GetTimelineOffsetFromGlobal(e, t);
-  GetTimelineStartBeforeGlobalZeroMS(e);
-  GetTimelines();
-  GetTotalRecordingDuration();
-  HasIteratorReachedEnd(e);
-  InsertEntryIntoTimelineSorted(e, t);
-  IsActiveRecording(e);
-  IsActiveTimeline(e);
-  LoadTimelineData(e): Promise<any>;
-  LoadTimelinesForBackgroundVideo(e): Promise<any>;
-  LoadTimelinesForClip(e): Promise<any>;
-  LoadTimelinesForSharedClip(e);
-  LoadTimelinesForTestClip(e, t, r, n);
-  LoadTimelinesForTestGame(e, t);
-  MakeRelativeToTimelineEndIfActive(e, t);
-  ProcessTimelineEntries(e);
-  RecordingSessionChanged(e);
-  RemoveTimelineEvent(e, t);
-  RemoveUserMarker(e, t);
-  RunningTimelineStopped(e, t);
-  SetPreloadedTimelines(e, t, r, n, i);
-  SetTimelineData(e, t);
-  TimelineDeleted(e);
-  UpdateTimelineMetadata(e);
-  UpdateUserMarker(e, t, r);
+  AddEventListener(e: any): any;
+  AddEventToTimeline(e: any, t: any, r: any, n: any, i: any, a: any, s: any, o: any): any;
+  AddRunningTimeline(e: any, t: any, r: any): any;
+  AddRunningTimelineEntry(e: any): any;
+  AddUserMarker(e: any, t: any, r: any, n: any): any;
+  AdvanceEntriesIndex(e: any): any;
+  AdvanceGameModeIndex(e: any): any;
+  AdvanceIterator(e: any, t: any): any;
+  BInitialized(): any;
+  BIsTimelineRunning(e: any): any;
+  BRecordingHasZeroOffset(e: any): any;
+  ClampGlobalRangeToTimeline(e: any, t: any, r: any): any;
+  ConvertGlobaOffsetToRecordingAndRelativeOffset(e: any): any;
+  ConvertRecordingOffsetToGlobalOffset(e: any, t: any, r: any): any;
+  ConvertRecordingTimeMStoPreTrimTimeMS(e: any, t: any): any;
+  CreateGlobalRangeForTimeline(e: any, t: any, r: any, n: any): any;
+  CreateTimelineIterator(e: any, t: any): any;
+  FindRangeEventsAtGlobalMS(e: any): any;
+  FindRecordingAndOffsetForEntry(e: any): Promise<any>;
+  FindTimelineAtOffset(e: any, t: any): any;
+  FireEvent(e: any, ...t: any): any;
+  GenerateClipNameFromTimeline(e: any, t: any, r: any, n: any): Promise<any>;
+  GenerateNamePartsFromTimeline(e: any, t: any, r: any, n: any): Promise<any>;
+  GetClipID(): any;
+  GetClosestNextEntryInGlobalTimeline(e: any): any;
+  GetClosestNextEntryInTimeline(e: any, t: any): any;
+  GetClosestNextRecordingInGlobalTimeline(e: any): any;
+  GetClosestPreviousEntryInGlobalTimeline(e: any): any;
+  GetClosestPreviousEntryInTimeline(e: any, t: any): any;
+  GetClosestPreviousRecordingInGlobalTimeline(e: any): any;
+  GetEndOfRecordingsMS(): any;
+  GetFirstRecording(): any;
+  GetFirstRecordingOfLastTimelineSession(): any;
+  GetGameID(): any;
+  GetGlobalOffsetDataForTimeline(e: any, t: any): any;
+  GetGlobalTimelineEndMS(): any;
+  GetIteratorGameMode(e: any): any;
+  GetIteratorTimelineState(e: any): any;
+  GetNextRecording(e: any): any;
+  GetRunningTimelineDurationMS(e: any): any;
+  GetRunningTimelineForRecording(e: any, t: any): any;
+  GetStateDescriptionAtGlobalMS(e: any): any;
+  GetTimelineData(e: any): any;
+  GetTimelineDataOrStartLoad(e: any): any;
+  GetTimelineDateMS(e: any, t: any): any;
+  GetTimelineMetadata(e: any): any;
+  GetTimelineMetadataIndex(e: any): any;
+  GetTimelineOffsetFromGlobal(e: any, t: any): any;
+  GetTimelineStartBeforeGlobalZeroMS(e: any): any;
+  GetTimelines(): any;
+  GetTotalRecordingDuration(): any;
+  HasIteratorReachedEnd(e: any): any;
+  InsertEntryIntoTimelineSorted(e: any, t: any): any;
+  IsActiveRecording(e: any): any;
+  IsActiveTimeline(e: any): any;
+  LoadTimelineData(e: any): Promise<any>;
+  LoadTimelinesForBackgroundVideo(e: any): Promise<any>;
+  LoadTimelinesForClip(e: any): Promise<any>;
+  LoadTimelinesForSharedClip(e: any): any;
+  LoadTimelinesForTestClip(e: any, t: any, r: any, n: any): any;
+  LoadTimelinesForTestGame(e: any, t: any): any;
+  MakeRelativeToTimelineEndIfActive(e: any, t: any): any;
+  ProcessTimelineEntries(e: any): any;
+  RecordingSessionChanged(e: any): any;
+  RemoveTimelineEvent(e: any, t: any): any;
+  RemoveUserMarker(e: any, t: any): any;
+  RunningTimelineStopped(e: any, t: any): any;
+  SetPreloadedTimelines(e: any, t: any, r: any, n: any, i: any): any;
+  SetTimelineData(e: any, t: any): any;
+  TimelineDeleted(e: any): any;
+  UpdateTimelineMetadata(e: any): any;
+  UpdateUserMarker(e: any, t: any, r: any): any;
 }
 
 interface CActiveTimeline {
   loader: TimelineLoader;
-
   release(): void;
 }
 
@@ -138,7 +138,6 @@ declare class CTimelineEntry {}
 
 declare class CTimelineLoader {
   loader: TimelineLoader;
-
   nRefCount: number;
 }
 
@@ -159,6 +158,7 @@ export interface ClipSummary_t {
 
 interface ClipExportProgress_t {
   exportPath: string;
+  /** 0 - 1 in percentage */
   progress: number;
   resultStatus: EResult;
 }
@@ -200,22 +200,36 @@ export declare class CGameRecordingStore {
   m_recordingState: { m_gameID: string } | null;
   m_rgAppsWithTimelines: AppWithTimeline_t[];
   m_strLastClipID: string | undefined;
-  m_transport: {
-    MakeReady(...args: any[]);
-    SendMsg(e, t, r);
-    SendNotification(e, t);
-  };
+  m_transport: any;
 
+  /**
+   * @returns `true` if not enough space on disk for clips.
+   */
   BEnoughDiskSpace(): boolean;
+
   BLoadingAppsWithBackgroundVideo(): boolean;
+
+  /**
+   * @returns `true` if clips are loading.
+   */
   BLoadingClips(): boolean;
+
+  /**
+   * Forces a check for disk space.
+   */
   CheckEnoughDiskSpace(): Promise<void>;
+
   CreateUserTimelineMarkers(
     game_id: string,
     clip_id: string,
     entry: CTimelineEntry,
   ): Promise<{ eResult: EResult; entry_id: string }>;
+
+  /**
+   * Deletes a local clip.
+   */
   DeleteClip(clip_id: string): Promise<EResult>;
+
   ExportClip(
     clip_id: string,
     export_mp4_path: string,
@@ -242,14 +256,47 @@ export declare class CGameRecordingStore {
    * @returns the available disk space in bytes.
    */
   GetAvailableDiskSpace(): Promise<number>;
-  GetBestClipTitle(clip: ClipSummary_t): string;
-  GetClipExportProgress(clipID: string): ClipExportProgress_t;
+
+  /**
+   * @returns the clip's title or the localized recorded date.
+   */
+  GetBestClipTitle(clip_id: string): string;
+
+  /**
+   * @returns the clip's export progress or `undefined` if not exporting(-ed).
+   */
+  GetClipExportProgress(clipID: string): ClipExportProgress_t | undefined;
+
+  /**
+   * @returns all clip IDs for a specified game.
+   */
   GetClipIDs(gameid: string): string[];
+
+  /**
+   * @returns clips for the valid clip IDs.
+   */
   GetClipSummaries(clipIDs: string[]): ClipSummary_t[];
+
+  /**
+   * @returns all clips for a provided game or `null` if none.
+   */
   GetClipSummariesForGame(gameid: string): ClipSummary_t[] | null;
+
+  /**
+   * @returns a clip from a provided clip ID.
+   */
   GetClipSummary(clipID: string): ClipSummary_t;
+
+  /**
+   * @returns the current exporting clip's ID or `null` if not exporting.
+   */
   GetCurrentExportingClip(): string | null;
+
+  /**
+   * @returns the last clip.
+   */
   GetLastClip(): ClipSummary_t | undefined;
+
   GetRecordingHighlights(gameid: string, createdAfter: number): Promise<any[]>;
   GetRecordingState(): this['m_recordingState'];
   GetTimelineLoaderForClip(clip_id: string): CTimelineLoader;
@@ -268,10 +315,9 @@ export declare class CGameRecordingStore {
     time_precision: boolean,
   ): any;
   // TODO: unused ?
-  ManuallyDeleteRecordingForApps(e: any): any;
-  RegisterManualRecordingCallback;
-  ReloadAppsWithBackgroundVideoIfNecessary(e);
-  RemoveUserTimelineMarkers;
+  ManuallyDeleteRecordingForApps(game_ids: string[]): any;
+  RegisterManualRecordingCallback(e: string, t: any): () => void;
+  ReloadAppsWithBackgroundVideoIfNecessary(e: any): void;
   ReportClipRange(steamid: CSteamID, rangeMethod: any, seconds: any, startRange: any, endRange: any): any;
   ReportClipShare(steamid: CSteamID, shareMethod: any, seconds: any, bytes: number, result: EResult): any;
   SaveClip(
@@ -293,11 +339,14 @@ export declare class CGameRecordingStore {
   ): Promise<{ handle?: number; result: EResult }>;
   UpdateClipExportPath(clip_id: string, path: string): void;
   UpdateUserTimelineMarkers(game_id: string, clip_id: string, entry: CTimelineEntry): Promise<EResult>;
+
+  /**
+   * Uploads a clip to the Steam community.
+   */
   UploadClip(
     clip_id: string,
-    title: string,
-    desc: string,
-    /** @todo enum? */
-    visibility: number,
-  ): Promise<{ eResult: EResult; strURL: string }>;
+    title?: string,
+    desc?: string,
+    visibility?: EUCMFilePrivacyState,
+  ): Promise<{ eResult: EResult; strURL: string | undefined }>;
 }
