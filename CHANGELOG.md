@@ -1,3 +1,10 @@
+# [4.11.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.6...v4.11.0) (2025-10-15)
+
+
+### Features
+
+* react 19 support update ([6e443c0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/6e443c06d3b7f2790da8b44a5c907517fcf12152))
+
 ## [4.10.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.5...v4.10.6) (2025-09-01)
 
 
