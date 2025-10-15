@@ -69,71 +69,145 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
 
     let renderHookStep = 0;
 
-    // Accessed two times, once directly before class instantiation, and again in some extra logic we don't need to worry about that we hanlde below just in case.
-    Object.defineProperty(component, "contextType", {
-        configurable: true,
-        get: function () {
-            loggingEnabled && logger.debug("get contexttype", this, stubsApplied, renderHookStep);
-            loggingEnabled && console.trace("contextType trace");
-            if (renderHookStep == 0) renderHookStep = 1;
-            else if (renderHookStep == 3) renderHookStep = 4;
-            return this._contextType;
-        },
-        set: function (value) {
-            this._contextType = value;
-        }
-    });
-
-    // Always accessed directly after contextType for the path we want to catch.
-    Object.defineProperty(component, "contextTypes", {
-        configurable: true,
-        get: function () {
-            loggingEnabled && logger.debug("get contexttypes", this, stubsApplied, renderHookStep);
-            loggingEnabled && console.trace("contextTypes trace");
-            if (renderHookStep == 1) {
-                renderHookStep = 2;
-                applyStubsIfNeeded();
-            };
-            return this._contextTypes;
-        },
-        set: function (value) {
-            this._contextTypes = value;
-        }
-    });
-
-    // Set directly after class is instantiated
-    Object.defineProperty(component.prototype, "updater", {
-        configurable: true,
-        get: function () {
-            return this._updater;
-        },
-        set: function (value) {
-            loggingEnabled && logger.debug("set updater", this, value, stubsApplied, renderHookStep);
-            loggingEnabled && console.trace("updater trace");
-            if (renderHookStep == 2) {
-                renderHookStep = 0;
-                removeStubsIfNeeded();
+    if (window.SP_REACTDOM.version.startsWith("19.")) {
+        // Accessed two times directly before class instantiation on path A and once on path B
+        Object.defineProperty(component, "contextType", {
+            configurable: true,
+            get: function () {
+                loggingEnabled && logger.debug("get contexttype", this, this._contextType, stubsApplied, renderHookStep);
+                loggingEnabled && console.trace("contextType trace");
+                if (renderHookStep == 0) {
+                    renderHookStep = 1;
+                }
+                if (this._contextType == null) {
+                    this._contextType = {};
+                }
+                if (!this._contextType.appliedCurrentValueHook) {
+                    logger.debug("applied currentvalue hook");
+                    this._contextType.appliedCurrentValueHook = true;
+                    Object.defineProperty(this._contextType, "_currentValue", {
+                        configurable: true,
+                        get: function () {
+                            loggingEnabled && logger.debug("get currentValue", this, stubsApplied, renderHookStep);
+                            loggingEnabled && console.trace("currentValue trace");
+                            if (renderHookStep == 1) {
+                                renderHookStep = 2;
+                                applyStubsIfNeeded();
+                            }
+                            return this.__currentValue;
+                        },
+                        set: function (value) {
+                            return this.__currentValue = value;
+                        }
+                    });
+                }
+                return this._contextType;
+            },
+            set: function (value) {
+                this._contextType = value;
             }
-            return this._updater = value;
-        }
-    });
+        });
 
-    // Prevents the second contextType+contextTypes access from leaving its hooks around
-    Object.defineProperty(component, "getDerivedStateFromProps", {
-        configurable: true,
-        get: function () {
-            loggingEnabled && logger.debug("get getDerivedStateFromProps", this, stubsApplied, renderHookStep);
-            loggingEnabled && console.trace("getDerivedStateFromProps trace");
-            if (renderHookStep == 2) {
-                renderHookStep = 0;
-                removeStubsIfNeeded();
+        // Set directly after class is instantiated
+        Object.defineProperty(component.prototype, "updater", {
+            configurable: true,
+            get: function () {
+                return this._updater;
+            },
+            set: function (value) {
+                loggingEnabled && logger.debug("set updater", this, value, stubsApplied, renderHookStep);
+                loggingEnabled && console.trace("updater trace");
+                if (renderHookStep == 1 || renderHookStep == 2) {
+                    renderHookStep = 0;
+                    removeStubsIfNeeded();
+                }
+                return this._updater = value;
             }
-            return this._getDerivedStateFromProps;
-        },
-        set: function (value) {
-            this._getDerivedStateFromProps = value;
-        }
-    });
+        });
+
+        // Prevents the second contextType access from leaving its hooks around
+        Object.defineProperty(component, "getDerivedStateFromProps", {
+            configurable: true,
+            get: function () {
+                loggingEnabled && logger.debug("get getDerivedStateFromProps", this, stubsApplied, renderHookStep);
+                loggingEnabled && console.trace("getDerivedStateFromProps trace");
+                if (renderHookStep == 1|| renderHookStep == 2) {
+                    renderHookStep = 0;
+                    removeStubsIfNeeded();
+                }
+                return this._getDerivedStateFromProps;
+            },
+            set: function (value) {
+                this._getDerivedStateFromProps = value;
+            }
+        });
+    } else if (window.SP_REACTDOM.version.startsWith("18.")) {
+        // Accessed two times, once directly before class instantiation, and again in some extra logic we don't need to worry about that we hanlde below just in case.
+        Object.defineProperty(component, "contextType", {
+            configurable: true,
+            get: function () {
+                loggingEnabled && logger.debug("get contexttype", this, stubsApplied, renderHookStep);
+                loggingEnabled && console.trace("contextType trace");
+                if (renderHookStep == 0) renderHookStep = 1;
+                else if (renderHookStep == 3) renderHookStep = 4;
+                return this._contextType;
+            },
+            set: function (value) {
+                this._contextType = value;
+            }
+        });
+
+        // Always accessed directly after contextType for the path we want to catch.
+        Object.defineProperty(component, "contextTypes", {
+            configurable: true,
+            get: function () {
+                loggingEnabled && logger.debug("get contexttypes", this, stubsApplied, renderHookStep);
+                loggingEnabled && console.trace("contextTypes trace");
+                if (renderHookStep == 1) {
+                    renderHookStep = 2;
+                    applyStubsIfNeeded();
+                };
+                return this._contextTypes;
+            },
+            set: function (value) {
+                this._contextTypes = value;
+            }
+        });
+
+        // Set directly after class is instantiated
+        Object.defineProperty(component.prototype, "updater", {
+            configurable: true,
+            get: function () {
+                return this._updater;
+            },
+            set: function (value) {
+                loggingEnabled && logger.debug("set updater", this, value, stubsApplied, renderHookStep);
+                loggingEnabled && console.trace("updater trace");
+                if (renderHookStep == 2) {
+                    renderHookStep = 0;
+                    removeStubsIfNeeded();
+                }
+                return this._updater = value;
+            }
+        });
+
+        // Prevents the second contextType+contextTypes access from leaving its hooks around
+        Object.defineProperty(component, "getDerivedStateFromProps", {
+            configurable: true,
+            get: function () {
+                loggingEnabled && logger.debug("get getDerivedStateFromProps", this, stubsApplied, renderHookStep);
+                loggingEnabled && console.trace("getDerivedStateFromProps trace");
+                if (renderHookStep == 2) {
+                    renderHookStep = 0;
+                    removeStubsIfNeeded();
+                }
+                return this._getDerivedStateFromProps;
+            },
+            set: function (value) {
+                this._getDerivedStateFromProps = value;
+            }
+        });
+    }
 
     return userComponent;
 }

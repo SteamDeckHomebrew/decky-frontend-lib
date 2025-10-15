@@ -108,7 +108,7 @@ export type ReorderableListEntryProps<T> = {
   reorderEntryFunc: CallableFunction;
   reorderEnabled: boolean;
   animate: boolean;
-  children: ReactElement | null;
+  children: ReactElement<any> | null;
 };
 
 function ReorderableItem<T>(props: ReorderableListEntryProps<T>) {

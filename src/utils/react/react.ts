@@ -1,4 +1,6 @@
-import * as React from 'react';
+import type * as React from 'react';
+import type * as ReactDOM from 'react-dom';
+import type * as JSXRuntime from 'react/jsx-runtime';
 import { Ref, useState } from 'react';
 
 // this shouldn't need to be redeclared but it does for some reason
@@ -6,6 +8,8 @@ import { Ref, useState } from 'react';
 declare global {
   interface Window {
     SP_REACT: typeof React;
+    SP_REACTDOM: typeof ReactDOM;
+    SP_JSX: typeof JSXRuntime;
   }
 }
 
@@ -33,9 +37,11 @@ export function createPropListRegex(propList: string[], fromStart: boolean = tru
 
 let oldHooks = {};
 
+export let INTERNAL_HOOKS = (window.SP_REACT as any)?.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED?.ReactCurrentDispatcher
+    .current || Object.values((window.SP_REACT as any)?.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE).find((p: any) => p?.useEffect);
+
 export function applyHookStubs(customHooks: any = {}): any {
-  const hooks = (window.SP_REACT as any).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
-    .current;
+  const hooks = INTERNAL_HOOKS;
 
   // TODO: add more hooks
 
@@ -50,7 +56,7 @@ export function applyHookStubs(customHooks: any = {}): any {
   };
 
   hooks.useCallback = (cb: Function) => cb;
-  hooks.useContext = (cb: any) => cb._currentValue;
+  hooks.useContext = (cb: any) => cb?._currentValue;
   hooks.useLayoutEffect = (_: Function) => {}; //cb();
   hooks.useMemo = (cb: Function, _: any[]) => cb;
   hooks.useEffect = (_: Function) => {}; //cb();
@@ -67,8 +73,7 @@ export function applyHookStubs(customHooks: any = {}): any {
 }
 
 export function removeHookStubs() {
-  const hooks = (window.SP_REACT as any).__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher
-    .current;
+  const hooks = INTERNAL_HOOKS;
   Object.assign(hooks, oldHooks);
   oldHooks = {};
 }
