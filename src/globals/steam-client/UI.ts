@@ -34,10 +34,7 @@ export interface UI {
      */
     RegisterForClientConVar(convar: string, callback: (value: string) => void): Unregisterable;
 
-    /**
-     * @todo param0 is an enum
-     */
-    RegisterForErrorCondition(callback: (param0: number, param1: EResult) => void): Unregisterable;
+    RegisterForErrorCondition(callback: (param0: ERefreshLoginReason, param1: EResult) => void): Unregisterable;
 
     RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;
 
@@ -55,6 +52,17 @@ export interface UI {
      * @param mode The UI mode to set.
      */
     SetUIMode(mode: EUIMode): void;
+}
+
+export enum ERefreshLoginReason {
+  Success = 1,
+  LoggedInElsewhere,
+  SteamGuard,
+  AccountDisabled,
+  Offline,
+  UnhandledMailTo,
+  Success2,
+  InfoTicketExpired,
 }
 
 export enum EWindowType {

@@ -1,43 +1,38 @@
+import type { CFocusNavController } from '../../managers';
 import type { EUIMode } from '../../shared';
 import type { ENavigationSourceType, NavigationSource } from '../../shared/navigation';
 import type { SteamAppOverview } from '../../steam-client/App';
-import type { EResult } from '../../steam-client/shared';
+import type { ControllerInfo } from '../../steam-client/Input';
+import type { ERefreshLoginReason } from '../../steam-client/UI';
 import type { EShutdownStep } from '../../steam-client/User';
+import type { EResult } from '../../steam-client/shared';
 import type { CGamepadUIAudioStore } from './gamepaduiaudio';
 import type { CWindowStore, SteamUIWindowInstance } from './window';
+
+enum EAppDetailsDisplayMode {
+  SteamUI,
+  BasicUI,
+}
 
 enum ENavigationMode {
   Digital,
   Cursor,
 }
 
-// TODO: guessed from loc tokens, but this a lot looks like EResult's members
-// except with different numbers
-// TODO again: where is this used ?
-enum ERefreshLoginReason {
-  Success = 1,
-  LoggedInElsewhere,
-  SteamGuard,
-  AccountDisabled,
-  Offline,
-  UnhandledMailTo,
-  Success2,
-}
-
 export interface SteamUIStore {
-  m_ConfiguratorWidth: any;
-  m_GamepadNavigationManager: any;
+  m_ConfiguratorWidth: number;
+  m_GamepadNavigationManager: CFocusNavController;
   m_GamepadUIAudioStore: CGamepadUIAudioStore;
-  m_LastLibraryTab: any;
-  m_WindowStore: any;
-  m_appDetailsDisplayMode: any;
+  //m_LastLibraryTab: any;
+  m_WindowStore: CWindowStore;
+  m_appDetailsDisplayMode: EAppDetailsDisplayMode;
   m_bConsoleEnabledByUser: boolean;
   m_bHomeAndQuickAccessButtonsEnabled: boolean;
   m_bIsDeckFactoryImage: boolean;
   m_bPreviouslyNavigatedToRunningApp: boolean;
   m_bShowingLockScreen: boolean;
   m_bStreamingRemotePlayTogether: boolean;
-  m_eErrorCondition: number;
+  m_eErrorCondition: ERefreshLoginReason;
   m_eErrorConditionResult: EResult;
   m_mainInstanceUIMode: EUIMode;
   m_nResumeStreamingInputTimeoutHandle: number;
@@ -51,7 +46,7 @@ export interface SteamUIStore {
   };
   m_strStandaloneConfiguratorURL: string | null;
   m_streamingAppID: number;
-  m_textFilterStore: CTextFilterStore;
+  m_textFilterStore: any;
 
   BCanNavigateToRunningApp(): boolean;
   BControllerIndexValid(index: number): boolean;
@@ -106,7 +101,7 @@ export interface SteamUIStore {
   GetFocusedWindowInstance(): SteamUIWindowInstance;
 
   GetLastLibraryTab(): {
-    collectionid: string;
+    collectionid?: string;
     strActiveTab: string;
   };
   GetShowingLockScreen(): boolean;
@@ -205,13 +200,13 @@ export interface SteamUIStore {
   get MainInstanceUIMode(): EUIMode;
   get MainRunningApp(): SteamAppOverview | undefined;
   get MainRunningAppID(): number | undefined;
-  get MostRecentlyActiveController(): any;
+  get MostRecentlyActiveController(): ControllerInfo;
   get MostRecentlyActiveControllerIndex(): number;
-  get NavigationManager(): CNavigationManager;
+  get NavigationManager(): CFocusNavController;
   get RemainInBigPictureModeOnClose(): boolean;
   get RunningApps(): SteamAppOverview[];
   get ShouldZoomStandaloneConfigurator(): boolean;
   get StandaloneConfiguratorURL(): string | null;
-  get TextFilterStore(): CTextFilterStore;
+  get TextFilterStore(): any;
   get WindowStore(): CWindowStore;
 }

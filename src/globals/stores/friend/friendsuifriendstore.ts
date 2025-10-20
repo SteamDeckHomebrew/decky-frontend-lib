@@ -4,7 +4,7 @@ import type { CClanStore } from './clanstore';
 import type { CFriendGroupStore } from './friendgroupstore';
 import type { CFriendInGameNotificationStore } from './friendingamenotificationstore';
 import type { CFriendsListFavoritesStore } from './friendslistfavoritesstore';
-import type { CPlayer, EFriendRelationship, EPersonaState } from './shared';
+import type { CPlayer, EFriendRelationship, EPersonaState, PerFriendNotificationSettings } from './shared';
 
 interface FriendStorePrefs {
   ePersonaState: EPersonaState;
@@ -16,8 +16,22 @@ interface SendFriendInviteResult {
   eFriendRelationship: EFriendRelationship;
 }
 
+interface TokenBucketChangeStatus {
+  m_numStartingTokens: number;
+  m_numTokensPerMillisecond: number;
+  m_numIntervalsPerMillisecond: number;
+  m_TimeLastChecked: number;
+  m_flTokens: number;
+  AddTokens(): void;
+  BRemoveToken(): void;
+  Reset(): void;
+}
+
 // TODO(protobufs): generate
 declare class CMsgClientFriendsList {}
+
+// TODO(protobufs): generate
+declare class PerFriendPreferences {}
 
 export interface CFriendsUIFriendStore {
   m_ClanStore: CClanStore;
@@ -26,17 +40,7 @@ export interface CFriendsUIFriendStore {
   m_FriendInGameNotificationStore: CFriendInGameNotificationStore;
   m_FriendStorePrefs: FriendStorePrefs;
   m_InitialAppInfoPromises: Promise<void>[];
-  m_TokenBucketChangeStatus: {
-    m_numStartingTokens: number;
-    m_numTokensPerMillisecond: number;
-    m_numIntervalsPerMillisecond: number;
-    m_TimeLastChecked: number;
-    m_flTokens: number;
-
-    AddTokens(): void;
-    BRemoveToken(): void;
-    Reset(): void;
-  };
+  m_TokenBucketChangeStatus: TokenBucketChangeStatus;
   m_TokenFailureAssertCount: number;
   m_bAwayCallbackFired: boolean;
   m_bInitialAppInfoLoaded: boolean;
@@ -71,7 +75,7 @@ export interface CFriendsUIFriendStore {
   m_vecLastTenChangeStatusReasons: string[];
 
   // does not actually add a friend, im pretty sure
-  AddFriend(steamid64: string, relationship: EFriendRelationship, initPlayer: boolean): void;
+  AddFriend(steamid64: string, relationship: EFriendRelationship, dontInitPlayer: boolean): void;
 
   /**
    * Adds a callback to dispatch on persona state change.
@@ -89,11 +93,11 @@ export interface CFriendsUIFriendStore {
    * @param steamid3 The SteamID3 of the player to add to the cache.
    * @returns the persona state of the player's SteamID3.
    */
-  AddPlayerToCache(steamid3: number, unused0?: number, unused1?: any): CPlayer;
+  AddPlayerToCache(steamid3: number, unused0?: number, unused1?: boolean): CPlayer;
 
   AdjustPersonaStateForIdleTime(state: EPersonaState): number;
 
-  BApprovedNonFriendMessages(param0: any): boolean;
+  BApprovedNonFriendMessages(steamid3: number): boolean;
 
   /**
    * @returns `true` if user is currently in invisible mode.
@@ -166,7 +170,7 @@ export interface CFriendsUIFriendStore {
   GetPlayer(steamid3: number): CPlayer;
 
   /**
-   * Like {@link GetPlayer}, but will return `undefined` if not cached yet.
+   * Like {@link GetPlayer}, but returns `undefined` if not cached yet.
    */
   GetPlayerIfCached(steamid3: number): CPlayer | undefined;
 
@@ -214,26 +218,27 @@ export interface CFriendsUIFriendStore {
 
   SendPersonaStateToServer(needPersonaResponse: boolean, changeStatusReason: string): boolean;
 
-  SetApprovedNonFriendMessages: any;
+  SetApprovedNonFriendMessages(param0: number): void;
 
-  SetFriendsList(msg: CMsgClientFriendsList): any;
+  SetFriendsList(msg: CMsgClientFriendsList): Promise<void>;
 
   // sets everyone to be offline lol why
   SetPersonasOffline(value: boolean): void;
 
-  /**
-   * Sets a nickname for a provided user.
-   *
-   * @param player The user to set the nickname for.
-   * @param nicknane The nickname to set. If it's empty, unsets the nickname.
-   */
-  SetPlayerNickname(player: CPlayer, nicknane: string): Promise<EResult>;
+  SetPlayerNickname(prefs: PerFriendPreferences, nicknane: string): Promise<EResult>;
 
-  SetPlayerNotificationSettings: Promise<EResult>;
+  SetPlayerNotificationSettings(
+    prefs: PerFriendPreferences,
+    notificationSettings: PerFriendNotificationSettings,
+  ): Promise<EResult>;
 
-  SetPlayerPerFriendPreferences: Promise<EResult>;
+  SetPlayerPerFriendPreferences(
+    prefs: PerFriendPreferences,
+    nickname: string,
+    notificationSettings: PerFriendNotificationSettings,
+  ): Promise<EResult>;
 
-  SetReconnectedSinceLastIdleUpdate: any;
+  SetReconnectedSinceLastIdleUpdate(): void;
 
   /**
    * Sets the user's DND state.

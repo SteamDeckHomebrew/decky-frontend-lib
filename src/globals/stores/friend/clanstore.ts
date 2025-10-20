@@ -1,5 +1,5 @@
-import type { CSteamID } from '../../shared';
 import type { CFriendStore } from '.';
+import type { BrowserContext, CSteamID } from '../../shared';
 
 export enum EClanAccountFlags {
   None,
@@ -49,8 +49,7 @@ export interface CClan {
   GetChatGroupIDIfLoaded(): CClan['m_ulChatRoomGroupID'];
   GetChatRoomGroupID(): Promise<CClan['m_ulChatRoomGroupID'] | null>;
   GetOGGAppID(): CClan['m_unOGGAppID'];
-  // CChatStore.JoinAndShowChatRoomGroup args 1 and 3
-  OpenChatDialog(e, t): Promise<any | null>;
+  OpenChatDialog(browser?: BrowserContext, param1?: boolean): Promise<string | null>;
 
   get avatar_url(): string;
   get avatar_url_medium(): string;
@@ -72,13 +71,18 @@ export declare class CClanStore {
 
   EnsureInitialStateForClanInvites(): void;
   GetClan(id: number): CClan;
-  GetOrCreateClan(e, t);
-  JoinClanChatRoom(e, t);
-  LoadClanPersonaIfNeeded(e);
-  LoadMissingClanPersonas();
-  RespondToClanInvite(e, t);
-  ScheduleLoadMissingClanPersonas();
-  SetClanChatGroupID(e, t);
+  GetOrCreateClan(steamid: number | CSteamID, eClanRelationship: EClanRelationship): CClan;
+  JoinClanChatRoom(browser: BrowserContext, relationship: EClanRelationship): Promise<void>;
+  LoadClanPersonaIfNeeded(persona: CClan): void;
+  LoadMissingClanPersonas(): void;
+
+  /**
+   * @returns a boolean indicating whether the operation was successful.
+   */
+  RespondToClanInvite(steamid: CSteamID, accept: boolean): Promise<boolean>;
+
+  ScheduleLoadMissingClanPersonas(): void;
+  SetClanChatGroupID(clanID: number, groupID: string): string;
 
   get clan_invite_count(): number;
   get clan_invites(): CClan[];

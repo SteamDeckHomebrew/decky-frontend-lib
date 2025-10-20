@@ -200,7 +200,7 @@ interface SteamWindowNavigator {
     ): void;
 
     /**
-     * Opens a game recording.
+     * Opens a game recording clip.
      */
     Recording(
       state: NavigatorRouterState<{
@@ -317,25 +317,20 @@ interface SteamUIWindowParams {
 export interface SteamUIWindowInstance {
   m_BrowserWindow: Window;
   m_bIsGamepadApplicationUIInitialized: boolean;
-
   /** Current React route. */
   m_locationPathname: string;
-
   m_Navigator: SteamWindowNavigator & SteamWindowNavigator_GamepadOnly;
-
   /** The notifications' position & offset. */
   m_notificationPosition: SteamWindowNotificationPosition;
-
   m_params: Partial<SteamUIWindowParams>;
-
-  m_VirtualKeyboardManager: CVirtualKeyboardManager;
+  m_VirtualKeyboardManager: any;
 
   BCanPopVRDashboardForCurrentPath(): boolean;
 
   BHasMenus(): boolean;
 
   /**
-   * @returns `true` if the BPM UI is initialized.
+   * @returns `true` if the BPM UI has been initialized.
    */
   BIsGamepadApplicationUIInitialized(): boolean;
 
@@ -395,6 +390,7 @@ export interface SteamUIWindowInstance {
   NavigateToRunningApp(replaceHistoryEntry: boolean): void;
   NavigateToStandaloneAppRunningControls(e?: boolean): void;
   NavigateToSteamWeb: SteamWindowNavigator['SteamWeb'];
+  // yes, it's the exact same thing
   NavigateWithoutChangingFocus: this['Navigate'];
   SetBrowserWindow(value: Window): void;
   SetNavigator(value: SteamWindowNavigator & SteamWindowNavigator_GamepadOnly): void;
@@ -430,16 +426,19 @@ export declare class CWindowStore {
   BHasStandaloneKeyboard(): boolean;
   BHasVRWindow(): boolean;
 
-  // #region Window creation, idk how to use these yet ty react
-  // all return SteamUIWindowInstance
-  CreateDesktopLoginWindow: any;
-  CreateMainDesktopWindow: any;
-  CreateMainGamepadUIWindow: any;
-  CreateSimulatedVRWindow: any;
-  CreateStandaloneControllerConfiguratorWindow: any;
-  CreateStandaloneKeyboardWindow: any;
-  CreateSteamChinaReviewLauncherWindow: any;
-  CreateVRWindow: any;
+  // #region Window creation, idk how to use these yet
+  CreateDesktopLoginWindow(browser: BrowserContext): SteamUIWindowInstance;
+  CreateMainDesktopWindow(browser: BrowserContext): SteamUIWindowInstance;
+  CreateMainGamepadUIWindow(browser: BrowserContext): SteamUIWindowInstance;
+  CreateSimulatedVRWindow(): SteamUIWindowInstance;
+  CreateStandaloneControllerConfiguratorWindow(
+    browser: BrowserContext,
+    appid: number,
+    appName: string,
+  ): SteamUIWindowInstance;
+  CreateStandaloneKeyboardWindow(browser: BrowserContext, initialX: number, initialY: number): SteamUIWindowInstance;
+  CreateSteamChinaReviewLauncherWindow(browser: BrowserContext): SteamUIWindowInstance;
+  CreateVRWindow(browser: BrowserContext, viaGamescope: boolean): SteamUIWindowInstance;
   // #endregion
 
   DEBUG_DumpDesiredSteamUIWindows(): Promise<any>;

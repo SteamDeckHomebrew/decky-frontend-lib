@@ -193,7 +193,7 @@ interface MiniProfileData {
   m_unPersonaStateFlags: number;
 }
 
-interface PerFriendNotificationSettings {
+export interface PerFriendNotificationSettings {
   Notifications_SendMobile: number;
   Notifications_ShowInGame: number;
   Notifications_ShowMessage: number;

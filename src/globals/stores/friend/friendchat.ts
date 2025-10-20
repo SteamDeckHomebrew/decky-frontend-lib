@@ -1,30 +1,27 @@
-import type { ReactNode } from 'react';
 import type { BrowserContext, CCallbackList } from '../../shared';
 import type { EResult } from '../../steam-client/shared';
 import type { ClipSummary_t } from '../gamerecordingstore';
 import type { CPlayer } from './shared';
+import type { ReactNode } from 'react';
 
-// TODO(protobufs): generate
+// #region TODO(protobufs): generate
 export enum EMessageReactionType {
   k_EMessageReactionType_Invalid,
   k_EMessageReactionType_Emoticon,
   k_EMessageReactionType_Sticker,
 }
 
-// TODO(protobufs): generate
 export enum EMsgAnimationState {
   None,
   Animating,
 }
 
-// TODO(protobufs): generate
 export enum EChatMsgDeleteState {
   None,
   Deleting,
   Deleted,
 }
 
-// TODO(protobufs): generate
 export enum EChatMsgSendError {
   None,
   Generic,
@@ -33,7 +30,6 @@ export enum EChatMsgSendError {
   RateLimitExceeded,
 }
 
-// TODO(protobufs): generate
 export enum EChatRoomServerMessage {
   k_EChatRoomServerMsg_Invalid,
   k_EChatRoomServerMsg_RenameChatRoom,
@@ -47,7 +43,6 @@ export enum EChatRoomServerMessage {
   k_EChatRoomServerMsg_AppCustom,
 }
 
-// TODO(protobufs): generate
 export enum EChatWindowState {
   Unopened,
   Hidden,
@@ -56,7 +51,6 @@ export enum EChatWindowState {
   FocusedActive,
 }
 
-// TODO(protobufs): generate
 export enum EFileUploadState {
   None,
   FileReady,
@@ -66,6 +60,7 @@ export enum EFileUploadState {
   Error_FileTypeNotSupported,
   Completed,
 }
+// #endregion
 
 interface Reaction_t {
   eReactionType: EMessageReactionType;
@@ -247,7 +242,7 @@ interface FileUploadProps_t {
 interface idk {
   displayFilename?: string;
   info: FileUploadInfo_t;
-  onComplete?: (result: EResult, size: number) => any;
+  onComplete?: (result: EResult, size: number) => void;
   processor?: any;
   unAssociatedAppID?: number;
 }
@@ -255,20 +250,20 @@ interface idk {
 interface CFileUploadManager {
   m_Callbacks: CChat;
   m_fileUploadProps: FileUploadProps_t;
-  m_onComplete: ((result: EResult, size: number) => any) | undefined;
+  m_onComplete: ((result: EResult, size: number) => void) | undefined;
 
-  BeginFileUpload(uploadInfo: FileUploadInfo_t): Promise<any>;
+  BeginFileUpload(uploadInfo: FileUploadInfo_t): Promise<Response | null>;
   ClearFileUploadError(): void;
-  CommitFileUpload(bSuccess: boolean, ugcid: any): Promise<any>;
-  DoFileUpload(e: any): Promise<any>;
+  CommitFileUpload(bSuccess: boolean, ugcid: string): Promise<Response | null>;
+  DoFileUpload(options: any): Promise<Response | null>;
   LogFileUploadMessage(msg: string): void;
   Reset(): void;
-  RetryFileUpload(): Promise<any>;
+  RetryFileUpload(): Promise<Response | null>;
   SetFileToUpload(fileOrExportFn: File | ((...args: any[]) => any) | null): void;
-  SetImageFileToUpload(file: File | null, t: idk): any;
-  SetOtherFileToUpload(file: File | null, t: idk): any;
+  SetImageFileToUpload(file: File | null, t: idk): Promise<void>;
+  SetOtherFileToUpload(file: File | null, t: idk): Promise<void>;
   SetUploadFileError(state: EFileUploadState, description: string): void;
-  StartFileExportToUpload(file: File | null, t: idk): any;
+  StartFileExportToUpload(file: File | null, t: idk): Promise<void>;
 
   get file(): File | null;
   get file_upload_data_url(): string | null;
@@ -330,8 +325,7 @@ declare class CChatTabSet {
    */
   GetTabByUniqueID(id: string): CChatView | null;
 
-  // TODO: maybe one of them is CChat why am i confused about this
-  GetTabForChat(e: CChatView): CChatView | null;
+  GetTabForChat(chat: CChat): CChatView | null;
 
   GetTabSetIdentifier(): string;
 

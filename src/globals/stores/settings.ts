@@ -25,13 +25,26 @@ export enum EProvideDeckFeedbackPreference {
 }
 
 /**
- * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/steammessages_base.proto#L340
+ * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/steammessages_notifications.steamclient.proto#L58
+ */
+interface SteamNotificationPreference {
+  notification_targets: number;
+  notification_type: EClientNotificationType;
+}
+
+/**
+ * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/steammessages_base.proto#L342
+ */
+interface ContentDescriptor {
+  content_descriptorid: number;
+  timestamp_added: number;
+}
+
+/**
+ * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/steammessages_base.proto#L341
  */
 interface UserContentDescriptorPreferences {
-  content_descriptors_to_exclude: {
-    content_descriptorid: number;
-    timestamp_added: number;
-  }[];
+  content_descriptors_to_exclude: ContentDescriptor[];
 }
 
 export interface BatteryPreferences {
@@ -59,10 +72,7 @@ export interface SettingsStore {
   m_CommunityPreferences: CommunityPreferences;
   m_FriendSettings: FriendSettingsChange;
   m_MonitorInfo: MsgMonitorInfo | undefined;
-  m_NotificationSettings: {
-    notification_targets: number;
-    notification_type: EClientNotificationType;
-  }[];
+  m_NotificationSettings: SteamNotificationPreference[];
   m_Settings: SteamSettings;
   m_StorePreferences: StorePreferences;
   m_bSteamIsInTournamentMode: boolean;
