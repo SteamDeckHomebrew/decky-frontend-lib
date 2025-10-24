@@ -13,22 +13,23 @@ export interface BrowserContext {
   m_eUIMode: EUIMode;
 
   /**
-   * @todo Appears when EBrowserType == 0 ?
+   * If overlay, game's app ID, otherwise doesn't appear.
    */
   m_gameID?: string;
 
   /**
-   * @todo Same as `SteamClient.Browser.GetBrowserID()` ?
+   * If not overlay, -1.
+   * @todo Not the same as `SteamClient.Browser.GetBrowserID()`
    */
   m_nBrowserID: number;
 
   /**
-   * Game's app ID.
+   * If overlay, game's app ID, otherwise 0.
    */
   m_unAppID?: number;
 
   /**
-   * If overlay, game's PID.
+   * If overlay, gameoverlayui's PID, otherwise 0.
    */
   m_unPID: number;
 }
@@ -40,7 +41,7 @@ export interface Unsubscribable {
   Unregister(): void;
 }
 
-export declare class CBaseProtoBufMsg {
+export interface CBaseProtoBufMsg {
   BIsValid(): boolean;
   BSuccess(): boolean;
   /**

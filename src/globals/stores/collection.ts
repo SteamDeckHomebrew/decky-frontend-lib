@@ -170,14 +170,14 @@ interface FilterGroup {
   rgOptions: Values<FilterOptionByIndex_t>;
 }
 
-interface FilterSpec_t {
+export interface FilterSpec_t {
   filterGroups: FilterGroup[];
   nFormatVersion: number;
   setSuggestions: Set<number>;
   strSearchText: string;
 }
 
-type FilterOptionByIndex_t = {
+export type FilterOptionByIndex_t = {
   [EFilterGroup.AppType]: EAppType;
   [EFilterGroup.PlayState]: EGamePlayState;
   [EFilterGroup.AppFeature]: EFilterAppFeature;
@@ -197,23 +197,10 @@ type FilterOption_t<T extends EFilterGroup> = {
   name: string;
 };
 
-declare class CDynamicCollectionFilter {
+export declare class CCollectionFilterBase {
   m_filterSpec: FilterSpec_t;
 
   BAcceptsUnion(group: EFilterGroup): boolean;
-
-  /**
-   * @returns `true` if the current filter includes filters for the specified
-   * app feature.
-   */
-  BHasAppFeature(feature: EFilterAppFeature): boolean;
-
-  BHasNonGamepadOptions(): boolean;
-
-  /**
-   * @returns `true` if the current filter includes tools.
-   */
-  BIncludesTools(): boolean;
 
   /**
    * @returns `true` if the option from a provided group is selected
@@ -225,8 +212,6 @@ declare class CDynamicCollectionFilter {
    * @returns all selected filter options.
    */
   GetAllSelectedOptions<K extends keyof FilterOptionByIndex_t>(): FilterOption_t<K>[];
-
-  GetCurrentControllerSpecificOption(): EFilterAppFeature[] | undefined;
 
   /**
    * @returns all selected filter options for a provided group.
@@ -240,20 +225,10 @@ declare class CDynamicCollectionFilter {
    */
   GetTagsString(): string;
 
-  /**
-   * @returns an array of localized strings for the current filter.
-   */
-  GetToolTipText(): string[];
-
   Matches(overview: SteamAppOverview): boolean;
   MatchesImpl(overview: SteamAppOverview): boolean;
   MatchesScored(overview: SteamAppOverview): boolean;
   MatchesScoredImpl(overview: SteamAppOverview): boolean;
-
-  /**
-   * Resets everything to default.
-   */
-  Reset(): void;
 
   /**
    * Adds/removes an option from a provided group.
@@ -276,7 +251,34 @@ declare class CDynamicCollectionFilter {
   get searchText(): string;
 }
 
-interface CCollectionBase {
+export declare class CDynamicCollectionFilter extends CCollectionFilterBase {
+  /**
+   * @returns `true` if the current filter includes filters for the specified
+   * app feature.
+   */
+  BHasAppFeature(feature: EFilterAppFeature): boolean;
+
+  BHasNonGamepadOptions(): boolean;
+
+  /**
+   * @returns `true` if the current filter includes tools.
+   */
+  BIncludesTools(): boolean;
+
+  GetCurrentControllerSpecificOption(): EFilterAppFeature[] | undefined;
+
+  /**
+   * @returns an array of localized strings for the current filter.
+   */
+  GetToolTipText(): string[];
+
+  /**
+   * Resets everything to default.
+   */
+  Reset(): void;
+}
+
+export declare class CCollectionBase {
   m_mapFilterToAppCounts: Map<number, number>;
   m_rgApps: number[];
   m_setApps: Set<number>;
@@ -326,7 +328,7 @@ interface CCollectionBase {
   get visibleApps(): SteamAppOverview[];
 }
 
-interface CCollection extends CCollectionBase {
+export declare class CCollection extends CCollectionBase {
   m_filter: CDynamicCollectionFilter;
   m_setAddedManually: Set<number>;
   m_setRemovedManually: Set<number>;

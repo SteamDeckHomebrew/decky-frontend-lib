@@ -4,12 +4,25 @@ import type { EUCMFilePrivacyState } from '../steam-client/Screenshots';
 import type { EExportCodec } from '../steam-client/Settings';
 import type { EResult } from '../steam-client/shared';
 
-declare class CGameRecording_ExportClip_Settings {
+interface CGameRecording_ExportClip_Settings {
   bitrate_kbps?: number;
   width?: number;
   height?: number;
   frames_per_second?: number;
   codec?: EExportCodec;
+}
+
+interface CGameRecordingTimelineEvent {
+  game_id: string;
+  rt_created: number;
+  possible_clip: number;
+  timeline_id: string;
+  entry_id: string;
+  timeline_offset_ms: string;
+  duration_ms: string;
+  marker_icon: string;
+  marker_title: string;
+  user_marker: boolean;
 }
 
 export interface PlaybackDefinition_t {
@@ -297,7 +310,7 @@ export declare class CGameRecordingStore {
    */
   GetLastClip(): ClipSummary_t | undefined;
 
-  GetRecordingHighlights(gameid: string, createdAfter: number): Promise<any[]>;
+  GetRecordingHighlights(gameid: string, createdAfter?: number): Promise<CGameRecordingTimelineEvent[]>;
   GetRecordingState(): this['m_recordingState'];
   GetTimelineLoaderForClip(clip_id: string): CTimelineLoader;
   GetTimelineLoaderForGame(gameid: string): CTimelineLoader;
