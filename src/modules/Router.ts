@@ -1,10 +1,13 @@
-import type { CSteamUIStore, EQuickAccessTab, ESideMenu, SteamUIWindow } from '../globals/stores';
-import Logger from '../logger';
-import { type Export, findModuleExport } from '../webpack';
+import type { CSteamUIStore } from "../globals/stores/steamuistore";
+import type { EQuickAccessTab, ESideMenu } from "../globals/stores/steamuistore/menu";
+import type { SteamUIWindowInstance } from "../globals/stores/steamuistore/window";
+import Logger from "../logger";
+import { type Export, findModuleExport } from "../webpack";
 
-// TODO(globals): maybe just use window.SteamUIStore ? it's the exact same thing
+// TODO(globals): maybe just use window.SteamUIStore ? it"s the exact same thing
 export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as CSteamUIStore;
 
+// TODO(globals): replace with MenuStore, etc. ?
 export interface Navigation {
   Navigate(path: string): void;
   NavigateBack(): void;
@@ -23,21 +26,21 @@ export interface Navigation {
   CloseSideMenus(): void;
 }
 
-export const Navigation = {} as Navigation;
+export let Navigation = {} as Navigation;
 
-const logger = new Logger('Navigation');
+const logger = new Logger("Navigation");
 
 try {
   function createNavigationFunction(fncName: string, handler?: (win: any) => any) {
     return (...args: any) => {
-      let win: SteamUIWindow | undefined;
+      let win: SteamUIWindowInstance | undefined;
       try {
         win = window.SteamUIStore.GetFocusedWindowInstance();
       } catch (e) {
-        logger.warn('Navigation interface failed to call GetFocusedWindowInstance', e);
+        logger.warn("Navigation interface failed to call GetFocusedWindowInstance", e);
       }
       if (!win) {
-        logger.warn('Navigation interface could not find any focused window. Falling back to Main Window Instance');
+        logger.warn("Navigation interface could not find any focused window. Falling back to Main Window Instance");
         win = Router.WindowStore?.GamepadUIMainWindowInstance || Router?.WindowStore?.SteamUIWindows?.[0];
       }
 
@@ -46,31 +49,31 @@ try {
           const thisObj = handler && handler(win);
           (thisObj || win)[fncName](...args);
         } catch (e) {
-          logger.error('Navigation handler failed', e);
+          logger.error("Navigation handler failed", e);
         }
       } else {
-        logger.error('Navigation interface could not find a window to navigate');
+        logger.error("Navigation interface could not find a window to navigate");
       }
-    };
+    }
   }
   const newNavigation = {
-    CloseSideMenus: createNavigationFunction('CloseSideMenus', (win) => win.MenuStore),
-    Navigate: createNavigationFunction('Navigate'),
-    NavigateBack: createNavigationFunction('NavigateBack'),
-    NavigateToAppProperties: createNavigationFunction('AppProperties', (win) => win.Navigator),
-    NavigateToChat: createNavigationFunction('Chat', (win) => win.Navigator),
-    NavigateToExternalWeb: createNavigationFunction('ExternalWeb', (win) => win.Navigator),
-    NavigateToInvites: createNavigationFunction('Invites', (win) => win.Navigator),
+    CloseSideMenus: createNavigationFunction("CloseSideMenus", win => win.MenuStore),
+    Navigate: createNavigationFunction("Navigate"),
+    NavigateBack: createNavigationFunction("NavigateBack"),
+    NavigateToAppProperties: createNavigationFunction("AppProperties", win => win.Navigator),
+    NavigateToChat: createNavigationFunction("Chat", win => win.Navigator),
+    NavigateToExternalWeb: createNavigationFunction("ExternalWeb", win => win.Navigator),
+    NavigateToInvites: createNavigationFunction("Invites", win => win.Navigator),
     NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
-    NavigateToLibraryTab: createNavigationFunction('LibraryTab', (win) => win.Navigator),
-    NavigateToSteamWeb: createNavigationFunction('NavigateToSteamWeb'),
-    OpenMainMenu: createNavigationFunction('OpenMainMenu', (win) => win.MenuStore),
+    NavigateToLibraryTab: createNavigationFunction("LibraryTab", win => win.Navigator),
+    NavigateToSteamWeb: createNavigationFunction("NavigateToSteamWeb"),
+    OpenMainMenu: createNavigationFunction("OpenMainMenu", win => win.MenuStore),
     OpenPowerMenu: Router.OpenPowerMenu?.bind(Router),
-    OpenQuickAccessMenu: createNavigationFunction('OpenQuickAccessMenu', (win) => win.MenuStore),
-    OpenSideMenu: createNavigationFunction('OpenSideMenu', (win) => win.MenuStore),
+    OpenQuickAccessMenu: createNavigationFunction("OpenQuickAccessMenu", win => win.MenuStore),
+    OpenSideMenu: createNavigationFunction("OpenSideMenu", win => win.MenuStore),
   } as Navigation;
 
   Object.assign(Navigation, newNavigation);
 } catch (e) {
-  logger.error('Error initializing Navigation interface', e);
+  logger.error("Error initializing Navigation interface", e);
 }

@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import type { PopupCreationOptions } from '../globals/managers';
+import type { PopupCreationOptions } from '../globals/stores/popupmanager';
 import { type Export, findModuleByExport, findModuleDetailsByExport, findModuleExport } from '../webpack';
 import type { FooterLegendProps } from './FooterLegend';
 
