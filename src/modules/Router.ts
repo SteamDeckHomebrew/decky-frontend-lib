@@ -1,9 +1,9 @@
-import type { EQuickAccessTab, ESideMenu, SteamUIStore, SteamUIWindow } from '../globals/stores';
+import type { CSteamUIStore, EQuickAccessTab, ESideMenu, SteamUIWindow } from '../globals/stores';
 import Logger from '../logger';
 import { type Export, findModuleExport } from '../webpack';
 
 // TODO(globals): maybe just use window.SteamUIStore ? it's the exact same thing
-export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as SteamUIStore;
+export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as CSteamUIStore;
 
 export interface Navigation {
   Navigate(path: string): void;
@@ -54,20 +54,20 @@ try {
     };
   }
   const newNavigation = {
+    CloseSideMenus: createNavigationFunction('CloseSideMenus', (win) => win.MenuStore),
     Navigate: createNavigationFunction('Navigate'),
     NavigateBack: createNavigationFunction('NavigateBack'),
     NavigateToAppProperties: createNavigationFunction('AppProperties', (win) => win.Navigator),
+    NavigateToChat: createNavigationFunction('Chat', (win) => win.Navigator),
     NavigateToExternalWeb: createNavigationFunction('ExternalWeb', (win) => win.Navigator),
     NavigateToInvites: createNavigationFunction('Invites', (win) => win.Navigator),
-    NavigateToChat: createNavigationFunction('Chat', (win) => win.Navigator),
-    NavigateToLibraryTab: createNavigationFunction('LibraryTab', (win) => win.Navigator),
     NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
+    NavigateToLibraryTab: createNavigationFunction('LibraryTab', (win) => win.Navigator),
     NavigateToSteamWeb: createNavigationFunction('NavigateToSteamWeb'),
-    OpenSideMenu: createNavigationFunction('OpenSideMenu', (win) => win.MenuStore),
-    OpenQuickAccessMenu: createNavigationFunction('OpenQuickAccessMenu', (win) => win.MenuStore),
     OpenMainMenu: createNavigationFunction('OpenMainMenu', (win) => win.MenuStore),
-    CloseSideMenus: createNavigationFunction('CloseSideMenus', (win) => win.MenuStore),
     OpenPowerMenu: Router.OpenPowerMenu?.bind(Router),
+    OpenQuickAccessMenu: createNavigationFunction('OpenQuickAccessMenu', (win) => win.MenuStore),
+    OpenSideMenu: createNavigationFunction('OpenSideMenu', (win) => win.MenuStore),
   } as Navigation;
 
   Object.assign(Navigation, newNavigation);

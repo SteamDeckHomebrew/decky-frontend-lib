@@ -3,7 +3,7 @@ import type { WebUIServiceTransport } from '../shared/servicetransport';
 import type { CCloudStorage, EUserConfigStoreNamespace } from '../shared/storage';
 import type { CurrentUser, ELoginState } from '../steam-client/User';
 
-export interface App {
+export interface CApp {
   m_CurrentUser: CurrentUser;
   m_bFinishedStage1: boolean;
   m_bHaveShownSupportAlertModal: boolean;

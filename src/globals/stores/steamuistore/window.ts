@@ -4,7 +4,7 @@ import type { ENotificationPosition } from '../../steam-client/Overlay';
 import type { Screenshot } from '../../steam-client/Screenshots';
 import type { EWindowType, SteamWindow } from '../../steam-client/UI';
 import type { BrowserViewCreateOptions } from '../../steam-client/browser-view';
-import type { CCollectionStore } from '../collection';
+import type { CCollectionStore } from '../collectionstore';
 import type { CGameRecordingStore, ClipSummary_t, PlaybackDefinition_t } from '../gamerecordingstore';
 import type { CMenuStore } from './menu';
 import type { History } from 'history';

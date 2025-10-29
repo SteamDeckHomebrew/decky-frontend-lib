@@ -65,7 +65,7 @@ export interface StorePreferences {
   provide_deck_feedback: EProvideDeckFeedbackPreference;
 }
 
-export interface SettingsStore {
+export interface CSettingsStore {
   m_BatteryPreferences: SubscribableValue<BatteryPreferences>;
   m_CMInterface: CMInterface;
   m_ClientSettings: MsgClientSettings;

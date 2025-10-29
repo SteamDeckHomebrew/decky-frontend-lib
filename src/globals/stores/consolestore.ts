@@ -23,7 +23,7 @@ export interface ConsoleSpew {
   time: Date;
 }
 
-export interface ConsoleStore {
+export interface CConsoleStore {
   m_listenHandle: Unregisterable;
   m_rgCommandHistory: string[];
   m_rgConsoleSpew: ConsoleSpew[];

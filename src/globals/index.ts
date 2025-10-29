@@ -1,38 +1,45 @@
-import type { CFocusNavController, LocalizationManager, MainWindowBrowserManager, PopupManager } from './managers';
 import type { SteamClient } from './steam-client';
 import type {
-  App,
+  CApp,
   CAppDetailsStore,
   CAppStore,
   CBadgeStore,
   CCollectionStore,
+  CConsoleStore,
+  CFocusNavController,
   CFriendStore,
   CGameRecordingStore,
-  ConsoleStore,
+  CLibraryUIStore,
+  CLocalizationManager,
+  CMainWindowBrowserManager,
+  CNotificationStore,
+  CPopupManager,
   CSecurityStore,
-  NotificationStore,
-  SettingsStore,
-  SteamUIStore,
+  CSettingsStore,
+  CSteamUIStore,
+  CURLStore,
 } from './stores';
 
 declare global {
   interface Window {
-    App: App;
+    App: CApp;
     appStore: CAppStore;
     appDetailsStore: CAppDetailsStore;
     badgeStore: CBadgeStore;
     collectionStore: CCollectionStore;
-    ConsoleStore: ConsoleStore;
+    ConsoleStore: CConsoleStore;
     FocusNavController: CFocusNavController;
     friendStore: CFriendStore;
     g_GRS: CGameRecordingStore;
-    g_PopupManager: PopupManager;
-    LocalizationManager: LocalizationManager;
-    MainWindowBrowserManager: MainWindowBrowserManager;
-    NotificationStore: NotificationStore;
+    g_PopupManager: CPopupManager;
+    LocalizationManager: CLocalizationManager;
+    MainWindowBrowserManager: CMainWindowBrowserManager;
+    NotificationStore: CNotificationStore;
     securitystore: CSecurityStore;
-    settingsStore: SettingsStore;
+    settingsStore: CSettingsStore;
     SteamClient: SteamClient;
-    SteamUIStore: SteamUIStore;
+    SteamUIStore: CSteamUIStore;
+    uiStore: CLibraryUIStore;
+    urlStore: CURLStore;
   }
 }

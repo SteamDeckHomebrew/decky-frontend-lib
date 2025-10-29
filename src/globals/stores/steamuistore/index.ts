@@ -1,4 +1,3 @@
-import type { CFocusNavController } from '../../managers';
 import type { EUIMode } from '../../shared';
 import type { ENavigationSourceType, NavigationSource } from '../../shared/navigation';
 import type { SteamAppOverview } from '../../steam-client/App';
@@ -6,6 +5,7 @@ import type { ControllerInfo } from '../../steam-client/Input';
 import type { ERefreshLoginReason } from '../../steam-client/UI';
 import type { EShutdownStep } from '../../steam-client/User';
 import type { EResult } from '../../steam-client/shared';
+import type { CFocusNavController } from '../focusnavcontroller';
 import type { CGamepadUIAudioStore } from './gamepaduiaudio';
 import type { CWindowStore, SteamUIWindowInstance } from './window';
 
@@ -19,7 +19,7 @@ enum ENavigationMode {
   Cursor,
 }
 
-export interface SteamUIStore {
+export interface CSteamUIStore {
   m_ConfiguratorWidth: number;
   m_GamepadNavigationManager: CFocusNavController;
   m_GamepadUIAudioStore: CGamepadUIAudioStore;

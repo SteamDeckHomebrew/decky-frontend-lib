@@ -1,10 +1,10 @@
-import type { Action, History, Location } from 'history';
 import type { CCallbackList } from '../shared/interfaces';
 import type {
   BrowserViewHistory,
   BrowserViewPageSecurity,
   BrowserViewPopup,
 } from '../steam-client/browser-view/BrowserViewPopup';
+import type { Action, History, Location } from 'history';
 
 type SteamBrowserTab_t = 'community' | 'store' | 'me';
 
@@ -32,7 +32,7 @@ interface TabbedBrowserWebPageRequest {
   strURL: string;
 }
 
-interface TabbedBrowserStore {
+interface CTabbedBrowserStore {
   m_cbWebPageRequestsChanged: CCallbackList;
   m_nActiveWebpageRequestID: number;
   m_nWebPageRequestID: number;
@@ -70,7 +70,7 @@ interface TabbedBrowserStore {
   UpdateWebPageRequest(requestId?: number, url?: string, title?: string): boolean;
 }
 
-export interface MainWindowBrowserManager {
+export interface CMainWindowBrowserManager {
   m_URL: string;
   m_URLRequested: string;
   m_bExpectImportantReplace: boolean;
@@ -88,7 +88,7 @@ export interface MainWindowBrowserManager {
   m_pageSecurity: BrowserViewPageSecurity | null;
   m_rootTabURLs: SteamBrowserTabs_t;
   m_strTitle: string;
-  m_tabbedBrowserStore: TabbedBrowserStore;
+  m_tabbedBrowserStore: CTabbedBrowserStore;
   m_tsWaitingForBrowserChange: number | undefined;
 
   /**

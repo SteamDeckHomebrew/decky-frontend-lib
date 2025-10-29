@@ -1,5 +1,5 @@
 import type { SteamAppOverview, SteamAppOverviewRemoteClientData } from '../steam-client/App';
-import type { EGenre, EStoreCategory } from './collection';
+import type { EGenre, EStoreCategory } from './collectionstore';
 
 // protoMsg here is CAppOverview or something
 export interface IAppOverview extends SteamAppOverview {

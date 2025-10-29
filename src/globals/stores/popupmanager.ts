@@ -237,7 +237,7 @@ export interface SteamPopup {
   UpdateParamsBeforeShow<T = Partial<SteamPopupParameters>>(params: T): T;
 }
 
-export interface PopupManager {
+export interface CPopupManager {
   DebouncedSaveSavedDimensionStore_DebounceProperties: {
     hTimer: number;
     nPending: number;

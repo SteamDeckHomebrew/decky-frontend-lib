@@ -2,7 +2,7 @@ import type { ESteamRealm } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
 import type { ELanguage } from '../steam-client/Settings';
 
-export interface LocalizationManager {
+export interface CLocalizationManager {
   m_cbkTokensChanged: CCallbackList;
   m_mapFallbackTokens: Map<string, string>;
   m_mapTokens: Map<string, string>;

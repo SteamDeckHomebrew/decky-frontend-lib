@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
 import type { ESteamUISound } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
 import type { EClientNotificationType } from '../steam-client/Notifications';
 import type { EParentalFeature } from '../steam-client/Parental';
 import type { EACState } from '../steam-client/system';
+import type { ReactNode } from 'react';
 
 // TODO(protobufs): generate
 export enum EBroadcastPermission {
@@ -76,7 +76,7 @@ export interface NotificationTarget {
 /**
  * All the functions starting with `Test` may be used to test notifications.
  */
-export interface NotificationStore {
+export interface CNotificationStore {
   m_LastSystemUpdateNotification: Pick<SteamNotification, 'eType' | 'rtCreated'> | null;
   m_bCheckBatteryAfterResume: boolean;
   m_bShowClientItemAnnouncementToasts: boolean;
@@ -143,7 +143,7 @@ export interface NotificationStore {
   GetCurrentAppOverlayNotification(appId: number): SteamNotification;
   GetCurrentToastNotification(): SteamNotification | null;
   GetNotificationTargets(): Record<EClientNotificationType, SteamNotification>;
-  GetNotificationsInTray(): [NotificationStore['m_rgNotificationTray'], NotificationStore['m_cbkNotificationTray']];
+  GetNotificationsInTray(): [CNotificationStore['m_rgNotificationTray'], CNotificationStore['m_cbkNotificationTray']];
   IncomingVoiceChat(steamId: number, show: boolean): void;
   LoadServerToastRequiredData(steamId: number): boolean;
   MarkNotificationRead(notificationId: number): void;

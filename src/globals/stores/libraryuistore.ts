@@ -9,7 +9,7 @@ import type {
   CDynamicCollectionFilter,
   FilterOptionByIndex_t,
   FilterSpec_t,
-} from './collection';
+} from './collectionstore';
 import type { SteamUIWindowInstance } from './steamuistore/window';
 import type { CStoreItem } from './storeitemcache';
 
