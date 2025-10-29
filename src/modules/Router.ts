@@ -57,23 +57,23 @@ try {
     }
   }
   const newNavigation = {
-    CloseSideMenus: createNavigationFunction("CloseSideMenus", win => win.MenuStore),
     Navigate: createNavigationFunction("Navigate"),
     NavigateBack: createNavigationFunction("NavigateBack"),
     NavigateToAppProperties: createNavigationFunction("AppProperties", win => win.Navigator),
-    NavigateToChat: createNavigationFunction("Chat", win => win.Navigator),
     NavigateToExternalWeb: createNavigationFunction("ExternalWeb", win => win.Navigator),
     NavigateToInvites: createNavigationFunction("Invites", win => win.Navigator),
-    NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
+    NavigateToChat: createNavigationFunction("Chat", win => win.Navigator),
     NavigateToLibraryTab: createNavigationFunction("LibraryTab", win => win.Navigator),
+    NavigateToLayoutPreview: Router.NavigateToLayoutPreview?.bind(Router),
     NavigateToSteamWeb: createNavigationFunction("NavigateToSteamWeb"),
-    OpenMainMenu: createNavigationFunction("OpenMainMenu", win => win.MenuStore),
-    OpenPowerMenu: Router.OpenPowerMenu?.bind(Router),
     OpenQuickAccessMenu: createNavigationFunction("OpenQuickAccessMenu", win => win.MenuStore),
     OpenSideMenu: createNavigationFunction("OpenSideMenu", win => win.MenuStore),
+    OpenMainMenu: createNavigationFunction("OpenMainMenu", win => win.MenuStore),
+    CloseSideMenus: createNavigationFunction("CloseSideMenus", win => win.MenuStore),
+    OpenPowerMenu: Router.OpenPowerMenu?.bind(Router),
   } as Navigation;
 
   Object.assign(Navigation, newNavigation);
 } catch (e) {
-  logger.error("Error initializing Navigation interface", e);
+  logger.error('Error initializing Navigation interface', e);
 }
