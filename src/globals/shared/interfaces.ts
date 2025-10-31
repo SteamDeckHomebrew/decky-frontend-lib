@@ -41,11 +41,13 @@ export interface Unsubscribable {
   Unregister(): void;
 }
 
-export interface CBaseProtoBufMsg {
+// biome-ignore lint/suspicious/noExplicitAny: intentional, not used yet
+export interface CBaseProtoBufMsg<T = any> {
   BIsValid(): boolean;
+  Body(): T;
   BSuccess(): boolean;
   /**
-   * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/enums_clientserver.proto
+   * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/enums_clientserver.proto#L4
    */
   GetEMsg(): number;
   GetEResult(): EResult;
@@ -138,7 +140,7 @@ export interface MappedSubscribableValue<T> {
 }
 
 export interface CScheduledFunc {
-  m_fnCallback: (() => void)[];
+  m_fnCallback: () => void;
   m_schTimer: number;
 
   Cancel(): void;

@@ -1,3 +1,4 @@
+import type { ServiceTransport } from '../shared';
 import type { EAppType, ESteamDeckCompatibilityCategory } from '../steam-client/App';
 import type { ELanguage } from '../steam-client/Settings';
 import type { EResult } from '../steam-client/shared';
@@ -199,7 +200,7 @@ export interface CStoreItem {
   GetParentAppID(): number;
   GetPlatforms(): this['m_Platforms'];
   GetPublisherNames(): string[];
-  GetReleaseDateRTime(e?: boolean);
+  GetReleaseDateRTime(e?: boolean): number;
   GetSalePageVanityURL(): string;
   GetScreenshots(e: any): any[];
   GetSelfPurchaseOption(): any;
@@ -220,12 +221,6 @@ export interface CStoreItem {
   HasDemoStandaloneStorePage(): boolean;
   MergeData(e: any, t: any): void;
   ReplaceBestPurchaseOption(e: any): void;
-}
-
-interface ServiceTransport {
-  MakeReady(...args: any[]);
-  SendMsg(e, t, n);
-  SendNotification(e, t);
 }
 
 export interface CStoreItemCache {
