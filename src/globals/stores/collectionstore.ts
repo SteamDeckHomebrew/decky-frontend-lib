@@ -1,5 +1,6 @@
 import type { CCloudStorage, CCloudStorageMap, CUserLocalStorage } from '../shared/storage';
 import type { EAppType, SteamAppOverview } from '../steam-client/App';
+import type { EResult } from '../steam-client/shared';
 
 // Not an enum, rather an array in Steam code
 export enum EFilterAppFeature {
@@ -444,9 +445,8 @@ export declare class CCollectionStore {
    * Deletes a provided collection ID.
    *
    * @throws if the provided ID is of a system collection.
-   * @todo returns an enum ?
    */
-  DeleteCollection(collectionID: string): Promise<1 | 9>;
+  DeleteCollection(collectionID: string): Promise<EResult>;
 
   /**
    * @returns the collection associated with the provided ID.
@@ -468,8 +468,7 @@ export declare class CCollectionStore {
    */
   GetCollectionListForAppID(appId: number): CCollection[];
 
-  /** @todo returns enum? */
-  GetCurrentGamepadFilter(): number;
+  GetCurrentGamepadFilter(): EFilterAppFeature;
 
   /**
    * @returns an array of user collections filtered by the provided name.

@@ -32,6 +32,13 @@ export enum GamepadButton {
   STEAM_GUIDE,
   STEAM_QUICK_MENU,
 }
+// TODO(globals): should this really stay here ?
+export enum EFocusSource {
+  GAMEPAD,
+  KEYBOARD,
+  APPLICATION,
+  BROWSER
+}
 export enum NavEntryPositionPreferences {
   /**
    * Always give focus to the first child element.
@@ -71,9 +78,9 @@ export enum NavEntryPositionPreferences {
   PREFERRED_CHILD,
 }
 export interface GamepadEventDetail {
-  button: number;
+  button: GamepadButton;
   is_repeat?: boolean;
-  source: number;
+  source: EFocusSource;
 }
 export declare type ActionDescriptionMap = {
   [key in GamepadButton]?: ReactNode;

@@ -55,7 +55,9 @@ export interface CURLStore {
   /**
    * Like {@link BuildLibraryAssetURL}, but relative to
    * `https://steamloopback.host`.
-   * TODO: check ~/appcache/librarycache to see when it stopped appearing
+   *
+   * It's very unlikely you will have to use this, prefer
+   * {@link BuildCachedLibraryAssetURL} instead.
    *
    * @param appId Game's app ID.
    * @param icon e.g. `header.png`, `icon.jpg`, `library_hero`.

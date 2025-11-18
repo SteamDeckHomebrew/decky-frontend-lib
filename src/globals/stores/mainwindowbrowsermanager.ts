@@ -14,7 +14,6 @@ type SteamBrowserTabs_t = {
 
 export interface SteamBrowserHistoryState {
   /**
-   * `true` if called from Steam.
    * @todo actually im not sure what this is
    */
   bExternal?: boolean;

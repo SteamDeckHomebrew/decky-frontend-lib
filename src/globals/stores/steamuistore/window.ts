@@ -1,4 +1,3 @@
-import type { SteamBrowserHistoryState } from '../../managers';
 import type { BrowserContext } from '../../shared';
 import type { ENotificationPosition } from '../../steam-client/Overlay';
 import type { Screenshot } from '../../steam-client/Screenshots';
@@ -6,6 +5,8 @@ import type { EWindowType, SteamWindow } from '../../steam-client/UI';
 import type { BrowserViewCreateOptions } from '../../steam-client/browser-view';
 import type { CCollectionStore } from '../collectionstore';
 import type { CGameRecordingStore, ClipSummary_t, PlaybackDefinition_t } from '../gamerecordingstore';
+import type { SteamBrowserHistoryState } from '../mainwindowbrowsermanager';
+import type { CGamepadBrowserView } from './gamepadbrowserview';
 import type { CMenuStore } from './menu';
 import type { History } from 'history';
 
@@ -288,7 +289,7 @@ interface SteamWindowNavigator_GamepadOnly {
   MTXAuth(url: string): void;
 
   /**
-   * @todo Login, but bReauthentication is true
+   * @todo Login(), but bReauthentication is true
    */
   Reauthentication(): void;
 
@@ -343,18 +344,17 @@ export interface SteamUIWindowInstance {
   BRouteMatch(routes: string[]): boolean;
 
   /**
-   * @todo returns `true` if this window isn't a BPM overlay AND not in
-   * gamescope.
+   * @returns `true` if not in BPM **AND** not in gamescope.
+   * @todo needs a better description, current just explains the func body
    */
   BUseSeparateOverlayWindows(): boolean;
 
   BViewingPreLoginRoute(): boolean;
 
   /**
-   * @todo Creates a browser view object similiar to the one in MainWindowBrowserManager
    * @param name Browser name.
    */
-  CreateBrowserView(name: string, options: BrowserViewCreateOptions): any;
+  CreateBrowserView(name: string, options: BrowserViewCreateOptions): CGamepadBrowserView;
 
   /**
    * Focuses the main window.
@@ -365,8 +365,7 @@ export interface SteamUIWindowInstance {
 
   GetShowingGlobalModal(): boolean;
 
-  // returns the same thing as CreateBrowserView
-  GetStoreBrowser(): any;
+  GetStoreBrowser(): CGamepadBrowserView;
 
   // #region EWindowType matching
   IsControllerConfiguratorWindow(): boolean;

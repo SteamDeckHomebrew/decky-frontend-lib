@@ -16,10 +16,60 @@ import type { CStoreItem } from './storeitemcache';
 enum EGameListView {
   /** Usually this */
   kNormal = 1,
-  /** Single collection (probably can't see this on desktop mode) */
+  /** Single collection (probably can't access this on desktop mode) */
   kSingleCollection = 10,
   /** Searching */
   kSearchResults = 11,
+}
+
+export enum EAppPropertiesSection {
+  General = 'general',
+  Compatibility = 'compatibility',
+  Updates = 'updates',
+  LocalFiles = 'localfiles',
+  Language = 'language',
+  Betas = 'betas',
+  Controller = 'controller',
+  Shortcut = 'shortcut',
+  Dlc = 'dlc',
+  Workshop = 'workshop',
+  Feedback = 'feedback',
+}
+
+export enum EControllerConfiguratorSection {
+  Main = 'Main',
+  Summary = 'Summary',
+  Preview = 'Preview',
+  ActionSets = 'ActionSets',
+  Buttons = 'Buttons',
+  Triggers = 'Triggers',
+  Sticks = 'Sticks',
+  Touchpads = 'Touchpads',
+  Gyroscopes = 'Gyroscopes',
+  VirtualMenus = 'VirtualMenus',
+  ChooseBinding = 'ChooseBinding',
+}
+
+export enum ESettingsZooSection {
+  Dropdowns = 'Dropdowns',
+  Modals = 'Modals',
+  Buttons = 'Buttons',
+  Sliders = 'Sliders',
+  Toggles = 'Toggles',
+  OtherControls = 'Misc',
+  Glyphs = 'Glyphs',
+  SVG = 'SVG',
+  Input = 'Input',
+  Type = 'Type',
+}
+
+export enum ESettingsZooDevSection {
+  DeveloperOptions = 'DeveloperOptions',
+  VRDeveloperOptions = 'VRDeveloperOptions',
+  AppSpotlight = 'AppSpotlight',
+  PlayNext = 'PlayNext',
+  Notifications = 'Notifications',
+  Share = 'Share',
 }
 
 interface GameListSelection_t {
@@ -46,18 +96,18 @@ interface LibraryState_t {
 interface NavigateLibraryArgsMap_t {
   /** appid */
   collection: number;
-  /** `{appid}` or `{appid}|{collection id}` */
+  /** Value is in the format of `{appid}` or `{appid}|{collection id}` */
   details: string;
   downloads: undefined;
-  // NavigateToCollectionSaveDialog
+  // NavigateToCollectionSaveDialog arg
   'dynamic-collection': any;
-  /** `{appid}` or `{appid}|{partner event id}` */
+  /** Value is in the format of `{appid}` or `{appid}|{partner event id}` */
   event: string;
   games: undefined;
   library: undefined;
   media: undefined;
   recent: undefined;
-  // NavigateToSharedAppsDesktopUI
+  // NavigateToSharedAppsDesktopUI arg
   'shared-apps': any;
   view:
     | 'all'
@@ -72,18 +122,38 @@ interface NavigateLibraryArgsMap_t {
     | 'videos';
 
   // #region BPM only
-  /** TODO */
+  /**
+   * Value is in the format of `{appid}|{section}`
+   *
+   * For section names see {@link EAppPropertiesSection}
+   */
   appproperties: string;
   apprunning: undefined;
-  /** `{appid}|{idk}|{browser history state json ?} */
+  /**
+   * Value is in the format of `{appid}|{section}|{browser history state json ?}`
+   *
+   * For section names see {@link EControllerConfiguratorSection}
+   */
   controllerconfigurator: string;
   /** TODO: what is this */
   gamepadapiosk: undefined;
   search: undefined;
-  /** TODO: section */
-  settings: string;
-  /** TODO: section */
-  settingszoo: string;
+  settings:
+    | 'general'
+    | 'display'
+    | 'internet'
+    | 'bluetooth'
+    | 'audio'
+    | 'storage'
+    | 'system'
+    | 'internal'
+    | 'developer'
+    | 'controller'
+    | 'downloads'
+    | 'remoteplay'
+    | 'library'
+    | 'family';
+  settingszoo: ESettingsZooSection | ESettingsZooDevSection;
   // #endregion
 }
 
