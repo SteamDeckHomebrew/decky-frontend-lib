@@ -1,3 +1,10 @@
+## [4.11.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.0...v4.11.1) (2025-11-27)
+
+
+### Bug Fixes
+
+* **webpack:** ignore window module (lol), ignore filter errors ([7242c69](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/7242c697580f3a6a6d373eaacc4fb83ccff9bd2a))
+
 # [4.11.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.10.6...v4.11.0) (2025-10-15)
 
 
