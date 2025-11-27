@@ -21,7 +21,7 @@ export let modules = new Map<ModuleID, Module>();
 function initModuleCache() {
   const startTime = performance.now();
   logger.group('Webpack Module Init');
-  // Webpack 5, currently on beta
+  // Webpack 5
   // Generate a fake module ID
   const id = Symbol("@decky/ui");
   let webpackRequire!: ((id: any) => Module) & { m: object };
@@ -70,15 +70,22 @@ export const findModuleDetailsByExport = (
   for (const [id, m] of modules) {
     if (!m) continue;
     for (const mod of [m.default, m]) {
+      // special cases
       if (typeof mod !== 'object') continue;
+      if (mod == window) continue; // wtf
       if (minExports && Object.keys(mod).length < minExports) continue;
+
       for (let exportName in mod) {
         if (mod?.[exportName]) {
-          const filterRes = filter(mod[exportName], exportName);
-          if (filterRes) {
-            return [mod, mod[exportName], exportName, id];
-          } else {
-            continue;
+          try {
+            const filterRes = filter(mod[exportName], exportName);
+            if (filterRes) {
+              return [mod, mod[exportName], exportName, id];
+            } else {
+              continue;
+            }
+          } catch (e) {
+            logger.warn("Webpack filter threw exception: ", e);
           }
         }
       }
@@ -99,6 +106,7 @@ export const findModuleExport = (filter: ExportFilterFn, minExports?: number) =>
  * @deprecated use findModuleExport instead
  */
 export const findModuleChild = (filter: FindFn) => {
+  logger.warn("findModuleChild is deprecated and will be removed soon. Use findModuleExport instead. Used in:", new Error().stack?.substring(5))
   for (const m of modules.values()) {
     for (const mod of [m.default, m]) {
       const filterRes = filter(mod);
@@ -115,6 +123,7 @@ export const findModuleChild = (filter: FindFn) => {
  * @deprecated use createModuleMapping instead
  */
 export const findAllModules = (filter: FilterFn) => {
+  logger.warn("findAllModules is deprecated and will be removed soon. Use createModuleMapping instead. Used in:", new Error().stack?.substring(5))
   const out = [];
 
   for (const m of modules.values()) {
