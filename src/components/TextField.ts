@@ -18,6 +18,7 @@ export interface TextFieldProps extends HTMLAttributes<HTMLInputElement> {
   mustBeEmail?: boolean;
   focusOnMount?: boolean;
   tooltip?: string;
+  placeholder?: string;
   inlineControls?: ReactNode;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: string;
