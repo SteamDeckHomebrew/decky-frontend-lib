@@ -52,8 +52,17 @@ export interface DialogButtonProps extends DialogCommonProps, FooterLegendProps 
 }
 
 const CommonDialogDivs = Object.values(CommonUIModule).filter(
-  (m: any) => typeof m === 'object' && m?.render?.toString().includes('createElement("div",{...') ||
-  m?.render?.toString().includes('createElement("div",Object.assign({},'),
+  (m: any) => typeof m === 'object' && 
+  // New
+  (
+    m?.render?.toString().includes('jsx)("div",{...') ||
+    m?.render?.toString().includes('jsx)("div",Object.assign({},')
+  ) ||
+  // Old
+  (
+    m?.render?.toString().includes('createElement("div",{...') ||
+    m?.render?.toString().includes('createElement("div",Object.assign({},')
+  )
 );
 const MappedDialogDivs = new Map(
   Object.values(CommonDialogDivs).map((m: any) => {

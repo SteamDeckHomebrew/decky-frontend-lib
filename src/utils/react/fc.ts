@@ -42,6 +42,9 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
     };
     component.prototype.isReactComponent = true;
     let stubsApplied = false;
+    const patchJsx = window.SP_REACTDOM.version.startsWith("19.");
+    let oldJsx = window.SP_JSX?.jsx;
+    let oldJsxs = window.SP_JSX?.jsxs;
     let oldCreateElement = window.SP_REACT.createElement;
 
     const applyStubsIfNeeded = () => {
@@ -55,6 +58,18 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
                 loggingEnabled && console.trace("createElement trace");
                 return Object.create(component.prototype);
             };
+            if (patchJsx) {
+                window.SP_JSX.jsx = () => {
+                    loggingEnabled && logger.debug("jsx hook called");
+                    loggingEnabled && console.trace("jsx trace");
+                    return Object.create(component.prototype);
+                }
+                window.SP_JSX.jsxs = () => {
+                    loggingEnabled && logger.debug("jsxs hook called");
+                    loggingEnabled && console.trace("jsxs trace");
+                    return Object.create(component.prototype);
+                }
+            }
         }
     }
 
@@ -64,6 +79,10 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
             stubsApplied = false;
             removeHookStubs();
             window.SP_REACT.createElement = oldCreateElement;
+            if (patchJsx) {
+                window.SP_JSX.jsx = oldJsx;
+                window.SP_JSX.jsxs = oldJsxs;
+            }
         }
     }
 

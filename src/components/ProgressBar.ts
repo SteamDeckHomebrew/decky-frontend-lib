@@ -28,7 +28,8 @@ export const ProgressBar = findModuleExport((e: Export) =>
 ) as FC<ProgressBarProps>;
 
 export const ProgressBarWithInfo = findModuleExport((e: Export) =>
-  e?.toString?.()?.includes('.ProgressBarFieldStatus},'),
+  // new || old
+  e?.toString?.()?.includes('.ProgressBarFieldStatus,children') || e?.toString?.()?.includes('.ProgressBarFieldStatus},'),
 ) as FC<ProgressBarWithInfoProps>;
 
 const progressBarItemRegex = createPropListRegex(["indeterminate", "nTransitionSec", "nProgress"]);

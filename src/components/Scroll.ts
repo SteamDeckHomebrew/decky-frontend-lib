@@ -11,5 +11,6 @@ export const ScrollPanel = ScrollingModuleProps.find((prop: any) =>
 ) as FC<{ children?: ReactNode }>;
 
 export const ScrollPanelGroup: FC<{ children?: ReactNode }> = findModuleExport((e: Export) =>
-  e?.render?.toString().includes('.FocusVisibleChild()),[])'),
+  // new || old
+  e?.render?.toString().includes('.FocusVisibleChild(),[])') || e?.render?.toString().includes('.FocusVisibleChild()),[])'),
 );
