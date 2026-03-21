@@ -1,3 +1,14 @@
+## [4.11.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.1...v4.11.2) (2026-03-21)
+
+
+### Bug Fixes
+
+* **ci:** microsoft ([aabc522](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/aabc5227400f1660ddcb7917fa8f305ad2fce3d7))
+* **ci:** microsoft stinks ([66e0afc](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/66e0afccae6803ee57d817621340d09a12ba75d8))
+* **ci:** update semantic release ([772a855](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/772a85523b8c4bbf80ccd4827a89801e3a51cfd6))
+* **ci:** use new npm publishing auth ([77e6acd](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/77e6acd828b1d0f0978356292b1c46bfc3b8e422))
+* **components:** update for latest beta ([261162c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/261162c8bceecc50afad07d57a78b85b98936fe1))
+
 ## [4.11.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.0...v4.11.1) (2025-11-27)
 
 
