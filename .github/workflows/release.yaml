@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+
 jobs:
   release:
     name: Release
@@ -29,5 +32,4 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN_DECKY_ORG }}
         run: pnpm exec semantic-release
