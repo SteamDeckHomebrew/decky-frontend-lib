@@ -1,3 +1,10 @@
+## [4.11.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.2...v4.11.3) (2026-03-22)
+
+
+### Bug Fixes
+
+* **Tabs:** update for latest beta ([#129](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/129)) ([3126dd3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/3126dd3e040eaef00eb0362b69efb143d7e01030))
+
 ## [4.11.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.1...v4.11.2) (2026-03-21)
 
 
