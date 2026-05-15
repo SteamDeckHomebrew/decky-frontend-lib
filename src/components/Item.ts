@@ -7,6 +7,7 @@ export interface ItemProps {
   layout?: 'below' | 'inline';
   icon?: ReactNode;
   bottomSeparator?: 'standard' | 'thick' | 'none';
+  childrenContainerWidth?: 'min' | 'max' | 'fixed'; // Does not work with layout==='below'
   indentLevel?: number;
   tooltip?: string;
   highlightOnFocus?: boolean;
