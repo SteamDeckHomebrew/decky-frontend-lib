@@ -23,11 +23,6 @@ function patchComponent(node: any, handler: GenericPatchHandler, steps: NodeStep
     // We need to take extra care to not mutate the original node.type
     switch (typeof node?.[prop]) {
         case 'function':
-            // Function component
-            const patch = afterPatch(node, prop, steps[step + 1] ? createStepHandler(handler, steps, step + 1, caches, logger) : handler);
-            loggingEnabled && logger.debug('Patched a function component', patch);
-            break;
-        case 'object':
             if (node[prop]?.prototype?.render) {
                 // Class component
                 // TODO handle patching custom methods
@@ -35,11 +30,16 @@ function patchComponent(node: any, handler: GenericPatchHandler, steps: NodeStep
                 const patch = afterPatch(node[prop].prototype, 'render', steps[step + 1] ? createStepHandler(handler, steps, step + 1, caches, logger) : handler);
                 loggingEnabled && logger.debug('Patched class component', patch);
             } else {
-                loggingEnabled && logger.debug('Patching forwardref/memo');
-                wrapReactType(node, prop);
-                // Step down the object
-                patchComponent(node[prop], handler, steps, step, caches, logger, node[prop]?.render ? 'render' : 'type'); 
+                // Function component
+                const patch = afterPatch(node, prop, steps[step + 1] ? createStepHandler(handler, steps, step + 1, caches, logger) : handler);
+                loggingEnabled && logger.debug('Patched a function component', patch);
             }
+            break;
+        case 'object':
+            loggingEnabled && logger.debug('Patching forwardref/memo');
+            wrapReactType(node, prop);
+            // Step down the object
+            patchComponent(node[prop], handler, steps, step, caches, logger, node[prop]?.render ? 'render' : 'type'); 
             break;
         default:
             logger.error('Unhandled component type', node);
