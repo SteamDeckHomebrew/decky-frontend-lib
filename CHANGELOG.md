@@ -1,3 +1,11 @@
+## [4.11.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.3...v4.11.4) (2026-05-15)
+
+
+### Bug Fixes
+
+* **dropdown:** hack to fix styling in dropdownitem ([e44664c](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e44664c9704b3b284284619bc26cf6a910890136))
+* **Field:** fix filter for field on beta ([ac8da8e](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ac8da8e9b650cfcabcd3e5752e1475e91e7edf7a))
+
 ## [4.11.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.2...v4.11.3) (2026-03-22)
 
 
