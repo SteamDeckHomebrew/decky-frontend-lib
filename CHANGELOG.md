@@ -1,3 +1,10 @@
+## [4.11.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.4...v4.11.5) (2026-06-06)
+
+
+### Bug Fixes
+
+* **ErrorBoundary:** support new steam beta ([9fb2ce5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/9fb2ce58bb3b24ece933837b5bb5b5eea889923b))
+
 ## [4.11.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.3...v4.11.4) (2026-05-15)
 
 
