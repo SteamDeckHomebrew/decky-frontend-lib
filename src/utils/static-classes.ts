@@ -108,6 +108,7 @@ type GamepadDialogClasses = Record<
   | 'FieldLabel'
   | 'FieldLabelRow'
   | 'FieldLabelValue'
+  | 'FieldLeftColumn'
   | 'Front'
   | 'FullWidth'
   | 'GamepadDialogContent'
