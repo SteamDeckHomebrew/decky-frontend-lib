@@ -1,3 +1,10 @@
+## [4.11.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.5...v4.11.6) (2026-06-06)
+
+
+### Bug Fixes
+
+* **static-classes:** add missing FieldLeftColumn ([e08f65f](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/e08f65f87646d65ede25ba945a27f94af482283d))
+
 ## [4.11.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.4...v4.11.5) (2026-06-06)
 
 
