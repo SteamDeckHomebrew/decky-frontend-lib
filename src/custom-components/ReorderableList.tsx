@@ -18,6 +18,7 @@ export type ReorderableEntry<T> = {
  * Properties for a ReorderableList component of type <T>.
  *
  * @param animate If the list should animate. @default true
+ * @param disableReordering If true, prevents entering reordering mode and hides reorder instructions. @default false
  */
 export type ReorderableListProps<T> = {
   entries: ReorderableEntry<T>[];
@@ -25,6 +26,7 @@ export type ReorderableListProps<T> = {
   interactables?: JSXElementConstructor<{ entry: ReorderableEntry<T> }>;
   fieldProps?: FieldProps;
   animate?: boolean;
+  disableReordering?: boolean;
 };
 
 /**
@@ -43,7 +45,16 @@ export function ReorderableList<T>(props: ReorderableListProps<T>) {
     setEntryList([...props.entries].sort((a: ReorderableEntry<T>, b: ReorderableEntry<T>) => a.position - b.position));
   }, [props.entries]);
 
+  useEffect(() => {
+    if (props.disableReordering && reorderEnabled) {
+      setReorderEnabled(false);
+      props.onSave(entryList);
+    }
+  }, [props.disableReordering, reorderEnabled, entryList]);
+
   function toggleReorderEnabled(): void {
+    if (props.disableReordering) return;
+
     let newReorderValue = !reorderEnabled;
     setReorderEnabled(newReorderValue);
 
@@ -75,9 +86,9 @@ export function ReorderableList<T>(props: ReorderableListProps<T>) {
         }}
       >
         <Focusable
-          onSecondaryButton={toggleReorderEnabled}
-          onSecondaryActionDescription={reorderEnabled ? 'Save Order' : 'Reorder'}
-          onClick={toggleReorderEnabled}
+          onSecondaryButton={props.disableReordering ? undefined : toggleReorderEnabled}
+          onSecondaryActionDescription={props.disableReordering ? undefined : reorderEnabled ? 'Save Order' : 'Reorder'}
+          onClick={props.disableReordering ? undefined : toggleReorderEnabled}
           onButtonDown={saveOnBackout}
         >
           {entryList.map((entry: ReorderableEntry<T>) => (
