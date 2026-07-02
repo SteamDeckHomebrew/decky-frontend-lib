@@ -1,16 +1,20 @@
-import { JsPbMessage, Unregisterable } from "../shared";
+import { JsPbMessage, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
 
 export interface AudioDevice {
     /**
      * If `data` is deserialized, returns {@link CMsgSystemAudioManagerState}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForStateChanges(callback: (data: SerializedProto<CMsgSystemAudioManagerState>) => void): Unregisterable;
 
     /**
      * @param base64 Serialized base64 message from `CMsgSystemAudioManagerUpdateSomething`.
      */
-    UpdateSomething(base64: string): void;
+    UpdateSomething(base64: SerializedProtoBase64<CMsgSystemAudioManagerUpdateSomething>): void;
+}
+
+export interface CMsgSystemAudioManagerUpdateSomething extends JsPbMessage {
+    counter(): number | undefined;
 }
 
 export interface CMsgSystemAudioManagerState extends JsPbMessage {

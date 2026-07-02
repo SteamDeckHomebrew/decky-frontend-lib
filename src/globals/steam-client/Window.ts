@@ -129,6 +129,8 @@ export interface Window {
 
     SetComposition(mode: EUIComposition, appIdCompositionQueue: number[], windowId: number): void;
 
+    SetGamepadUIAutoDisplayScale(value: boolean): void;
+
     /**
      * Makes the window hide, but not close on pressing the close button.
      * @param value Hide on close?
@@ -138,6 +140,8 @@ export interface Window {
     SetKeyFocus(value: boolean): void;
 
     SetManualDisplayScaleFactor(displayScaleFactor: number): void;
+
+    SetGamepadUIManualDisplayScaleFactor(displayScaleFactor: number): void;
 
     /**
      * Sets the window's max size.
@@ -175,6 +179,11 @@ export interface Window {
     ShowWindow(): void;
 
     /**
+     * Sets whether the window should flash in the taskbar.
+     */
+    SetWindowFlashing(value: boolean): void;
+
+    /**
      * Stops the window's taskbar flashing.
      */
     StopFlashWindow(): void;
@@ -183,6 +192,11 @@ export interface Window {
      * Toggles the window's fullscreen state.
      */
     ToggleFullscreen(): void;
+
+    /**
+     * Toggles or sets the window's fullscreen state.
+     */
+    ToggleFullScreen(value?: boolean): void;
 
     /**
      * Toggles the window's maximized state.

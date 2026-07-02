@@ -45,11 +45,12 @@ export interface Overlay {
 
     /**
      * Registers a callback function to be called when an overlay is activated or closed.
+     * The final flag is used by Steam UI as a close/deactivation gate.
      * @param callback The callback function to be called.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForOverlayActivated(
-        callback: (overlayProcessPid: number, appId: number, active: boolean, param3: boolean) => void,
+        callback: (overlayProcessPid: number, appId: number, active: boolean, closeRequested: boolean) => void,
     ): Unregisterable;
 
     /**

@@ -1,13 +1,13 @@
 import { Unregisterable } from "../shared";
 
 export interface Display {
-    EnableUnderscan(param0: boolean): any;
+    EnableUnderscan(enabled: boolean): any;
 
     RegisterForBrightnessChanges(callback: (state: BrightnessState) => void): Unregisterable;
 
     SetBrightness(brightness: number): any;
 
-    SetUnderscanLevel(param0: any): any;
+    SetUnderscanLevel(level: number): any;
 }
 
 export interface BrightnessState {

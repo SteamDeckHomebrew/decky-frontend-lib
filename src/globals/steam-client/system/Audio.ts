@@ -64,7 +64,7 @@ export interface Audio {
      */
     RegisterForDeviceVolumeChanged(callback: (audioDeviceId: number, audioType: number, volume: number) => void): Unregisterable;
 
-    RegisterForServiceConnectionStateChanges(callback: (param0: any) => void): Unregisterable;
+    RegisterForServiceConnectionStateChanges(callback: (connected: boolean) => void): Unregisterable;
 
     /**
      * Registers a callback to be called when volume buttons are pressed.

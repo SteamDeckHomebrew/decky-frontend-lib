@@ -1,4 +1,4 @@
-import { JsPbMessage, OperationResponse, Unregisterable } from "../../shared";
+import { JsPbMessage, OperationResponse, SerializedProto, Unregisterable } from "../../shared";
 import {Device} from "./Device";
 
 export interface Network {
@@ -16,7 +16,7 @@ export interface Network {
      * If `state` is deserialized, returns {@link CGameNetworkingUI_ConnectionState}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForConnectionStateUpdate(callback: (state: ArrayBuffer) => void): Unregisterable;
+    RegisterForConnectionStateUpdate(callback: (state: SerializedProto<CGameNetworkingUI_ConnectionState>) => void): Unregisterable;
 
     RegisterForConnectivityTestChanges(callback: (connectivityTest: ConnectivityTest) => void): Unregisterable;
 
@@ -24,7 +24,7 @@ export interface Network {
      * If `data` is deserialized, returns {@link CMsgNetworkDevicesData}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForDeviceChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForDeviceChanges(callback: (data: SerializedProto<CMsgNetworkDevicesData>) => void): Unregisterable;
 
     SetFakeLocalSystemState(state: ENetFakeLocalSystemState): void;
 
@@ -65,7 +65,7 @@ interface AppSummary {
     /**
      * If deserialized, returns {@link CGameNetworkingUI_AppSummary}.
      */
-    serializedMessage: ArrayBuffer;
+    serializedMessage: SerializedProto<CGameNetworkingUI_AppSummary>;
 }
 
 export enum ENetFakeLocalSystemState {

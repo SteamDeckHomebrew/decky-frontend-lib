@@ -1,4 +1,4 @@
-import type { EResult, JsPbMessage, OperationResponse, Unregisterable, VDFBoolean_t } from "./shared";
+import type { EResult, JsPbMessage, OperationResponse, SerializedProto, Unregisterable, VDFBoolean_t } from "./shared";
 import type { EControllerRumbleSetting, EThirdPartyControllerConfiguration } from "./Input";
 import {EUCMFilePrivacyState, Screenshot} from "./Screenshots";
 
@@ -68,6 +68,10 @@ export interface Apps {
      */
     ClearCustomLogoPositionForApp(appId: number): Promise<void>;
 
+    /**
+     * Clears the compatibility tool override for an app.
+     * @param appId The ID of the application.
+     */
     ClearProton(appId: number): Promise<void>;
 
     /**
@@ -89,7 +93,7 @@ export interface Apps {
      * @param appId The ID of the application.
      * @param itemId The ID of the workshop item.
      */
-    DownloadWorkshopItem(appId: number, itemId: string, param1: boolean): void;
+    DownloadWorkshopItem(appId: number, itemId: string, downloadNow: boolean): void;
 
     /**
      * Retrieves achievements within a specified time range for a given app.
@@ -133,11 +137,19 @@ export interface Apps {
      * @returns a ProtoBuf message. If deserialized, returns {@link CMsgCloudPendingRemoteOperations}.
      */
     GetCloudPendingRemoteOperations(appId: number): Promise<{
-        PendingOperations: ArrayBuffer;
+        PendingOperations: SerializedProto<CMsgCloudPendingRemoteOperations>;
     }>;
 
-    GetCompatExperiment(param0: number): Promise<string>;
+    /**
+     * Gets the compatibility experiment string for an app.
+     * @param appId The ID of the application.
+     */
+    GetCompatExperiment(appId: number): Promise<string>;
 
+    /**
+     * Gets the local/remote timestamps needed to resolve a Steam Cloud conflict.
+     * @param appId The ID of the application.
+     */
     GetConflictingFileTimestamps(appId: number): Promise<ConflictingFileTimestamp>;
 
     /**
@@ -163,6 +175,10 @@ export interface Apps {
      */
     GetDownloadedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
+    /**
+     * Gets whether duration controls apply to the specified app.
+     * @param appId The ID of the application.
+     */
     GetDurationControlInfo(appId: number): Promise<{ bApplicable: boolean; }>;
 
     /**
@@ -210,7 +226,7 @@ export interface Apps {
     /**
      * @returns a ProtoBuf message. If deserialized, returns {@link CLibraryBootstrapData}.
      */
-    GetLibraryBootstrapData(): Promise<ArrayBuffer>;
+    GetLibraryBootstrapData(): Promise<SerializedProto<CLibraryBootstrapData>>;
 
     /**
      * Retrieves achievement information for the authenticated user in a specific Steam application.
@@ -226,6 +242,10 @@ export interface Apps {
      */
     GetPlaytime(appId: number): Promise<Playtime | undefined>;
 
+    /**
+     * Gets pre-purchase information for one or more apps.
+     * @param appIds App IDs to query.
+     */
     GetPrePurchasedApps(appIds: number[]): Promise<PrePurchaseInfo>;
 
     /**
@@ -286,10 +306,21 @@ export interface Apps {
      */
     GetSubscribedWorkshopItems(appId: number): Promise<WorkshopItem[]>;
 
+    /**
+     * Installs a Flatpak app and creates a non-Steam shortcut for it.
+     * @param appName Flatpak app name.
+     * @param appCommandLineOptions Command line used for the shortcut.
+     */
     InstallFlatpakAppAndCreateShortcut(appName: string, appCommandLineOptions: string): Promise<{
         appid: number;
         strInstallOutput: string;
     }>;
+
+    /**
+     * Launches a non-Steam application directly from a command line.
+     * @param commandLine Full command line to launch.
+     */
+    LaunchNonSteamApp(commandLine: string): void;
 
     /**
      * Join an app beta.
@@ -355,8 +386,11 @@ export interface Apps {
      * @param callback The callback function to be called.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForAchievementChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForAchievementChanges(callback: (data: SerializedProto<CMsgAchievementChange>) => void): Unregisterable;
 
+    /**
+     * Registers for backup progress/status changes.
+     */
     RegisterForAppBackupStatus(callback: (status: AppBackupStatus) => void): Unregisterable;
 
     /**
@@ -371,7 +405,7 @@ export interface Apps {
      * If `data` is deserialized, returns {@link CAppOverview_Change}.
      * @remarks This is not a mistake, it doesn't return anything.
      */
-    RegisterForAppOverviewChanges(callback: (data: ArrayBuffer) => void): void;
+    RegisterForAppOverviewChanges(callback: (data: SerializedProto<CAppOverview_Change>) => void): void;
 
     RegisterForDRMFailureResponse(
         callback: (appid: number, eResult: EResult, errorCode: number) => void,
@@ -393,7 +427,7 @@ export interface Apps {
              * Localization token.
              */
             error: string,
-            param4: string,
+            details: string,
         ) => void
     ): Unregisterable;
 
@@ -410,7 +444,7 @@ export interface Apps {
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForGameActionStart(
-        callback: (gameActionId: number, appId: string, action: string, param3: ELaunchSource) => void,
+        callback: (gameActionId: number, gameId: string, actionName: string, launchSource: ELaunchSource) => void,
     ): Unregisterable;
 
     /**
@@ -421,10 +455,10 @@ export interface Apps {
     RegisterForGameActionTaskChange(
         callback: (
             gameActionId: number,
-            appId: string,
-            action: string,
-            requestedAction: string,
-            param4: string,
+            gameId: string,
+            actionName: string,
+            taskName: string,
+            taskDetails: string,
         ) => void,
     ): Unregisterable;
 
@@ -436,15 +470,16 @@ export interface Apps {
     RegisterForGameActionUserRequest(
         callback: (
             gameActionId: number,
-            appId: string,
-            action: string,
-            requestedAction: string,
-            appId2: string,
+            gameId: string,
+            actionName: string,
+            request: string,
+            requestDetails: string,
         ) => void,
     ): Unregisterable;
 
     RegisterForPrePurchasedAppChanges(callback: () => void): Unregisterable; // Unknown, did have it show up a few times, but not callback parameters
-    RegisterForShowMarketingMessageDialog: Unregisterable;
+    RegisterForShowMarketingMessageDialog(callback: (url: string) => void): Unregisterable;
+    RegisterForShowPendingGiftsDialog(callback: (url: string) => void): Unregisterable;
 
     /**
      * Registers a callback function to be notified when workshop items are added or removed from a Steam application.
@@ -455,7 +490,7 @@ export interface Apps {
 
     RegisterForWorkshopItemDownloads(
         appId: number,
-        callback: (appId: number, publishedFileId: string, param2: number) => void,
+        callback: (appId: number, publishedFileId: string, downloadState: number) => void,
     ): Unregisterable;
 
     RegisterForWorkshopItemInstalled(callback: (item: InstalledWorkshopItem) => void): Unregisterable;
@@ -470,6 +505,8 @@ export interface Apps {
 
     ReportMarketingMessageDialogShown(): void;
 
+    ReportPendingGiftsDialogShown(): void;
+
     RequestIconDataForApp(appId: number): void;
 
     RequestLegacyCDKeysForApp(appId: number): void;
@@ -478,11 +515,11 @@ export interface Apps {
      * Runs a game with specified parameters. Focuses the game if already launched.
      * @param appId The ID of the application to run.
      * @param launchOptions Additional launch options for the application.
-     * @param param2 Additional parameter (exact usage may vary).
-     * @param launchSource
+     * @param launchOptionIndex Launch option index, or -1 for the default.
+     * @param launchSource Source used for launch telemetry/routing.
      * @remarks `launchOptions` is appended before the ones specified in the application's settings.
      */
-    RunGame(appId: string, launchOptions: string, param2: number, launchSource: ELaunchSource): void;
+    RunGame(appId: string, launchOptions: string, launchOptionIndex: number, launchSource: ELaunchSource): void;
 
     /*
       function u(e, t) {
@@ -583,6 +620,11 @@ export interface Apps {
     SetDLCEnabled(appId: number, appDLCId: number, value: boolean): void;
 
     /**
+     * Sets whether an app should identify the client as a Steam Deck for compatibility behavior.
+     */
+    SetForceIdentAsSteamDeck(appId: number, value: boolean): void;
+
+    /**
      * Set a local screenshot's caption.
      * @param appId The application ID the screenshot belongs to.
      * @param hHandle The handle of the screenshot.
@@ -642,6 +684,11 @@ export interface Apps {
     SetShortcutName(appId: number, name: string): void;
 
     /**
+     * Sets the custom "sort as" key for a non-Steam shortcut.
+     */
+    SetShortcutSortAs(appId: number, sortAs?: string): void;
+
+    /**
      * Sets the starting directory for a non-Steam application shortcut.
      * @param appId The ID of the application to set the starting directory for.
      * @param directory The directory from which the application should be launched.
@@ -684,7 +731,10 @@ export interface Apps {
      */
     ShowStore(appId: number): void;
 
-    SpecifyCompatExperiment(appId: number, param1: string): void;
+    /**
+     * Sets the compatibility experiment string for an app. Empty string clears the experiment.
+     */
+    SpecifyCompatExperiment(appId: number, experiment: string): void;
 
     /**
      * Specifies a compatibility tool by its name for a given application. If strToolName is an empty string, the specified application will no longer use a compatibility tool.
@@ -693,7 +743,7 @@ export interface Apps {
      */
     SpecifyCompatTool(appId: number, strToolName: string): void;
 
-    StreamGame(appId: number, clientId: string, param2: number): void;
+    StreamGame(appId: number, clientId: string, launchOptionIndex: number): void;
 
     /**
      * Subscribes or unsubscribes from a workshop item for a specific app.
@@ -706,9 +756,9 @@ export interface Apps {
     /**
      * Terminates a running application.
      * @param appId The ID of the application to terminate.
-     * @param param1 Additional parameter. Exact usage may vary.
+     * @param force Steam currently passes false from its UI before terminating or stopping a stream.
      */
-    TerminateApp(appId: string, param1: boolean): void;
+    TerminateApp(appId: string, force: boolean): void;
 
     // "#AppProperties_SteamInputDesktopConfigInLauncher"
     ToggleAllowDesktopConfiguration(appId: number): void;
@@ -1546,15 +1596,19 @@ export interface LogoPositionForApp {
 export interface CLibraryBootstrapData extends JsPbMessage {
     app_data(): AppBootstrapData[];
 
-    add_app_data(param0: any, param1: any): any;
+    add_app_data(value: any, index: any): any;
 
-    set_app_data(param0: any): any;
+    set_app_data(value: any): any;
 }
 
 export interface AppBootstrapData {
     appid: number;
     hidden: boolean;
     user_tag: string[];
+}
+
+export interface CMsgAchievementChange extends JsPbMessage {
+    appid(): number | undefined;
 }
 
 export interface CAppOverview_Change extends JsPbMessage {
@@ -1566,17 +1620,17 @@ export interface CAppOverview_Change extends JsPbMessage {
 
     update_complete(): boolean;
 
-    add_app_overview(param0: any, param1: any): any;
+    add_app_overview(value: any, index: any): any;
 
-    add_removed_appid(param0: any, param1: any): any;
+    add_removed_appid(value: any, index: any): any;
 
-    set_app_overview(param0: any): any;
+    set_app_overview(value: any): any;
 
-    set_full_update(param0: any): any;
+    set_full_update(value: any): any;
 
-    set_removed_appid(param0: any): any;
+    set_removed_appid(value: any): any;
 
-    set_update_complete(param0: any): any;
+    set_update_complete(value: any): any;
 }
 
 export enum ECloudPendingRemoteOperation {

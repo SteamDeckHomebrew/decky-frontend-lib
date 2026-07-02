@@ -14,16 +14,16 @@ export interface SharedConnection {
 
     RegisterOnLogonInfoChanged(hSharedConnection: number, callback: (info: LogonInfo) => void): Unregisterable;
 
-    RegisterOnMessageReceived(hSharedConnection: number, callback: (param0: any) => void): Unregisterable;
+    RegisterOnMessageReceived(hSharedConnection: number, callback: (message: any) => void): Unregisterable;
 
     SendMsg: any;
     SendMsgAndAwaitBinaryResponse: any;
 
     SendMsgAndAwaitResponse(hSharedConnection: number, msg: string): Promise<any>;
 
-    SubscribeToClientServiceMethod(hSharedConnection: number, param1: any): any;
+    SubscribeToClientServiceMethod(hSharedConnection: number, serviceMethod: any): any;
 
-    SubscribeToEMsg(hSharedConnection: number, param1: any): any;
+    SubscribeToEMsg(hSharedConnection: number, eMsg: any): any;
 }
 
 export interface LogonInfo {

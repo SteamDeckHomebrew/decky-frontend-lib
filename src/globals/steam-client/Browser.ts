@@ -45,19 +45,38 @@ export interface Browser {
      */
     RegisterForOpenNewTab: Unregisterable;
 
-    ReplaceMisspelling(param0: string): void;
+    /**
+     * Clears all browser backstack entries.
+     */
+    RemoveAllBackstackEntries(): Promise<void>;
+
+    ReplaceMisspelling(word: string): void;
 
     /**
      * Restarts the Steam JS context.
      */
     RestartJSContext(): void;
 
+    /**
+     * Enables or disables background throttling for the current browser.
+     */
     SetBackgroundThrottlingDisabled(value: boolean): void;
 
-    SetPendingFilePath(path: string): Promise<boolean>;
+    /**
+     * Registers a pending file selection path with Steam.
+     * @param pendingFileId Generated ID used with the `.valvefile${pendingFileId}` accept token.
+     * @param path Original file path/name to expose to the file input.
+     */
+    SetPendingFilePath(pendingFileId: string, path: string): Promise<boolean>;
 
+    /**
+     * Controls whether closing this browser should exit Steam.
+     */
     SetShouldExitSteamOnBrowserClosed(value: boolean): Promise<void>;
 
+    /**
+     * Sets touch gestures that should be cancelled by the browser.
+     */
     SetTouchGesturesToCancel(gestures: ETouchGesture[]): void;
 
     /**

@@ -1,4 +1,4 @@
-import { JsPbMessage, OperationResponse } from "../shared";
+import { JsPbMessage, OperationResponse, SerializedProto } from "../shared";
 
 export interface Report {
     /**
@@ -26,7 +26,7 @@ export interface SystemReportReply extends OperationResponse {
      * 
      * Optional, since {@link Report.GenerateSystemReport} throws without this.
      */
-    reply?: ArrayBuffer;
+    reply?: SerializedProto<CMsgGenerateSystemReportReply>;
 }
 
 export interface CMsgGenerateSystemReportReply extends JsPbMessage {
@@ -35,5 +35,5 @@ export interface CMsgGenerateSystemReportReply extends JsPbMessage {
      */
     report_id(): string | undefined;
 
-    set_report_id(param0: any): any;
+    set_report_id(value: any): any;
 }

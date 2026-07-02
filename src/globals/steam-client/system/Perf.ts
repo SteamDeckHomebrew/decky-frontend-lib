@@ -1,5 +1,4 @@
-import { JsPbMessage } from "../shared";
-import { Unregisterable } from "../shared";
+import { JsPbMessage, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
 
 // CMsgSystemPerfUpdateSettings, CMsgSystemPerfState, CMsgSystemPerfSettings
 export interface Perf {
@@ -7,18 +6,28 @@ export interface Perf {
      * If `data` is deserialized, returns {@link CMsgSystemPerfDiagnosticInfo}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForDiagnosticInfoChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForDiagnosticInfoChanges(callback: (data: SerializedProto<CMsgSystemPerfDiagnosticInfo>) => void): Unregisterable;
 
     /**
      * If `data` is deserialized, returns {@link CMsgSystemPerfState}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForStateChanges(callback: (data: SerializedProto<CMsgSystemPerfState>) => void): Unregisterable;
 
     /**
      * @param base64 Serialized base64 message from `CMsgSystemPerfUpdateSettings`.
      */
-    UpdateSettings(base64: string): any;
+    UpdateSettings(base64: SerializedProtoBase64<CMsgSystemPerfUpdateSettings>): any;
+}
+
+export interface CMsgSystemPerfUpdateSettings extends JsPbMessage {
+    gameid(): string | undefined;
+
+    reset_to_default(): boolean | undefined;
+
+    settings_delta(): SystemPerfSettings | undefined;
+
+    skip_storage_update(): boolean | undefined;
 }
 
 export interface CMsgSystemPerfDiagnosticInfo extends JsPbMessage {

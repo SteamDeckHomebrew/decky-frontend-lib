@@ -20,18 +20,20 @@ export interface BrowserViewPopup {
      */
     CanGoForward(): boolean;
 
-    // alert() i assume
-    DialogResponse(param0: boolean): void;
+    /**
+     * Responds to the current JavaScript alert/confirm dialog.
+     */
+    DialogResponse(accepted: boolean): void;
 
     EnableSteamInput(): void;
 
     /**
      * Find a string in the page.
      * @param input The string to find.
-     * @param param1
+     * @param findNext Whether this continues the current find operation.
      * @param previous `true` for previous match, `false` for next match.
      */
-    FindInPage(input: string, param1: boolean, previous: boolean): void;
+    FindInPage(input: string, findNext: boolean, previous: boolean): void;
 
     /**
      * Get the current popup position. Only updates when using {@link SetBounds}!
@@ -52,7 +54,7 @@ export interface BrowserViewPopup {
     /**
      * @param command See {@link BrowserViewContextMenu.custom_commands}.
      */
-    HandleContextMenuCommand(command: number, param2: BrowserViewContextMenu): void;
+    HandleContextMenuCommand(command: number, contextMenu: BrowserViewContextMenu): void;
 
     /**
      * Load the specified URL.
@@ -194,7 +196,7 @@ interface BrowserViewEventMap {
     /**
      * Fires when the page finishes loading.
      */
-    'finished-request': (currentURL: string, previousURL: string) => void;
+    'finished-request': (url: string, title: string) => void;
 
     /**
      * Fires when the browser goes focused or vice versa.
@@ -225,7 +227,7 @@ interface BrowserViewEventMap {
      */
     'message': (message: string, args: string, currentURL: string) => void;
 
-    'new-tab': (url: string, param1: boolean) => void;
+    'new-tab': (url: string, activate: boolean) => void;
 
     /**
      * Fires when a node gets focused.
@@ -247,7 +249,7 @@ interface BrowserViewEventMap {
          * @todo Localization token that doesn't seem to exist? (#Web_FormSubmit)
          */
         token: string,
-        param4: boolean,
+        clientManagesVirtualKeyboard: boolean,
     ) => void;
 
     'page-security': (url: string, pageSecurity: BrowserViewPageSecurity) => void;
@@ -259,8 +261,10 @@ interface BrowserViewEventMap {
 
     /**
      * Fires when the page starts loading.
+     *
+     * @todo Steam UI forwards the second flag but does not inspect it.
      */
-    'start-loading': (url: string, param1: boolean) => void;
+    'start-loading': (url: string, isMainFrame: boolean) => void;
 
     /**
      * Fires when the page starts loading.

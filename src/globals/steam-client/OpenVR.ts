@@ -12,6 +12,12 @@ export interface OpenVR {
 
     GetWebSecret(): Promise<string>;
 
+    /**
+     * Extends VR activity timeout for a tracked device.
+     * Steam passes device index 0 for the HMD and 0 seconds to clear the override.
+     */
+    ExtendActivityTimeout(deviceIndex: number, timeoutSeconds: number): void;
+
     InstallVR(): any;
 
     Keyboard: Keyboard;
@@ -31,7 +37,12 @@ export interface OpenVR {
 
     RegisterForVRModeChange(callback: (m_bIsVRRunning: boolean) => void): Unregisterable;
 
-    RegisterForVRSceneAppChange(callback: (param0: number) => void): Unregisterable;
+    RegisterForVRSceneAppChange(callback: (appId: number) => void): Unregisterable;
+
+    /**
+     * Registers for changes to tracked VR device indices.
+     */
+    RegisterForVRTrackedDevices(callback: (deviceIndices: number[]) => void): Unregisterable;
 
     SetOverlayInteractionAffordance: any;
 
@@ -102,7 +113,7 @@ export interface VROverlay {
     RegisterForVisibilityChanged: Unregisterable;
     ShowDashboard: any;
 
-    SwitchToDashboardOverlay(param0: string): void;
+    SwitchToDashboardOverlay(overlayKey: string): void;
 }
 
 export enum EHMDActivityLevel {
