@@ -8,7 +8,7 @@ export interface FamilySharing {
 
     RegisterForKickedBorrower: Unregisterable;
 
-    SetPreferredLender(appId: number, param1: number): Promise<EResult>;
+    SetPreferredLender(appId: number, lenderAccountId: number): Promise<EResult>;
 }
 
 interface LenderDLC {

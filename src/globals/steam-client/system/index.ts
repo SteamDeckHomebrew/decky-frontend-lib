@@ -1,4 +1,4 @@
-import { JsPbMessage, OperationResponse, Unregisterable } from "../shared";
+import { JsPbMessage, OperationResponse, SerializedProto, Unregisterable } from "../shared";
 import {Audio} from "./Audio";
 import {AudioDevice} from "./AudioDevice";
 import {Bluetooth} from "./Bluetooth";
@@ -85,7 +85,10 @@ export interface System {
 
     RebootToAlternateSystemPartition(): any;
 
-    RebootToFactoryTestImage(param0: any): any;
+    /**
+     * Reboots into the factory test image.
+     */
+    RebootToFactoryTestImage(factoryReset: boolean): any;
 
     RegisterForAirplaneModeChanges(callback: (state: AirplaneModeState) => void): Unregisterable;
 
@@ -100,7 +103,7 @@ export interface System {
     /**
      * @returns a ProtoBuf message. If deserialized, returns {@link CMsgSystemManagerSettings}.
      */
-    RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForSettingsChanges(callback: (data: SerializedProto<CMsgSystemManagerSettings>) => void): Unregisterable;
 
     Report: Report;
 

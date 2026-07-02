@@ -1,4 +1,4 @@
-import { EResult, JsPbMessage, OperationResponse } from "./shared";
+import { EResult, JsPbMessage, OperationResponse, SerializedProto } from "./shared";
 import {EOSType} from "./system";
 
 export interface Auth {
@@ -14,11 +14,11 @@ export interface Auth {
     /**
      * @returns a ProtoBuf message. If deserialized, returns {@link CAuthentication_DeviceDetails}.
      */
-    GetMachineID(): Promise<ArrayBuffer>;
+    GetMachineID(): Promise<SerializedProto<CAuthentication_DeviceDetails>>;
 
     GetRefreshInfo(): Promise<AuthRefreshInfo>;
 
-    GetSteamGuardData(param0: string): Promise<SteamGuardData>;
+    GetSteamGuardData(accountName: string): Promise<SteamGuardData>;
 
     /**
      * "Secured" refers to unshared.

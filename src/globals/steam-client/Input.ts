@@ -39,18 +39,36 @@ export interface Input {
 
     DecrementCloudedControllerConfigsCounter(): any;
 
-    DeletePersonalControllerConfiguration(param0: any): any;
+    DeletePersonalControllerConfiguration(configUrl: string): any;
 
     //f.Debug("sending to client"), this.SetEditingConfigurationValue(e, t, c.QU, (e => SteamClient.Input.DuplicateControllerConfigurationSourceMode(this.m_unControllerIndex, e))), this.SaveEditingConfiguration(e), this
-    DuplicateControllerConfigurationSourceMode(controllerIndex: number, param1: any): any;
+    DuplicateControllerConfigurationSourceMode(controllerIndex: number, serializedConfigBase64: string): any;
+
+    /**
+     * Enables or disables controller analog input message delivery.
+     */
+    EnableControllerAnalogInputMessages(enabled: boolean): void;
 
     EndControllerDeviceSupportFlow(): any;
 
-    ExportCurrentControllerConfiguration(controllerIndex: number, appId: number, param2: number, title: string, description: string, param5: string): Promise<any>;
+    ExportCurrentControllerConfiguration(
+        controllerIndex: number,
+        appId: number,
+        configType: number,
+        title: string,
+        description: string,
+        templateName: string,
+    ): Promise<any>;
 
-    ForceConfiguratorFocus(param0: boolean): any;
+    ForceConfiguratorFocus(focused: boolean): any;
 
-    ForceSimpleHapticEvent(param0: number, param1: number, param2: number, param3: number, param4: number): any;
+    ForceSimpleHapticEvent(
+        controllerIndex: number,
+        hapticLocation: number,
+        hapticStyle: number,
+        intensity: number,
+        gain: number,
+    ): any;
 
     FreeControllerConfig(m_ChordSummaryConfiguration: any): any;
 
@@ -84,12 +102,15 @@ export interface Input {
 
     PreviewControllerLEDColor(flHue: number, flSaturation: number, flBrightness: number): any;
 
-    QueryControllerConfigsForApp(appId: number, controllerIndex: number, param2: boolean): any;
+    QueryControllerConfigsForApp(appId: number, controllerIndex: number, includeOtherControllerTypes: boolean): any;
+
+    /**
+     * Registers for active controller configuration load state changes.
+     */
+    RegisterForActiveConfigLoadedMessages(callback: (appId: number, controllerIndex: number, loaded: boolean) => void): Unregisterable;
 
     RegisterForActiveControllerChanges: Unregisterable; // {"nActiveController":0}
-    //param0 - e possibly appid?
-    //param1 - some index?
-    RegisterForConfigSelectionChanges(callback: (param0: number, param1: number) => void): Unregisterable;
+    RegisterForConfigSelectionChanges(callback: (appId: number, controllerIndex: number) => void): Unregisterable;
 
     RegisterForControllerAccountChanges: Unregisterable;
 
@@ -130,7 +151,13 @@ export interface Input {
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForControllerInputMessages(
-        callback: (controllerIndex: number, gamepadButton: ControllerInputGamepadButton, isButtonPressed: boolean) => void,
+        callback: (
+            controllerIndex: number,
+            gamepadButton: ControllerInputGamepadButton,
+            isButtonPressed: boolean,
+            x: number,
+            y: number,
+        ) => void,
     ): Unregisterable;
 
     RegisterForControllerListChanges(callback: (controllerListChanges: ControllerInfo[]) => void): Unregisterable;
@@ -153,6 +180,11 @@ export interface Input {
      */
     RegisterForGameKeyboardMessages(callback: (msg: GameKeyboardMessage) => void): Unregisterable;
 
+    /**
+     * Registers for physical keyboard count changes.
+     */
+    RegisterForKeyboardDeviceChanges(callback: (keyboardCount: number) => void): Unregisterable;
+
     RegisterForRemotePlayConfigChanges(callback: () => void): Unregisterable;
 
     //data.appId, data.ulConfigId
@@ -170,40 +202,39 @@ export interface Input {
 
     RegisterForTouchMenuMessages(callback: (msg: TouchMenuMessage) => void): Unregisterable;
 
-    //param0 - index?
-    RegisterForUIVisualization(param0: any, param1: any, param2: any): Unregisterable;
+    RegisterForUIVisualization(callback: (leftPadX: number, leftPadY: number, rightPadX: number, rightPadY: number) => void): Unregisterable;
 
-    RegisterForUnboundControllerListChanges(callback: (m_unboundControllerList: any) => void): Unregisterable; // param0 is an array
+    RegisterForUnboundControllerListChanges(callback: (unboundControllerList: any[]) => void): Unregisterable;
 
     /*
         OnDismissKeyboardMessage(e) {
             this.m_WindowStore.SteamUIWindows.forEach((e => e.VirtualKeyboardManager.SetVirtualKeyboardHidden(e.BrowserWindow)))
         }
      */
-    RegisterForUserDismissKeyboardMessages(callback: (param0: any) => void): Unregisterable;
+    RegisterForUserDismissKeyboardMessages(callback: (message: any) => void): Unregisterable;
 
     RegisterForUserKeyboardMessages: Unregisterable;
 
-    RequestGyroActive(controllerIndex: number, param1: boolean): any;
+    RequestGyroActive(controllerIndex: number, active: boolean): any;
 
-    RequestRemotePlayControllerConfigs(param0: any): any;
+    RequestRemotePlayControllerConfigs(groupId: string | number): any;
 
-    ResetControllerBindings(param0: any): any;
+    ResetControllerBindings(controllerIndex: number): any;
 
-    ResolveCloudedControllerConfigConflict(param0: any): any;
+    ResolveCloudedControllerConfigConflict(resolution: any): any;
 
     RestoreControllerPersonalizationSettings(controllerIndex: number): any;
 
     SaveControllerCalibration(controllerIndex: number): any;
 
-    SaveControllerPersonalizationSettings(param0: any): any;
+    SaveControllerPersonalizationSettings(controllerIndex: number): any;
 
     SaveControllerSounds: any;
 
     SaveEditingControllerConfiguration(controllerIndex: number, sharedConfig: boolean): any;
 
     //this.SetEditingConfigurationValue(e, t, c.sL, (e => SteamClient.Input.SetControllerConfigurationModeShiftBinding(this.m_unControllerIndex, e)))
-    SetControllerConfigurationModeShiftBinding(controllerIndex: number, param1: any): any;
+    SetControllerConfigurationModeShiftBinding(controllerIndex: number, serializedConfigBase64: string): any;
 
     SetControllerHapticSetting(controllerIndex: number, eHapticSetting: any): any;
 
@@ -214,7 +245,7 @@ export interface Input {
     SetControllerNintendoLayoutSetting: any;
     SetControllerPersonalizationName: any;
 
-    //param0 - nLStickDeadzone, bSWAntiDrift, nRHapticStrength, flRPadPressureCurve
+    // Known integer setting keys include nLStickDeadzone, bSWAntiDrift, and nRHapticStrength.
     /*
                 SteamClient.Input.SetControllerPersonalizationSetting("nLStickDeadzone", e.nLStickDeadzone),
                 SteamClient.Input.SetControllerPersonalizationSetting("nRStickDeadzone", e.nRStickDeadzone),
@@ -237,9 +268,9 @@ export interface Input {
                 SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nGyroEnableButton", e.nGyroEnableButton),
                 SteamClient.Input.SetControllerPersonalizationSetting("GyroPreferenceData.nGyroEnableButtonBehavior", e.nGyroEnableButtonBehavior),
      */
-    SetControllerPersonalizationSetting(param0: string, param1: number): any;
+    SetControllerPersonalizationSetting(setting: string, value: number): any;
 
-    //param0 - flGyroStationaryTolerance, flAccelerometerStationaryTolerance,
+    // Known float setting keys include flGyroStationaryTolerance and flAccelerometerStationaryTolerance.
     /*
                     SteamClient.Input.SetControllerPersonalizationSettingFloat("GyroPreferenceData.flGyroNaturalSensitivity", e.flGyroNaturalSensitivity),
                     SteamClient.Input.SetControllerPersonalizationSettingFloat("GyroPreferenceData.flGyroXYRatio", e.flGyroXYRatio),
@@ -248,15 +279,15 @@ export interface Input {
                 SteamClient.Input.SetControllerPersonalizationSettingFloat("flGyroStationaryTolerance", e.flGyroStationaryTolerance),
                 SteamClient.Input.SetControllerPersonalizationSettingFloat("flAccelerometerStationaryTolerance", e.flAccelerometerStationaryTolerance),
      */
-    SetControllerPersonalizationSettingFloat(param0: string, param1: number): any;
+    SetControllerPersonalizationSettingFloat(setting: string, value: number): any;
 
     SetControllerRumbleSetting(controllerIndex: number, rumblePreference: EControllerRumbleSetting): any;
 
     SetControllerUseUniversalFaceButtonGlyphs(controllerIndex: number, value: boolean): void;
 
-    SetCursorActionset(param0: boolean): any;
+    SetCursorActionset(enabled: boolean): any;
 
-    SetDualSenseUpdateNotification(param0: boolean): any
+    SetDualSenseUpdateNotification(enabled: boolean): any;
 
     /*
             SetEditingConfigurationValue(e, t, n, o) {
@@ -276,26 +307,28 @@ export interface Input {
             this.SetEditingConfigurationValue(e, t, c.X3, (e => SteamClient.Input.SetEditingControllerConfigurationActionSet(this.m_unControllerIndex, e)))
         }
      */
-    SetEditingControllerConfigurationActionSet(controllerIndex: number, param1: any): any;
+    SetEditingControllerConfigurationActionSet(controllerIndex: number, serializedConfigBase64: string): any;
 
     //this.SetEditingConfigurationValue(e, t, c.io, (e => SteamClient.Input.SetEditingControllerConfigurationInputActivator(this.m_unControllerIndex, e)))
-    SetEditingControllerConfigurationInputActivator(controllerIndex: number, param1: any): any;
+    SetEditingControllerConfigurationInputActivator(controllerIndex: number, serializedConfigBase64: string): any;
 
     //this.SetEditingConfigurationValue(e, t, c.tH, (e => SteamClient.Input.SetEditingControllerConfigurationInputActivatorEnabled(this.m_unControllerIndex, e)))
-    SetEditingControllerConfigurationInputActivatorEnabled(controllerIndex: number, param1: any): any;
+    SetEditingControllerConfigurationInputActivatorEnabled(controllerIndex: number, serializedConfigBase64: string): any;
 
     //this.SetEditingConfigurationValue(e, t, c.J2, (e => SteamClient.Input.SetEditingControllerConfigurationInputBinding(this.m_unControllerIndex, e)))
-    SetEditingControllerConfigurationInputBinding(controllerIndex: number, param1: any): any;
+    SetEditingControllerConfigurationInputBinding(controllerIndex: number, serializedConfigBase64: string): any;
 
     //this.SetEditingConfigurationValue(e, t, c.Sz, (e => SteamClient.Input.SetEditingControllerConfigurationMiscSetting(this.m_unControllerIndex, e)))
-    SetEditingControllerConfigurationMiscSetting(controllerIndex: number, param1: any): any;
+    SetEditingControllerConfigurationMiscSetting(controllerIndex: number, serializedConfigBase64: string): any;
 
     //f.Debug("sending to client"), this.SetEditingConfigurationValue(e, t, c.QU, (e => SteamClient.Input.SetEditingControllerConfigurationSourceMode(this.m_unControllerIndex, e)))
-    SetEditingControllerConfigurationSourceMode(controllerIndex: number, param1: any): any;
+    SetEditingControllerConfigurationSourceMode(controllerIndex: number, serializedConfigBase64: string): any;
 
-    SetGamepadKeyboardText(param0: boolean, param1: string): any;
+    SetEditingTritonCapSenseSettings(controllerIndex: number, enabled: boolean): void;
 
-    SetKeyboardActionset(param0: boolean, param1: boolean): any;
+    SetGamepadKeyboardText(submitted: boolean, text: string): any;
+
+    SetKeyboardActionset(enabled: boolean, standaloneKeyboard: boolean): any;
 
     /**
      * Sets the mouse position.
@@ -305,14 +338,20 @@ export interface Input {
      */
     SetMousePosition(pid: number, x: number, y: number): void;
 
-    SetSelectedConfigForApp(appId: number, controllerIndex: number, url: string, param3: boolean): any;
+    SetSelectedConfigForApp(
+        appId: number,
+        controllerIndex: number,
+        url: string,
+        sharedConfig: boolean,
+        singleControllerOfType: boolean,
+    ): any;
 
     SetSteamControllerDonglePairingMode(bEnable: boolean, bSilent: boolean): any;
 
     SetVirtualMenuKeySelected(unControllerIndex: number, unMenuIndex: number, m_controllerMenuActiveMenuItem: number): any; //
-    SetWebBrowserActionset(param0: boolean): any;
+    SetWebBrowserActionset(enabled: boolean): any;
 
-    SetXboxDriverInstallState(param0: any): any; // state
+    SetXboxDriverInstallState(state: any): any;
 
     /**
      * Opens the Steam Input controller settings.
@@ -322,7 +361,11 @@ export interface Input {
 
     StandaloneKeyboardDismissed(): any;
 
-    StartControllerDeviceSupportFlow(param0: any, param1: any, callback: (param2: any) => void): any;
+    StartControllerDeviceSupportFlow(
+        controllerIndex: number,
+        supportState: any,
+        callback: (supportState: any) => void,
+    ): any;
 
     /*
     this.m_updatingEditingConfigurationPromise = SteamClient.Input.StartEditingControllerConfigurationForAppIDAndControllerIndex(e, t).then((n=>{
@@ -342,12 +385,22 @@ export interface Input {
 
     StartGyroSWCalibration(callback: () => void): any;
 
+    /**
+     * Starts streaming UI visualization values for the edited controller mode.
+     */
+    StartUIVisualization(controllerIndex: number, modeId: number): void;
+
     StopEditingControllerConfiguration(controllerIndex: number): any;
+
+    /**
+     * Stops streaming UI visualization values for a controller.
+     */
+    StopUIVisualization(controllerIndex: number): void;
 
     SwapControllerConfigurationSourceModes: any;
 
     //this.SetEditingConfigurationValue(e, t, c.Qb, (e => SteamClient.Input.SwapControllerModeInputBindings(this.m_unControllerIndex, e)))
-    SwapControllerModeInputBindings(controllerIndex: number, param1: any): any;
+    SwapControllerModeInputBindings(controllerIndex: number, serializedConfigBase64: string): any;
 
     SwapControllerOrder(controllerIndex1: number, controllerIndex2: number): any;
 
@@ -357,19 +410,24 @@ export interface Input {
     /*
     Off - 0, Tick, Click
      */
-    TriggerHapticPulse(controllerIndex: number, eHapticType: number, param2: number): any;
+    TriggerHapticPulse(controllerIndex: number, eHapticType: number, durationMs: number): any;
 
     TriggerSimpleHapticEvent(
         controllerIndex: number,
         eHapticType: number,
         unIntensity: number,
         ndBGain: number,
-        param4: number,
+        gain: number,
     ): any;
 
     UnregisterForControllerStateChanges(): void;
 
     UnregisterForUIVisualization(controllerIndex: number): any;
+
+    /**
+     * Powers off the selected controller.
+     */
+    TurnOffController(controllerIndex: number): void;
 
     UploadChangesForCloudedControllerConfigs(): any;
 }

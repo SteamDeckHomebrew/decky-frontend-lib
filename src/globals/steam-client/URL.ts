@@ -20,7 +20,7 @@ export interface URL {
      * @param callback The callback function to be called.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForRunSteamURL(section: string, callback: (param0: number, url: string) => void): Unregisterable;
+    RegisterForRunSteamURL(section: string, callback: (source: number, url: string) => void): Unregisterable;
 
     RegisterForSteamURLChanges(callback: () => void): void;
 }

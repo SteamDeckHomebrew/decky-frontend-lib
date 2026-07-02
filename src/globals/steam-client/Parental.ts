@@ -1,4 +1,4 @@
-import { EResult, Unregisterable } from "./shared";
+import { EResult, SerializedProto, Unregisterable } from "./shared";
 
 /**
  * Interface for managing parental control settings.
@@ -21,9 +21,11 @@ export interface Parental {
     /**
      * Unlocks the parental lock with the provided PIN.
      * @param pin The 4-digit PIN to unlock the parental lock.
+     * @param fromUnlockDialog Steam UI passes `true` from the PIN dialog and
+     * `false` from the parental store unlock helper.
      * @returns a number representing the result of the unlock operation.
      */
-    UnlockParentalLock(pin: string, param1: boolean): Promise<EResult>;
+    UnlockParentalLock(pin: string, fromUnlockDialog: boolean): Promise<EResult>;
 }
 
 export interface ParentalSettings {
@@ -32,7 +34,7 @@ export interface ParentalSettings {
   /**
    * If deserialized, returns {@link ParentalSettingsProtoMsg}.
    */
-  settings: ArrayBuffer;
+  settings: SerializedProto<ParentalSettingsProtoMsg>;
   strPlaintextPassword: string;
 }
 

@@ -1,5 +1,5 @@
 import {CompatibilityTool as CompatibilityTool} from "./App";
-import { JsPbMessage, OperationResponse, Unregisterable } from "./shared";
+import { JsPbMessage, OperationResponse, SerializedProto, SerializedProtoBase64, Unregisterable } from "./shared";
 
 export interface Settings {
     AddClientBeta(name: string, password: string): void;
@@ -30,7 +30,7 @@ export interface Settings {
     /**
      * @returns a ProtoBuf message. If deserialized, returns {@link MsgMonitorInfo}.
      */
-    GetMonitorInfo(): Promise<ArrayBuffer>;
+    GetMonitorInfo(): Promise<SerializedProto<MsgMonitorInfo>>;
 
     GetOOBETestMode(): Promise<boolean>;
 
@@ -50,11 +50,13 @@ export interface Settings {
 
     RegisterForMicVolumeUpdates: Unregisterable;
 
+    RegisterForAppsWithAutoUpdateOverrides(callback: (apps: AppAutoUpdateOverride[]) => void): Unregisterable;
+
     /**
      * If `data` is deserialized, returns {@link MsgClientSettings}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForSettingsArrayChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForSettingsArrayChanges(callback: (data: SerializedProto<MsgClientSettings>) => void): Unregisterable;
 
     RegisterForSettingsChanges(callback: (settings: SteamSettings) => void): Unregisterable;
 
@@ -92,7 +94,7 @@ export interface Settings {
      * @param base64 Serialized base64 message from `CMsgClientSettings`.
      * @returns a boolean indicating whether the operation was successful.
      */
-    SetSetting(base64: string): Promise<boolean>;
+    SetSetting(base64: SerializedProtoBase64<MsgClientSettings>): Promise<boolean>;
 
     /**
      * You can get valid timezoneIds from {@link GetAvailableTimeZones}.
@@ -118,6 +120,10 @@ export interface AccountSettings {
     eSteamGuardState: ESteamGuardState;
     rtSteamGuardEnableTime: number;
     bSaveAccountCredentials: boolean;
+}
+
+export interface AppAutoUpdateOverride {
+    appid: number;
 }
 
 /**
@@ -254,11 +260,11 @@ export interface MsgMonitorInfo extends JsPbMessage {
 
     selected_display_name(): string;
 
-    add_monitors(param0: any, param1: any): any;
+    add_monitors(value: any, index: any): any;
 
-    set_monitors(param0: any): any;
+    set_monitors(value: any): any;
 
-    set_selected_display_name(param0: any): any;
+    set_selected_display_name(value: any): any;
 }
 
 /**

@@ -7,6 +7,8 @@ export interface User {
 
     CancelMicrotxn(txnId: number | string): void;
 
+    CancelRefreshLogin(): void;
+
     /**
      * Tries to cancel Steam shutdown.
      * @remarks Used in the "Shutting down" dialog.
@@ -42,9 +44,9 @@ export interface User {
     GetIPCountry(): Promise<string>;
 
     /**
-     * @todo param0 mirrors param3 of {@link RegisterForLoginStateChange}
+     * @todo `loginProgressState` mirrors the fourth argument of {@link RegisterForLoginStateChange}.
      */
-    GetLoginProgress(callback: (param0: number, param1: number) => void): Unregisterable;
+    GetLoginProgress(callback: (loginProgressState: number, percentage: number) => void): Unregisterable;
 
     GetLoginUsers(): Promise<LoginUser[]>;
 
@@ -53,6 +55,8 @@ export interface User {
     GoOnline(): void;
 
     OptOutOfSurvey(): void;
+
+    OnCloseSaveHardwareDialog(): void;
 
     PrepareForSystemSuspend(): Promise<{
         result: EResult;
@@ -72,7 +76,7 @@ export interface User {
             accountName: string,
             state: ELoginState,
             result: EResult,
-            param3: number,
+            loginProgressState: number,
             percentage: number,
             /**
              * @todo name is from CLoginStore, but it's always empty, unused ?
@@ -87,11 +91,13 @@ export interface User {
 
     RegisterForShowHardwareSurvey(callback: () => void): Unregisterable;
 
+    RegisterShowSaveHardwareDialog(callback: () => void): Unregisterable;
+
     /**
      * Register a function to be executed when shutdown completes.
      * @param callback The function to be executed on completion.
      */
-    RegisterForShutdownDone(callback: (state: EShutdownStep, appid: number, param2: boolean) => void): Unregisterable;
+    RegisterForShutdownDone(callback: (state: EShutdownStep, appid: number, success: boolean) => void): Unregisterable;
 
     RegisterForShutdownFailed(callback: (state: EShutdownStep, appid: number, success: boolean) => void): Unregisterable;
 
@@ -99,7 +105,7 @@ export interface User {
      * Register a function to be executed when Steam starts shutting down.
      * @param callback The function to be executed on shutdown start.
      */
-    RegisterForShutdownStart(callback: (param0: boolean) => void): Unregisterable;
+    RegisterForShutdownStart(callback: (restarting: boolean) => void): Unregisterable;
 
     /**
      * Register a function to be executed when shutdown state changes.
@@ -117,7 +123,7 @@ export interface User {
         bSuccess: boolean;
     }>;
 
-    ResumeSuspendedGames(param0: boolean): Promise<ResumeSuspendedGamesResult>;
+    ResumeSuspendedGames(showResumeUI: boolean): Promise<ResumeSuspendedGamesResult>;
 
     // Hardware survey information
     RunSurvey(callback: (surveySections: SurveySection[]) => void): void;
@@ -125,6 +131,8 @@ export interface User {
     SendSurvey(): void;
 
     SetAsyncNotificationEnabled(appId: number, enable: boolean): void;
+
+    SetCheckForUpdatesOnRestart(value: boolean): void;
 
     /**
      * Sets given login credentials, but don't log in to that account.
@@ -138,6 +146,8 @@ export interface User {
 
     ShouldShowUserChooser(): Promise<boolean>;
 
+    ShowSaveHardwareDialog(): Promise<void>;
+
     /**
      * Signs out and restarts Steam.
      */
@@ -148,6 +158,8 @@ export interface User {
      * there isn't even a single mention of it in steam's js, lol
      */
     StartLogin(): void;
+
+    StartRefreshLogin(): void;
 
     /**
      * Toggles offline mode.

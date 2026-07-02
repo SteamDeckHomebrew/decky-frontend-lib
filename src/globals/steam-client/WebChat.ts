@@ -25,8 +25,10 @@ export interface WebChat {
 
     GetOverlayChatBrowserInfo(): Promise<OverlayBrowserInfo[]>;
 
-    // param0 - appid ?
-    GetPrivateConnectString(param0: number): Promise<string>;
+    /**
+     * Gets the private game connect string used for inviting friends.
+     */
+    GetPrivateConnectString(appId: number): Promise<string>;
 
     /**
      * Gets information about push-to-Talk.
@@ -53,7 +55,7 @@ export interface WebChat {
         chatId: string,
         accountId: number,
         timestamp: number,
-        param4: number,
+        ordinal: number,
         message: string,
     ): void;
 
@@ -83,7 +85,7 @@ export interface WebChat {
     /**
      * To unregister, use {@link UnregisterForMouseXButtonDown}.
      */
-    RegisterForMouseXButtonDown(callback: (param0: number) => void): void;
+    RegisterForMouseXButtonDown(callback: (mouseButton: number) => void): void;
 
     /**
      * Registers a callback function to be called when the push-to-talk state changes.
@@ -111,13 +113,13 @@ export interface WebChat {
 
     SetPushToTalkEnabled(value: boolean): void;
 
-    SetPushToTalkHotKey(param0: number): void;
+    SetPushToTalkHotKey(keyCode: number): void;
 
-    SetPushToTalkMouseButton(param0: number): void;
+    SetPushToTalkMouseButton(mouseButton: number): void;
 
     SetVoiceChatActive(value: boolean): void;
     SetVoiceChatStatus(muted: boolean, deafened: boolean): void;
-    ShowChatRoomGroupDialog(param0: number, param1: number): void;
+    ShowChatRoomGroupDialog(chatRoomGroupId: number, chatId: number): void;
 
     ShowFriendChatDialog(steamid64: string): void;
 

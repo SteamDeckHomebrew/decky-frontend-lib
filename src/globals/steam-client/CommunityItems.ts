@@ -16,9 +16,9 @@ export interface CommunityItems {
             }))
         }
      */
-    DownloadItemAsset(communityItemId: string, param1: any, param2: string): any;
+    DownloadItemAsset(communityItemId: string, assetType: any, assetName: string): any;
 
-    GetItemAssetPath(communityItemId: string, param1: any, param2: string): any;
+    GetItemAssetPath(communityItemId: string, assetType: any, assetName: string): any;
 
-    RemoveDownloadedItemAsset(communityItemId: string, param1: any, param2: string): any;
+    RemoveDownloadedItemAsset(communityItemId: string, assetType: any, assetName: string): any;
 }

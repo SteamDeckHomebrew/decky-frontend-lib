@@ -48,6 +48,13 @@ export interface Downloads {
     RegisterForDownloadOverview(callback: (overview: DownloadOverview) => void): Unregisterable;
 
     /**
+     * Registers a callback function to be called when remote download clients change.
+     * @param callback The callback function to be called.
+     * @returns an object that can be used to unregister the callback.
+     */
+    RegisterForRemoteClientsConnected(callback: (clients: RemoteDownloadClient[]) => void): Unregisterable;
+
+    /**
      * Removes the update for a specific app from the download list and places it in the unscheduled list.
      * @param appId The ID of the application to remove.
      */
@@ -124,6 +131,8 @@ export interface DownloadOverview {
     lan_peer_hostname: string;
     /** True if all downloads are paused */
     paused: boolean;
+    /** Remote client ID if the current transfer is associated with a remote client */
+    remote_client_id: string;
     /** True if download throttling has been temporarily suspended for the current download */
     throttling_suspended: boolean;
     /** Appid of currently updating app */
@@ -161,6 +170,11 @@ export interface DownloadOverview {
     /** Time current update started */
     update_start_time: number;
     update_state: 'None' | 'Starting' | 'Updating' | 'Stopping';
+}
+
+export interface RemoteDownloadClient {
+    remote_client_id: string;
+    remote_client_name: string;
 }
 
 export interface UpdateTypeInfo {

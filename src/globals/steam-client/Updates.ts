@@ -1,10 +1,10 @@
-import { EResult, JsPbMessage, OperationResponse, Unregisterable } from "./shared";
+import { EResult, JsPbMessage, OperationResponse, SerializedProto, SerializedProtoBase64, Unregisterable } from "./shared";
 
 export interface Updates {
     /**
      * @param base64 Serialized base64 message from `CMsgSystemUpdateApplyParams`.
      */
-    ApplyUpdates(base64: string): Promise<OperationResponse>;
+    ApplyUpdates(base64: SerializedProtoBase64<CMsgSystemUpdateApplyParams>): Promise<OperationResponse>;
 
     CheckForUpdates(): Promise<OperationResponse>; // Checks for software updates
 
@@ -16,12 +16,12 @@ export interface Updates {
      * If `data` is deserialized, returns {@link MsgSystemUpdateState}.
      * @returns a ProtoBuf message.
      */
-    RegisterForUpdateStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForUpdateStateChanges(callback: (data: SerializedProto<MsgSystemUpdateState>) => void): Unregisterable;
 
     /**
      * @param base64 Serialized base64 message from `CMsgSelectOSBranchParams`.
      */
-    SelectOSBranch(base64: string): Promise<OperationResponse>;
+    SelectOSBranch(base64: SerializedProtoBase64<CMsgSelectOSBranchParams>): Promise<OperationResponse>;
 }
 
 
@@ -40,6 +40,16 @@ export enum EOSBranch {
     PreviewCandidate,
     Main,
     Staging,
+}
+
+export interface CMsgSystemUpdateApplyParams extends JsPbMessage {
+    apply_types(): EUpdaterType[];
+}
+
+export interface CMsgSelectOSBranchParams extends JsPbMessage {
+    branch(): EOSBranch | undefined;
+
+    custom_branch(): string | undefined;
 }
 
 /**

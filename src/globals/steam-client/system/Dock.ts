@@ -1,4 +1,4 @@
-import { JsPbMessage, Unregisterable } from "../shared";
+import { JsPbMessage, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
 import {EUpdaterState} from "../Updates";
 
 export interface Dock {
@@ -8,12 +8,16 @@ export interface Dock {
      * If `data` is deserialized, returns {@link MsgSystemDockState}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForStateChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForStateChanges(callback: (data: SerializedProto<MsgSystemDockState>) => void): Unregisterable;
 
     /**
      * @param base64 Serialized base64 message from `CMsgSystemDockUpdateFirmware`.
      */
-    UpdateFirmware(base64: string): any;
+    UpdateFirmware(base64: SerializedProtoBase64<CMsgSystemDockUpdateFirmware>): any;
+}
+
+export interface CMsgSystemDockUpdateFirmware extends JsPbMessage {
+    check_only(): boolean | undefined;
 }
 
 /**
