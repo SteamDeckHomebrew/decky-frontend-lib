@@ -1,3 +1,10 @@
+# [4.12.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.6...v4.12.0) (2026-07-14)
+
+
+### Features
+
+* **ReorderableList:** add `disableReordering` prop ([#131](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/131)) ([4e53b51](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/4e53b51df14d93954642b4cc3738e95cf1f7e7d2))
+
 ## [4.11.6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.11.5...v4.11.6) (2026-06-06)
 
 
