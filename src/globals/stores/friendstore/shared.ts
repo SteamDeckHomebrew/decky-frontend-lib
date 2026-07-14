@@ -1,5 +1,5 @@
-import type { BrowserContext, CSteamID } from '../../shared';
-import type { CChat } from './friendchat';
+import type { BrowserContext, CSteamID } from "../../shared";
+import type { CChat } from "./friendchat";
 
 export enum EClientPersonaStateFlag {
   k_EClientPersonaStateFlagStatus = 1 << 0,
@@ -141,12 +141,12 @@ declare class CPersonaStateImpl {
   get is_in_joinable_game(): boolean;
   get is_in_nonsteam_game(): boolean;
   get is_in_valid_lobby(): boolean;
-  get is_ingame(): true;
-  get is_online(): true;
+  get is_ingame(): boolean;
+  get is_online(): boolean;
   get is_watchingbroadcast(): boolean;
   // UNIX timestamp
   get last_seen_online(): number;
-  get online_state(): 'in-game' | 'offline' | 'online' | 'watchingbroadcast';
+  get online_state(): "in-game" | "offline" | "online" | "watchingbroadcast";
   get player_group(): string;
   get player_group_size(): number;
 }
@@ -302,12 +302,12 @@ export declare class CPlayer {
   get is_ready(): boolean;
   get localized_online_status(): string;
   get miniProfileData(): MiniProfileData;
-  get mutable_persona(): CPlayer;
+  get mutable_persona(): CPersonaStateImpl;
   // undefined until set, just use display_name
   get nickname(): string | undefined;
   set nickname(s: string);
   get notification_settings(): PerFriendNotificationSettings;
-  get persona(): CPlayer;
+  get persona(): CPersonaStateImpl;
   get persona_name_history(): string[];
   get persona_name_history_loaded(): boolean;
   get primary_display_name(): string;

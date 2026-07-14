@@ -1,9 +1,10 @@
+import type { ReactNode } from 'react';
+
 import type { ESteamUISound } from '../shared/enums';
 import type { CCallbackList } from '../shared/interfaces';
-import type { EClientNotificationType } from '../steam-client/Notifications';
+import { EClientNotificationType } from '../steam-client/Notifications';
 import type { EParentalFeature } from '../steam-client/Parental';
 import type { EACState } from '../steam-client/system';
-import type { ReactNode } from 'react';
 
 // TODO(protobufs): generate
 export enum EBroadcastPermission {
@@ -45,11 +46,77 @@ interface SteamNotificationData {
   title: string;
 }
 
-export interface SteamNotification {
+type RequiredProcessNotifArgs = Record<EClientNotificationType, Record<string, any>> & {
+  [EClientNotificationType.Invalid]: {},
+  [EClientNotificationType.DownloadComplete]: {},
+  [EClientNotificationType.FriendInvite]: {},
+  [EClientNotificationType.FriendInGame]: {},
+  [EClientNotificationType.FriendOnline]: {},
+  [EClientNotificationType.Achievement]: {
+    achieved(): boolean;
+  },
+  [EClientNotificationType.LowBattery]: {},
+  [EClientNotificationType.SystemUpdate]: {},
+  [EClientNotificationType.FriendMessage]: {},
+  [EClientNotificationType.GroupChatMessage]: {
+    tag(): string;
+  },
+  [EClientNotificationType.FriendInviteRollup]: {},
+  [EClientNotificationType.FamilySharingDeviceAuthorizationChanged]: {},
+  [EClientNotificationType.FamilySharingStopPlaying]: {},
+  [EClientNotificationType.FamilySharingLibraryAvailable]: { },
+  [EClientNotificationType.Screenshot]: {},
+  [EClientNotificationType.CloudSyncFailure]: {},
+  [EClientNotificationType.CloudSyncConflict]: {},
+  [EClientNotificationType.IncomingVoiceChat]: {},
+  [EClientNotificationType.ClaimSteamDeckRewards]: {},
+  [EClientNotificationType.GiftReceived]: {},
+  [EClientNotificationType.ItemAnnouncement]: {},
+  [EClientNotificationType.HardwareSurvey]: {},
+  [EClientNotificationType.LowDiskSpace]: {},
+  [EClientNotificationType.BatteryTemperature]: {},
+  [EClientNotificationType.DockUnsupportedFirmware]: {},
+  [EClientNotificationType.PeerContentUpload]: {},
+  [EClientNotificationType.CannotReadControllerGuideButton]: {},
+  [EClientNotificationType.Comment]: {},
+  [EClientNotificationType.Wishlist]: {},
+  [EClientNotificationType.TradeOffer]: {},
+  [EClientNotificationType.AsyncGame]: {},
+  [EClientNotificationType.General]: {},
+  [EClientNotificationType.HelpRequest]: {},
+  [EClientNotificationType.OverlaySplashScreen]: {},
+  [EClientNotificationType.BroadcastAvailableToWatch]: {},
+  [EClientNotificationType.TimedTrialRemaining]: {},
+  [EClientNotificationType.LoginRefresh]: {},
+  [EClientNotificationType.MajorSale]: {},
+  [EClientNotificationType.TimerExpired]: {},
+  [EClientNotificationType.ModeratorMsg]: {},
+  [EClientNotificationType.SteamInputActionSetChanged]: {},
+  [EClientNotificationType.RemoteClientConnection]: {},
+  [EClientNotificationType.RemoteClientStartStream]: {},
+  [EClientNotificationType.StreamingClientConnection]: {},
+  [EClientNotificationType.FamilyInvite]: {},
+  [EClientNotificationType.PlaytimeWarning]: {},
+  [EClientNotificationType.FamilyPurchaseRequest]: {},
+  [EClientNotificationType.FamilyPurchaseRequestResponse]: {},
+  [EClientNotificationType.ParentalFeatureRequest]: {},
+  [EClientNotificationType.ParentalPlaytimeRequest]: {},
+  [EClientNotificationType.GameRecordingError]: {},
+  [EClientNotificationType.ParentalFeatureResponse]: {},
+  [EClientNotificationType.ParentalPlaytimeResponse]: {},
+  [EClientNotificationType.RequestedGameAdded]: {},
+  [EClientNotificationType.ClipDownloaded]: {},
+  [EClientNotificationType.GameRecordingStart]: {},
+  [EClientNotificationType.GameRecordingStop]: {},
+  [EClientNotificationType.GameRecordingUserMarkerAdded]: {},
+  [EClientNotificationType.GameRecordingInstantClip]: {},
+};
+
+export interface SteamNotification<T extends EClientNotificationType = EClientNotificationType> {
   bNewIndicator: boolean;
   data: SteamNotificationData;
   eSource: ESteamNotificationSource;
-  eType: EClientNotificationType;
+  eType: T;
   nToastDurationMS: number;
   notificationID: number;
   /**
@@ -162,9 +229,9 @@ export interface CNotificationStore {
   PendingLoginRefresh(showedRefreshLogin: boolean): void;
   PlayNotificationSound(toast: SteamNotification): void;
   PopNextToastNotification(appId: number): SteamNotification;
-  ProcessNotification(
+  ProcessNotification<T extends EClientNotificationType>(
     target: NotificationTarget,
-    notification: SteamNotification,
+    notification: SteamNotification<T> & RequiredProcessNotifArgs[T],
     action: ESteamNotificationAction,
   ): void;
   RemoveFromToastsWhere(callback: (toast: SteamNotification) => void): void;
@@ -229,3 +296,39 @@ export interface CNotificationStore {
   TestWishlist(appId: number): void;
   // #endregion
 }
+
+const a: CNotificationStore = undefined;
+a.ProcessNotification(
+  {
+    eFeature: EParentalFeature.Browser,
+    fnNotificationResolved: () => {},
+    fnShowModal: () => {},
+    fnTray: () => {},
+    nRemoveFromTraySec: 1,
+    toastDurationMS: 1_000,
+    type: EClientNotificationType.Achievement,
+  },
+  {
+    achieved: () => true,
+    bNewIndicator: true,
+    data: {
+      bCritical: false,
+      body: "",
+      duration: 1_000,
+      logo: null,
+      onClick: () => {},
+      playSound: true,
+      showNewIndicator: true,
+      showToast: true,
+      sound: ESteamUISound.BasicNav,
+      timestamp: new Date(),
+      title: "",
+    },
+    eSource: ESteamNotificationSource.Client,
+    eType: EClientNotificationType.Achievement,
+    notificationID: 10_000,
+    nToastDurationMS: 1_000,
+    rtCreated: 0,
+  },
+  ESteamNotificationAction.New,
+);

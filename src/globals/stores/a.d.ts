@@ -38,17 +38,17 @@ declare module "callbackutils/callbacklist" {
 declare module "bind" {
     /**
      * This is a typescript decorator.  Decorate a class method with @bind to make sure the method is always invoked in
-     * 	the context of the object instance it's declared in.
+     *   the context of the object instance it's declared in.
      *
      * This allows you to use it in react without worrying about the reference changing.
      *
      * example:
      *
-     * 		@bind onTextInput( event ) { ... }
+     *     @bind onTextInput( event ) { ... }
      *
-     * 		render() {
-     *			return <input OnInput={ this.onTextInput } />;
-     * 		}
+     *     render() {
+     *      return <input OnInput={ this.onTextInput } />;
+     *     }
      *
      */
     export function bind(/*target,*/ propertyKey: any, descriptor: any): {

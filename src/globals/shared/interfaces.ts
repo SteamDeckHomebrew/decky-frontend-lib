@@ -1,4 +1,5 @@
 import type { EResult } from '../steam-client/shared';
+import type { EMsg_t } from './cm';
 import type { EBrowserType, EUIMode } from './enums';
 
 export interface BrowserContext {
@@ -46,10 +47,7 @@ export interface CBaseProtoBufMsg<T = any> {
   BIsValid(): boolean;
   Body(): T;
   BSuccess(): boolean;
-  /**
-   * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/enums_clientserver.proto#L4
-   */
-  GetEMsg(): number;
+  GetEMsg(): EMsg_t;
   GetEResult(): EResult;
   GetErrorMessage(): string;
 }

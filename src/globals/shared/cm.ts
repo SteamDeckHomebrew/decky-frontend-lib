@@ -2,12 +2,12 @@ import type { JsPbMessageClass, OperationResponse } from '../steam-client/shared
 import type { CBaseProtoBufMsg, CCallbackList, Unsubscribable } from './interfaces';
 import type { CSteamID } from './steamid';
 
-type Callback_t = (...args: any[]) => void;
+type Callback_t = (msg: CBaseProtoBufMsg) => void;
 
 /**
  * @see https://github.com/SteamDatabase/SteamTracking/blob/master/Protobufs/enums_clientserver.proto#L4
  */
-type EMsg_t = number;
+export type EMsg_t = number;
 
 interface ReportErrorOptions {
   cCallsitesToIgnore: number;
