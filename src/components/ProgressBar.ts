@@ -19,7 +19,8 @@ export interface ProgressBarProps {
 }
 
 export interface ProgressBarWithInfoProps extends ProgressBarItemProps {
-  sTimeRemaining?: ReactNode;
+  /** Timestamp of the completion time, has to be divided by 1000 */
+  rtEstimatedCompletionTime?: number;
   sOperationText?: ReactNode;
 }
 
