@@ -37,7 +37,7 @@ export interface Friends {
 
     RegisterForMultiplayerSessionShareURLChanged(
         appId: number,
-        callback: (param0: string, param1: string) => void,
+        callback: (joinUrl: string, inviteQrCodeImageUrl: string) => void,
     ): Unregisterable;
 
     RegisterForVoiceChatStatus(callback: (status: VoiceChatStatus) => void): Unregisterable;

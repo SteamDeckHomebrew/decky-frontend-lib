@@ -236,19 +236,45 @@ export interface Unregisterable {
 }
 
 /**
- * ProtoBuf message class.
+ * Serialized ProtoBuf payload returned by SteamClient before the generated
+ * JS protobuf class deserializes it.
  */
-export interface JsPbMessageClass {
-  /**
-   * @todo Returns {@link JsPbMessage}, but not sure how to do it for the messages.
-   */
-  deserializeBinary(data: ArrayBuffer): any;
+export type SerializedProto<TDecoded = unknown> = ArrayBuffer & {
+  readonly __protobufDecodedType?: TDecoded;
+};
+
+/**
+ * Base64-encoded ProtoBuf payload accepted by some SteamClient setters.
+ */
+export type SerializedProtoBase64<TDecoded = unknown> = string & {
+  readonly __protobufDecodedType?: TDecoded;
+  readonly __protobufEncoding?: "base64";
+};
+
+/**
+ * Generated ProtoBuf message class.
+ */
+export interface JsPbMessageClass<
+  TMessage extends JsPbMessage = JsPbMessage,
+  TObject = TMessage extends JsPbMessage<infer TMessageObject> ? TMessageObject : unknown,
+> {
+  new(data?: unknown): TMessage;
+
+  deserializeBinary(data: ArrayBuffer | Uint8Array): TMessage;
+
+  deserializeBinaryFromReader?(message: TMessage, reader: unknown): TMessage;
+
+  fromObject?(object: Partial<TObject>): TMessage;
+
+  serializeBinaryToWriter?(message: TMessage, writer: unknown): void;
+
+  toObject?(includeJsPbInstance: boolean, message: TMessage): TObject;
 }
 
 /**
  * Deserialized ProtoBuf message.
  */
-export interface JsPbMessage {
+export interface JsPbMessage<TObject = unknown> {
   getClassName(): string;
 
   serializeBase64String(): string;
@@ -258,5 +284,5 @@ export interface JsPbMessage {
   /**
    * Converts the message to an object.
    */
-  toObject(includeJsPbInstance: boolean): any;
+  toObject(includeJsPbInstance?: boolean): TObject;
 }

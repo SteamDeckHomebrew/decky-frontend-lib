@@ -1,8 +1,11 @@
 export interface Customization {
-    GenerateLocalStartupMoviesThumbnails(param0: number): Promise<number>;
+    /**
+     * Generates thumbnails for local startup movies.
+     * @param mode Steam passes 2 when refreshing startup movies.
+     */
+    GenerateLocalStartupMoviesThumbnails(mode: number): Promise<number>;
 
-    //param0: "startupmovies"
-    GetDownloadedStartupMovies(param0: string): Promise<StartupMovie[]>;
+    GetDownloadedStartupMovies(category: "startupmovies" | string): Promise<StartupMovie[]>;
 
     GetLocalStartupMovies(): Promise<StartupMovie[]>;
 }
