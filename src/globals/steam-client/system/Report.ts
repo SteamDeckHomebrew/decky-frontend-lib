@@ -1,4 +1,4 @@
-import { JsPbMessage, OperationResponse, SerializedProto } from "../shared";
+import { EResult, JsPbMessage, OperationResponse, SerializedProto } from "../shared";
 
 export interface Report {
     /**
@@ -15,7 +15,7 @@ export interface Report {
 
     /**
      * @param reportId The report ID (file name) to submit.
-     * @todo times out ({@link Result.Timeout})
+     * @remarks May resolve with {@link EResult.Timeout} when submission does not complete.
      */
     Submit(reportId: string): Promise<OperationResponse>;
 }
@@ -35,5 +35,5 @@ export interface CMsgGenerateSystemReportReply extends JsPbMessage {
      */
     report_id(): string | undefined;
 
-    set_report_id(value: any): any;
+    set_report_id(value: string): this;
 }

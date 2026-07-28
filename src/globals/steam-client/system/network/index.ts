@@ -299,7 +299,7 @@ export interface NetworkDevice_Wireless {
     aps: WirelessAP[];
     /**
      * @remarks Not present if wired.
-     * @todo enum
+     * Supported wireless security bitmask.
      */
     esecurity_supported?: number;
 }

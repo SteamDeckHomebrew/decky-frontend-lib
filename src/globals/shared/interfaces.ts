@@ -9,12 +9,12 @@ export interface BrowserContext {
   m_eBrowserType?: EBrowserType;
 
   /**
-   * The UI mode in use.
+   * The UI mode in use, when present.
    */
-  m_eUIMode: EUIMode;
+  m_eUIMode?: EUIMode;
 
   /**
-   * If overlay, game's app ID, otherwise doesn't appear.
+   * Game ID associated with overlay, off-screen, or shared contexts, when present.
    */
   m_gameID?: string;
 

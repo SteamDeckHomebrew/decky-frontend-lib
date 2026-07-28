@@ -44,7 +44,9 @@ export interface User {
     GetIPCountry(): Promise<string>;
 
     /**
-     * @todo `loginProgressState` mirrors the fourth argument of {@link RegisterForLoginStateChange}.
+     * Gets the current login progress.
+     * @param callback Receives the same `loginProgressState` and percentage
+     * values used by {@link RegisterForLoginStateChange}.
      */
     GetLoginProgress(callback: (loginProgressState: number, percentage: number) => void): Unregisterable;
 
@@ -79,7 +81,7 @@ export interface User {
             loginProgressState: number,
             percentage: number,
             /**
-             * @todo name is from CLoginStore, but it's always empty, unused ?
+             * Email domain hint. Steam UI currently receives an empty string here.
              */
             emailDomain: string,
         ) => void
@@ -142,6 +144,9 @@ export interface User {
      */
     SetLoginCredentials(accountName: string, password: string, rememberMe: boolean): void;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     SetOOBEComplete(): void;
 
     ShouldShowUserChooser(): Promise<boolean>;
@@ -171,15 +176,13 @@ export interface User {
 
     /**
      * Restarts the Steam client.
-     *
-     * @todo I don't remember what the arg is, but IIRC with `true` it disables
-     * some ldd check or whatever, really it's only noticeable on slow PCs.
+     * @param force Whether to force the restart path.
      */
     StartRestart(force: boolean): void;
 
     /**
-     * @todo I don't remember what the arg is, but IIRC with `true` it disables
-     * some ldd check or whatever, really it's only noticeable on slow PCs.
+     * Starts Steam client shutdown.
+     * @param force Whether to force the shutdown path.
      */
     StartShutdown(force: boolean): void;
 }
@@ -257,7 +260,10 @@ export enum EShutdownStep {
   WaitForServiceApps,
   WaitForLogOff,
   Done,
-  // TODO: RegisterForShutdownDone outputs 9 here
+  /**
+   * Native shutdown callbacks have also been observed with raw value `9`.
+   */
+  Unknown9,
 }
 
 export enum ESuspendResumeProgressState {

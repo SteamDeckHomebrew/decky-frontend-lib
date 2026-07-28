@@ -1,14 +1,18 @@
 import { EResult, Unregisterable } from "../shared";
 
 export interface Devkit {
-    DeveloperModeChanged(state: boolean): any;
+    /**
+     * Legacy developer-mode notification entry point.
+     * @deprecated Not present on the current live Devkit bridge.
+     */
+    DeveloperModeChanged(state: boolean): unknown;
 
     /**
      * Registers for pairing confirmation prompts shown by the devkit settings UI.
      */
     RegisterForPairingPrompt(callback: (message: string) => boolean): Unregisterable;
 
-    RespondToPairingPrompt(result: EResult, responseMessage: string): any;
+    RespondToPairingPrompt(result: EResult, responseMessage: string): void;
 
-    SetPairing(enabled: boolean): any;
+    SetPairing(enabled: boolean): void;
 }

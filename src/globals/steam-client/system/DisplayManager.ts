@@ -11,7 +11,7 @@ export interface DisplayManager {
     /**
      * Clears the mode override for a display.
      */
-    ClearModeOverride(displayId: number): any;
+    ClearModeOverride(displayId: number): Promise<OperationResponse>;
 
     /**
      * Gets the current display manager state. `reply` is a serialized
@@ -21,14 +21,14 @@ export interface DisplayManager {
 
     RegisterForStateChanges(callback: () => void): Unregisterable;
 
-    SetCompatibilityMode(displayId: number): any;
+    SetCompatibilityMode(displayId: number): Promise<OperationResponse>;
 
-    SetGamescopeInternalResolution(width: number, height: number): any;
+    SetGamescopeInternalResolution(width: number, height: number): Promise<OperationResponse>;
 
     /**
      * Sets a display mode using a serialized {@link CMsgSystemDisplayManagerSetMode}.
      */
-    SetMode(base64: SerializedProtoBase64<CMsgSystemDisplayManagerSetMode>): any;
+    SetMode(base64: SerializedProtoBase64<CMsgSystemDisplayManagerSetMode>): Promise<OperationResponse>;
 }
 
 export interface DisplayManagerStateResponse extends OperationResponse {

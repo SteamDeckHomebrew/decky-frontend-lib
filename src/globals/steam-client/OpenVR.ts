@@ -8,7 +8,7 @@ export interface OpenVR {
     /**
      * @throws OperationResponse if mutual capabilities haven't been loaded.
      */
-    GetMutualCapabilities(): Promise<any>;
+    GetMutualCapabilities(): Promise<string[]>;
 
     GetWebSecret(): Promise<string>;
 
@@ -18,22 +18,26 @@ export interface OpenVR {
      */
     ExtendActivityTimeout(deviceIndex: number, timeoutSeconds: number): void;
 
-    InstallVR(): any;
+    InstallVR(): void;
 
     Keyboard: Keyboard;
     PathProperties: PathProperties;
 
-    QuitAllVR(): any;
+    QuitAllVR(): void;
 
-    RegisterForButtonPress: Unregisterable;
+    /**
+     * Registers for VR controller button presses.
+     * @param callback Receives the numeric OpenVR button ID.
+     */
+    RegisterForButtonPress(callback: (button: number) => void): Unregisterable;
 
     RegisterForHMDActivityLevelChanged(callback: (m_eHMDActivityLevel: EHMDActivityLevel) => void): Unregisterable;
 
-    RegisterForInstallDialog: Unregisterable;
+    RegisterForInstallDialog(callback: (installPath: string, hasOculusRuntime: boolean) => void): Unregisterable;
 
-    RegisterForStartupErrors(callback: (clientError: any, initError: any, initErrorString: string) => void): Unregisterable;
+    RegisterForStartupErrors(callback: (clientError: number, initError: number, initErrorString: string) => void): Unregisterable;
 
-    RegisterForVRHardwareDetected(callback: (m_bHMDPresent: any, m_bHMDHardwareDetected: any, m_strHMDName: any) => void): Unregisterable;
+    RegisterForVRHardwareDetected(callback: (hmdPresent: boolean, hmdHardwareDetected: boolean, hmdName: string) => void): Unregisterable;
 
     RegisterForVRModeChange(callback: (m_bIsVRRunning: boolean) => void): Unregisterable;
 
@@ -44,74 +48,109 @@ export interface OpenVR {
      */
     RegisterForVRTrackedDevices(callback: (deviceIndices: number[]) => void): Unregisterable;
 
-    SetOverlayInteractionAffordance: any;
+    SetOverlayInteractionAffordance(affordance: number, enabled: boolean): void;
 
-    StartVR: any;
-    TriggerOverlayHapticEffect: any;
+    StartVR(ignoreSkipVRParam: boolean): void;
+    TriggerOverlayHapticEffect(effect: number, value: number): void;
     VRNotifications: VRNotifications;
     VROverlay: VROverlay;
 }
 
 export interface VRDevice {
-    BIsConnected: any;
-    RegisterForDeviceConnectivityChange: Unregisterable;
+    BIsConnected(deviceIndex: number): Promise<boolean>;
 
-    RegisterForVRDeviceSeenRecently(callback: (m_bVRDeviceSeenRecently: any) => void): Unregisterable;
+    /**
+     * Registers for connectivity changes for a tracked VR device.
+     * @param deviceIndex Tracked device index to watch.
+     * @param callback Receives whether the tracked device is connected.
+     */
+    RegisterForDeviceConnectivityChange(deviceIndex: number, callback: (connected: boolean) => void): Unregisterable;
+
+    RegisterForVRDeviceSeenRecently(callback: (vrDeviceSeenRecently: boolean) => void): Unregisterable;
 }
 
 export interface DeviceProperties {
-    GetBoolDeviceProperty: any;
-    GetDoubleDeviceProperty: any;
-    GetFloatDeviceProperty: any;
-    GetInt32DeviceProperty: any;
-    GetStringDeviceProperty: any;
-    RegisterForDevicePropertyChange: Unregisterable;
+    GetBoolDeviceProperty(deviceIndex: number, property: number): Promise<boolean>;
+    GetDoubleDeviceProperty(deviceIndex: number, property: number): Promise<number>;
+    GetFloatDeviceProperty(deviceIndex: number, property: number): Promise<number>;
+    GetInt32DeviceProperty(deviceIndex: number, property: number): Promise<number>;
+    GetStringDeviceProperty(deviceIndex: number, property: number): Promise<string>;
+
+    /**
+     * Registers for changes to a tracked VR device property.
+     * Steam's UI re-queries the property when this callback fires.
+     */
+    RegisterForDevicePropertyChange(deviceIndex: number, property: number, callback: () => void): Unregisterable;
 }
 
 export interface Keyboard {
-    Hide(): any;
+    Hide(): void;
 
     /**
      * {@link EKeyboardFlags} could be useful here
      */
     RegisterForStatus(callback: (m_bIsKeyboardOpen: boolean, m_eKeyboardFlags: number, m_sInitialKeyboardText: string) => void): Unregisterable;
 
-    SendDone(): any;
+    SendDone(): void;
 
-    SendText(key: string): any; //???
-    Show(): any;
+    SendText(key: string): void;
+    Show(): void;
 }
 
 export interface PathProperties {
-    GetBoolPathProperty: any;
-    GetDoublePathProperty: any;
-    GetFloatPathProperty: any;
-    GetInt32PathProperty: any;
-    GetStringPathProperty: any;
-    RegisterForPathPropertyChange: any;
-    SetBoolPathProperty: any;
-    SetDoublePathProperty: any;
-    SetFloatPathProperty: any;
-    SetInt32PathProperty: any;
-    SetStringPathProperty: any;
+    GetBoolPathProperty(path: string): Promise<boolean>;
+    GetDoublePathProperty(path: string): Promise<number>;
+    GetFloatPathProperty(path: string): Promise<number>;
+    GetInt32PathProperty(path: string): Promise<number>;
+    GetStringPathProperty(path: string): Promise<string>;
+    RegisterForPathPropertyChange(path: string, callback: () => void): Unregisterable;
+    SetBoolPathProperty(path: string, value: boolean): void;
+    SetDoublePathProperty(path: string, value: number): void;
+    SetFloatPathProperty(path: string, value: number): void;
+    SetInt32PathProperty(path: string, value: number): void;
+    SetStringPathProperty(path: string, value: string): void;
 }
 
 export interface VRNotifications {
-    HideCustomNotification: any;
-    RegisterForNotificationEvent: Unregisterable;
-    ShowCustomNotification: any;
+    HideCustomNotification(notificationId: number): void;
+    RegisterForNotificationEvent(callback: (event: number, notificationId: number) => void): Unregisterable;
+    ShowCustomNotification(overlayKey: string, notificationType: number, text: string): Promise<number>;
 }
 
 export interface VROverlay {
-    HideDashboard: any;
+    HideDashboard(): void;
 
     IsDashboardVisible(): Promise<boolean>;
 
-    RegisterForButtonPress: Unregisterable;
-    RegisterForCursorMovement: Unregisterable;
-    RegisterForThumbnailChanged: Unregisterable;
-    RegisterForVisibilityChanged: Unregisterable;
-    ShowDashboard: any;
+    /**
+     * Registers for VR overlay button presses.
+     * @param callback Receives the numeric OpenVR button ID.
+     */
+    RegisterForButtonPress(callback: (button: number) => void): Unregisterable;
+
+    /**
+     * Registers for VR overlay cursor movement.
+     * Steam's keyboard overlay treats the first argument as the controller index.
+     */
+    RegisterForCursorMovement(
+        callback: (controllerIndex: number, active: boolean, x: number, y: number) => void,
+    ): Unregisterable;
+
+    /**
+     * Registers for mouse press events against VR overlays.
+     * Steam's UI uses pixel coordinates and divides them by `devicePixelRatio` for DOM hit testing.
+     */
+    RegisterForOverlayMousePressEvents(
+        callback: (overlayKey: string, pressed: boolean, x: number, y: number, button: number) => void,
+    ): Unregisterable;
+
+    /**
+     * Registers for VR overlay thumbnail changes.
+     * Steam dispatches one string value from the dashboard thumbnail change event data.
+     */
+    RegisterForThumbnailChanged(callback: (thumbnailPath: string) => void): Unregisterable;
+    RegisterForVisibilityChanged(callback: (visible: boolean) => void): Unregisterable;
+    ShowDashboard(): void;
 
     SwitchToDashboardOverlay(overlayKey: string): void;
 }

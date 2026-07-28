@@ -69,16 +69,18 @@ export interface WebChat {
     /**
      * Registers a callback function to be called when the computer's active state changes.
      * @param callback The callback function to be called.
+     * @param callback.state Current activity state.
+     * @param callback.time Unix timestamp for when Steam recorded the state change.
      * @returns an object that can be used to unregister the callback.
-     * @todo Changes to 2 after 10 seconds?
-     * @todo Does not affect the keyboard?
+     * @remarks Steam UI treats state `2` as idle after a short inactive period.
      */
     RegisterForComputerActiveStateChange(
         callback: (state: EComputerActiveState, time: number) => void,
     ): Unregisterable;
 
     /**
-     * @todo WebChat.ShowFriendChatDialog does this.
+     * Registers for postMessage payloads from friend chat dialogs opened by
+     * {@link ShowFriendChatDialog}.
      */
     RegisterForFriendPostMessage(callback: (data: FriendChatDialogData) => void): Unregisterable;
 
@@ -158,8 +160,7 @@ export interface PushToTalkInfo {
     /** Indicates whether push-to-mute is in use instead. */
     bPushToMute: boolean;
     /**
-     * Push-to-talk hotkey.
-     * @todo enum? this is not EHIDKeyboardKey
+     * Push-to-talk virtual-key code.
      */
     vkHotKey: number;
     /** Push-to-talk hotkey name. */

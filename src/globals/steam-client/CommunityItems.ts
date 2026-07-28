@@ -1,24 +1,43 @@
+import type { EResult } from "./shared";
+
 export interface CommunityItems {
-    /*
-    DownloadMovie(e) {
-            return (0, o.mG)(this, void 0, void 0, (function* () {
-                if (0 != e.movie_webm_local_path.length) return !0;
-                let t = yield SteamClient.CommunityItems.DownloadItemAsset(e.communityitemid, w, e.movie_webm),
-                    n = 1 == t.result;
-                if (n) {
-                    e.movie_webm_local_path = t.path;
-                    let n = [];
-                    this.m_startupMovies.forEach((t => {
-                        t.movie_webm == e.movie_webm ? n.push(e) : n.push(t)
-                    })), this.m_startupMovies = n
-                }
-                return n
-            }))
-        }
+    /**
+     * Downloads a community item asset to local storage.
+     * @param communityItemId Community item ID.
+     * @param assetType Asset bucket. Steam UI uses `"startupmovies"` for startup movie assets.
+     * @param assetName Remote asset name/path.
      */
-    DownloadItemAsset(communityItemId: string, assetType: any, assetName: string): any;
+    DownloadItemAsset(
+        communityItemId: string,
+        assetType: CommunityItemAssetType,
+        assetName: string,
+    ): Promise<CommunityItemAssetDownloadResult>;
 
-    GetItemAssetPath(communityItemId: string, assetType: any, assetName: string): any;
+    /**
+     * Gets the local path for a downloaded community item asset.
+     */
+    GetItemAssetPath(
+        communityItemId: string,
+        assetType: CommunityItemAssetType,
+        assetName: string,
+    ): Promise<CommunityItemAssetPathResult>;
 
-    RemoveDownloadedItemAsset(communityItemId: string, assetType: any, assetName: string): any;
+    /**
+     * Removes a downloaded community item asset from local storage.
+     */
+    RemoveDownloadedItemAsset(
+        communityItemId: string,
+        assetType: CommunityItemAssetType,
+        assetName: string,
+    ): Promise<boolean>;
+}
+
+export type CommunityItemAssetType = "startupmovies" | (string & {});
+
+export interface CommunityItemAssetPathResult {
+    path: string;
+}
+
+export interface CommunityItemAssetDownloadResult extends CommunityItemAssetPathResult {
+    result: EResult;
 }

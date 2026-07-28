@@ -8,6 +8,7 @@ export interface Friends {
      * Adds a user to the friend list.
      * @param steamId The Steam ID of the user to add as a friend.
      * @returns `true` if the friend was added successfully.
+     * @deprecated Not present in the current live SteamClient snapshot.
      */
     AddFriend(steamId: string): Promise<boolean>;
 
@@ -46,6 +47,7 @@ export interface Friends {
      * Removes a user from the friend list.
      * @param steamId The Steam ID of the user to remove from the friend list.
      * @returns `true` if the friend was removed successfully.
+     * @deprecated Not present in the current live SteamClient snapshot.
      */
     RemoveFriend(steamId: string): Promise<boolean>;
 

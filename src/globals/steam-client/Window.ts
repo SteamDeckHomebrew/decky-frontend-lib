@@ -3,7 +3,7 @@ import { EUIComposition } from "./shared";
 /**
  * Represents functionality for managing Steam's windows.
  *
- * "Restore details" here refers to a string that is similiar to
+ * "Restore details" here refers to a string that is similar to
  * `1&x=604&y=257&w=1010&h=600`, which is usable with certain
  * `window.open()` parameters and methods from here.
  *
@@ -25,6 +25,7 @@ export interface Window {
 
     /**
      * Flashes the window in the taskbar.
+     * @deprecated Not present in the current live SteamClient snapshot. Use {@link SetWindowFlashing}.
      */
     FlashWindow(): void;
 
@@ -125,6 +126,9 @@ export interface Window {
      */
     RestoreWindowSizeAndPosition(details: string): void;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot. Use {@link SetGamepadUIAutoDisplayScale}.
+     */
     SetAutoDisplayScale(value: boolean): void;
 
     SetComposition(mode: EUIComposition, appIdCompositionQueue: number[], windowId: number): void;
@@ -139,6 +143,9 @@ export interface Window {
 
     SetKeyFocus(value: boolean): void;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot. Use {@link SetGamepadUIManualDisplayScaleFactor}.
+     */
     SetManualDisplayScaleFactor(displayScaleFactor: number): void;
 
     SetGamepadUIManualDisplayScaleFactor(displayScaleFactor: number): void;
@@ -185,11 +192,13 @@ export interface Window {
 
     /**
      * Stops the window's taskbar flashing.
+     * @deprecated Not present in the current live SteamClient snapshot. Use {@link SetWindowFlashing}.
      */
     StopFlashWindow(): void;
 
     /**
      * Toggles the window's fullscreen state.
+     * @deprecated Not present in the current live SteamClient snapshot. Use {@link ToggleFullScreen}.
      */
     ToggleFullscreen(): void;
 

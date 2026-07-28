@@ -10,7 +10,7 @@ export interface Updates {
 
     GetCurrentOSBranch(): Promise<OSBranch>;
 
-    GetOSBranchList(): Promise<any[]>;
+    GetOSBranchList(): Promise<OSBranch[]>;
 
     /**
      * If `data` is deserialized, returns {@link MsgSystemUpdateState}.

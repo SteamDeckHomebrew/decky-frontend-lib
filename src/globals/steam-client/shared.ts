@@ -144,6 +144,8 @@ export enum EUIComposition {
 /** 0 - false, 1 - true */
 export type VDFBoolean_t = 0 | 1;
 
+export type { BrowserContext } from '../shared/interfaces';
+
 /**
  * Represents the response of an operation. It appears to be not necessary to await for this operation response. It is only used to indicate the result of an operation.
  */

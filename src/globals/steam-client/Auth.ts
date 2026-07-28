@@ -72,17 +72,17 @@ export interface CAuthentication_DeviceDetails extends JsPbMessage {
 
     platform_type(): EAuthTokenPlatformType | undefined;
 
-    set_client_count(): any;
+    set_client_count(value: number): void;
 
-    set_device_friendly_name(): any;
+    set_device_friendly_name(value: string): void;
 
-    set_gaming_device_type(): any;
+    set_gaming_device_type(value: EGamingDeviceType): void;
 
-    set_machine_id(): any;
+    set_machine_id(value: Uint8Array | string): void;
 
-    set_os_type(): any;
+    set_os_type(value: EOSType): void;
 
-    set_platform_type(): any;
+    set_platform_type(value: EAuthTokenPlatformType): void;
 }
 
 export enum EAuthTokenPlatformType {

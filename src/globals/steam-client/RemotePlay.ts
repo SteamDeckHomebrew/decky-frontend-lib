@@ -1,4 +1,4 @@
-import {EControllerType} from "./Input";
+import { EControllerType } from "./Input";
 import { EParentalFeature } from "./Parental";
 import { EResult, SerializedProto, SerializedProtoBase64, Unregisterable } from "./shared";
 
@@ -23,6 +23,9 @@ export interface RemotePlay {
         guestId: number,
     ): Promise<boolean>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     BRemotePlayTogetherGuestSupported(): Promise<boolean>;
 
     /**
@@ -30,12 +33,18 @@ export interface RemotePlay {
      */
     CancelInviteAndSession(groupId: RemotePlayGroupID, steam64Id: string, guestId: number): Promise<EResult>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     CancelInviteAndSessionWithGuestID(steam64Id: string, guestId: number): Promise<EResult>;
 
     CancelRemoteClientPairing(): void;
 
     CloseGroup(groupId: RemotePlayGroupID): Promise<number>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     CreateGroup(gameId: string): Promise<EResult>;
 
     /**
@@ -43,6 +52,9 @@ export interface RemotePlay {
      */
     CreateInviteAndSession(groupId: RemotePlayGroupID, steam64Id: string, guestInvite: boolean): Promise<EResult>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     CreateInviteAndSessionWithGuestID(steam64Id: string, guestId: number, connectString: string): Promise<EResult>;
 
     GetClientID(): Promise<string>;
@@ -78,10 +90,20 @@ export interface RemotePlay {
     RegisterForAudioDriverPrompt(callback: () => void): Unregisterable;
 
     /**
-     * @todo no mentions of it in Steam code
+     * Registers for native bitrate override notifications.
      */
-    RegisterForBitrateOverride: Unregisterable;
+    RegisterForBitrateOverride(
+        callback: (groupId: RemotePlayGroupID, hostStreamingBitrateOverride: number) => void,
+    ): Unregisterable;
+
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     RegisterForClearControllers(callback: () => void): Unregisterable;
+
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     RegisterForControllerIndexSet(
         callback: (groupId: RemotePlayGroupID, steam64Id: string, guestId: number, slot: number) => void,
     ): Unregisterable;
@@ -262,6 +284,9 @@ export interface RemotePlay {
 
     StopRemoteClientStream(groupId: RemotePlayGroupID, steam64Id: string, gameId: string, clientId: string): void;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     StopStreamingClient(): void;
 
     StopStreamingSession(id: number): void;
@@ -307,10 +332,10 @@ export interface RemotePlayController {
     unIndex: number;
 }
 
-interface RemotePlayInputSettings {
-  bKeyboardEnabled: true;
-  bMouseEnabled: true;
-  bControllerEnabled: true;
+export interface RemotePlayInputSettings {
+    bKeyboardEnabled: boolean;
+    bMouseEnabled: boolean;
+    bControllerEnabled: boolean;
 }
 
 export interface RemotePlaySettings {
@@ -333,48 +358,88 @@ export interface RemotePlaySettings {
      * If deserialized, returns {@link StreamingServerConfig}.
      */
     RemotePlayServerConfig: SerializedProto<StreamingServerConfig>;
+    /**
+     * If deserialized, returns {@link StreamingClientCaps}.
+     */
+    RemotePlayClientCaps: SerializedProto<StreamingClientCaps>;
+    /**
+     * JSON state for the Remote Play Wi-Fi access point.
+     */
+    strWifiAPStateJSON: string;
     nDefaultAudioChannels: number;
     nAutomaticResolutionX: number;
     nAutomaticResolutionY: number;
 }
 
 export interface StreamingClientConfig {
-  quality?: EStreamQualityPreference;
-  desired_resolution_x?: number;
-  desired_resolution_y?: number;
-  desired_framerate_numerator?: number;
-  desired_framerate_denominator?: number;
-  desired_bitrate_kbps?: number;
-  enable_hardware_decoding?: boolean;
-  enable_performance_overlay?: boolean;
-  enable_video_streaming?: boolean;
-  enable_audio_streaming?: boolean;
-  enable_input_streaming?: boolean;
-  audio_channels?: number;
-  enable_video_hevc?: boolean;
-  enable_performance_icons?: boolean;
-  enable_microphone_streaming?: boolean;
-  controller_overlay_hotkey?: string;
-  enable_touch_controller_OBSOLETE?: boolean;
-  p2p_scope?: EStreamP2PScope;
-  enable_audio_uncompressed?: boolean;
-  display_limit?: StreamVideoLimit;
-  quality_limit?: StreamVideoLimit;
-  runtime_limit?: StreamVideoLimit;
-  decoder_limit: StreamVideoLimit[];
+    quality?: EStreamQualityPreference;
+    desired_resolution_x?: number;
+    desired_resolution_y?: number;
+    desired_framerate_numerator?: number;
+    desired_framerate_denominator?: number;
+    desired_bitrate_kbps?: number;
+    enable_hardware_decoding?: boolean;
+    enable_performance_overlay?: boolean;
+    enable_video_streaming?: boolean;
+    enable_audio_streaming?: boolean;
+    enable_input_streaming?: boolean;
+    audio_channels?: number;
+    enable_video_hevc?: boolean;
+    enable_performance_icons?: boolean;
+    enable_microphone_streaming?: boolean;
+    controller_overlay_hotkey?: string;
+    enable_touch_controller_OBSOLETE?: boolean;
+    p2p_scope?: EStreamP2PScope;
+    enable_audio_uncompressed?: boolean;
+    display_limit?: StreamVideoLimit;
+    quality_limit?: StreamVideoLimit;
+    runtime_limit?: StreamVideoLimit;
+    decoder_limit: StreamVideoLimit[];
+    enable_unreliable_fec?: boolean;
+    enable_video_av1?: boolean;
+    windowed?: boolean;
+    window_pixel_density?: number;
+    window_width?: number;
+    window_height?: number;
+    window_position_x?: number;
+    window_position_y?: number;
+    window_frame_offset_x?: number;
+    window_frame_offset_y?: number;
 }
 
 export interface StreamingServerConfig {
-  change_desktop_resolution?: boolean;
-  dynamically_adjust_resolution_OBSOLETE?: boolean;
-  enable_capture_nvfbc?: boolean;
-  enable_hardware_encoding_nvidia_OBSOLETE?: boolean;
-  enable_hardware_encoding_amd_OBSOLETE?: boolean;
-  enable_hardware_encoding_intel_OBSOLETE?: boolean;
-  software_encoding_threads?: number;
-  enable_traffic_priority?: boolean;
-  host_play_audio?: EStreamHostPlayAudioPreference;
-  enable_hardware_encoding?: boolean;
+    host_play_audio?: EStreamHostPlayAudioPreference;
+    custom_display_device?: string;
+    display_resolution_setting?: EStreamDisplayConfigSetting;
+    custom_display_resolution_x?: number;
+    custom_display_resolution_y?: number;
+    display_refresh_rate_setting?: EStreamDisplayConfigSetting;
+    custom_display_refresh_rate?: string;
+    display_hdr_setting?: EStreamDisplayConfigSetting;
+    custom_display_hdr?: boolean;
+    enable_capture_nvfbc?: boolean;
+    enable_hardware_encoding?: boolean;
+    software_encoding_threads?: number;
+    enable_traffic_priority?: boolean;
+}
+
+export interface StreamingClientCaps {
+    system_info?: string;
+    system_can_suspend?: boolean;
+    maximum_decode_bitrate_kbps?: number;
+    maximum_burst_bitrate_kbps?: number;
+    supports_video_hevc_OBSOLETE?: boolean;
+    disable_steam_store?: boolean;
+    disable_client_cursor?: boolean;
+    disable_intel_hardware_encoding?: boolean;
+    disable_amd_hardware_encoding?: boolean;
+    disable_nvidia_hardware_encoding?: boolean;
+    form_factor?: number;
+    has_on_screen_keyboard?: boolean;
+    supported_colorspaces: number[];
+    supported_audio_codecs: number[];
+    supported_video_codecs: EStreamVideoCodec[];
+    can_toggle_fullscreen?: boolean;
 }
 
 export interface StreamVideoLimit {
@@ -437,15 +502,15 @@ export enum EStreamVideoCodec {
 }
 
 export enum EStreamHostPlayAudioPreference {
-  Default,
-  Always,
+    Default,
+    Always,
 }
 
 export enum EStreamQualityPreference {
-  Automatic = -1,
-  Fast = 1,
-  Balanced,
-  Beautiful,
+    Automatic = -1,
+    Fast = 1,
+    Balanced,
+    Beautiful,
 }
 
 export enum EStreamP2PScope {
@@ -454,4 +519,10 @@ export enum EStreamP2PScope {
     OnlyMe,
     Friends,
     Everyone,
+}
+
+export enum EStreamDisplayConfigSetting {
+    None,
+    Client,
+    Custom,
 }

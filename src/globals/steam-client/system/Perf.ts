@@ -1,4 +1,4 @@
-import { JsPbMessage, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
+import { JsPbMessage, OperationResponse, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
 
 // CMsgSystemPerfUpdateSettings, CMsgSystemPerfState, CMsgSystemPerfSettings
 export interface Perf {
@@ -15,9 +15,10 @@ export interface Perf {
     RegisterForStateChanges(callback: (data: SerializedProto<CMsgSystemPerfState>) => void): Unregisterable;
 
     /**
+     * Applies performance settings from a serialized `CMsgSystemPerfUpdateSettings`.
      * @param base64 Serialized base64 message from `CMsgSystemPerfUpdateSettings`.
      */
-    UpdateSettings(base64: SerializedProtoBase64<CMsgSystemPerfUpdateSettings>): any;
+    UpdateSettings(base64: SerializedProtoBase64<CMsgSystemPerfUpdateSettings>): Promise<OperationResponse>;
 }
 
 export interface CMsgSystemPerfUpdateSettings extends JsPbMessage {

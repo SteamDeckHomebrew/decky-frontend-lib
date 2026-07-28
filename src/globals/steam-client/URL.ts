@@ -164,7 +164,7 @@ export type SteamWebURL_t =
 export interface SteamURL {
     url: string;
     /**
-     * @todo enum?
+     * Steam URL feature identifier.
      */
     feature: number;
 }

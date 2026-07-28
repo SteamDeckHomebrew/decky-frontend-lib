@@ -45,7 +45,7 @@ export interface UI {
     RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;
 
     /**
-     * @todo This fires multiple times.
+     * Registers for startup-finished notifications. Steam may emit this more than once.
      */
     RegisterForStartupFinished(callback: () => void): Unregisterable;
 

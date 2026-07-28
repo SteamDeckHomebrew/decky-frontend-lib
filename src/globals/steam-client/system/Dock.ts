@@ -1,4 +1,4 @@
-import { JsPbMessage, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
+import { JsPbMessage, OperationResponse, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
 import {EUpdaterState} from "../Updates";
 
 export interface Dock {
@@ -11,9 +11,10 @@ export interface Dock {
     RegisterForStateChanges(callback: (data: SerializedProto<MsgSystemDockState>) => void): Unregisterable;
 
     /**
+     * Starts or checks dock firmware update state.
      * @param base64 Serialized base64 message from `CMsgSystemDockUpdateFirmware`.
      */
-    UpdateFirmware(base64: SerializedProtoBase64<CMsgSystemDockUpdateFirmware>): any;
+    UpdateFirmware(base64: SerializedProtoBase64<CMsgSystemDockUpdateFirmware>): Promise<OperationResponse>;
 }
 
 export interface CMsgSystemDockUpdateFirmware extends JsPbMessage {

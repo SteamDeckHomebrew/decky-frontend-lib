@@ -32,6 +32,9 @@ export interface Settings {
      */
     GetMonitorInfo(): Promise<SerializedProto<MsgMonitorInfo>>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     GetOOBETestMode(): Promise<boolean>;
 
     GetRegisteredSteamDeck(): Promise<RegisteredSteamDeck>;
@@ -48,7 +51,7 @@ export interface Settings {
      */
     OpenWindowsMicSettings(): void;
 
-    RegisterForMicVolumeUpdates: Unregisterable;
+    RegisterForMicVolumeUpdates(callback: (volume: number) => void): Unregisterable;
 
     RegisterForAppsWithAutoUpdateOverrides(callback: (apps: AppAutoUpdateOverride[]) => void): Unregisterable;
 
@@ -65,6 +68,9 @@ export interface Settings {
 
     RenderHotkey(event: KeyCaptureEvent): Promise<string>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     RequestDeviceAuthInfo(): void;
 
     SelectClientBeta(nBetaID: number): void;
@@ -78,6 +84,9 @@ export interface Settings {
 
     SetMicTestMode(value: boolean): void;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     SetOOBETestMode(value: boolean): void;
 
     SetPreferredMonitor(monitor: string): void;
@@ -127,7 +136,7 @@ export interface AppAutoUpdateOverride {
 }
 
 /**
- * @todo unconfirmed, taken from localization strings
+ * Steam Guard state names inferred from Steam Guard localization strings.
  */
 export enum ESteamGuardState {
     EmailUnverified,
@@ -260,15 +269,15 @@ export interface MsgMonitorInfo extends JsPbMessage {
 
     selected_display_name(): string;
 
-    add_monitors(value: any, index: any): any;
+    add_monitors(value: Monitor, index?: number): Monitor;
 
-    set_monitors(value: any): any;
+    set_monitors(value: Monitor[]): this;
 
-    set_selected_display_name(value: any): any;
+    set_selected_display_name(value: string): this;
 }
 
 /**
- * @todo Doesn't work on Linux ?
+ * Monitor identity returned by `GetMonitorInfo`. This may be empty on Linux.
  */
 export interface Monitor {
     monitor_device_name: string;

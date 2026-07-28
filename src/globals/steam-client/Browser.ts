@@ -35,15 +35,17 @@ export interface Browser {
     Paste(): void;
 
     /**
+     * Registers for browser touch gesture events.
      * @note Not available on a created BrowserView.
-     * @todo unconfirmed
      */
     RegisterForGestureEvents(callback: (gesture: TouchGesture) => void): Unregisterable;
 
     /**
+     * Registers for native browser requests to open a new tab.
+     * Native dispatch passes the requested URL and whether the request came from a user gesture.
      * @note Not available on a created BrowserView.
      */
-    RegisterForOpenNewTab: Unregisterable;
+    RegisterForOpenNewTab(callback: (url: string, userGesture: boolean) => void): Unregisterable;
 
     /**
      * Clears all browser backstack entries.

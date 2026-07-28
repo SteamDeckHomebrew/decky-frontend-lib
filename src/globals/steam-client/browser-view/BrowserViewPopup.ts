@@ -122,7 +122,7 @@ export interface BrowserViewPopup {
     SetSteamURLCallback(callback: (url: string) => void): void;
 
     /**
-     * @todo unconfirmed
+     * Sets touch gestures that should be cancelled by the popup browser view.
      */
     SetTouchGesturesToCancel(gestures: ETouchGesture[]): void;
 
@@ -165,7 +165,8 @@ interface BrowserViewEventMap {
 
     /**
      * Fires when a URL gets blocked.
-     * @todo not SetBlockedProtocols, maybe only steam links
+     * @remarks This is emitted for requests blocked by the browser view,
+     * including protocol handling blocked by Steam.
      */
     'blocked-request': (blockedURL: string) => void;
 
@@ -246,7 +247,7 @@ interface BrowserViewEventMap {
          */
         inputType: string,
         /**
-         * @todo Localization token that doesn't seem to exist? (#Web_FormSubmit)
+         * Localization token for the focused element action, such as `#Web_FormSubmit`.
          */
         token: string,
         clientManagesVirtualKeyboard: boolean,
@@ -261,8 +262,7 @@ interface BrowserViewEventMap {
 
     /**
      * Fires when the page starts loading.
-     *
-     * @todo Steam UI forwards the second flag but does not inspect it.
+     * @param isMainFrame Whether the navigation is for the main frame.
      */
     'start-loading': (url: string, isMainFrame: boolean) => void;
 
@@ -309,8 +309,7 @@ export interface BrowserViewContextMenu {
     misspelled_word?: string;
 
     /**
-     * Browser page URL.
-     * @todo Appears when there is selected text?
+     * Link URL under the context menu, when present.
      */
     link_url?: string;
 
@@ -331,8 +330,7 @@ export interface BrowserViewContextMenu {
     type_flags: number;
 
     /**
-     * Browser page URL.
-     * @todo Appears when there is selected text?
+     * Unfiltered link URL under the context menu, when present.
      */
     unfiltered_link_url?: string;
 }
