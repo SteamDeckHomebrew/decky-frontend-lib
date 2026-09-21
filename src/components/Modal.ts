@@ -21,6 +21,9 @@ export interface ShowModalResult {
   // This method will not invoke any of the variations of "closeModal" callbacks!
   Close: () => void;
 
+  // This property resolves as soon as the modal closes
+  ClosedPromise: Promise<void>;
+
   // This method will replace the modal element completely and will not update the callback chains,
   // meaning that "closeModal" and etc. will not automatically close the modal anymore (also "fnOnClose"
   // will not be even called upon close anymore)! You have to manually call the "Close" method when, for example,
