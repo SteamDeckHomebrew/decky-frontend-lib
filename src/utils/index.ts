@@ -24,8 +24,11 @@ export function findSP(): Window {
   // old (SP as host)
   if (document.title == 'SP') return window;
   // new (SP as popup)
+  // GamepadUI_VR_Full_Root is the main window of the Steam Frame's VR dashboard
   const navTrees = getGamepadNavigationTrees();
-  return navTrees?.find((x: any) => x.m_ID == 'GamepadUI_Full_Root' || x.m_ID == 'root_1_')?.Root?.Element?.ownerDocument?.defaultView;
+  return navTrees?.find(
+    (x: any) => x.m_ID == 'GamepadUI_Full_Root' || x.m_ID == 'root_1_' || x.m_ID == 'GamepadUI_VR_Full_Root',
+  )?.Root?.Element?.ownerDocument?.defaultView;
 }
 
 /**
