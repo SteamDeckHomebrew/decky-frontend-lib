@@ -1,3 +1,10 @@
+# [4.13.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.12.1...v4.13.0) (2026-10-14)
+
+
+### Features
+
+* **utils:** support Steam Frame VR dashboard in findSP ([#139](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/139)) ([25bd3f5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/25bd3f5aab3d822a23b01279c843b458805c1452))
+
 ## [4.12.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.12.0...v4.12.1) (2026-09-14)
 
 
