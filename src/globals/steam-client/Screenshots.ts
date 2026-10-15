@@ -10,6 +10,11 @@ export interface Screenshots {
      */
     DeleteLocalScreenshot(appId: string, screenshotIndex: number): Promise<boolean>;
 
+    /**
+     * Deletes batches of local screenshots grouped by game ID.
+     * @param screenshots Local screenshot handles grouped by `gameID`.
+     * @returns Success state and the indices of failed requests from the input array.
+     */
     DeleteLocalScreenshots(screenshots: ScreenshotToDelete[]): Promise<ScreenshotDeletionResponse>;
 
     /**
@@ -131,12 +136,15 @@ export interface Screenshot {
 }
 
 export interface ScreenshotToDelete {
+    /** Steam game ID string used by the screenshot manager. */
     gameID: string;
+    /** Local screenshot handles for the game. */
     rgHandles: number[];
 }
 
 export interface ScreenshotDeletionResponse {
     bSuccess: boolean;
+    /** Indices into the original `ScreenshotToDelete[]` request that failed. */
     rgFailedRequestIndices: number[];
 }
 

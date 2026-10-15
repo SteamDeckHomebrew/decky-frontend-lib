@@ -7,6 +7,8 @@ export interface User {
 
     CancelMicrotxn(txnId: number | string): void;
 
+    CancelRefreshLogin(): void;
+
     /**
      * Tries to cancel Steam shutdown.
      * @remarks Used in the "Shutting down" dialog.
@@ -42,9 +44,11 @@ export interface User {
     GetIPCountry(): Promise<string>;
 
     /**
-     * @todo param0 mirrors param3 of {@link RegisterForLoginStateChange}
+     * Gets the current login progress.
+     * @param callback Receives the same `loginProgressState` and percentage
+     * values used by {@link RegisterForLoginStateChange}.
      */
-    GetLoginProgress(callback: (param0: number, param1: number) => void): Unregisterable;
+    GetLoginProgress(callback: (loginProgressState: number, percentage: number) => void): Unregisterable;
 
     GetLoginUsers(): Promise<LoginUser[]>;
 
@@ -53,6 +57,8 @@ export interface User {
     GoOnline(): void;
 
     OptOutOfSurvey(): void;
+
+    OnCloseSaveHardwareDialog(): void;
 
     PrepareForSystemSuspend(): Promise<{
         result: EResult;
@@ -72,10 +78,10 @@ export interface User {
             accountName: string,
             state: ELoginState,
             result: EResult,
-            param3: number,
+            loginProgressState: number,
             percentage: number,
             /**
-             * @todo name is from CLoginStore, but it's always empty, unused ?
+             * Email domain hint. Steam UI currently receives an empty string here.
              */
             emailDomain: string,
         ) => void
@@ -87,11 +93,13 @@ export interface User {
 
     RegisterForShowHardwareSurvey(callback: () => void): Unregisterable;
 
+    RegisterShowSaveHardwareDialog(callback: () => void): Unregisterable;
+
     /**
      * Register a function to be executed when shutdown completes.
      * @param callback The function to be executed on completion.
      */
-    RegisterForShutdownDone(callback: (state: EShutdownStep, appid: number, param2: boolean) => void): Unregisterable;
+    RegisterForShutdownDone(callback: (state: EShutdownStep, appid: number, success: boolean) => void): Unregisterable;
 
     RegisterForShutdownFailed(callback: (state: EShutdownStep, appid: number, success: boolean) => void): Unregisterable;
 
@@ -99,7 +107,7 @@ export interface User {
      * Register a function to be executed when Steam starts shutting down.
      * @param callback The function to be executed on shutdown start.
      */
-    RegisterForShutdownStart(callback: (param0: boolean) => void): Unregisterable;
+    RegisterForShutdownStart(callback: (restarting: boolean) => void): Unregisterable;
 
     /**
      * Register a function to be executed when shutdown state changes.
@@ -117,7 +125,7 @@ export interface User {
         bSuccess: boolean;
     }>;
 
-    ResumeSuspendedGames(param0: boolean): Promise<ResumeSuspendedGamesResult>;
+    ResumeSuspendedGames(showResumeUI: boolean): Promise<ResumeSuspendedGamesResult>;
 
     // Hardware survey information
     RunSurvey(callback: (surveySections: SurveySection[]) => void): void;
@@ -125,6 +133,8 @@ export interface User {
     SendSurvey(): void;
 
     SetAsyncNotificationEnabled(appId: number, enable: boolean): void;
+
+    SetCheckForUpdatesOnRestart(value: boolean): void;
 
     /**
      * Sets given login credentials, but don't log in to that account.
@@ -134,9 +144,14 @@ export interface User {
      */
     SetLoginCredentials(accountName: string, password: string, rememberMe: boolean): void;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     SetOOBEComplete(): void;
 
     ShouldShowUserChooser(): Promise<boolean>;
+
+    ShowSaveHardwareDialog(): Promise<void>;
 
     /**
      * Signs out and restarts Steam.
@@ -149,6 +164,8 @@ export interface User {
      */
     StartLogin(): void;
 
+    StartRefreshLogin(): void;
+
     /**
      * Toggles offline mode.
      *
@@ -159,15 +176,13 @@ export interface User {
 
     /**
      * Restarts the Steam client.
-     *
-     * @todo I don't remember what the arg is, but IIRC with `true` it disables
-     * some ldd check or whatever, really it's only noticeable on slow PCs.
+     * @param force Whether to force the restart path.
      */
     StartRestart(force: boolean): void;
 
     /**
-     * @todo I don't remember what the arg is, but IIRC with `true` it disables
-     * some ldd check or whatever, really it's only noticeable on slow PCs.
+     * Starts Steam client shutdown.
+     * @param force Whether to force the shutdown path.
      */
     StartShutdown(force: boolean): void;
 }
@@ -225,7 +240,10 @@ export enum EShutdownStep {
   WaitForServiceApps,
   WaitForLogOff,
   Done,
-  // TODO: RegisterForShutdownDone outputs 9 here
+  /**
+   * Native shutdown callbacks have also been observed with raw value `9`.
+   */
+  Unknown9,
 }
 
 export enum ESuspendResumeProgressState {

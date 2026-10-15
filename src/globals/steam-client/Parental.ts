@@ -1,4 +1,4 @@
-import { EResult, Unregisterable } from "./shared";
+import { EResult, SerializedProto, Unregisterable } from "./shared";
 
 /**
  * Interface for managing parental control settings.
@@ -21,9 +21,11 @@ export interface Parental {
     /**
      * Unlocks the parental lock with the provided PIN.
      * @param pin The 4-digit PIN to unlock the parental lock.
+     * @param fromUnlockDialog Steam UI passes `true` from the PIN dialog and
+     * `false` from the parental store unlock helper.
      * @returns a number representing the result of the unlock operation.
      */
-    UnlockParentalLock(pin: string, param1: boolean): Promise<EResult>;
+    UnlockParentalLock(pin: string, fromUnlockDialog: boolean): Promise<EResult>;
 }
 
 export interface ParentalSettings {
@@ -32,14 +34,14 @@ export interface ParentalSettings {
   /**
    * If deserialized, returns {@link ParentalSettingsProtoMsg}.
    */
-  settings: ArrayBuffer;
+  settings: SerializedProto<ParentalSettingsProtoMsg>;
   strPlaintextPassword: string;
 }
 
 /**
  * Represents the parental settings and restrictions.
- * @todo This whole thing is unconfirmed as I do not have access to parental
- * stuff and things
+ * @remarks Shape is based on Steam UI's parental settings payload. Some fields
+ * are only present when parental controls are configured.
  */
 export interface ParentalSettingsProtoMsg {
     steamid?: number;
@@ -54,7 +56,7 @@ export interface ParentalSettingsProtoMsg {
      */
     applist_custom: ParentalApp[];
     /**
-     * @todo enum ?
+     * Password hash algorithm identifier.
      */
     passwordhashtype?: number;
     salt?: number;
@@ -65,14 +67,13 @@ export interface ParentalSettingsProtoMsg {
     is_enabled?: boolean;
     /**
      * Bitmask representing enabled features.
-     * - Bit 0: Unknown (@todo Please provide more details if known)
+     * - Bit 0: Reserved/unknown.
      * - Bit 1: Online content & features - Steam Store
      * - Bit 2: Online content & features - Community-generated content
      * - Bit 3: Online content & features - My online profile, screenshots, and achievements
      * - Bit 4: Online content & features - Friends, chat, and groups
-     * - Bit 5-11: Unknown (@todo Please provide more details if known)
+     * - Bit 5-11: Reserved/unknown.
      * - Bit 12: Library content - 0: Only games I choose, 1: All games
-     * @todo {@link EParentalFeature} ?
      */
     enabled_features?: number;
     /**

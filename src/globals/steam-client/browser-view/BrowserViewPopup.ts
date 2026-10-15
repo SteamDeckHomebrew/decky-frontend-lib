@@ -20,18 +20,20 @@ export interface BrowserViewPopup {
      */
     CanGoForward(): boolean;
 
-    // alert() i assume
-    DialogResponse(param0: boolean): void;
+    /**
+     * Responds to the current JavaScript alert/confirm dialog.
+     */
+    DialogResponse(accepted: boolean): void;
 
     EnableSteamInput(): void;
 
     /**
      * Find a string in the page.
      * @param input The string to find.
-     * @param param1
+     * @param findNext Whether this continues the current find operation.
      * @param previous `true` for previous match, `false` for next match.
      */
-    FindInPage(input: string, param1: boolean, previous: boolean): void;
+    FindInPage(input: string, findNext: boolean, previous: boolean): void;
 
     /**
      * Get the current popup position. Only updates when using {@link SetBounds}!
@@ -52,7 +54,7 @@ export interface BrowserViewPopup {
     /**
      * @param command See {@link BrowserViewContextMenu.custom_commands}.
      */
-    HandleContextMenuCommand(command: number, param2: BrowserViewContextMenu): void;
+    HandleContextMenuCommand(command: number, contextMenu: BrowserViewContextMenu): void;
 
     /**
      * Load the specified URL.
@@ -120,7 +122,7 @@ export interface BrowserViewPopup {
     SetSteamURLCallback(callback: (url: string) => void): void;
 
     /**
-     * @todo unconfirmed
+     * Sets touch gestures that should be cancelled by the popup browser view.
      */
     SetTouchGesturesToCancel(gestures: ETouchGesture[]): void;
 
@@ -163,7 +165,8 @@ interface BrowserViewEventMap {
 
     /**
      * Fires when a URL gets blocked.
-     * @todo not SetBlockedProtocols, maybe only steam links
+     * @remarks This is emitted for requests blocked by the browser view,
+     * including protocol handling blocked by Steam.
      */
     'blocked-request': (blockedURL: string) => void;
 
@@ -194,7 +197,7 @@ interface BrowserViewEventMap {
     /**
      * Fires when the page finishes loading.
      */
-    'finished-request': (currentURL: string, previousURL: string) => void;
+    'finished-request': (url: string, title: string) => void;
 
     /**
      * Fires when the browser goes focused or vice versa.
@@ -225,7 +228,7 @@ interface BrowserViewEventMap {
      */
     'message': (message: string, args: string, currentURL: string) => void;
 
-    'new-tab': (url: string, param1: boolean) => void;
+    'new-tab': (url: string, activate: boolean) => void;
 
     /**
      * Fires when a node gets focused.
@@ -244,10 +247,10 @@ interface BrowserViewEventMap {
          */
         inputType: string,
         /**
-         * @todo Localization token that doesn't seem to exist? (#Web_FormSubmit)
+         * Localization token for the focused element action, such as `#Web_FormSubmit`.
          */
         token: string,
-        param4: boolean,
+        clientManagesVirtualKeyboard: boolean,
     ) => void;
 
     'page-security': (url: string, pageSecurity: BrowserViewPageSecurity) => void;
@@ -259,8 +262,9 @@ interface BrowserViewEventMap {
 
     /**
      * Fires when the page starts loading.
+     * @param isMainFrame Whether the navigation is for the main frame.
      */
-    'start-loading': (url: string, param1: boolean) => void;
+    'start-loading': (url: string, isMainFrame: boolean) => void;
 
     /**
      * Fires when the page starts loading.
@@ -305,8 +309,7 @@ export interface BrowserViewContextMenu {
     misspelled_word?: string;
 
     /**
-     * Browser page URL.
-     * @todo Appears when there is selected text?
+     * Link URL under the context menu, when present.
      */
     link_url?: string;
 
@@ -327,8 +330,7 @@ export interface BrowserViewContextMenu {
     type_flags: number;
 
     /**
-     * Browser page URL.
-     * @todo Appears when there is selected text?
+     * Unfiltered link URL under the context menu, when present.
      */
     unfiltered_link_url?: string;
 }

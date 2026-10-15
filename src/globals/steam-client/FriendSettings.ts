@@ -13,9 +13,9 @@ export interface FriendSettings {
     /**
      * Registers a callback function to be notified of friend settings changes.
      * @param callback The callback function to be called when friend settings change.
-     * @remarks The callback receives a JSON object string which may be parsed into {@link FriendSettingsChange}.
+     * @remarks The callback can receive a JSON object string or a native wrapper object.
      */
-    RegisterForSettingsChanges(callback: (settings: string) => void): void;
+    RegisterForSettingsChanges(callback: (settings: string | ClientFriendSettingsChange) => void): void;
 
     /**
      * @param details Stringified {@link FriendSettingsChange}.
@@ -77,4 +77,8 @@ export interface FriendSettingsChange {
     bDisableRoomEffects: VDFBoolean_t;
     bAnimatedAvatars: VDFBoolean_t;
     featuresEnabled: FriendSettingsEnabledFeatures<VDFBoolean_t>;
+}
+
+export interface ClientFriendSettingsChange {
+    FriendsSettings: FriendSettingsChange;
 }

@@ -1,5 +1,5 @@
 import { Unregisterable } from "../shared";
-import {BrowserViewPopup} from "./BrowserViewPopup";
+import { BrowserViewPopup } from "./BrowserViewPopup";
 
 export interface BrowserView {
     /**
@@ -45,9 +45,13 @@ export interface BrowserView {
 
 export interface BrowserViewCreateOptions {
     bOnlyAllowTrustedPopups?: boolean;
+    bPreventCloseFromJavascript?: boolean;
+    /** Browser ID of the parent popup/window. */
     parentPopupBrowserID?: number;
     /** Initial URL to load. */
     strInitialURL?: string;
+    /** Stable native BrowserView name. */
+    strName?: string;
     strUserAgentIdentifier?: string;
     strUserAgentOverride?: string;
     strVROverlayKey?: string;

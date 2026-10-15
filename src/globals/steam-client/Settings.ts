@@ -1,5 +1,5 @@
 import {CompatibilityTool as CompatibilityTool} from "./App";
-import { JsPbMessage, OperationResponse, Unregisterable } from "./shared";
+import { JsPbMessage, OperationResponse, SerializedProto, SerializedProtoBase64, Unregisterable } from "./shared";
 
 export interface Settings {
     AddClientBeta(name: string, password: string): void;
@@ -30,8 +30,11 @@ export interface Settings {
     /**
      * @returns a ProtoBuf message. If deserialized, returns {@link MsgMonitorInfo}.
      */
-    GetMonitorInfo(): Promise<ArrayBuffer>;
+    GetMonitorInfo(): Promise<SerializedProto<MsgMonitorInfo>>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     GetOOBETestMode(): Promise<boolean>;
 
     GetRegisteredSteamDeck(): Promise<RegisteredSteamDeck>;
@@ -48,13 +51,15 @@ export interface Settings {
      */
     OpenWindowsMicSettings(): void;
 
-    RegisterForMicVolumeUpdates: Unregisterable;
+    RegisterForMicVolumeUpdates(callback: (volume: number) => void): Unregisterable;
+
+    RegisterForAppsWithAutoUpdateOverrides(callback: (apps: AppAutoUpdateOverride[]) => void): Unregisterable;
 
     /**
      * If `data` is deserialized, returns {@link MsgClientSettings}.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForSettingsArrayChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForSettingsArrayChanges(callback: (data: SerializedProto<MsgClientSettings>) => void): Unregisterable;
 
     RegisterForSettingsChanges(callback: (settings: SteamSettings) => void): Unregisterable;
 
@@ -63,6 +68,9 @@ export interface Settings {
 
     RenderHotkey(event: KeyCaptureEvent): Promise<string>;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     RequestDeviceAuthInfo(): void;
 
     SelectClientBeta(nBetaID: number): void;
@@ -76,6 +84,9 @@ export interface Settings {
 
     SetMicTestMode(value: boolean): void;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     SetOOBETestMode(value: boolean): void;
 
     SetPreferredMonitor(monitor: string): void;
@@ -92,7 +103,7 @@ export interface Settings {
      * @param base64 Serialized base64 message from `CMsgClientSettings`.
      * @returns a boolean indicating whether the operation was successful.
      */
-    SetSetting(base64: string): Promise<boolean>;
+    SetSetting(base64: SerializedProtoBase64<MsgClientSettings>): Promise<boolean>;
 
     /**
      * You can get valid timezoneIds from {@link GetAvailableTimeZones}.
@@ -120,8 +131,12 @@ export interface AccountSettings {
     bSaveAccountCredentials: boolean;
 }
 
+export interface AppAutoUpdateOverride {
+    appid: number;
+}
+
 /**
- * @todo unconfirmed, taken from localization strings
+ * Steam Guard state names inferred from Steam Guard localization strings.
  */
 export enum ESteamGuardState {
     EmailUnverified,
@@ -254,15 +269,15 @@ export interface MsgMonitorInfo extends JsPbMessage {
 
     selected_display_name(): string;
 
-    add_monitors(param0: any, param1: any): any;
+    add_monitors(value: Monitor, index?: number): Monitor;
 
-    set_monitors(param0: any): any;
+    set_monitors(value: Monitor[]): this;
 
-    set_selected_display_name(param0: any): any;
+    set_selected_display_name(value: string): this;
 }
 
 /**
- * @todo Doesn't work on Linux ?
+ * Monitor identity returned by `GetMonitorInfo`. This may be empty on Linux.
  */
 export interface Monitor {
     monitor_device_name: string;

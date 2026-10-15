@@ -85,7 +85,7 @@ export interface BluetoothState {
  */
 export interface BluetoothAdapter {
     /**
-     * The unique identifier of the Bluetooth adapter.
+     * The unique identifier of the Bluetooth adapter for the current state snapshot.
      */
     nId: number;
 
@@ -115,7 +115,7 @@ export interface BluetoothAdapter {
  */
 export interface BluetoothDevice {
     /**
-     * The unique identifier of the Bluetooth device.
+     * The unique identifier of the Bluetooth device for the current state snapshot.
      */
     nId: number;
 

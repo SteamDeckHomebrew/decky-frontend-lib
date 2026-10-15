@@ -7,8 +7,8 @@ import { Screenshot } from "./Screenshots";
  */
 export interface GameSessions {
     /**
-     * Registers a callback function to be called when an achievement notification is received.
-     * @param callback The callback function to be called.
+     * Registers for achievement progress/unlock notifications from running games.
+     * @param callback Receives the achievement notification payload.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForAchievementNotification(
@@ -16,8 +16,8 @@ export interface GameSessions {
     ): Unregisterable;
 
     /**
-     * Registers a callback function to be called when an app lifetime notification is received.
-     * @param callback The callback function to be called.
+     * Registers for app lifetime notifications when a game instance starts or stops.
+     * @param callback Receives the app lifetime notification payload.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForAppLifetimeNotifications(
@@ -25,8 +25,8 @@ export interface GameSessions {
     ): Unregisterable;
 
     /**
-     * Registers a callback function to be called when a screenshot notification is received.
-     * @param callback The callback function to be called.
+     * Registers for screenshot write/delete notifications.
+     * @param callback Receives the screenshot notification payload.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForScreenshotNotification(

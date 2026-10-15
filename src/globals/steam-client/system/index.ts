@@ -1,4 +1,4 @@
-import { JsPbMessage, OperationResponse, Unregisterable } from "../shared";
+import { JsPbMessage, OperationResponse, SerializedProto, SerializedProtoBase64, Unregisterable } from "../shared";
 import {Audio} from "./Audio";
 import {AudioDevice} from "./AudioDevice";
 import {Bluetooth} from "./Bluetooth";
@@ -32,7 +32,7 @@ export interface System {
      * Creates a temporary folder.
      * @param path The folder to create.
      * @returns the created path.
-     * @todo Does this support relative paths ? this has some weird behavior
+     * @remarks Steam-specific temp path handling; prefer absolute paths.
      */
     CreateTempPath(path: string): Promise<string>;
 
@@ -41,11 +41,19 @@ export interface System {
     DisplayManager: DisplayManager;
     Dock: Dock;
 
-    ExitFakeCaptivePortal(): any;
+    ExitFakeCaptivePortal(): void;
 
-    FactoryReset(): any;
+    /**
+     * Legacy system factory reset entry point.
+     * @deprecated Not present on the current live System bridge.
+     */
+    FactoryReset(): unknown;
 
-    FormatStorage(force: boolean): any;
+    /**
+     * Formats removable storage.
+     * @param force Whether to force formatting.
+     */
+    FormatStorage(force: boolean): Promise<OperationResponse>;
 
     GetOSType(): Promise<EOSType>;
 
@@ -65,7 +73,7 @@ export interface System {
 
     Network: Network;
 
-    NotifyGameOverlayStateChanged(latestAppOverlayStateActive: boolean, appId: number): any;
+    NotifyGameOverlayStateChanged(latestAppOverlayStateActive: boolean, appId: number): void;
 
     /**
      * Open a dialog for choosing a file.
@@ -83,9 +91,13 @@ export interface System {
     OpenLocalDirectoryInSystemExplorer(directory: string): void;
     Perf: Perf;
 
-    RebootToAlternateSystemPartition(): any;
+    RebootToAlternateSystemPartition(): void;
 
-    RebootToFactoryTestImage(param0: any): any;
+    /**
+     * Reboots into the factory test image.
+     * @deprecated Not present on the current live System bridge.
+     */
+    RebootToFactoryTestImage(factoryReset: boolean): unknown;
 
     RegisterForAirplaneModeChanges(callback: (state: AirplaneModeState) => void): Unregisterable;
 
@@ -93,42 +105,54 @@ export interface System {
 
     RegisterForFormatStorageProgress(callback: (progress: FormatStorageProgress) => void): Unregisterable;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     RegisterForOnResumeFromSuspend(callback: () => void): Unregisterable;
 
+    /**
+     * @deprecated Not present in the current live SteamClient snapshot.
+     */
     RegisterForOnSuspendRequest(callback: () => void): Unregisterable;
 
     /**
      * @returns a ProtoBuf message. If deserialized, returns {@link CMsgSystemManagerSettings}.
      */
-    RegisterForSettingsChanges(callback: (data: ArrayBuffer) => void): Unregisterable;
+    RegisterForSettingsChanges(callback: (data: SerializedProto<CMsgSystemManagerSettings>) => void): Unregisterable;
 
     Report: Report;
 
     /**
      * Restarts the system.
      */
-    RestartPC(): any;
+    RestartPC(): void;
 
     SetAirplaneMode(value: boolean): void;
 
-    ShutdownPC(): any;
+    ShutdownPC(): void;
 
     SteamRuntimeSystemInfo(): Promise<string>;
 
     /**
      * Suspends the system.
      */
-    SuspendPC(): any;
+    SuspendPC(): void;
 
     /**
      * Switches to desktop mode.
+     * @deprecated Not present on the current live System bridge.
      */
-    SwitchToDesktop(): any;
+    SwitchToDesktop(): unknown;
 
     UI: UI;
-    UpdateSettings: any;
 
-    VideoRecordingDriverCheck(): any;
+    /**
+     * Applies system manager settings from a serialized `CMsgSystemManagerSettings`.
+     * @param base64 Serialized base64 message from `CMsgSystemManagerSettings`.
+     */
+    UpdateSettings(base64: SerializedProtoBase64<CMsgSystemManagerSettings>): Promise<OperationResponse>;
+
+    VideoRecordingDriverCheck(): Promise<VideoRecordingDriverCheckResult>;
 }
 
 export interface AirplaneModeState {
@@ -329,6 +353,13 @@ export interface SystemInfo {
     sVideoDriverVersion: string;
     nVideoRAMSizeMB: number;
     bIsUnsupportedPrototypeHardware: boolean;
+}
+
+export interface VideoRecordingDriverCheckResult {
+    needUpdate: {
+        nvidia?: string;
+        [driver: string]: string | undefined;
+    };
 }
 
 export interface CMsgSystemManagerSettings extends JsPbMessage {
