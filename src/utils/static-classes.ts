@@ -1,5 +1,5 @@
 import { findClassModule } from '../class-mapper';
-
+// TODO document how to generate these?
 type QuickAccessMenuClasses = Record<
   | 'ActiveTab'
   | 'AllTabContents'
@@ -1064,7 +1064,7 @@ type MainBrowserClasses = Record<
   string
 >;
 
-export const quickAccessMenuClasses = findClassModule((m) => m.Title && m.QuickAccessMenu && m.BatteryDetailsLabels) as QuickAccessMenuClasses;
+export const quickAccessMenuClasses = findClassModule((m) => m.Title && m.QuickAccessMenu) as QuickAccessMenuClasses;
 export const scrollPanelClasses = findClassModule((m) => m.ScrollPanel) as ScrollPanelClasses;
 export const gamepadDialogClasses = findClassModule((m) => m.GamepadDialogContent && !m.BindingButtons) as GamepadDialogClasses;
 export const quickAccessControlsClasses = findClassModule((m) => m.BatteryPercentageLabel && m.PanelSection && !m['vr-dashboard-bar-height'] && !m.QuickAccessMenu && !m.QuickAccess && !m.PerfProfileInfo) as QuickAccessControlsClasses;
