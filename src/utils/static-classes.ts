@@ -1064,7 +1064,16 @@ type MainBrowserClasses = Record<
   string
 >;
 
-export const quickAccessMenuClasses = findClassModule((m) => m.Title && m.QuickAccessMenu && m.BatteryDetailsLabels) as QuickAccessMenuClasses;
+// The October 2026 Steam client split the Quick Access Menu class module in two, so fall back to merging both halves.
+function findQuickAccessMenuClasses() {
+  const full = findClassModule((m) => m.Title && m.QuickAccessMenu && m.BatteryDetailsLabels);
+  if (full) return full;
+  const a = findClassModule((m) => m.Title && m.QuickAccessMenu);
+  const b = findClassModule((m) => m.BatteryDetailsLabels && m.PanelSectionTitle);
+  return a && b ? { ...b, ...a } : a || b;
+}
+
+export const quickAccessMenuClasses = findQuickAccessMenuClasses() as QuickAccessMenuClasses;
 export const scrollPanelClasses = findClassModule((m) => m.ScrollPanel) as ScrollPanelClasses;
 export const gamepadDialogClasses = findClassModule((m) => m.GamepadDialogContent && !m.BindingButtons) as GamepadDialogClasses;
 export const quickAccessControlsClasses = findClassModule((m) => m.BatteryPercentageLabel && m.PanelSection && !m['vr-dashboard-bar-height'] && !m.QuickAccessMenu && !m.QuickAccess && !m.PerfProfileInfo) as QuickAccessControlsClasses;
