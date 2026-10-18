@@ -1,3 +1,10 @@
+## [4.13.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.13.0...v4.13.1) (2026-10-18)
+
+
+### Bug Fixes
+
+* **static-classes:** fix on beta ([ef74e5d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/ef74e5d52a5f1558d9d8c5d18bfa768393fa9016))
+
 # [4.13.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.12.1...v4.13.0) (2026-10-14)
 
 
