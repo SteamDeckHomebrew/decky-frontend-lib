@@ -1,3 +1,10 @@
+# [4.14.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.13.2...v4.14.0) (2026-10-18)
+
+
+### Features
+
+* add explainer properties ([#137](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/137)) ([c6fa67d](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c6fa67d1dcfd2774e1551b2d0412fa30efb86bde))
+
 ## [4.13.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.13.1...v4.13.2) (2026-10-18)
 
 
