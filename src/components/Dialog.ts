@@ -69,7 +69,7 @@ const MappedDialogDivs = new Map(
     try {
       const renderedDiv = m.render({});
       // Take only the first class name segment as it identifies the element we want
-      return [renderedDiv.props.className.split(' ')[0], m];
+      return [renderedDiv?.props?.className?.split(' ')[0], m];
     } catch (e) {
       console.error("[DFL:Dialog]: failed to render common dialog component", e);
       return [null, null];
