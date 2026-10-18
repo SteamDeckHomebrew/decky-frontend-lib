@@ -1,3 +1,15 @@
+# [4.15.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.14.0...v4.15.0) (2026-10-18)
+
+
+### Bug Fixes
+
+* **ProgressBar:** sTimeRemaining -> rtEstimatedCompletionTime ([#133](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/133)) ([0daae61](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/0daae61b11814e4762a321dcad96863d757a97d3))
+
+
+### Features
+
+* **component:** add placeholder field to TextField ([#120](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/120)) ([31a7a15](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/31a7a153fa3bd7267e21cd3b4102c3ffbfab12eb))
+
 # [4.14.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.13.2...v4.14.0) (2026-10-18)
 
 
