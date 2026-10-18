@@ -1,3 +1,10 @@
+## [4.13.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.13.1...v4.13.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* spacing between reorderable list items ([#138](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/138)) ([2853a38](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/2853a383a6c47a874910590977c9ff427b7ce77e))
+
 ## [4.13.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.13.0...v4.13.1) (2026-10-18)
 
 
