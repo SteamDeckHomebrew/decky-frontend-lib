@@ -11,4 +11,6 @@ export interface ItemProps {
   indentLevel?: number;
   tooltip?: string;
   highlightOnFocus?: boolean;
+  explainer?: ReactNode;
+  explainerTitle?: ReactNode;
 }
