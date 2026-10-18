@@ -86,6 +86,7 @@ export function ReorderableList<T>(props: ReorderableListProps<T>) {
         }}
       >
         <Focusable
+          style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
           onSecondaryButton={props.disableReordering ? undefined : toggleReorderEnabled}
           onSecondaryActionDescription={props.disableReordering ? undefined : reorderEnabled ? 'Save Order' : 'Reorder'}
           onClick={props.disableReordering ? undefined : toggleReorderEnabled}
