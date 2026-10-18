@@ -1,3 +1,10 @@
+## [4.15.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.15.0...v4.15.1) (2026-10-18)
+
+
+### Bug Fixes
+
+* **dialog:** bruh ([a3d17ac](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a3d17ace35da8db29999bd7e6d7c7c7e1e23b7d2))
+
 # [4.15.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.14.0...v4.15.0) (2026-10-18)
 
 
