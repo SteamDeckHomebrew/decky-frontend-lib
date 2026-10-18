@@ -34,18 +34,26 @@ export interface UI {
     RegisterForClientConVar(convar: string, callback: (value: string) => void): Unregisterable;
 
     /**
-     * @todo param{0,1} are enums
+     * Registers for global Steam UI error-condition changes.
+     * @param callback Receives the error condition enum value and its result enum value.
      */
-    RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable;
+    RegisterForErrorCondition(
+        callback: (errorCondition: number, errorConditionResult: number) => void,
+    ): Unregisterable;
 
     RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;
 
     /**
-     * @todo This fires multiple times.
+     * Registers for startup-finished notifications. Steam may emit this more than once.
      */
     RegisterForStartupFinished(callback: () => void): Unregisterable;
 
     RegisterForUIModeChanged(callback: (mode: EUIMode) => void): Unregisterable;
+
+    /**
+     * Registers for requests to move the Gamepad UI main window to the primary display.
+     */
+    RegisterMoveGamepadUIMainWindowToPrimaryDisplay(callback: () => void): Unregisterable;
 
     ResetErrorCondition(): void;
 

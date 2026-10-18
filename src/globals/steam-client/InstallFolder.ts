@@ -48,22 +48,22 @@ export interface InstallFolder {
     RefreshFolders(): void;
 
     /**
-     * Registers a callback function to be called when changes occur in Steam Install Folders.
-     * @param callback The callback function to be called.
+     * Registers for Steam Library folder changes.
+     * @param callback Receives the changed folder index.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForInstallFolderChanges(callback: (change: FolderChange) => void): Unregisterable;
 
     /**
-     * Registers a callback function to be called when moving game content progresses.
-     * @param callback The callback function to be called.
+     * Registers for app content move progress.
+     * @param callback Receives the current move progress for the active app.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForMoveContentProgress(callback: (progress: MoveContentProgress) => void): Unregisterable;
 
     /**
-     * Registers a callback function to be called when repairing an install folder is finished.
-     * @param callback The callback function to be called.
+     * Registers for install folder repair completion.
+     * @param callback Receives the repaired folder index.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForRepairFolderFinished(callback: (change: FolderChange) => void): Unregisterable;
@@ -102,12 +102,20 @@ export interface SteamInstallFolder extends PotentialInstallFolder {
     nFolderIndex: number;
     /** Used space in the folder. */
     strUsedSize: string;
+    /** Used space in bytes. */
+    nUsedSize?: number;
     /** Size of DLC storage used in the folder. */
     strDLCSize: string;
+    /** Size of DLC storage used in bytes. */
+    nDLCSize?: number;
     /** Size of workshop storage used in the folder. */
     strWorkshopSize: string;
+    /** Size of workshop storage used in bytes. */
+    nWorkshopSize?: number;
     /** Size of staged storage used in the folder. */
     strStagedSize: string;
+    /** Size of staged storage used in bytes. */
+    nStagedSize?: number;
     /** Indicates if the folder is set as the default installation folder. */
     bIsDefaultFolder: boolean;
     /** Indicates if the folder is currently mounted. */
@@ -125,8 +133,12 @@ export interface PotentialInstallFolder {
     strDriveName: string;
     /** Total capacity of the folder. */
     strCapacity: string;
+    /** Total capacity of the folder in bytes. */
+    nCapacity?: number;
     /** Available free space in the folder. */
     strFreeSpace: string;
+    /** Available free space in bytes. */
+    nFreeSpace?: number;
     /** Indicates if the folder is on a fixed drive. */
     bIsFixed: boolean;
 }
@@ -145,6 +157,8 @@ export interface AppInfo {
     rtLastPlayed: number;
     /** Size of used storage by the application. */
     strUsedSize: string;
+    /** Size of used storage by the application in bytes. */
+    nUsedSize?: number;
     /** Size of DLC storage used by the application. */
     strDLCSize: string;
     /** Size of workshop storage used by the application. */

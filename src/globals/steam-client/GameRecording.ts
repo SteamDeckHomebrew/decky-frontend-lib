@@ -1,10 +1,10 @@
-import type { JsPbMessage, Unregisterable } from "./shared";
+import type { JsPbMessage, SerializedProto, Unregisterable } from "./shared";
 
 export interface GameRecording {
   /**
    * If `data` is deserialized, returns {@link CGameRecording_AudioSessionsChanged_Notification}.
    */
-  RegisterForAudioSessionsChanged(callback: (data: ArrayBuffer) => void): Unregisterable;
+  RegisterForAudioSessionsChanged(callback: (data: SerializedProto<CGameRecording_AudioSessionsChanged_Notification>) => void): Unregisterable;
   SetAudioSessionCaptureState(id: string, name: string, state: boolean): void;
 }
 

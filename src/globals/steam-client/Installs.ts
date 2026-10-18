@@ -39,7 +39,9 @@ export interface Installs {
      */
     OpenUninstallWizard(appIds: number[], dontPrompt: boolean): void;
 
-    RegisterForShowConfirmUninstall: Unregisterable; // Broken? doesn't seem to work
+    RegisterForShowConfirmUninstall(
+        callback: (appIds: number[], confirmPassword: boolean) => void,
+    ): Unregisterable;
 
     /**
      * Registers a callback function to be called when the "Failed Uninstall" dialog is shown.
@@ -55,14 +57,19 @@ export interface Installs {
      */
     RegisterForShowInstallWizard(callback: (data: InstallMgrInfo) => void): Unregisterable;
 
-    RegisterForShowRegisterCDKey: any;
+    /**
+     * Registers for the legacy "Register CD Key" dialog request.
+     *
+     * Steam UI does not currently reference callback arguments.
+     */
+    RegisterForShowRegisterCDKey(callback: () => void): Unregisterable;
 
     /**
      * Sets a list of app identifiers for downloads in the installation wizard.
      * @param appIds An array of app IDs to set.
      * @remarks The wizard will not reflect this change immediately, but changing another option will.
      */
-    SetAppList(appIds: number[]): void;
+    SetAppList(appIds: number[]): Promise<InstallMgrInfo>;
 
     /**
      * Sets the options for creating shortcuts in the installation wizard.
@@ -70,14 +77,14 @@ export interface Installs {
      * @param bSystemMenuShortcut Whether to create a system menu shortcut.
      * @remarks The wizard will not reflect this change immediately, but changing another option will.
      */
-    SetCreateShortcuts(bDesktopShortcut: boolean, bSystemMenuShortcut: boolean): void;
+    SetCreateShortcuts(bDesktopShortcut: boolean, bSystemMenuShortcut: boolean): Promise<InstallMgrInfo>;
 
     /**
      * Sets the install folder for the installation wizard using an install folder index.
      * @param folderIndex The index of the install folder.
      * @remarks The wizard will not reflect this change immediately, but changing another option will.
      */
-    SetInstallFolder(folderIndex: number): void;
+    SetInstallFolder(folderIndex: number): Promise<InstallMgrInfo>;
 }
 
 export interface InstallMgrInfo {

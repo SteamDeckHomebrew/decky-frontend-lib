@@ -1,11 +1,15 @@
 import { Unregisterable } from "./shared";
 
 export interface Messaging {
-    // section - "ContentManagement", "JumpList", "PostToLibrary"
-    // seems multipurpose
+    /**
+     * Registers for messages posted to a Steam UI message section.
+     *
+     * Known sections include `ContentManagement`, `FriendsUI`, `JumpList`,
+     * `Library`, `LibraryCommands`, `PostToLibrary`, and `PostToSteamUI`.
+     */
     RegisterForMessages<T extends string>(
-        message: T,
-        callback: (message: T, section: string, args: string) => void,
+        section: T,
+        callback: (section: T, message: string, args: string) => void,
     ): Unregisterable;
 
     /*
@@ -16,5 +20,11 @@ export interface Messaging {
     }
     SteamClient.Messaging.PostMessage("FriendsUI", "AcceptedRemotePlayInvite", JSON.stringify({id: this.appID})) : SteamClient.Messaging.PostMessage("FriendsUI", "AcceptedGameInvite", JSON.stringify({id: this.appID}))
      */
-    PostMessage(message: string, section: string, args: string): void;
+    /**
+     * Posts a string payload to a Steam UI message section.
+     * @param section Message bus section to post to.
+     * @param message Message name within the section.
+     * @param args String payload, usually JSON.
+     */
+    PostMessage(section: string, message: string, args: string): void;
 }

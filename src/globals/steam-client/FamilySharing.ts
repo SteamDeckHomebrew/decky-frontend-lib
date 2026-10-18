@@ -6,9 +6,9 @@ import { EResult, Unregisterable } from "./shared";
 export interface FamilySharing {
     GetAvailableLenders(appId: number): Promise<Lender[]>;
 
-    RegisterForKickedBorrower: Unregisterable;
+    RegisterForKickedBorrower(callback: (appId: number, lenderName: string) => void): Unregisterable;
 
-    SetPreferredLender(appId: number, param1: number): Promise<EResult>;
+    SetPreferredLender(appId: number, lenderAccountId: number): Promise<EResult>;
 }
 
 interface LenderDLC {

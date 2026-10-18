@@ -16,9 +16,9 @@ export interface Storage {
     GetString(key: string): Promise<OperationResponse | string>;
 
     /**
-     * @remarks Use {@link SetObject} to get.
+     * @remarks Read with {@link GetJSON}.
      */
-    SetObject(key: string, value: object): Promise<OperationResponse | undefined>;
+    SetObject(key: string, value: Record<string, unknown>): Promise<OperationResponse | undefined>;
 
     SetString(key: string, value: string): Promise<OperationResponse | undefined>;
 }
