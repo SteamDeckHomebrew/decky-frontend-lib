@@ -496,12 +496,13 @@ export interface Apps {
 
     /**
      * Scans the system for installed non-Steam applications.
+     * @param includeExistingShortcuts Include shortcuts already added to the Steam library.
      * @returns an array of NonSteamApp objects representing installed non-Steam applications.
-     * @remarks This function scans the user's system for installed applications that are not part of the Steam library. It does not scan for shortcuts added to the Steam library.
+     * @remarks This function scans the user's system for installed applications that are not part of the Steam library. It does not scan for shortcuts added to the Steam library unless includeExistingShortcuts is set to true.
      *
      * On Linux, it scans inside /usr/share/applications and $XDG_DATA_HOME/applications.
      */
-    ScanForInstalledNonSteamApps(): Promise<NonSteamApp[]>;
+    ScanForInstalledNonSteamApps(includeExistingShortcuts: boolean): Promise<NonSteamApp[]>;
 
     /**
      * Sets the automatic update behavior for a Steam application.
