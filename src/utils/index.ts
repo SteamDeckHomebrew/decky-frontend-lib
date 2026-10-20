@@ -5,7 +5,6 @@ export * from './react/fc';
 export * from './react/treepatcher';
 
 declare global {
-  var FocusNavController: any;
   var GamepadNavTree: any;
 }
 
