@@ -1,5 +1,4 @@
-import type { Action, History, Location } from 'history';
-
+import type { Action, Location } from '../shared/history';
 import type { CCallbackList } from '../shared/interfaces';
 import type {
   BrowserViewHistory,
@@ -78,7 +77,10 @@ export interface CMainWindowBrowserManager {
   m_bRouterChangeTroggeredBySync: boolean;
   m_browser: BrowserViewPopup;
   m_browserHistory: BrowserViewHistory;
-  m_history: History;
+  /**
+   * `History` in `index.d.ts` of https://www.npmjs.com/package/history/v/5.0.0
+   */
+  m_history: any;
   m_lastActiveTab: SteamBrowserTab_t;
   m_lastActiveTabURLs: SteamBrowserTabs_t;
   m_lastLocation: Location<SteamBrowserHistoryState>;

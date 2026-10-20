@@ -1,5 +1,3 @@
-import type { History } from 'history';
-
 import type { BrowserContext } from '../../shared';
 import type { BrowserViewCreateOptions } from '../../steam-client/browser-view';
 import type { ENotificationPosition } from '../../steam-client/Overlay';
@@ -385,8 +383,8 @@ export interface SteamUIWindowInstance {
   // #endregion
 
   Navigate(path: string, replaceHistoryEntry: boolean, matchRoute: boolean, state?: SteamBrowserHistoryState): void;
-  NavigateBack: History['back'];
-  NavigateHistory: History['go'];
+  NavigateBack(): void;
+  NavigateHistory(delta: number): void;
   NavigateToRunningApp(replaceHistoryEntry: boolean): void;
   NavigateToStandaloneAppRunningControls(e?: boolean): void;
   NavigateToSteamWeb: SteamWindowNavigator['SteamWeb'];

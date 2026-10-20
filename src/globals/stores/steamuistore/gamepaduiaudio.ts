@@ -1,6 +1,6 @@
-import type { CFocusNavigationContext } from '../../stores';
 import type { ESteamUISound, EUIMode, SubscribableValue, Unsubscribable } from '../../shared';
 import type { FocusChangeEvent } from '../../steam-client/system/UI';
+import type { CFocusNavigationContext } from '../../stores';
 
 /**
  * Steam UI sound file names relative to `https://steamloopback.host/sounds`.
