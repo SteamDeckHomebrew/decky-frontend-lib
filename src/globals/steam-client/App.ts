@@ -1,6 +1,6 @@
 import type { EResult, JsPbMessage, OperationResponse, Unregisterable, VDFBoolean_t } from "./shared";
 import type { EControllerRumbleSetting, EThirdPartyControllerConfiguration } from "./Input";
-import {EUCMFilePrivacyState, Screenshot} from "./Screenshots";
+import { EUCMFilePrivacyState, Screenshot } from "./Screenshots";
 
 /**
  * Represents various functions related to Steam applications.
@@ -1282,7 +1282,7 @@ export interface Badge {
   strNextLevelName: string;
 }
 
-interface AppDescription {
+export interface AppDescription {
   /**
    * Full app description. Note that it uses BB code and so must be rendered.
    */

@@ -207,7 +207,7 @@ interface AvailableClientBeta {
     strName: string;
 }
 
-interface SteamSettings {
+export interface SteamSettings {
     bIsInClientBeta: boolean;
     bIsSteamSideload: boolean;
     eClientBetaState: EClientBetaState;

@@ -112,37 +112,6 @@ export enum EResult {
   LimitedUserAccount,
 }
 
-export enum EBrowserType {
-  /**
-   * No window is created (like SharedJSContext).
-   */
-  OffScreen,
-  OpenVROverlay,
-  OpenVROverlay_Dashboard,
-  /**
-   * A normal window.
-   */
-  DirectHWND,
-  /**
-   * A borderless window.
-   */
-  DirectHWND_Borderless,
-  /**
-   * An initially hidden window.
-   * May be shown with {@link SteamClient.Window.ShowWindow}.
-   */
-  DirectHWND_Hidden,
-  ChildHWNDNative,
-  Offscreen_SteamUI = 12,
-  OpenVROverlay_Subview,
-}
-
-export enum ESteamRealm {
-  Unknown,
-  Global,
-  China,
-}
-
 /**
  * Controls how Gamescope renders the GamepadUI window when a game is running.
  */
@@ -172,46 +141,8 @@ export enum EUIComposition {
   OverlayKeyboard,
 }
 
-export enum EUIMode {
-  Unknown = -1,
-  GamePad = 4,
-  Desktop = 7,
-}
-
 /** 0 - false, 1 - true */
 export type VDFBoolean_t = 0 | 1;
-
-export interface BrowserContext {
-  /**
-   * Window type.
-   */
-  m_eBrowserType?: EBrowserType;
-
-  /**
-   * The UI mode in use.
-   */
-  m_eUIMode?: EUIMode;
-
-  /**
-   * @todo Appears when {@link m_eBrowserType} == 0 ?
-   */
-  m_gameID?: string;
-
-  /**
-   * @todo Same as `SteamClient.Browser.GetBrowserID()` ?
-   */
-  m_nBrowserID: number;
-
-  /**
-   * Game's app ID.
-   */
-  m_unAppID?: number;
-
-  /**
-   * If overlay, game's PID.
-   */
-  m_unPID: number;
-}
 
 /**
  * Represents the response of an operation. It appears to be not necessary to await for this operation response. It is only used to indicate the result of an operation.
