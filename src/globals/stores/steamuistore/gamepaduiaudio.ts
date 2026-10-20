@@ -1,4 +1,4 @@
-import type { CFocusNavigationContext } from '../../managers';
+import type { CFocusNavigationContext } from '../../stores';
 import type { ESteamUISound, EUIMode, SubscribableValue, Unsubscribable } from '../../shared';
 import type { FocusChangeEvent } from '../../steam-client/system/UI';
 

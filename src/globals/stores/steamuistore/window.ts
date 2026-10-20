@@ -385,7 +385,7 @@ export interface SteamUIWindowInstance {
   // #endregion
 
   Navigate(path: string, replaceHistoryEntry: boolean, matchRoute: boolean, state?: SteamBrowserHistoryState): void;
-  NavigateBack: History['goBack'];
+  NavigateBack: History['back'];
   NavigateHistory: History['go'];
   NavigateToRunningApp(replaceHistoryEntry: boolean): void;
   NavigateToStandaloneAppRunningControls(e?: boolean): void;
