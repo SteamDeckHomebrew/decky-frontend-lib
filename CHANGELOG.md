@@ -1,3 +1,10 @@
+# [4.16.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.15.1...v4.16.0) (2026-10-20)
+
+
+### Features
+
+* **globals:** document the other stores ([#121](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/121)) ([c0f17fc](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c0f17fc58ff9bfa137564720d7e43ca37cd0bd99))
+
 ## [4.15.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.15.0...v4.15.1) (2026-10-18)
 
 
