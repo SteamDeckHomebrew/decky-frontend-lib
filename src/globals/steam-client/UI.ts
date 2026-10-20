@@ -1,5 +1,6 @@
-import { EUIMode, Unregisterable } from "./shared";
-import {EOSType} from "./system";
+import type { EUIMode } from '../shared/enums';
+import type { EResult, Unregisterable } from './shared';
+import type { EOSType } from './system';
 
 export interface UI {
     EnsureMainWindowCreated(): void;
@@ -33,10 +34,7 @@ export interface UI {
      */
     RegisterForClientConVar(convar: string, callback: (value: string) => void): Unregisterable;
 
-    /**
-     * @todo param{0,1} are enums
-     */
-    RegisterForErrorCondition(callback: (param0: number, param1: number) => void): Unregisterable;
+    RegisterForErrorCondition(callback: (param0: ERefreshLoginReason, param1: EResult) => void): Unregisterable;
 
     RegisterForKioskModeResetSignal(callback: () => void): Unregisterable;
 
@@ -54,6 +52,17 @@ export interface UI {
      * @param mode The UI mode to set.
      */
     SetUIMode(mode: EUIMode): void;
+}
+
+export enum ERefreshLoginReason {
+  Success = 1,
+  LoggedInElsewhere,
+  SteamGuard,
+  AccountDisabled,
+  Offline,
+  UnhandledMailTo,
+  Success2,
+  InfoTicketExpired,
 }
 
 export enum EWindowType {

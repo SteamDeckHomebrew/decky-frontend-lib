@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+// TODO(globals): should this really stay here ?
 export enum GamepadButton {
   INVALID,
   OK,
@@ -30,6 +31,13 @@ export enum GamepadButton {
   REAR_RIGHT_LOWER,
   STEAM_GUIDE,
   STEAM_QUICK_MENU,
+}
+// TODO(globals): should this really stay here ?
+export enum EFocusSource {
+  GAMEPAD,
+  KEYBOARD,
+  APPLICATION,
+  BROWSER
 }
 export enum NavEntryPositionPreferences {
   /**
@@ -70,9 +78,9 @@ export enum NavEntryPositionPreferences {
   PREFERRED_CHILD,
 }
 export interface GamepadEventDetail {
-  button: number;
+  button: GamepadButton;
   is_repeat?: boolean;
-  source: number;
+  source: EFocusSource;
 }
 export declare type ActionDescriptionMap = {
   [key in GamepadButton]?: ReactNode;

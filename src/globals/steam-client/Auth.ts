@@ -39,7 +39,7 @@ export interface Auth {
 }
 
 export interface AuthRefreshInfo {
-    reason: number;
+    reason: EResult;
     account_name: string;
     login_id_token: string;
 }

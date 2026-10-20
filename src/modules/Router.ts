@@ -1,79 +1,13 @@
-import Logger from '../logger';
-import { Export, findModuleExport } from '../webpack';
-import {EDisplayStatus} from "../globals/steam-client/App";
+import type { CSteamUIStore } from "../globals/stores/steamuistore";
+import type { EQuickAccessTab, ESideMenu } from "../globals/stores/steamuistore/menu";
+import type { SteamUIWindowInstance } from "../globals/stores/steamuistore/window";
+import Logger from "../logger";
+import { type Export, findModuleExport } from "../webpack";
 
-export enum SideMenu {
-  None,
-  Main,
-  QuickAccess,
-}
+// TODO(globals): maybe just use window.SteamUIStore ? it"s the exact same thing
+export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as CSteamUIStore;
 
-export enum QuickAccessTab {
-  Notifications,
-  RemotePlayTogetherControls,
-  VoiceChat,
-  Friends,
-  Settings,
-  Perf,
-  Help,
-  Music,
-  Decky = 999,
-}
-
-export type AppOverview = {
-  appid: string;
-  display_name: string;
-  display_status: EDisplayStatus;
-  sort_as: string;
-};
-
-export interface MenuStore {
-  OpenSideMenu(sideMenu: SideMenu): void;
-  OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
-  OpenMainMenu(): void;
-}
-
-export interface WindowRouter {
-  BrowserWindow: Window;
-  MenuStore: MenuStore;
-  Navigate(path: string): void;
-  NavigateToChat(): void;
-  NavigateToSteamWeb(url: string): void;
-  NavigateBack(): void;
-}
-
-export interface WindowStore {
-  GamepadUIMainWindowInstance?: WindowRouter; // Current
-  SteamUIWindows: WindowRouter[];
-  OverlayWindows: WindowRouter[]; // Used by desktop GamepadUI
-}
-
-export interface Router {
-  WindowStore?: WindowStore;
-  /** @deprecated use {@link Navigation} instead */
-  CloseSideMenus(): void;
-  /** @deprecated use {@link Navigation} instead */
-  Navigate(path: string): void;
-  /** @deprecated use {@link Navigation} instead */
-  NavigateToAppProperties(): void;
-  /** @deprecated use {@link Navigation} instead */
-  NavigateToExternalWeb(url: string): void;
-  /** @deprecated use {@link Navigation} instead */
-  NavigateToInvites(): void;
-  /** @deprecated use {@link Navigation} instead */
-  NavigateToChat(): void;
-  /** @deprecated use {@link Navigation} instead */
-  NavigateToLibraryTab(): void;
-  /** @deprecated use {@link Navigation} instead */
-  NavigateToLayoutPreview(e: unknown): void;
-  /** @deprecated use {@link Navigation} instead */
-  OpenPowerMenu(unknown?: any): void;
-  get RunningApps(): AppOverview[];
-  get MainRunningApp(): AppOverview | undefined;
-}
-
-export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as Router;
-
+// TODO(globals): replace with MenuStore, etc. ?
 export interface Navigation {
   Navigate(path: string): void;
   NavigateBack(): void;
@@ -84,8 +18,8 @@ export interface Navigation {
   NavigateToLibraryTab(): void;
   NavigateToLayoutPreview(e: unknown): void;
   NavigateToSteamWeb(url: string): void;
-  OpenSideMenu(sideMenu: SideMenu): void;
-  OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
+  OpenSideMenu(sideMenu: ESideMenu): void;
+  OpenQuickAccessMenu(quickAccessTab?: EQuickAccessTab): void;
   OpenMainMenu(): void;
   OpenPowerMenu(unknown?: any): void;
   /** if calling this to perform navigation, call it after Navigate to prevent a race condition in desktop Big Picture mode that hides the overlay unintentionally */
@@ -99,7 +33,7 @@ const logger = new Logger("Navigation");
 try {
   function createNavigationFunction(fncName: string, handler?: (win: any) => any) {
     return (...args: any) => {
-      let win: WindowRouter | undefined;
+      let win: SteamUIWindowInstance | undefined;
       try {
         win = window.SteamUIStore.GetFocusedWindowInstance();
       } catch (e) {

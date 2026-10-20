@@ -176,6 +176,10 @@ export interface ConnectionAttempt {
     rtCooldownExpiration: number;
 }
 
+interface FamilyGroupMember {
+  accountid: number;
+}
+
 export interface CurrentUser {
     NotificationCounts: {
         async_game_updates: number;
@@ -196,11 +200,27 @@ export interface CurrentUser {
     bSupportAlertActive: boolean;
     bSupportPopupMessage: boolean;
     clientinstanceid: string;
+    eFamilyGroupRole: EFamilyGroupRole;
     strAccountBalance: string;
     strAccountBalancePending: string;
     strAccountName: string;
     strFamilyGroupID: string;
+    /**
+     * @todo unused ?
+     */
+    strFamilyGroupName: string;
     strSteamID: string;
+    /**
+     * @todo unused ?
+     */
+    rgFamilyGroupMembers: FamilyGroupMember[];
+}
+
+export enum EFamilyGroupRole {
+  None,
+  Adult,
+  Child,
+  MAX,
 }
 
 export enum ELoginState {

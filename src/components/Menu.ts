@@ -1,21 +1,7 @@
-import { FC, ReactNode } from 'react';
-
-import { Export, findModuleByExport, findModuleDetailsByExport, findModuleExport } from '../webpack';
-import { FooterLegendProps } from './FooterLegend';
-
-interface PopupCreationOptions {
-  /**
-   * Initially hidden, make it appear with {@link ContextMenuInstance.Show}.
-   */
-  bCreateHidden?: boolean;
-
-  bModal?: boolean;
-
-  /**
-   * Document title.
-   */
-  title?: string;
-}
+import type { FC, ReactNode } from 'react';
+import type { PopupCreationOptions } from '../globals/stores/popupmanager';
+import { type Export, findModuleByExport, findModuleDetailsByExport, findModuleExport } from '../webpack';
+import type { FooterLegendProps } from './FooterLegend';
 
 // Separate interface, since one of webpack module exports uses this exact object,
 // so maybe it could be reused elsewhere.
@@ -30,7 +16,7 @@ interface MonitorOptions {
   flGamepadScale: number;
 }
 
-export interface ContextMenuPositionOptions extends PopupCreationOptions, Partial<MonitorOptions> {
+export interface ContextMenuCreationOptions extends PopupCreationOptions, Partial<MonitorOptions> {
   /**
    * When {@link bForcePopup} is true, makes the window appear above everything else.
    */
@@ -69,6 +55,9 @@ export interface ContextMenuPositionOptions extends PopupCreationOptions, Partia
    */
   bMatchWidth?: boolean;
 
+  /**
+   * Set to `true` to not focus the menu when shown.
+   */
   bNoFocusWhenShown?: boolean;
 
   /**
@@ -101,7 +90,8 @@ export interface ContextMenuPositionOptions extends PopupCreationOptions, Partia
 
   bShiftToFitWindow?: boolean;
 
-  // different window creation flags (StandaloneContextMenu vs PopupContextMenu)
+  // different window creation flags (StandaloneContextMenu vs PopupContextMenu,
+  // so OverrideRedirect vs PopUpMenuHint in EPopupCreationFlags)
   bStandalone?: boolean;
 
   /**
@@ -119,7 +109,7 @@ interface ContextMenuInstance {
 export const showContextMenu: (
   children: ReactNode,
   parent?: EventTarget,
-  options?: ContextMenuPositionOptions,
+  options?: ContextMenuCreationOptions,
 ) => ContextMenuInstance = findModuleExport(
   (e: Export) =>
     typeof e === 'function' &&
