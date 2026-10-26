@@ -7,7 +7,7 @@ export interface FCTrampoline {
     component: FC
 }
 
-let loggingEnabled = true;
+let loggingEnabled = false;
 
 export function setFCTrampolineLoggingEnabled(value: boolean = true) { loggingEnabled = value };
 
