@@ -1,3 +1,10 @@
+## [4.16.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.2...v4.16.3) (2026-10-26)
+
+
+### Bug Fixes
+
+* **fc:** sigh ([a944ca6](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/a944ca6b3e8ce59c4ee5c554d4f11969edb328d3))
+
 ## [4.16.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.1...v4.16.2) (2026-10-26)
 
 
