@@ -1,3 +1,11 @@
+## [4.16.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.1...v4.16.2) (2026-10-26)
+
+
+### Bug Fixes
+
+* **globals:** one more ([91c6728](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/91c6728e49481df9add8b001bb857be349ec78bc))
+* **globals:** oops ([174d607](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/174d6079950bbe184a395584e948623f5bb7635c))
+
 ## [4.16.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.0...v4.16.1) (2026-10-26)
 
 
