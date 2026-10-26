@@ -115,6 +115,8 @@ export interface Apps {
      * Retrieves a list of available compatibility tools for a specific application.
      * @param appId The ID of the application to retrieve compatibility tools for.
      * @returns an array of CompatibilityToolInfo objects.
+     * @deprecated Not exposed in the inspected Steam client. Steam queries the
+     * `CompatManager.GetCompatTools#1` protobuf service with an app ID instead.
      */
     GetAvailableCompatTools(appId: number): Promise<CompatibilityTool[]>;
 

@@ -25,6 +25,10 @@ export interface Settings {
     // Returns the current language "english"
     GetCurrentLanguage(): Promise<string>;
 
+    /**
+     * @deprecated Not exposed in the inspected Steam client. Steam queries the
+     * `CompatManager.GetCompatTools#1` protobuf service without an app ID instead.
+     */
     GetGlobalCompatTools(): Promise<CompatibilityTool[]>;
 
     /**
