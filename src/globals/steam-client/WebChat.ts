@@ -1,4 +1,4 @@
-import type { UIMode } from '../shared/enums';
+import type { EUIMode } from '../shared/enums';
 import type { OverlayBrowserInfo } from './Overlay';
 import type { EResult, Unregisterable } from './shared';
 
@@ -44,7 +44,7 @@ export interface WebChat {
      * Retrieves the current UI mode.
      * @returns the current UI mode.
      */
-    GetUIMode(): Promise<UIMode>;
+    GetUIMode(): Promise<EUIMode>;
 
     OnGroupChatUserStateChange(chatGroupId: number, accountId: number, action: number): void;
 
@@ -97,7 +97,7 @@ export interface WebChat {
      * @param callback The callback function to be called.
      * @returns an object that can be used to unregister the callback.
      */
-    RegisterForUIModeChange(callback: (mode: UIMode) => void): Unregisterable;
+    RegisterForUIModeChange(callback: (mode: EUIMode) => void): Unregisterable;
 
     RegisterOverlayChatBrowserInfoChanged(callback: () => void): Unregisterable;
 

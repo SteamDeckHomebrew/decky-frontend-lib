@@ -1,4 +1,4 @@
-import type { EBrowserType, ESteamRealm, UIMode } from '../shared/enums';
+import type { EBrowserType, ESteamRealm, EUIMode } from '../shared/enums';
 import type { EUIComposition, Unregisterable } from './shared';
 
 export interface Overlay {
@@ -143,7 +143,7 @@ export interface ActivateOverlayRequest {
 export interface OverlayBrowserInfo {
     appID: number;
     eBrowserType: EBrowserType;
-    UIMode: UIMode;
+    EUIMode: EUIMode;
     flDisplayScale?: number;
     gameID: string;
     nBrowserID: number;

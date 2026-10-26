@@ -1,4 +1,4 @@
-import type { ESteamUISound, UIMode, SubscribableValue, Unsubscribable } from '../../shared';
+import type { ESteamUISound, EUIMode, SubscribableValue, Unsubscribable } from '../../shared';
 import type { FocusChangeEvent } from '../../steam-client/system/UI';
 import type { CFocusNavigationContext } from '../../stores';
 
@@ -84,7 +84,7 @@ export declare class CGamepadUIAudioStore {
   m_AudioPlaybackManager: CGamepadUIAudioPlaybackManager;
   m_bCanPlaySound: boolean;
   m_currentlyFocusedAppid: SubscribableValue<number>;
-  m_fnGetUIMode: () => UIMode;
+  m_fnGetUIMode: () => EUIMode;
   /** {@link setTimeout} handle */
   m_pendingSoundHandle: number | null;
   m_pendingSoundType: ESteamUISound;
