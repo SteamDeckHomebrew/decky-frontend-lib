@@ -90,7 +90,7 @@ export enum ESteamUISound {
   Screenshot,
 }
 
-export enum UIMode {
+export enum EUIMode {
   Unknown = -1,
   GamePad = 4,
   Desktop = 7,
