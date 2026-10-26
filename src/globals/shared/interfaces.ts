@@ -1,6 +1,6 @@
 import type { EResult } from '../steam-client/shared';
 import type { EMsg_t } from './cm';
-import type { EBrowserType, EUIMode } from './enums';
+import type { EBrowserType, UIMode } from './enums';
 
 export interface BrowserContext {
   /**
@@ -11,7 +11,7 @@ export interface BrowserContext {
   /**
    * The UI mode in use.
    */
-  m_eUIMode: EUIMode;
+  m_UIMode: UIMode;
 
   /**
    * If overlay, game's app ID, otherwise doesn't appear.

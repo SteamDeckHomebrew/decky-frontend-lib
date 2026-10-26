@@ -1,5 +1,5 @@
 import type { CSteamUIStore } from "../globals/stores/steamuistore";
-import type { EQuickAccessTab, ESideMenu } from "../globals/stores/steamuistore/menu";
+import type { QuickAccessTab, SideMenu } from "../globals/stores/steamuistore/menu";
 import type { SteamUIWindowInstance } from "../globals/stores/steamuistore/window";
 import Logger from "../logger";
 import { type Export, findModuleExport } from "../webpack";
@@ -18,8 +18,8 @@ export interface Navigation {
   NavigateToLibraryTab(): void;
   NavigateToLayoutPreview(e: unknown): void;
   NavigateToSteamWeb(url: string): void;
-  OpenSideMenu(sideMenu: ESideMenu): void;
-  OpenQuickAccessMenu(quickAccessTab?: EQuickAccessTab): void;
+  OpenSideMenu(sideMenu: SideMenu): void;
+  OpenQuickAccessMenu(quickAccessTab?: QuickAccessTab): void;
   OpenMainMenu(): void;
   OpenPowerMenu(unknown?: any): void;
   /** if calling this to perform navigation, call it after Navigate to prevent a race condition in desktop Big Picture mode that hides the overlay unintentionally */

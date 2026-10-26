@@ -1,4 +1,4 @@
-import type { EUIMode } from '../shared/enums';
+import type { UIMode } from '../shared/enums';
 import type { EResult, Unregisterable } from './shared';
 import type { EOSType } from './system';
 
@@ -18,7 +18,7 @@ export interface UI {
      * Retrieves the current UI mode.
      * @returns the current UI mode.
      */
-    GetUIMode(): Promise<EUIMode>;
+    GetUIMode(): Promise<UIMode>;
 
     NotifyAppInitialized(): void;
 
@@ -43,7 +43,7 @@ export interface UI {
      */
     RegisterForStartupFinished(callback: () => void): Unregisterable;
 
-    RegisterForUIModeChanged(callback: (mode: EUIMode) => void): Unregisterable;
+    RegisterForUIModeChanged(callback: (mode: UIMode) => void): Unregisterable;
 
     ResetErrorCondition(): void;
 
@@ -51,7 +51,7 @@ export interface UI {
      * Sets the UI mode to the specified value.
      * @param mode The UI mode to set.
      */
-    SetUIMode(mode: EUIMode): void;
+    SetUIMode(mode: UIMode): void;
 }
 
 export enum ERefreshLoginReason {

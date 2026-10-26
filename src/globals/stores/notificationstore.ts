@@ -131,12 +131,12 @@ export interface TrayNotification {
 }
 
 export interface NotificationTarget {
-  eFeature: EParentalFeature;
-  fnNotificationResolved: () => void;
-  fnShowModal: () => void;
-  fnTray: (target: NotificationTarget, notificationsInTray: TrayNotification[]) => void;
-  nRemoveFromTraySec: number;
-  toastDurationMS: number;
+  eFeature?: EParentalFeature;
+  fnNotificationResolved?: () => void;
+  fnShowModal?: () => void;
+  fnTray?: (target: NotificationTarget, notificationsInTray: TrayNotification[]) => void;
+  nRemoveFromTraySec?: number;
+  toastDurationMS?: number;
   type: EClientNotificationType;
 }
 

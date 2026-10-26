@@ -21,6 +21,25 @@ import type {
 } from './stores';
 
 declare global {
+    var App: CApp;
+    var appStore: CAppStore;
+    var appDetailsStore: CAppDetailsStore;
+    var badgeStore: CBadgeStore;
+    var collectionStore: CCollectionStore;
+    var ConsoleStore: CConsoleStore;
+    var FocusNavController: CFocusNavController;
+    var friendStore: CFriendStore;
+    var g_GRS: CGameRecordingStore;
+    var g_PopupManager: CPopupManager;
+    var LocalizationManager: CLocalizationManager;
+    var MainWindowBrowserManager: CMainWindowBrowserManager;
+    var NotificationStore: CNotificationStore;
+    var securitystore: CSecurityStore;
+    var settingsStore: CSettingsStore;
+    var SteamClient: SteamClient;
+    var SteamUIStore: CSteamUIStore;
+    var uiStore: CLibraryUIStore;
+    var urlStore: CURLStore;
   interface Window {
     App: CApp;
     appStore: CAppStore;
@@ -43,3 +62,7 @@ declare global {
     urlStore: CURLStore;
   }
 }
+
+export * from "./shared";
+export * from "./steam-client";
+export * from "./stores";

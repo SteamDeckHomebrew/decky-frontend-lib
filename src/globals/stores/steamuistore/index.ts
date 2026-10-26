@@ -1,4 +1,4 @@
-import type { EUIMode } from '../../shared';
+import type { UIMode } from '../../shared';
 import type { ENavigationSourceType, NavigationSource } from '../../shared/navigation';
 import type { SteamAppOverview } from '../../steam-client/App';
 import type { ControllerInfo } from '../../steam-client/Input';
@@ -34,7 +34,7 @@ export interface CSteamUIStore {
   m_bStreamingRemotePlayTogether: boolean;
   m_eErrorCondition: ERefreshLoginReason;
   m_eErrorConditionResult: EResult;
-  m_mainInstanceUIMode: EUIMode;
+  m_mainInstancUIMode: UIMode;
   m_nResumeStreamingInputTimeoutHandle: number;
   m_navigationSource: NavigationSource;
   m_runningAppIDs: number[];
@@ -197,7 +197,7 @@ export interface CSteamUIStore {
   get ErrorConditionResult(): EResult;
   get ForceBetaSectionVisible(): boolean;
   get GamepadUIAudio(): CGamepadUIAudioStore;
-  get MainInstanceUIMode(): EUIMode;
+  get MainInstancUIMode(): UIMode;
   get MainRunningApp(): SteamAppOverview | undefined;
   get MainRunningAppID(): number | undefined;
   get MostRecentlyActiveController(): ControllerInfo;
@@ -210,3 +210,8 @@ export interface CSteamUIStore {
   get TextFilterStore(): any;
   get WindowStore(): CWindowStore;
 }
+
+export * from "./gamepadbrowserview";
+export * from "./gamepaduiaudio";
+export * from "./menu";
+export * from "./window";

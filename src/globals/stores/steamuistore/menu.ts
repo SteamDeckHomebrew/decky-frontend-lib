@@ -1,4 +1,4 @@
-export enum EQuickAccessTab {
+export enum QuickAccessTab {
   Notifications,
   RemotePlayTogetherControls,
   VoiceChat,
@@ -11,7 +11,7 @@ export enum EQuickAccessTab {
   Decky = 999,
 }
 
-export enum ESideMenu {
+export enum SideMenu {
   None,
   Main,
   QuickAccess,
@@ -21,9 +21,9 @@ export declare class CMenuStore {
   m_MainMenuStore: any;
   m_cSideMenuExtendedVisibilityRequests: number;
   m_cSuppressRequests: number;
-  m_eLastRequestedSideMenu: ESideMenu;
-  m_eOpenSideMenu: ESideMenu;
-  m_eQuickAccessTab: EQuickAccessTab;
+  m_eLastRequestedSideMenu: SideMenu;
+  m_eOpenSideMenu: SideMenu;
+  m_QuickAccessTab: QuickAccessTab;
 
   ClearLastRequestedSideMenu(): void;
 
@@ -32,44 +32,44 @@ export declare class CMenuStore {
    */
   CloseSideMenus(): void;
 
-  GetLastRequestedSideMenu(): ESideMenu;
+  GetLastRequestedSideMenu(): SideMenu;
 
   /**
    * @returns the currently opened side menu.
    */
-  GetOpenSideMenu(): ESideMenu;
+  GetOpenSideMenu(): SideMenu;
 
   /**
    * @returns the currently opened quick access menu tab.
    */
-  GetQuickAccessTab(): EQuickAccessTab;
+  GetQuickAccessTab(): QuickAccessTab;
 
   /**
    * @returns `true` if any of the side menus is visible.
    */
   IsAnySideMenuVisible(): boolean;
 
-  // same as above but instead checks if ESideMenu isn't ESideMenu.None ???
+  // same as above but instead checks if SideMenu isn't SideMenu.None ???
   IsSideMenuInteractable(): boolean;
 
   /**
    * @returns `true` if the provided side menu is visible.
    */
-  IsSideMenuVisible(menu: ESideMenu): boolean;
+  IsSideMenuVisible(menu: SideMenu): boolean;
 
   /**
    * Opens a provided side menu.
    *
    * @param menu The menu to open.
    */
-  OpenSideMenu(menu: ESideMenu): void;
+  OpenSideMenu(menu: SideMenu): void;
 
   /**
    * Opens the quick access menu.
    *
    * @param tab The tab to open.
    */
-  OpenQuickAccessMenu(tab?: EQuickAccessTab): void;
+  OpenQuickAccessMenu(tab?: QuickAccessTab): void;
 
   /**
    * Opens the main side menu.
@@ -85,5 +85,5 @@ export declare class CMenuStore {
    *
    * @param menu The side menu to close/open.
    */
-  ToggleSideMenu(menu: ESideMenu): void;
+  ToggleSideMenu(menu: SideMenu): void;
 }

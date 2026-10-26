@@ -7,7 +7,7 @@ export interface FCTrampoline {
     component: FC
 }
 
-let loggingEnabled = false;
+let loggingEnabled = true;
 
 export function setFCTrampolineLoggingEnabled(value: boolean = true) { loggingEnabled = value };
 
@@ -38,7 +38,9 @@ export function injectFCTrampoline(component: FC, customHooks?: any): FCTrampoli
     component.prototype.render = function (...args: any[]) {
         loggingEnabled && logger.debug("rendering trampoline", args, this);
         // Pass through rendering via creating the component as a child so React can use function component logic instead of class component logic (setting up the hooks)
-        return createElement(userComponent.component, this.props, this.props.children);
+        const ret = createElement(userComponent.component, this.props, this.props.children);
+        loggingEnabled && logger.debug("trampoline", ret);
+        return ret;
     };
     component.prototype.isReactComponent = true;
     let stubsApplied = false;

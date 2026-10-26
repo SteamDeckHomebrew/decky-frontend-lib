@@ -58,9 +58,9 @@ export function applyHookStubs(customHooks: any = {}): any {
   hooks.useCallback = (cb: Function) => cb;
   hooks.useContext = (cb: any) => cb?._currentValue;
   hooks.useLayoutEffect = (_: Function) => {}; //cb();
-  hooks.useMemo = (cb: Function, _: any[]) => cb;
+  hooks.useMemo = (_: Function, __: any[]) => ({}); //cb()
   hooks.useEffect = (_: Function) => {}; //cb();
-  hooks.useRef = (val: any) => ({ current: val || {} });
+  hooks.useRef = (val: any) => ({ current: val || void 0 });
   hooks.useState = (v: any) => {
     let val = v;
 
