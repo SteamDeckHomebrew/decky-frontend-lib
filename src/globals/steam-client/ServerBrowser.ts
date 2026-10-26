@@ -18,7 +18,7 @@ export interface ServerBrowser {
      */
     AddFavoriteServersByIP(ip: string): Promise<string>;
 
-    CancelServerQuery(dialogId: number, queryServer: number): void;
+    CancelServerQuery(dialogId: number, queryRequestId: number): void;
 
     /**
      * Connects to a server from a given dialog.
@@ -30,19 +30,27 @@ export interface ServerBrowser {
 
     /**
      * Creates a server info dialog for the server your friend is currently playing on.
-     * @param pid 0
+     * @param pid Browser process ID that owns the dialog.
      * @param steamId A Steam64 ID of a friend.
      */
     CreateFriendGameInfoDialog(pid: number, steamId: string): void;
 
     /**
      * Creates a server info dialog.
+     * @param pid Browser process ID that owns the dialog.
      * @param ip The server IP.
      * @param port The server port.
      * @param queryPort
+     * @param appId The app ID, or 0 when unknown.
      * @returns the created dialog ID.
      */
-    CreateServerGameInfoDialog(ip: string, port: number, queryPort: number): Promise<number>;
+    CreateServerGameInfoDialog(
+        pid: number,
+        ip: string,
+        port: number,
+        queryPort: number,
+        appId?: number,
+    ): Promise<number>;
 
     /**
      * Retrieves the server list.
@@ -111,10 +119,10 @@ export interface ServerBrowser {
     DestroyGameInfoDialog(dialogId: number): void;
 
     /**
-     * Stops retrieving the server list.
-     * @param activeServerListRequestId The active server request ID to use.
+     * Stops retrieving a server list.
+     * @param requestId The active server list request ID to use.
      */
-    DestroyServerListRequest(activeServerListRequestId: number): void;
+    DestroyServerListRequest(requestId: number): void;
 
     /**
      * Gets a list of games that support the server browser feature.
@@ -135,16 +143,16 @@ export interface ServerBrowser {
     PingServer(dialogId: number): Promise<number | OperationResponse>;
 
     /**
-     * Registers a callback function to be called when a server gets added to favorite servers.
-     * @param callback The callback function to be called.
+     * Registers for favorite/history server list changes.
+     * @param callback Receives both favorite and history server lists.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForFavorites(callback: (list: ServerBrowserFavoritesAndHistory) => void): Unregisterable;
 
     /**
-     * Registers a callback function to be called when idk
+     * Registers for a friend's current game server changing.
      * @param dialogId The dialog ID to use.
-     * @param callback The callback function to be called.
+     * @param callback Receives the friend's current server details.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForFriendGamePlayed(
@@ -153,8 +161,8 @@ export interface ServerBrowser {
     ): Unregisterable;
 
     /**
-     * Registers a callback function to be called when a server info dialog opens.
-     * @param callback The callback function to be called.
+     * Registers for server info dialog creation.
+     * @param callback Receives the current server info dialogs.
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForGameInfoDialogs(callback: (dialogs: ServerBrowserDialog[]) => void): Unregisterable;
@@ -273,14 +281,20 @@ export interface ServerBrowserFriendServer {
     gameText: string;
     /** The ID of the game. */
     gameid: string;
+    ip: string;
+    port: number;
+    queryPort: number;
     steamIDLobby: string;
 }
 
 export interface ServerBrowserDialog {
     dialogID: number;
-    ip: number;
+    pid: number;
+    steamID?: string;
+    ip: string;
     port: number;
     queryPort: number;
+    appid?: number;
 }
 
 export interface GameServer  {
@@ -369,4 +383,3 @@ export interface PlayerDetails {
      */
     timePlayed?: number;
 }
-

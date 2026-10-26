@@ -5,7 +5,7 @@ export interface Broadcast {
      * Approves a viewer request for the broadcast.
      * @param steamId64 The SteamID64 of the user whose request is to be approved.
      */
-    ApproveViewerRequest(steamId64: string, param1: number): void;
+    ApproveViewerRequest(steamId64: string, viewerToken: number): void;
 
     /**
      * Invites a user identified by their SteamID64 to watch the broadcast.
@@ -26,14 +26,14 @@ export interface Broadcast {
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForViewerRequests(
-        callback: (viewerFriendCode: number, param1: number, param2: number) => void,
+        callback: (viewerAccountId: number, viewerToken: number, requestCount: number) => void,
     ): Unregisterable;
 
     /**
      * Rejects a viewer request for the broadcast.
      * @param steamId64 The SteamID64 of the user whose request is to be rejected.
      */
-    RejectViewerRequest(steamId64: string, param1: number): void;
+    RejectViewerRequest(steamId64: string, viewerToken: number): void;
 
     /**
      * Stops the broadcast.

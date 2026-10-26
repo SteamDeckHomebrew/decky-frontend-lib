@@ -25,8 +25,10 @@ export interface WebChat {
 
     GetOverlayChatBrowserInfo(): Promise<OverlayBrowserInfo[]>;
 
-    // param0 - appid ?
-    GetPrivateConnectString(param0: number): Promise<string>;
+    /**
+     * Gets the private game connect string used for inviting friends.
+     */
+    GetPrivateConnectString(appId: number): Promise<string>;
 
     /**
      * Gets information about push-to-Talk.
@@ -53,7 +55,7 @@ export interface WebChat {
         chatId: string,
         accountId: number,
         timestamp: number,
-        param4: number,
+        ordinal: number,
         message: string,
     ): void;
 
@@ -67,23 +69,25 @@ export interface WebChat {
     /**
      * Registers a callback function to be called when the computer's active state changes.
      * @param callback The callback function to be called.
+     * @param callback.state Current activity state.
+     * @param callback.time Unix timestamp for when Steam recorded the state change.
      * @returns an object that can be used to unregister the callback.
-     * @todo Changes to 2 after 10 seconds?
-     * @todo Does not affect the keyboard?
+     * @remarks Steam UI treats state `2` as idle after a short inactive period.
      */
     RegisterForComputerActiveStateChange(
         callback: (state: EComputerActiveState, time: number) => void,
     ): Unregisterable;
 
     /**
-     * @todo WebChat.ShowFriendChatDialog does this.
+     * Registers for postMessage payloads from friend chat dialogs opened by
+     * {@link ShowFriendChatDialog}.
      */
     RegisterForFriendPostMessage(callback: (data: FriendChatDialogData) => void): Unregisterable;
 
     /**
      * To unregister, use {@link UnregisterForMouseXButtonDown}.
      */
-    RegisterForMouseXButtonDown(callback: (param0: number) => void): void;
+    RegisterForMouseXButtonDown(callback: (mouseButton: number) => void): void;
 
     /**
      * Registers a callback function to be called when the push-to-talk state changes.
@@ -111,13 +115,13 @@ export interface WebChat {
 
     SetPushToTalkEnabled(value: boolean): void;
 
-    SetPushToTalkHotKey(param0: number): void;
+    SetPushToTalkHotKey(keyCode: number): void;
 
-    SetPushToTalkMouseButton(param0: number): void;
+    SetPushToTalkMouseButton(mouseButton: number): void;
 
     SetVoiceChatActive(value: boolean): void;
     SetVoiceChatStatus(muted: boolean, deafened: boolean): void;
-    ShowChatRoomGroupDialog(param0: number, param1: number): void;
+    ShowChatRoomGroupDialog(chatRoomGroupId: number, chatId: number): void;
 
     ShowFriendChatDialog(steamid64: string): void;
 
@@ -156,8 +160,7 @@ export interface PushToTalkInfo {
     /** Indicates whether push-to-mute is in use instead. */
     bPushToMute: boolean;
     /**
-     * Push-to-talk hotkey.
-     * @todo enum? this is not EHIDKeyboardKey
+     * Push-to-talk virtual-key code.
      */
     vkHotKey: number;
     /** Push-to-talk hotkey name. */

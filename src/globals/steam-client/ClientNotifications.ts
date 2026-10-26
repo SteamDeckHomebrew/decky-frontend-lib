@@ -5,7 +5,7 @@ export interface ClientNotifications {
      * Displays a Steam notification.
      * @param notification Notification type.
      * @param options Stringified object of {@link SteamNotificationOptions}.
-     * @param callback
+     * @param callback Invoked by the client when the notification action is activated.
      */
     DisplayClientNotification(
         notification: EClientUINotificationType,
@@ -21,13 +21,17 @@ export interface ClientNotifications {
 }
 
 export interface SteamNotificationOptions {
+    /** Notification body text. */
     body: string;
     chatroomgroupid?: number;
     chatroomid?: number;
+    /** Icon URL or resource path. */
     icon?: string;
+    /** Client-defined notification state payload. */
     state: string;
     /** A Steam64 ID. */
     steamid: string;
+    /** Stable notification tag used for replacement/grouping. */
     tag?: string;
     title?: string;
 }

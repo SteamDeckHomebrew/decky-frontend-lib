@@ -1,4 +1,4 @@
-import { OperationResponse } from "./shared";
+import { JsPbMessage, OperationResponse, SerializedProtoBase64 } from "./shared";
 
 export interface WebUITransport {
     GetTransportInfo(): Promise<TransportInfo>;
@@ -10,7 +10,11 @@ export interface WebUITransport {
      *
      * @param base64 Serialized ProtoBuf message.
      */
-    NotifyTransportFailure(base64: string): Promise<OperationResponse>;
+    NotifyTransportFailure(base64: SerializedProtoBase64<CMsgWebUITransportFailure>): Promise<OperationResponse>;
+}
+
+export interface CMsgWebUITransportFailure extends JsPbMessage {
+    connect_count(): number | undefined;
 }
 
 export interface TransportInfo {

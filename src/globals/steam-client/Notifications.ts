@@ -1,4 +1,4 @@
-import { JsPbMessage, Unregisterable } from "./shared";
+import { JsPbMessage, SerializedProto, Unregisterable } from "./shared";
 
 /**
  * Everything is taken from here:
@@ -10,7 +10,7 @@ export interface Notifications {
      * @returns an object that can be used to unregister the callback.
      */
     RegisterForNotifications(
-        callback: (notificationIndex: number, type: EClientNotificationType, data: ArrayBuffer) => void,
+        callback: (notificationIndex: number, type: EClientNotificationType, data: SerializedProto<ClientNotification>) => void,
     ): Unregisterable;
 }
 
@@ -86,6 +86,49 @@ export enum EGameRecordingErrorType {
     General = 1,
     LowDiskSpace,
 }
+
+export type ClientNotification =
+    | ClientNotificationAchievement
+    | ClientNotificationBatteryTemperature
+    | ClientNotificationBroadcastAvailableToWatch
+    | ClientNotificationCannotReadControllerGuideButton
+    | ClientNotificationClaimSteamDeckRewards
+    | ClientNotificationCloudSyncConflict
+    | ClientNotificationCloudSyncFailure
+    | ClientNotificationDockUnsupportedFirmware
+    | ClientNotificationDownloadCompleted
+    | ClientNotificationFamilySharingDeviceAuthorizationChanged
+    | ClientNotificationFamilySharingLibraryAvailable
+    | ClientNotificationFamilySharingStopPlaying
+    | ClientNotificationFriendInGame
+    | ClientNotificationFriendInvite
+    | ClientNotificationFriendInviteRollup
+    | ClientNotificationFriendMessage
+    | ClientNotificationFriendOnline
+    | ClientNotificationGameRecordingError
+    | ClientNotificationGameRecordingStart
+    | ClientNotificationGameRecordingStop
+    | ClientNotificationGameRecordingUserMarkerAdded
+    | ClientNotificationGiftReceived
+    | ClientNotificationGroupChatMessage
+    | ClientNotificationHardwareSurveyPending
+    | ClientNotificationIncomingVoiceChat
+    | ClientNotificationItemAnnouncement
+    | ClientNotificationLoginRefresh
+    | ClientNotificationLowBattery
+    | ClientNotificationLowDiskSpace
+    | ClientNotificationOverlaySplashScreen
+    | ClientNotificationPeerContentUpload
+    | ClientNotificationPlaytimeWarning
+    | ClientNotificationRemoteClientConnection
+    | ClientNotificationRemoteClientStartStream
+    | ClientNotificationScreenshot
+    | ClientNotificationSteamInputActionSetChanged
+    | ClientNotificationStreamingClientConnection
+    | ClientNotificationSystemUpdate
+    | ClientNotificationTimedTrialRemaining
+    | ClientNotificationTimerExpired
+    | CClientNotificationGameRecordingInstantClip;
 
 export interface ClientNotificationGroupChatMessage extends JsPbMessage {
     tag(): string;
