@@ -1,3 +1,10 @@
+## [4.16.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.3...v4.16.4) (2026-10-27)
+
+
+### Bug Fixes
+
+* **vr:** some missing vr classes ([c65f9aa](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/c65f9aad4a9d212a787659db079bd50b482b07ba))
+
 ## [4.16.3](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.2...v4.16.3) (2026-10-26)
 
 
