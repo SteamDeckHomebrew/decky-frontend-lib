@@ -28,22 +28,22 @@ export enum ESteamNotificationAction {
 }
 
 interface SteamNotificationData {
-  bCritical: boolean;
-  body: string;
+  bCritical?: boolean;
+  body?: ReactNode;
   /**
    * In ms.
    */
-  duration: number;
-  logo: ReactNode;
-  onClick: () => void;
+  duration?: number;
+  logo?: ReactNode;
+  onClick?: () => void;
   // TODO: apparently can be a function too
-  playSound: boolean;
-  showNewIndicator: boolean;
-  showToast: boolean;
+  playSound?: boolean;
+  showNewIndicator?: boolean;
+  showToast?: boolean;
   // TODO: apparently can be a function too
-  sound: ESteamUISound;
-  timestamp: Date;
-  title: string;
+  sound?: ESteamUISound;
+  timestamp?: Date;
+  title?: ReactNode;
 }
 
 type RequiredProcessNotifArgs = Record<EClientNotificationType, Record<string, any>> & {
@@ -113,20 +113,20 @@ type RequiredProcessNotifArgs = Record<EClientNotificationType, Record<string, a
 };
 
 export interface SteamNotification<T extends EClientNotificationType = EClientNotificationType> {
-  bNewIndicator: boolean;
+  bNewIndicator?: boolean;
   data: SteamNotificationData;
-  eSource: ESteamNotificationSource;
-  eType: T;
-  nToastDurationMS: number;
-  notificationID: number;
+  eSource?: ESteamNotificationSource;
+  eType?: T;
+  nToastDurationMS?: number;
+  notificationID?: number;
   /**
    * UNIX timestamp.
    */
-  rtCreated: number;
+  rtCreated?: number;
 }
 
 export interface TrayNotification {
-  eType: EClientNotificationType;
+  eType?: EClientNotificationType;
   notifications: SteamNotification[];
 }
 
@@ -137,7 +137,7 @@ export interface NotificationTarget {
   fnTray?: (target: NotificationTarget, notificationsInTray: TrayNotification[]) => void;
   nRemoveFromTraySec?: number;
   toastDurationMS?: number;
-  type: EClientNotificationType;
+  type?: EClientNotificationType;
 }
 
 /**
@@ -236,6 +236,7 @@ export interface CNotificationStore {
   ): void;
   RemoveFromToastsWhere(callback: (toast: SteamNotification) => void): void;
   RemoveFromTrayWhere(callback: (toast: SteamNotification) => void): void;
+  RemoveGroupFromTray(group: any): void
   RemoveScreenshotNotification(screenshotHandle: number): void;
   RunDebugTestsWhenServicesReady(e: boolean): void;
   ScheduleRemoveFromTray(delaySeconds: number): void;

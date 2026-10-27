@@ -1064,6 +1064,84 @@ type MainBrowserClasses = Record<
   string
 >;
 
+type VRDashboardClasses = Record<
+  | 'duration-app-launch'
+  | 'vrgamepadui-floating-side-panel-width'
+  | 'vrgamepadui-floating-side-panel-height'
+  | 'vrgamepadui-floating-bar-popup-panel-width'
+  | 'vrgamepadui-floating-bar-popup-panel-height'
+  | 'vrgamepadui-floating-keyboard-width'
+  | 'vrgamepadui-floating-keyboard-height'
+  | 'vrgamepadui-dashboard-bar-side-button-click-animation-duration'
+  | 'PopupBody'
+  | 'DashboardBar'
+  | 'DynamicWidth'
+  | 'BarSurface'
+  | 'Bookend'
+  | 'BarSurfaceSection'
+  | 'SmallButtonSection'
+  | 'Tabs'
+  | 'Right'
+  | 'Tray'
+  | 'SmallBarButtons'
+  | 'EmptySpace'
+  | 'Item'
+  | 'Clickable'
+  | 'Highlight'
+  | 'Inner'
+  | 'BatteryIconHeaderItem'
+  | 'Active'
+  | 'AddWindowButton'
+  | 'AvatarButton'
+  | 'MenuVisible'
+  | 'FocusRingHint'
+  | 'Avatar'
+  | 'ClickAnimation'
+  | 'ClickPop'
+  | 'BarTabs'
+  | 'FadeLeft'
+  | 'FadeRight'
+  | 'BarTab'
+  | 'Selected'
+  | 'OldColors'
+  | 'Badge'
+  | 'Icon'
+  | 'OverlayIcon'
+  | 'AppIcon'
+  | 'SteamSVG'
+  | 'DashboardBarPopupContents'
+  | 'FullHeight'
+  | 'QuickAccessPopupContents'
+  | 'VolumePopup'
+  | 'ExitVRIcon'
+  | 'ExitVRText'
+  | 'QuickAccessPopupTitle'
+  | 'QuickAccessPopupPanel'
+  | 'BottomFade'
+  | 'ClickableSliderIcon'
+  | 'DashboardBarPopupList'
+  | 'DashboardBarPopupListHeader'
+  | 'DashboardBarPopupListScrollRegion'
+  | 'FadeTop'
+  | 'FadeBottom'
+  | 'DashboardBarPopupSectionStack'
+  | 'DashboardBarPopupListScrollPanel'
+  | 'DashboardBarPopupListItem'
+  | 'BarPopupStack'
+  | 'FullWidth'
+  | 'QuickAccessButton'
+  | 'HasAvatar'
+  | 'Time'
+  | 'Icons'
+  | 'StatusItem'
+  | 'Friends'
+  | 'flash'
+  | 'growOutline'
+  | 'fadeOutline'
+  | 'blinker',
+  string
+>
+
 export const quickAccessMenuClasses = findClassModule((m) => m.Title && m.QuickAccessMenu) as QuickAccessMenuClasses;
 export const scrollPanelClasses = findClassModule((m) => m.ScrollPanel) as ScrollPanelClasses;
 export const gamepadDialogClasses = findClassModule((m) => m.GamepadDialogContent && !m.BindingButtons) as GamepadDialogClasses;
@@ -1088,6 +1166,7 @@ export const gamepadLibraryClasses = findClassModule(m => m.GamepadLibrary) as G
 export const focusRingClasses = findClassModule(m => m.FocusRingRoot) as FocusRingClasses;
 export const searchBarClasses = findClassModule(m => m.SearchAndTitleContainer) as SearchBarClasses;
 export const mainBrowserClasses = findClassModule(m => m.MainBrowserContainer) as MainBrowserClasses;
+export const vrDashboardClasses = findClassModule(m => m.DashboardBarPopupContents && m.DashboardBar) as VRDashboardClasses;
 
 /**
  * @deprecated please use quickAccessMenuClasses instead
