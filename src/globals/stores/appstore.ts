@@ -53,7 +53,7 @@ interface StoreTag {
 
 export declare class CAppStore {
   m_bIsInitialized: boolean;
-  m_mapApps: Map<IAppOverview, string>;
+  m_mapApps: Map<number, IAppOverview>;
   m_mapStoreTagLocalization: Map<EGenre, string>;
   m_msTagMapLoaded: number;
 
