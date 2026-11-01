@@ -1,3 +1,10 @@
+## [4.16.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.4...v4.16.5) (2026-11-01)
+
+
+### Bug Fixes
+
+* use correct types for `appStore.m_mapApps` Map ([#143](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/143)) ([b9cf866](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b9cf866925f53d67239ad37808f1dcb1505ce7be))
+
 ## [4.16.4](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.3...v4.16.4) (2026-10-27)
 
 
