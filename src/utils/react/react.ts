@@ -21,7 +21,7 @@ declare global {
  * @returns {RegExp} RegEx to call .test(component.toString()) on
  */
 export function createPropListRegex(propList: string[], fromStart: boolean = true): RegExp {
-  let regexString = fromStart ? "const\{" : "";
+  let regexString = fromStart ? "(?:const|let)\{" : "";
   propList.forEach((prop: any, propIdx) => {
     regexString += `"?${prop}"?:[a-zA-Z_$]{1,2}`;
     if (propIdx < propList.length - 1) {
@@ -132,23 +132,30 @@ export declare type findInTreeFilter = (element: any) => boolean;
 
 export const findInTree = (parent: any, filter: findInTreeFilter, opts: findInTreeOpts): any => {
   const { walkable = null, ignore = [] } = opts ?? {};
+  // Guard against React prop cycles.
+  const visited = new WeakSet<object>();
 
-  if (!parent || typeof parent !== 'object') {
-    // Parent is invalid to search through
-    return null;
-  }
+  const search = (node: any): any => {
+    if (!node || typeof node !== 'object') {
+      // Node is invalid to search through
+      return null;
+    }
 
-  if (filter(parent)) return parent; // Parent matches, just return
+    if (visited.has(node)) return null;
+    visited.add(node);
 
-  if (Array.isArray(parent)) {
-    // Parent is an array, go through values
-    return parent.map((x) => findInTree(x, filter, opts)).find((x) => x);
-  }
+    if (filter(node)) return node; // Node matches, just return
 
-  // Parent is an object, go through values (or option to only use certain keys)
-  return (walkable || Object.keys(parent))
-    .map((x) => !ignore.includes(x) && findInTree(parent[x], filter, opts))
-    .find((x: any) => x);
+    if (Array.isArray(node)) {
+      // Node is an array, go through values
+      return node.map(search).find((x) => x);
+    }
+
+    // Node is an object, go through values (or option to only use certain keys)
+    return (walkable || Object.keys(node)).map((x) => !ignore.includes(x) && search(node[x])).find((x: any) => x);
+  };
+
+  return search(parent);
 };
 
 export const findInReactTree = (node: any, filter: findInTreeFilter) =>

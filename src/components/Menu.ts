@@ -113,8 +113,9 @@ export const showContextMenu: (
 ) => ContextMenuInstance = findModuleExport(
   (e: Export) =>
     typeof e === 'function' &&
-    e.toString?.().includes('GetContextMenuManagerFromWindow(') &&
-    e.toString?.().includes('.CreateContextMenuInstance('),
+    ((e.toString?.().includes('GetContextMenuManagerFromWindow(') && e.toString?.().includes('.CreateContextMenuInstance(')) ||
+      // Vite build
+      (e.toString?.().includes('CreateContextMenuInstance') && e.toString?.().includes('bRootContextMenu'))),
 );
 
 export interface MenuProps extends FooterLegendProps {
@@ -137,7 +138,7 @@ export interface MenuGroupProps {
 }
 
 // New || Old 9/14/2026
-const MenuGroupModule = findModuleByExport(e => e?.prototype?.Focus && e?.prototype?.OnOKButton && (e?.prototype?.render?.toString().includes?.(`this.props.tone=="emphasis"`) || e?.prototype?.render?.toString().includes?.(`"emphasis"==this.props.tone`)));
+const MenuGroupModule = findModuleByExport(e => e?.prototype?.Focus && e?.prototype?.OnOKButton && (e?.prototype?.render?.toString().includes?.(`this.props.tone=="emphasis"`) || e?.prototype?.render?.toString().includes?.(`"emphasis"==this.props.tone`) || e?.prototype?.render?.toString().includes?.(`emphasis`)));
 export const MenuGroup: FC<MenuGroupProps> = MenuGroupModule && Object.values(MenuGroupModule).find((e: Export) => typeof e == "function" && e?.toString?.()?.includes("bInGamepadUI:"));
 export interface MenuItemProps extends FooterLegendProps {
   bInteractableItem?: boolean;

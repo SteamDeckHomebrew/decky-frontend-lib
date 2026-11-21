@@ -1,6 +1,8 @@
 import { FC, ReactNode } from 'react';
 import { findModuleByExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
+import { ViteTabs } from './vite-fallbacks';
+import { renderedComponent } from '../rendered';
 
 /**
  * Individual tab objects for the Tabs component
@@ -67,4 +69,13 @@ const tabsModule = findModuleByExport(e => e?.toString?.()?.includes(".TabRowTab
 /**
  * Tabs component as used in the library and media tabs. See {@link TabsProps}.
  */
-export const Tabs = tabsModule && Object.values(tabsModule).find((e: any) => e?.type?.toString?.()?.includes("(function()")) as FC<TabsProps>;
+// Only the tabs container renders tab contents.
+const isTabsSource = (source?: string) =>
+  !!source &&
+  source.includes('activeTab') &&
+  source.includes('onShowTab') &&
+  (source.includes('belowHeaderTabsContent') || source.includes('cancelSkipTabHeader') || source.includes('BIsFeatureBlocked'));
+
+export const Tabs = ((tabsModule &&
+  Object.values(tabsModule).find((e: any) => e?.type?.toString?.()?.includes('(function()'))) ||
+  renderedComponent<TabsProps>(isTabsSource, ViteTabs)) as FC<TabsProps>;

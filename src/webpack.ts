@@ -54,7 +54,9 @@ function initModuleCache() {
   logger.groupEnd(`Modules initialized in ${performance.now() - startTime}ms...`);
 }
 
-initModuleCache();
+if (window.webpackChunksteamui) {
+  initModuleCache();
+}
 
 export const findModule = (filter: FilterFn) => {
   for (const m of modules.values()) {
@@ -145,16 +147,31 @@ export const createModuleMapping = (filter: FilterFn) => {
   return mapping;
 };
 
-export const CommonUIModule = findModule((m: Module) => {
-  if (typeof m !== 'object') return false;
-  for (let prop in m) {
-    if (m[prop]?.contextType?._currentValue && Object.keys(m).length > 60) return true;
-  }
-  return false;
-});
+export let CommonUIModule: any;
+export let IconsModule: any;
+export let ReactRouter: any;
 
-export const IconsModule = findModuleByExport(
-  (e) => e?.toString && /Spinner\),children:\[\(0,\w+\.jsx\)\("path",\{d:"M18 /.test(e.toString?.()) || /Spinner\)}\)?,.\.createElement\(\"path\",{d:\"M18 /.test(e.toString?.()),
-);
+export function computeSpecialModules() {
+  CommonUIModule = findModule((m: Module) => {
+    if (typeof m !== 'object') return false;
+    for (let prop in m) {
+      if (m[prop]?.contextType?._currentValue && Object.keys(m).length > 60) return true;
+    }
+    return false;
+  });
 
-export const ReactRouter = findModuleByExport((e) => e.computeRootMatch);
+  IconsModule =
+    // Webpack clients kept the icon set in a single module.
+    findModule((m: Module) => m?.Spinner && Object.keys(m).length > 100) ??
+    // Old webpack layout: icon module containing a Spinner export.
+    findModuleByExport(
+      (e) =>
+        e?.toString &&
+        (/Spinner\),children:\[\(0,\w+\.jsx\)\("path",\{d:"M18 /.test(e.toString?.()) ||
+          /Spinner\)}\)?,.\.createElement\(\"path\",{d:\"M18 /.test(e.toString?.())),
+    );
+
+  ReactRouter = findModuleByExport((e) => e.computeRootMatch);
+}
+
+computeSpecialModules();

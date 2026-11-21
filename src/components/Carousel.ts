@@ -1,6 +1,8 @@
 import { HTMLAttributes, ReactNode, RefAttributes, FC } from 'react';
 
 import { Export, findModuleExport } from '../webpack';
+import { ViteCarousel } from './vite-fallbacks';
+import { renderedComponent } from '../rendered';
 
 export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   autoFocus?: boolean;
@@ -20,6 +22,11 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
   scrollToAlignment?: 'center';
 }
 
-export const Carousel = findModuleExport((e: Export) => e.render?.toString().includes('setFocusedColumn:')) as FC<
+const isCarouselSource = (source?: string) =>
+  !!source && source.includes('nIndexLeftmost') && source.includes('fnItemRenderer');
+
+export const Carousel = (findModuleExport(
+  (e: Export) => e?.render?.toString?.().includes('setFocusedColumn') || isCarouselSource(e?.toString?.()),
+) || renderedComponent<CarouselProps & RefAttributes<HTMLDivElement>>(isCarouselSource, ViteCarousel)) as FC<
   CarouselProps & RefAttributes<HTMLDivElement>
 >;

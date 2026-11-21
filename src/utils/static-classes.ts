@@ -1,4 +1,7 @@
 import { findClassModule } from '../class-mapper';
+
+// Return empty class names on the Vite build instead of crashing plugins.
+const emptyClassModule = new Proxy({} as Record<string, string>, { get: () => '' });
 // TODO document how to generate these?
 type QuickAccessMenuClasses = Record<
   | 'ActiveTab'
@@ -1142,31 +1145,31 @@ type VRDashboardClasses = Record<
   string
 >
 
-export const quickAccessMenuClasses = findClassModule((m) => m.Title && m.QuickAccessMenu) as QuickAccessMenuClasses;
-export const scrollPanelClasses = findClassModule((m) => m.ScrollPanel) as ScrollPanelClasses;
-export const gamepadDialogClasses = findClassModule((m) => m.GamepadDialogContent && !m.BindingButtons) as GamepadDialogClasses;
-export const quickAccessControlsClasses = findClassModule((m) => m.BatteryPercentageLabel && m.PanelSection && !m['vr-dashboard-bar-height'] && !m.QuickAccessMenu && !m.QuickAccess && !m.PerfProfileInfo) as QuickAccessControlsClasses;
-export const updaterFieldClasses = findClassModule((m) => m.OOBEUpdateStatusContainer) as UpdaterFieldClasses;
-export const playSectionClasses = findClassModule((m) => m.PlayBarDetailLabel) as PlaySectionClasses;
-export const gamepadSliderClasses = findClassModule((m) => m.SliderControlPanelGroup) as GamepadSliderClasses;
-export const appDetailsHeaderClasses = findClassModule((m) => m.TopCapsule) as AppDetailsHeaderClasses;
-export const appDetailsClasses = findClassModule((m) => m.HeaderLoaded) as AppDetailsClasses;
-export const gamepadUIClasses = findClassModule((m) => m.BasicUiRoot) as GamepadUIClasses;
-export const gamepadTabbedPageClasses = findClassModule((m) => m.GamepadTabbedPage) as GamepadTabbedPageClasses;
-export const gamepadContextMenuClasses = findClassModule((m) => m.BasicContextMenuModal) as GamepadContextMenuClasses;
-export const achievementListClasses = findClassModule((m) => m.AchievementListItemBase && !m.Page) as AchievementListClasses;
-export const achievementPageClasses = findClassModule((m) => m.AchievementListItemBase && m.Page) as AchievementPageClasses;
-export const mainMenuAppRunningClasses = findClassModule((m) => m.AppRunningControls && m.OverlayAchievements) as MainMenuAppRunningClasses;
-export const basicAppDetailsSectionStylerClasses = findClassModule((m) => m.AppDetailsRoot) as BasicAppDetailsSectionStylerClasses;
-export const steamSpinnerClasses = findClassModule(m => m.SpinnerLoaderContainer) as SteamSpinnerClasses;
-export const footerClasses = findClassModule(m => m.QuickAccessFooter) as FooterClasses;
-export const appActionButtonClasses = findClassModule(m => m.PlayButtonContainer) as AppActionButtonClasses;
-export const libraryAssetImageClasses = findClassModule(m => m.LongTitles && m.GreyBackground) as LibraryAssetImageClasses;
-export const gamepadLibraryClasses = findClassModule(m => m.GamepadLibrary) as GamepadLibraryClasses;
-export const focusRingClasses = findClassModule(m => m.FocusRingRoot) as FocusRingClasses;
-export const searchBarClasses = findClassModule(m => m.SearchAndTitleContainer) as SearchBarClasses;
-export const mainBrowserClasses = findClassModule(m => m.MainBrowserContainer) as MainBrowserClasses;
-export const vrDashboardClasses = findClassModule(m => m.DashboardBarPopupContents && m.DashboardBar) as VRDashboardClasses;
+export const quickAccessMenuClasses = (findClassModule((m) => m.Title && m.QuickAccessMenu) ?? emptyClassModule) as QuickAccessMenuClasses;
+export const scrollPanelClasses = (findClassModule((m) => m.ScrollPanel) ?? emptyClassModule) as ScrollPanelClasses;
+export const gamepadDialogClasses = (findClassModule((m) => m.GamepadDialogContent && !m.BindingButtons) ?? emptyClassModule) as GamepadDialogClasses;
+export const quickAccessControlsClasses = (findClassModule((m) => m.BatteryPercentageLabel && m.PanelSection && !m['vr-dashboard-bar-height'] && !m.QuickAccessMenu && !m.QuickAccess && !m.PerfProfileInfo) ?? emptyClassModule) as QuickAccessControlsClasses;
+export const updaterFieldClasses = (findClassModule((m) => m.OOBEUpdateStatusContainer) ?? emptyClassModule) as UpdaterFieldClasses;
+export const playSectionClasses = (findClassModule((m) => m.PlayBarDetailLabel) ?? emptyClassModule) as PlaySectionClasses;
+export const gamepadSliderClasses = (findClassModule((m) => m.SliderControlPanelGroup) ?? emptyClassModule) as GamepadSliderClasses;
+export const appDetailsHeaderClasses = (findClassModule((m) => m.TopCapsule) ?? emptyClassModule) as AppDetailsHeaderClasses;
+export const appDetailsClasses = (findClassModule((m) => m.HeaderLoaded) ?? emptyClassModule) as AppDetailsClasses;
+export const gamepadUIClasses = (findClassModule((m) => m.BasicUiRoot) ?? emptyClassModule) as GamepadUIClasses;
+export const gamepadTabbedPageClasses = (findClassModule((m) => m.GamepadTabbedPage) ?? emptyClassModule) as GamepadTabbedPageClasses;
+export const gamepadContextMenuClasses = (findClassModule((m) => m.BasicContextMenuModal) ?? emptyClassModule) as GamepadContextMenuClasses;
+export const achievementListClasses = (findClassModule((m) => m.AchievementListItemBase && !m.Page) ?? emptyClassModule) as AchievementListClasses;
+export const achievementPageClasses = (findClassModule((m) => m.AchievementListItemBase && m.Page) ?? emptyClassModule) as AchievementPageClasses;
+export const mainMenuAppRunningClasses = (findClassModule((m) => m.AppRunningControls && m.OverlayAchievements) ?? emptyClassModule) as MainMenuAppRunningClasses;
+export const basicAppDetailsSectionStylerClasses = (findClassModule((m) => m.AppDetailsRoot) ?? emptyClassModule) as BasicAppDetailsSectionStylerClasses;
+export const steamSpinnerClasses = (findClassModule(m => m.SpinnerLoaderContainer) ?? emptyClassModule) as SteamSpinnerClasses;
+export const footerClasses = (findClassModule(m => m.QuickAccessFooter) ?? emptyClassModule) as FooterClasses;
+export const appActionButtonClasses = (findClassModule(m => m.PlayButtonContainer) ?? emptyClassModule) as AppActionButtonClasses;
+export const libraryAssetImageClasses = (findClassModule(m => m.LongTitles && m.GreyBackground) ?? emptyClassModule) as LibraryAssetImageClasses;
+export const gamepadLibraryClasses = (findClassModule(m => m.GamepadLibrary) ?? emptyClassModule) as GamepadLibraryClasses;
+export const focusRingClasses = (findClassModule(m => m.FocusRingRoot) ?? emptyClassModule) as FocusRingClasses;
+export const searchBarClasses = (findClassModule(m => m.SearchAndTitleContainer) ?? emptyClassModule) as SearchBarClasses;
+export const mainBrowserClasses = (findClassModule(m => m.MainBrowserContainer) ?? emptyClassModule) as MainBrowserClasses;
+export const vrDashboardClasses = (findClassModule(m => m.DashboardBarPopupContents && m.DashboardBar) ?? emptyClassModule) as VRDashboardClasses;
 
 /**
  * @deprecated please use quickAccessMenuClasses instead

@@ -3,6 +3,12 @@ import { ReactNode, FC } from 'react';
 import { Export, findModuleExport } from '../webpack';
 import { ItemProps } from './Item';
 import { createPropListRegex } from '../utils';
+import {
+  ViteProgressBar,
+  ViteProgressBarItem,
+  ViteProgressBarWithInfo,
+} from './vite-fallbacks';
+import { renderedComponent } from '../rendered';
 
 export interface ProgressBarItemProps extends ItemProps {
   indeterminate?: boolean;
@@ -24,16 +30,29 @@ export interface ProgressBarWithInfoProps extends ProgressBarItemProps {
   sOperationText?: ReactNode;
 }
 
-export const ProgressBar = findModuleExport((e: Export) =>
-  e?.toString && /\.ProgressBar,(?:\w*==)?"standard"(?:==)?/.test(e.toString?.()),
-) as FC<ProgressBarProps>;
+const isProgressBarSource = (source?: string) =>
+  !!source && source.includes('role:"progressbar"') && source.includes('nProgress');
 
-export const ProgressBarWithInfo = findModuleExport((e: Export) =>
-  // new || old
-  e?.toString?.()?.includes('.ProgressBarFieldStatus,children') || e?.toString?.()?.includes('.ProgressBarFieldStatus},'),
-) as FC<ProgressBarWithInfoProps>;
+export const ProgressBar = (findModuleExport((e: Export) => {
+  const source = e?.toString?.();
+  return (
+    (!!source && /\.ProgressBar,(?:\w*==)?"standard"(?:==)?/.test(source)) ||
+    isProgressBarSource(source)
+  );
+}) || renderedComponent<ProgressBarProps>(isProgressBarSource, ViteProgressBar)) as FC<ProgressBarProps>;
 
-const progressBarItemRegex = createPropListRegex(["indeterminate", "nTransitionSec", "nProgress"]);
-export const ProgressBarItem = findModuleExport((e: Export) =>
+const isProgressBarWithInfoSource = (source?: string) =>
+  !!source && source.includes('sOperationText') && source.includes('nProgress');
+
+export const ProgressBarWithInfo = (findModuleExport(
+  (e: Export) =>
+    // new || old
+    e?.toString?.()?.includes('.ProgressBarFieldStatus,children') ||
+    e?.toString?.()?.includes('.ProgressBarFieldStatus},') ||
+    isProgressBarWithInfoSource(e?.toString?.()),
+) || renderedComponent<ProgressBarWithInfoProps>(isProgressBarWithInfoSource, ViteProgressBarWithInfo)) as FC<ProgressBarWithInfoProps>;
+
+const progressBarItemRegex = createPropListRegex(['indeterminate', 'nTransitionSec', 'nProgress']);
+export const ProgressBarItem = (findModuleExport((e: Export) =>
   e?.toString && progressBarItemRegex.test(e.toString?.()),
-) as FC<ProgressBarItemProps>;
+) || renderedComponent<ProgressBarItemProps>(isProgressBarWithInfoSource, ViteProgressBarItem)) as FC<ProgressBarItemProps>;

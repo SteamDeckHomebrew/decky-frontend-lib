@@ -2,6 +2,8 @@ import type { FC, ReactNode } from 'react';
 import type { BrowserContext } from '../globals/shared';
 import { findSP } from '../utils';
 import { type Export, findModule, findModuleDetailsByExport, findModuleExport } from '../webpack';
+import { ViteSimpleModal } from './vite-fallbacks';
+import { renderedComponent } from '../rendered';
 
 export interface ShowModalProps {
   browserContext?: BrowserContext;
@@ -148,9 +150,11 @@ const [ModalModule, _ModalPosition] = findModuleDetailsByExport((e: Export) => e
 
 const ModalModuleProps = ModalModule ? Object.values(ModalModule) : [];
 
-export const SimpleModal = ModalModuleProps.find((prop) => {
-  const string = prop?.toString();
-  return string?.includes('.ShowPortalModal()') && string?.includes('.OnElementReadyCallbacks.Register(');
-}) as FC<SimpleModalProps>;
+const isSimpleModalSource = (source?: string) =>
+  !!source && source.includes('ShowPortalModal()') && source.includes('OnElementReadyCallbacks.Register(');
+
+export const SimpleModal = (ModalModuleProps.find((prop) => isSimpleModalSource(prop?.toString())) ||
+  findModuleExport((e: Export) => isSimpleModalSource(e?.toString?.())) ||
+  renderedComponent<SimpleModalProps>(isSimpleModalSource, ViteSimpleModal)) as FC<SimpleModalProps>;
 
 export const ModalPosition = _ModalPosition as FC<SimpleModalProps>;

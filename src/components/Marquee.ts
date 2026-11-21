@@ -1,6 +1,8 @@
 import { CSSProperties, FC } from 'react';
 
 import { Export, findModuleExport } from '../webpack';
+import { ViteMarquee } from './vite-fallbacks';
+import { renderedComponent } from '../rendered';
 
 export interface MarqueeProps {
   play?: boolean;
@@ -15,6 +17,11 @@ export interface MarqueeProps {
   children: React.ReactNode;
 }
 
-export const Marquee: FC<MarqueeProps> = findModuleExport(
-  (e: Export) => e?.toString && e.toString?.().includes('.Marquee') && e.toString?.().includes('--fade-length'),
-);
+const isMarqueeSource = (source?: string) =>
+  !!source && source.includes('--fade-length') && source.includes('fadeLength');
+
+export const Marquee: FC<MarqueeProps> = (findModuleExport(
+  (e: Export) =>
+    (e?.toString?.()?.includes('.Marquee') && e.toString().includes('--fade-length')) ||
+    isMarqueeSource(e?.toString?.()),
+) || renderedComponent<MarqueeProps>(isMarqueeSource, ViteMarquee)) as FC<MarqueeProps>;

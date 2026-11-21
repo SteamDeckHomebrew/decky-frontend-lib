@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 import { CommonUIModule } from '../webpack';
 import { ItemProps } from './Item';
+import { ViteSliderField } from './vite-fallbacks';
 
 export interface NotchLabel {
   notchIndex: number;
@@ -28,7 +29,8 @@ export interface SliderFieldProps extends ItemProps {
   className?: string;
 }
 
-export const SliderField = Object.values(CommonUIModule).find((mod: any) =>
-  // stable || beta as of oct 2 2024
-  mod?.toString?.()?.includes('SliderField,fallback') || mod?.toString?.()?.includes("SliderField\",")
-) as FC<SliderFieldProps>;
+export const SliderField = (Object.values(CommonUIModule).find(
+  (mod: any) =>
+    // stable || beta as of oct 2 2024
+    mod?.toString?.()?.includes('SliderField,fallback') || mod?.toString?.()?.includes('SliderField\",'),
+) || ViteSliderField) as FC<SliderFieldProps>;

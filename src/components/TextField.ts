@@ -1,6 +1,6 @@
 import { ChangeEventHandler, HTMLAttributes, ReactNode, FC } from 'react';
 
-import { CommonUIModule, Module } from '../webpack';
+import { Export, findModuleExport } from '../webpack';
 
 export interface TextFieldProps extends HTMLAttributes<HTMLInputElement> {
   label?: ReactNode;
@@ -24,6 +24,8 @@ export interface TextFieldProps extends HTMLAttributes<HTMLInputElement> {
   value?: string;
 }
 
-export const TextField = Object.values(CommonUIModule).find(
-  (mod: Module) => mod?.validateUrl && mod?.validateEmail,
-) as FC<TextFieldProps>;
+// The gamepad text field is a class component that validates its input.
+export const TextField = findModuleExport((e: Export) => {
+  const source = e?.toString?.();
+  return !!source && source.includes('validateUrl') && source.includes('validateEmail');
+}) as FC<TextFieldProps>;

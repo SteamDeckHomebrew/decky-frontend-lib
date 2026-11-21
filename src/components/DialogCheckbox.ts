@@ -25,8 +25,8 @@ export const DialogCheckbox = findModuleExport(e =>
   "GetPanelElementProps" in e?.prototype &&
   "SetChecked" in e?.prototype &&
   "Toggle" in e?.prototype &&
-  // beta || stable as of oct 2 2024
-  (e?.prototype?.render?.toString?.().includes('="DialogCheckbox"') || (
+  // beta || stable as of oct 2 2024, or Vite (late 2026)
+  (e?.prototype?.render?.toString?.().includes('DialogCheckbox') || (
     e.contextType &&
     e.prototype?.render?.toString?.().includes('fallback:')
   ))

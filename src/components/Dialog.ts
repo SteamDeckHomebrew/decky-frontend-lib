@@ -1,7 +1,16 @@
 import { CSSProperties, FC, ReactNode, RefAttributes } from 'react';
 
-import { CommonUIModule, Module } from '../webpack';
+import { CommonUIModule, Export, Module, findModuleExport } from '../webpack';
 import { FooterLegendProps } from './FooterLegend';
+import {
+  ViteDialogBody,
+  ViteDialogBodyText,
+  ViteDialogControlsSection,
+  ViteDialogControlsSectionHeader,
+  ViteDialogFooter,
+  ViteDialogLabel,
+  ViteDialogSubHeader,
+} from './vite-fallbacks';
 
 export interface DialogCommonProps extends RefAttributes<HTMLDivElement> {
   style?: CSSProperties;
@@ -78,26 +87,37 @@ const MappedDialogDivs = new Map(
 );
 
 // Old | New
-export const DialogHeader = (MappedDialogDivs.get('DialogHeader') || Object.values(CommonUIModule).find((component: Module) => {
-  const str = component?.render?.toString?.();
-  return str?.includes("role:\"heading\"") && str.includes(")(\"DialogHeader\",");
-})) as FC<DialogCommonProps>;
+const sourceOf = (component: any) =>
+  component?.render?.toString?.() ?? component?.toString?.() ?? '';
 
-export const DialogSubHeader = MappedDialogDivs.get('DialogSubHeader') as FC<DialogCommonProps>;
-export const DialogFooter = MappedDialogDivs.get('DialogFooter') as FC<DialogCommonProps>;
-export const DialogLabel = MappedDialogDivs.get('DialogLabel') as FC<DialogCommonProps>;
-export const DialogBodyText = MappedDialogDivs.get('DialogBodyText') as FC<DialogCommonProps>;
-export const DialogBody = MappedDialogDivs.get('DialogBody') as FC<DialogCommonProps>;
-export const DialogControlsSection = MappedDialogDivs.get('DialogControlsSection') as FC<DialogCommonProps>;
-export const DialogControlsSectionHeader = MappedDialogDivs.get('DialogControlsSectionHeader') as FC<DialogCommonProps>;
+const findExportBySource = (...parts: string[]) =>
+  findModuleExport((e: Export) => {
+    const source = sourceOf(e);
+    return source.length > 0 && parts.every((part) => source.includes(part));
+  });
 
-export const DialogButtonPrimary = Object.values(CommonUIModule).find(
+export const DialogHeader = (MappedDialogDivs.get('DialogHeader') ||
+  findExportBySource('role:', 'heading') ||
+  Object.values(CommonUIModule).find((component: Module) => {
+    const str = component?.render?.toString?.();
+    return str?.includes("role:\"heading\"") && str.includes(")(\"DialogHeader\",");
+  })) as FC<DialogCommonProps>;
+
+export const DialogSubHeader = (MappedDialogDivs.get('DialogSubHeader') || ViteDialogSubHeader) as FC<DialogCommonProps>;
+export const DialogFooter = (MappedDialogDivs.get('DialogFooter') || ViteDialogFooter) as FC<DialogCommonProps>;
+export const DialogLabel = (MappedDialogDivs.get('DialogLabel') || ViteDialogLabel) as FC<DialogCommonProps>;
+export const DialogBodyText = (MappedDialogDivs.get('DialogBodyText') || ViteDialogBodyText) as FC<DialogCommonProps>;
+export const DialogBody = (MappedDialogDivs.get('DialogBody') || ViteDialogBody) as FC<DialogCommonProps>;
+export const DialogControlsSection = (MappedDialogDivs.get('DialogControlsSection') || ViteDialogControlsSection) as FC<DialogCommonProps>;
+export const DialogControlsSectionHeader = (MappedDialogDivs.get('DialogControlsSectionHeader') || ViteDialogControlsSectionHeader) as FC<DialogCommonProps>;
+
+export const DialogButtonPrimary = (Object.values(CommonUIModule).find(
   (mod: any) => mod?.render?.toString?.()?.includes('"DialogButton","_DialogLayout","Primary"'),
-) as FC<DialogButtonProps>;
+) || findExportBySource('DialogButton', 'Primary')) as FC<DialogButtonProps>;
 
-export const DialogButtonSecondary = Object.values(CommonUIModule).find(
+export const DialogButtonSecondary = (Object.values(CommonUIModule).find(
   (mod: any) => mod?.render?.toString?.()?.includes('"DialogButton","_DialogLayout","Secondary"')
-) as FC<DialogButtonProps>;
+) || findExportBySource('DialogButton', 'Secondary')) as FC<DialogButtonProps>;
 
 // This is the "main" button. The Primary can act as a submit button,
 // therefore secondary is chosen (also for backwards comp. reasons)

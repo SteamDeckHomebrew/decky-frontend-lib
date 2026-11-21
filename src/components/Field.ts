@@ -24,7 +24,20 @@ export interface FieldProps extends FooterLegendProps {
   onClick?: (e: CustomEvent | MouseEvent) => void;
 }
 
+// Vite build: skip the wrappers that reuse Field's prop names.
+const isViteField = (source?: string) =>
+  !!source?.includes('accessibilityId') &&
+  source.includes('childrenContainerWidth') &&
+  source.includes('iconLocation') &&
+  source.includes('verticalAlignment') &&
+  // Skip the variant with an embedded input.
+  !source.includes('inputClassName');
+
 // new || old
-export const Field = findModuleExport((e: Export) => (e?.toString?.()?.includes('().Field') && e?.toString?.()?.includes('"shift-children-below"')) || e?.render?.toString()?.includes('"shift-children-below"')) as FC<
-  FieldProps & RefAttributes<HTMLDivElement>
->;
+export const Field = findModuleExport(
+  (e: Export) =>
+    (e?.toString?.()?.includes('().Field') && e?.toString?.()?.includes('"shift-children-below"')) ||
+    e?.render?.toString()?.includes('"shift-children-below"') ||
+    isViteField(e?.toString?.()) ||
+    isViteField(e?.render?.toString?.()),
+) as FC<FieldProps & RefAttributes<HTMLDivElement>>;
