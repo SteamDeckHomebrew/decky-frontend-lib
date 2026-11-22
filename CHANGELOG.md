@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.5...v5.0.0) (2026-11-22)
+
+
+### Features
+
+* **all:** support esmodule steam ([63fe760](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/63fe76046d4e46dbcc99688c6848e188604fc842))
+
+
+### BREAKING CHANGES
+
+* **all:** does not support webpack-based steam anymore.
+
 ## [4.16.5](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.4...v4.16.5) (2026-11-01)
 
 
