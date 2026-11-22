@@ -1,10 +1,12 @@
 import { ReactNode, FC } from 'react';
 
-import { Export, findModuleExport } from '../webpack';
+import { findVar, Var } from '../module-system';
 import { ItemProps } from './Item';
 import { createPropListRegex } from '../utils';
 
 export interface ProgressBarItemProps extends ItemProps {
+  rtEstimatedCompletionTime?: number;
+  sOperationText?: ReactNode;
   indeterminate?: boolean;
   nTransitionSec?: number;
   nProgress?: number;
@@ -18,22 +20,17 @@ export interface ProgressBarProps {
   focusable?: boolean;
 }
 
-export interface ProgressBarWithInfoProps extends ProgressBarItemProps {
-  /** Timestamp of the completion time, has to be divided by 1000 */
-  rtEstimatedCompletionTime?: number;
-  sOperationText?: ReactNode;
-}
+// @deprecated use ProgressBarItem instead, they are the same
+export interface ProgressBarWithInfoProps extends ProgressBarItemProps {}
 
-export const ProgressBar = findModuleExport((e: Export) =>
-  e?.toString && /\.ProgressBar,(?:\w*==)?"standard"(?:==)?/.test(e.toString?.()),
+export const ProgressBar = findVar((e: Var) =>
+  typeof e == "function" && e?.toString()?.includes("#ProgressBar_ValueUnknown"),
 ) as FC<ProgressBarProps>;
 
-export const ProgressBarWithInfo = findModuleExport((e: Export) =>
-  // new || old
-  e?.toString?.()?.includes('.ProgressBarFieldStatus,children') || e?.toString?.()?.includes('.ProgressBarFieldStatus},'),
-) as FC<ProgressBarWithInfoProps>;
-
 const progressBarItemRegex = createPropListRegex(["indeterminate", "nTransitionSec", "nProgress"]);
-export const ProgressBarItem = findModuleExport((e: Export) =>
-  e?.toString && progressBarItemRegex.test(e.toString?.()),
+export const ProgressBarItem = findVar((e: Var) =>
+  typeof e == "function" && progressBarItemRegex.test(e.toString?.()),
 ) as FC<ProgressBarItemProps>;
+
+// @deprecated use ProgressBarItem instead, they are the same
+export const ProgressBarWithInfo = ProgressBarItem;

@@ -28,3 +28,6 @@ This library can be found on [npm](https://www.npmjs.com/package/decky-frontend-
 
 Tips for fixing failing module finds after Steam updates:
 - `Object.entries(DFL)` can point out any undefined exports
+
+### Standalone Use
+You will need a loader to provide support for CDP module scope access. A spec doc will be released soon.

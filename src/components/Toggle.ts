@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { CommonUIModule } from '../webpack';
+import { CommonUIModule } from '../common-modules';
 
 export interface ToggleProps {
   value: boolean;

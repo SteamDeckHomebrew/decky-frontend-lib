@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { CommonUIModule } from '../webpack';
+import { CommonUIModule } from '../common-modules';
 import { ItemProps } from './Item';
 
 export interface NotchLabel {
@@ -29,6 +29,5 @@ export interface SliderFieldProps extends ItemProps {
 }
 
 export const SliderField = Object.values(CommonUIModule).find((mod: any) =>
-  // stable || beta as of oct 2 2024
-  mod?.toString?.()?.includes('SliderField,fallback') || mod?.toString?.()?.includes("SliderField\",")
+  mod?.toString?.()?.includes("SliderField`,")
 ) as FC<SliderFieldProps>;

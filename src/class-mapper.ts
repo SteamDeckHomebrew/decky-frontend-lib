@@ -1,11 +1,11 @@
-import { Module, ModuleID, createModuleMapping } from './webpack';
+import { Module, ModuleID, createVarMapping } from './module-system';
 
 export interface ClassModule {
   [name: string]: string;
 }
 
-export const classModuleMap: Map<ModuleID, ClassModule> = createModuleMapping((m: Module) => {
-  if (typeof m == 'object' && !m.__esModule) {
+export const classModuleMap: Map<ModuleID, ClassModule> = createVarMapping((m: Module) => {
+  if (m && m != null && typeof m == 'object' && !(m instanceof Array) && !m?.__esModule) {
     const keys = Object.keys(m);
     // special case some libraries
     if (keys.length == 1 && m.version) return false;

@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import { findModuleExport } from "../webpack";
+import { findModuleExport } from "../module-system";
 
 export const ErrorBoundary = findModuleExport(
     (e) => e?.prototype?.Reset && e?.prototype?.componentDidCatch && e.prototype?.render?.toString().includes("lastErrorKey"),

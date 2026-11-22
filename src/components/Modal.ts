@@ -1,7 +1,8 @@
 import type { FC, ReactNode } from 'react';
+
 import type { BrowserContext } from '../globals/shared';
+import { Export, findModule, findModuleDetailsByExport, findModuleExport } from '../module-system';
 import { findSP } from '../utils';
-import { type Export, findModule, findModuleDetailsByExport, findModuleExport } from '../webpack';
 
 export interface ShowModalProps {
   browserContext?: BrowserContext;
@@ -118,14 +119,21 @@ export interface ConfirmModalProps extends ModalRootProps {
 }
 
 export const ConfirmModal = findModuleExport(
-  (e: Export) => e?.toString?.()?.includes('bUpdateDisabled') && e?.toString?.()?.includes('closeModal') && e?.toString?.()?.includes('onGamepadCancel'),
+  (e: Export) =>
+    e?.toString?.()?.includes('bUpdateDisabled') &&
+    e?.toString?.()?.includes('closeModal') &&
+    e?.toString?.()?.includes('onGamepadCancel'),
 ) as FC<ConfirmModalProps>;
 
-export const ModalRoot = 
+export const ModalRoot =
   // new
-  findModuleExport((e: Export) => typeof e === 'function' && e.toString?.().includes('Either closeModal or onCancel should be passed to GenericDialog. Classes: ')) || 
+  findModuleExport(
+    (e: Export) =>
+      typeof e === 'function' &&
+      e.toString?.().includes('Either closeModal or onCancel should be passed to GenericDialog. Classes: '),
+  ) ||
   // old
-  Object.values(
+  (Object.values(
     findModule((m: any) => {
       if (typeof m !== 'object') return false;
 
@@ -137,14 +145,21 @@ export const ModalRoot =
 
       return false;
     }) || {},
-  )?.find((x: any) => x?.type?.toString?.()?.includes('((function(){')) as FC<ModalRootProps>;
+  )?.find((x: any) => x?.type?.toString?.()?.includes('((function(){')) as FC<ModalRootProps>);
 
 interface SimpleModalProps {
   active?: boolean;
   children: ReactNode;
 }
 
-const [ModalModule, _ModalPosition] = findModuleDetailsByExport((e: Export) => e?.toString?.().includes('.ModalPosition'), 5)
+// TODO should refactor this
+const [ModalModule, _ModalPosition] = findModuleDetailsByExport(
+  (e: Export) =>
+    typeof e == 'function' &&
+    e?.toString?.()?.includes('.ShowPortalModal()') &&
+    e?.toString?.()?.includes('.OnElementReadyCallbacks.Register('),
+  5,
+);
 
 const ModalModuleProps = ModalModule ? Object.values(ModalModule) : [];
 
@@ -153,4 +168,5 @@ export const SimpleModal = ModalModuleProps.find((prop) => {
   return string?.includes('.ShowPortalModal()') && string?.includes('.OnElementReadyCallbacks.Register(');
 }) as FC<SimpleModalProps>;
 
+// @todo what?
 export const ModalPosition = _ModalPosition as FC<SimpleModalProps>;

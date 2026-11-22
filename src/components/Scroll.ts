@@ -1,13 +1,13 @@
 import { FC, ReactNode } from 'react';
 
-import { Export, findModuleByExport, findModuleExport } from '../webpack';
+import { Export, findModuleByExport, findModuleExport } from '../module-system';
 
-const ScrollingModule = findModuleByExport((e: Export) => e?.render?.toString?.().includes('{case"x":'));
+const ScrollingModule = findModuleByExport((e: Export) => e?.render?.toString?.().includes('{case`x`:'));
 
 const ScrollingModuleProps = ScrollingModule ? Object.values(ScrollingModule) : [];
 
 export const ScrollPanel = ScrollingModuleProps.find((prop: any) =>
-  prop?.render?.toString?.().includes('{case"x":'),
+  prop?.render?.toString?.().includes('{case`x`:')
 ) as FC<{ children?: ReactNode }>;
 
 export const ScrollPanelGroup: FC<{ children?: ReactNode }> = findModuleExport((e: Export) =>

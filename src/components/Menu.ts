@@ -1,6 +1,7 @@
 import type { FC, ReactNode } from 'react';
+
 import type { PopupCreationOptions } from '../globals/stores/popupmanager';
-import { type Export, findModuleByExport, findModuleDetailsByExport, findModuleExport } from '../webpack';
+import { Export, findModuleByExport, findModuleDetailsByExport, findModuleExport } from '../module-system';
 import type { FooterLegendProps } from './FooterLegend';
 
 // Separate interface, since one of webpack module exports uses this exact object,
@@ -124,11 +125,15 @@ export interface MenuProps extends FooterLegendProps {
   children?: ReactNode;
 }
 
-const MenuModule = findModuleDetailsByExport((e: Export) => e?.render?.toString()?.includes('bPlayAudio:') || (e?.prototype?.OnOKButton && e?.prototype?.OnMouseEnter));
+const MenuModule = findModuleDetailsByExport(
+  (e: Export) =>
+    e?.render?.toString()?.includes('bPlayAudio:') || (e?.prototype?.OnOKButton && e?.prototype?.OnMouseEnter),
+);
 
 export const Menu: FC<MenuProps> =
-	findModuleExport((e: Export) => e?.prototype?.HideIfSubmenu && e?.prototype?.HideMenu) || // Legacy Menu
-	(Object.values(MenuModule?.[0] ?? {}).find((e) => e?.toString?.()?.includes?.(`useId`) && e?.toString?.()?.includes?.(`labelId`)) as FC<MenuProps>); // New Menu 6/15/2025
+  (Object.values(MenuModule?.[0] ?? {}).find(
+    (e) => e?.toString?.()?.includes?.(`useId`) && e?.toString?.()?.includes?.(`labelId`),
+  ) as FC<MenuProps>); // New Menu 6/15/2025
 
 export interface MenuGroupProps {
   label: string;
@@ -137,8 +142,17 @@ export interface MenuGroupProps {
 }
 
 // New || Old 9/14/2026
-const MenuGroupModule = findModuleByExport(e => e?.prototype?.Focus && e?.prototype?.OnOKButton && (e?.prototype?.render?.toString().includes?.(`this.props.tone=="emphasis"`) || e?.prototype?.render?.toString().includes?.(`"emphasis"==this.props.tone`)));
-export const MenuGroup: FC<MenuGroupProps> = MenuGroupModule && Object.values(MenuGroupModule).find((e: Export) => typeof e == "function" && e?.toString?.()?.includes("bInGamepadUI:"));
+const MenuGroupModule = findModuleByExport(
+  (e) =>
+    e?.prototype?.Focus &&
+    e?.prototype?.OnOKButton &&
+    (e?.prototype?.render?.toString().includes?.("this.props.tone==`emphasis`")),
+);
+export const MenuGroup: FC<MenuGroupProps> =
+  MenuGroupModule &&
+  Object.values(MenuGroupModule).find(
+    (e: Export) => typeof e == 'function' && e?.toString?.()?.includes('bInGamepadUI:'),
+  );
 export interface MenuItemProps extends FooterLegendProps {
   bInteractableItem?: boolean;
   onClick?(evt: Event): void;

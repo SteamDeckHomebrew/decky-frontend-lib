@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 
-import { Export, findModuleExport } from '../webpack';
+import { Export, findModuleExport } from '../module-system';
 
 export interface ControlsListProps {
   alignItems?: 'left' | 'right' | 'center';
@@ -10,5 +10,5 @@ export interface ControlsListProps {
 
 export const ControlsList: FC<ControlsListProps> = findModuleExport(
   (e: Export) =>
-    e?.toString && e.toString?.().includes('().ControlsListChild') && e.toString?.().includes('().ControlsListOuterPanel'),
+    e?.toString && e.toString?.().includes('itemMaxSize??`gamepad`') && e.toString?.().includes('.PREFERRED_CHILD')
 );

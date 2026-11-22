@@ -12,7 +12,7 @@ export type NodeStep = GenericNodeStep;
 export type ReactPatchHandler = GenericPatchHandler;
 
 // These will get *very* spammy.
-let loggingEnabled = true;
+let loggingEnabled = false;
 let perfLoggingEnabled = false;
 
 export function setReactPatcherLoggingEnabled(value: boolean = true) { loggingEnabled = value };

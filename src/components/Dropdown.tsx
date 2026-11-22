@@ -1,6 +1,6 @@
 import { ReactNode, FC } from 'react';
 
-import { CommonUIModule } from '../webpack';
+import { CommonUIModule } from '../common-modules';
 import { ItemProps } from './Item';
 import { createPropListRegex } from '../utils';
 import type { ContextMenuCreationOptions } from './Menu';

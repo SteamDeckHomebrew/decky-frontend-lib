@@ -1,6 +1,6 @@
 import { FC, ReactNode, RefAttributes } from 'react';
 
-import { Export, findModuleExport } from '../webpack';
+import { Export, findModuleExport } from '../module-system';
 import { FooterLegendProps } from './FooterLegend';
 
 export interface FieldProps extends FooterLegendProps {
@@ -25,6 +25,6 @@ export interface FieldProps extends FooterLegendProps {
 }
 
 // new || old
-export const Field = findModuleExport((e: Export) => (e?.toString?.()?.includes('().Field') && e?.toString?.()?.includes('"shift-children-below"')) || e?.render?.toString()?.includes('"shift-children-below"')) as FC<
+export const Field = findModuleExport((e: Export) => e?.toString?.()?.includes('style:{"--indent-level":') && e?.toString?.()?.includes('shift-children-below')) as FC<
   FieldProps & RefAttributes<HTMLDivElement>
 >;

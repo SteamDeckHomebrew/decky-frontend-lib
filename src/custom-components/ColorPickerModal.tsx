@@ -1,7 +1,6 @@
 import { CSSProperties, FC, useState } from 'react';
 
 import { ConfirmModal, SliderField } from '../components';
-import { gamepadSliderClasses } from '../utils/static-classes';
 
 interface ColorPickerModalProps {
   closeModal: () => void;
@@ -46,13 +45,13 @@ export const ColorPickerModal: FC<ColorPickerModalProps> = ({
       <style>
         {`
         /* This removes the cyan track color that is behind the slider head */
-        .ColorPicker_Container .${gamepadSliderClasses.SliderTrack} {
+        .ColorPicker_Container .SliderTrack {
           --left-track-color: #0000;
           /* This is for compatibility with the "Colored Toggles" CSSLoader Theme*/
           --colored-toggles-main-color: #0000;
         }
 
-        .ColorPicker_HSlider .${gamepadSliderClasses.SliderTrack} {
+        .ColorPicker_HSlider .SliderTrack {
           background: linear-gradient(
             270deg,
             hsla(360, var(--decky-color-picker-svalue), var(--decky-color-picker-lvalue), var(--decky-color-picker-avalue)),
@@ -63,7 +62,7 @@ export const ColorPickerModal: FC<ColorPickerModalProps> = ({
           );
         }
 
-        .ColorPicker_SSlider .${gamepadSliderClasses.SliderTrack} {
+        .ColorPicker_SSlider .SliderTrack {
           background: linear-gradient(
             90deg,
             hsla(var(--decky-color-picker-hvalue), 0%, var(--decky-color-picker-lvalue), var(--decky-color-picker-avalue)),
@@ -71,7 +70,7 @@ export const ColorPickerModal: FC<ColorPickerModalProps> = ({
           );
         }
 
-        .ColorPicker_LSlider .${gamepadSliderClasses.SliderTrack} {
+        .ColorPicker_LSlider .SliderTrack {
           background: linear-gradient(
             90deg,
             hsla(var(--decky-color-picker-hvalue), var(--decky-color-picker-svalue), 0%, var(--decky-color-picker-avalue)),
@@ -80,7 +79,7 @@ export const ColorPickerModal: FC<ColorPickerModalProps> = ({
           );
         }
 
-        .ColorPicker_ASlider .${gamepadSliderClasses.SliderTrack} {
+        .ColorPicker_ASlider .SliderTrack {
           background: linear-gradient(
             90deg,
             hsla(var(--decky-color-picker-hvalue), var(--decky-color-picker-svalue), var(--decky-color-picker-lvalue), 0),

@@ -1,6 +1,6 @@
 import { ReactNode, FC } from 'react';
 
-import { Export, findModuleExport } from '../webpack';
+import { Var, findVar } from '../module-system';
 import { createPropListRegex } from '../utils';
 
 export interface SidebarNavigationPage {
@@ -25,6 +25,6 @@ export interface SidebarNavigationProps {
 }
 
 const sidebarNavigationRegex = createPropListRegex(["pages", "fnSetNavigateToPage", "disableRouteReporting"]);
-export const SidebarNavigation = findModuleExport((e: Export) =>
-  e?.toString && sidebarNavigationRegex.test(e.toString?.()),
+export const SidebarNavigation = findVar((e: Var) =>
+  typeof e == "function" && sidebarNavigationRegex.test(e.toString?.()),
 ) as FC<SidebarNavigationProps>;

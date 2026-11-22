@@ -1,6 +1,8 @@
 import { FC, ReactNode } from 'react';
 
-import { Export, findModuleDetailsByExport } from '../webpack';
+import { Var, findVar } from '../module-system';
+import { createDivWrapper } from './Wrappers';
+import { createPropListRegex, quickAccessControlsClasses } from '../utils';
 
 // TODO where did this go?
 // export const Panel: FC<{ children?: ReactNode; }> = findModuleExport((e: Export) => {
@@ -14,13 +16,13 @@ export interface PanelSectionProps {
   children?: ReactNode;
 }
 
-const [mod, panelSection] = findModuleDetailsByExport((e: Export) => e.toString?.()?.includes('.PanelSection'));
+export const PanelSection = findVar((v: Var) => typeof v == "function" && createPropListRegex(["title", "children"], true).test(v.toString())) as FC<PanelSectionProps>;
 
-export const PanelSection = panelSection as FC<PanelSectionProps>;
-
-export interface PanelSectionRowProps {
-  children?: ReactNode;
-}
-export const PanelSectionRow = Object.values(mod).filter(
-  (exp: any) => !exp?.toString?.()?.includes('.PanelSection'),
-)[0] as FC<PanelSectionRowProps>;
+export type PanelSectionRowProps = Parameters<typeof PanelSectionRow>[0];
+// export const PanelSectionRow = Object.values(mod).filter(
+//   (exp: any) => !exp?.toString?.()?.includes('.PanelSection'),
+// )[0] as FC<PanelSectionRowProps>;
+// export const PanelSectionRow = Object.values(mod).filter(
+//   (exp: any) => !exp?.toString?.()?.includes('.PanelSection'),
+// )[0] as FC<PanelSectionRowProps>;
+export const PanelSectionRow = createDivWrapper(quickAccessControlsClasses.PanelSectionRow);

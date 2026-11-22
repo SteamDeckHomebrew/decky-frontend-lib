@@ -1,6 +1,6 @@
 import { CSSProperties, FC } from 'react';
 
-import { Export, findModuleExport } from '../webpack';
+import { Var, findVar } from '../module-system';
 
 export interface MarqueeProps {
   play?: boolean;
@@ -15,6 +15,6 @@ export interface MarqueeProps {
   children: React.ReactNode;
 }
 
-export const Marquee: FC<MarqueeProps> = findModuleExport(
-  (e: Export) => e?.toString && e.toString?.().includes('.Marquee') && e.toString?.().includes('--fade-length'),
+export const Marquee: FC<MarqueeProps> = findVar(
+  (e: Var) => typeof e == "function" && e.toString?.().includes('--fade-length-left') && e.toString?.().includes('--fade-length-right'),
 );

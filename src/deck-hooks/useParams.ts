@@ -1,4 +1,4 @@
-import { ReactRouter } from '../webpack';
+import { ReactRouter } from '../common-modules';
 
 /**
  * Get the current params from ReactRouter

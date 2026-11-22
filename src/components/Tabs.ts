@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
-import { findModuleByExport } from '../webpack';
+import { findVar } from '../module-system';
 import { FooterLegendProps } from './FooterLegend';
+import { createPropListRegex } from '../utils';
 
 /**
  * Individual tab objects for the Tabs component
@@ -62,9 +63,9 @@ export interface TabsProps {
   autoFocusContents?: boolean;
 }
 
-const tabsModule = findModuleByExport(e => e?.toString?.()?.includes(".TabRowTabs") && e?.toString?.()?.includes("activeTab:"));
+const tabsRegex = createPropListRegex(["activeTab", "autoFocusContents", "cancelSkipTabHeader", "tabs"]);
 
 /**
  * Tabs component as used in the library and media tabs. See {@link TabsProps}.
  */
-export const Tabs = tabsModule && Object.values(tabsModule).find((e: any) => e?.type?.toString?.()?.includes("(function()")) as FC<TabsProps>;
+export const Tabs = findVar(e => typeof e == "function" && tabsRegex.test(e.toString())) as FC<TabsProps>;

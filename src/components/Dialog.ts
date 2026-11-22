@@ -1,6 +1,7 @@
 import { CSSProperties, FC, ReactNode, RefAttributes } from 'react';
 
-import { CommonUIModule, Module } from '../webpack';
+import { Module } from "../module-system";
+import { CommonUIModule } from '../common-modules';
 import { FooterLegendProps } from './FooterLegend';
 
 export interface DialogCommonProps extends RefAttributes<HTMLDivElement> {
@@ -53,15 +54,12 @@ export interface DialogButtonProps extends DialogCommonProps, FooterLegendProps 
 
 const CommonDialogDivs = Object.values(CommonUIModule).filter(
   (m: any) => typeof m === 'object' && 
-  // New
   (
-    m?.render?.toString().includes('jsx)("div",{...') ||
-    m?.render?.toString().includes('jsx)("div",Object.assign({},')
-  ) ||
-  // Old
-  (
-    m?.render?.toString().includes('createElement("div",{...') ||
-    m?.render?.toString().includes('createElement("div",Object.assign({},')
+    m?.render?.toString().includes('`div`,{') &&
+    m?.render?.toString().includes('role:') &&
+    m?.render?.toString().includes('ref:') &&
+    !m?.render?.toString().includes('PlayNavSound') &&
+    !m?.render?.toString().includes('useContext')
   )
 );
 const MappedDialogDivs = new Map(
@@ -77,10 +75,10 @@ const MappedDialogDivs = new Map(
   }),
 );
 
-// Old | New
-export const DialogHeader = (MappedDialogDivs.get('DialogHeader') || Object.values(CommonUIModule).find((component: Module) => {
+// New
+export const DialogHeader = (Object.values(CommonUIModule).find((component: Module) => {
   const str = component?.render?.toString?.();
-  return str?.includes("role:\"heading\"") && str.includes(")(\"DialogHeader\",");
+  return (str?.includes("role:`heading`")) && (str.includes("(`DialogHeader`,"));
 })) as FC<DialogCommonProps>;
 
 export const DialogSubHeader = MappedDialogDivs.get('DialogSubHeader') as FC<DialogCommonProps>;
@@ -92,11 +90,11 @@ export const DialogControlsSection = MappedDialogDivs.get('DialogControlsSection
 export const DialogControlsSectionHeader = MappedDialogDivs.get('DialogControlsSectionHeader') as FC<DialogCommonProps>;
 
 export const DialogButtonPrimary = Object.values(CommonUIModule).find(
-  (mod: any) => mod?.render?.toString?.()?.includes('"DialogButton","_DialogLayout","Primary"'),
+  (mod: any) => mod?.render?.toString?.()?.includes('`DialogButton`,`_DialogLayout`,`Primary`'),
 ) as FC<DialogButtonProps>;
 
 export const DialogButtonSecondary = Object.values(CommonUIModule).find(
-  (mod: any) => mod?.render?.toString?.()?.includes('"DialogButton","_DialogLayout","Secondary"')
+  (mod: any) => mod?.render?.toString?.()?.includes('`DialogButton`,`_DialogLayout`,`Secondary`')
 ) as FC<DialogButtonProps>;
 
 // This is the "main" button. The Primary can act as a submit button,

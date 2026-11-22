@@ -2,7 +2,7 @@ import type { CSteamUIStore } from "../globals/stores/steamuistore";
 import type { QuickAccessTab, SideMenu } from "../globals/stores/steamuistore/menu";
 import type { SteamUIWindowInstance } from "../globals/stores/steamuistore/window";
 import Logger from "../logger";
-import { type Export, findModuleExport } from "../webpack";
+import { type Export, findModuleExport } from "../module-system";
 
 // TODO(globals): maybe just use window.SteamUIStore ? it"s the exact same thing
 export const Router = findModuleExport((e: Export) => e.Navigate && e.NavigationManager) as CSteamUIStore;
