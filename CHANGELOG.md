@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v5.0.0...v5.0.1) (2026-11-22)
+
+
+### Bug Fixes
+
+* **globals:** SteamClient.URL picking up global URL type ([#142](https://github.com/SteamDeckHomebrew/decky-frontend-lib/issues/142)) ([26c0653](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/26c0653b112949e0e78935cf761f5b6767472521))
+
 # [5.0.0](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v4.16.5...v5.0.0) (2026-11-22)
 
 
