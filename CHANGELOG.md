@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v5.0.1...v5.0.2) (2026-11-24)
+
+
+### Bug Fixes
+
+* **globals:** fix ts ([b21ca00](https://github.com/SteamDeckHomebrew/decky-frontend-lib/commit/b21ca00958d68e6e72263f53fc9aeac5d76079f5))
+
 ## [5.0.1](https://github.com/SteamDeckHomebrew/decky-frontend-lib/compare/v5.0.0...v5.0.1) (2026-11-22)
 
 
