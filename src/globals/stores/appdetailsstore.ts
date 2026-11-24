@@ -22,7 +22,7 @@ type AssetsWith2x_t<T extends string[]> = [
    * Relative to `https://steamloopback.host`.
    */
   cached2xAsset: string,
-  ...T,
+  ...assets: T,
 ];
 
 /**

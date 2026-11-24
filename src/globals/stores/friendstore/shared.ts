@@ -305,7 +305,7 @@ export declare class CPlayer {
   get mutable_persona(): CPersonaStateImpl;
   // undefined until set, just use display_name
   get nickname(): string | undefined;
-  set nickname(s: string);
+  set nickname(s: string | undefined);
   get notification_settings(): PerFriendNotificationSettings;
   get persona(): CPersonaStateImpl;
   get persona_name_history(): string[];
